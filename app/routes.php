@@ -5,10 +5,10 @@
 // 	return View::make('hello');
 // });
 
-//Event::listen('illuminate.query', function($query)
-//{
- //   var_dump($query);
-//});
+Event::listen('illuminate.query', function($query)
+{
+    var_dump($query);
+});
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 
@@ -35,6 +35,7 @@ Route::get('tratamientos/grupos', 'GruposController@index');
 Route::get('tratamientos/creargrupo', 'GruposController@create');
 Route::post('tratamientos/guardargrupo', 'GruposController@store');
 Route::get('tratamientos/crear', 'TratamientosController@create');
+Route::get('tratamientos/editar/{id}', 'TratamientosController@edit');
 Route::post('tratamientos/guardar', 'TratamientosController@store');
 
 

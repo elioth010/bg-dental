@@ -95,7 +95,9 @@ class TratamientosController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$tratamiento = Tratamientos::where('id', $id)->first();
+		var_dump($tratamiento);
+
 	}
 
 
