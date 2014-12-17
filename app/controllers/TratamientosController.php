@@ -30,7 +30,8 @@ class TratamientosController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('tratamientos.crear');
+		$grupos = Grupos::lists('nombre', 'id');
+		return View::make('tratamientos.crear')->with(array('grupos' => $grupos));
 	}
 
 
@@ -41,7 +42,8 @@ class TratamientosController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$crear_t = Tratamientos::create(Input::all());
+		return Redirect::to('tratamientos');
 	}
 
 
