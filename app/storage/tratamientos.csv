@@ -1,0 +1,94 @@
+119000001;Consulta/Presupuesto;;GRATUITA ;GRATUITA;GRATUITA;GRATUITA;GRATUITA;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;;GRATUITO;55;;176,75;18;;;;GRATUITA;GRATUITA;;;;;7,57;;10,85
+119000002;Revisión/Prueba;;GRATUITA;GRATUITA;GRATUITA;GRATUITA;GRATUITA;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;0;;;;;;;;GRATUITA;GRATUITA;;;;;*;;0
+119001458;Rx Periapical;;GRATUITA;GRATUITA;GRATUITA;GRATUITA;GRATUITA;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;7;GRATUITO;;;145,83;2;;;;GRATUITA;GRATUITA;;;;;*;;
+;Ortopantomografía;;43;GRATUITA;30,1;GRATUITA;29;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;25;GRATUITO;;;;21,04;;;;GRATUITA;GRATUITA;;;;;*;;
+;Teleradiografía;;43;GRATUITA;30,1;GRATUITA;29;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;27;;;;;24,76;;;;GRATUITA;GRATUITA;;;;;*;;
+1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+119001460;Limpieza/Tartrectomía/Profilaxis;;60;50;18;GRATUITA;GRATUITO;GRATIS (AUTORIZACION);GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;60;;61,74;;;;;9,24;23,1;;;;;12,62;;21,67
+119001464;Fluoración (sesión);;24;20;30,8;GRATUITA;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;;40;;41,16;;;;;6,16;15,4;;;;;3,79;;
+119001471;Sellado de fosas y fisuras (pieza);;24;20;30,8;GRATUITA;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;GRATUITO;23;;40;;41,16;;;;;6,16;15,4;;;;;3,79;;
+11900479;Pulpectomía;;90;72;69,3;72;72;72;48,5;72;72;72;94,5;;;113,19;;;;;;69,3;34,65;;;;;;;
+11900478;Pulpotomía;;70;56;49;GRATUITA;51;44,25;48,5;GRATUITO;GRATUITO;40;67,5;;;92,61;;;;;;13,86;30;;;;;43,54;;
+11900480;Mantenedor de espacio;;176;140,8;123,2;GRATUITA;FIJO: 90€ / REMOVIBLE: 135€;FIJO:70 €/ REMOVIBLE:116,50€;FIJO:86€/ REMOVI:129,25€;FIJO/REMOVIBLE:GRATUITO;FIJO/REMOVIBLE: GRATUITO;FIJO:86€   / REMOVIBLE:100€;FIJO.67,50/REMO:114,75;;;164,64;;75;;;;24,64;61,6;;;;;113,59;;
+11900481;Apicoformacion (por sesión);;120;96;84;GRATUITA;56;47,75;54;GRATUITO;GRATUITO;40;47,25;;;82,32;;;;;;12,32;30,8;;;;;63,11;;
+2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+119001470;Obturación simple;;36;30;27;30;37;32;38,5;28€/gratis <15 años;30,5;28;38;GRATUITO;60;61,74;;38,5;;;;6,8;17;;;;;*;;24,04
+11900471;Obturación compleja  (Reconstrucción compleja = mapfre);;60;50;45;45;56;42;47€/ 35,50€ (< 15años);40€/ gratis < 15 años;43/ gratis < 15 años;40;50;;79;82,32;;57;;;;10,1;25,25;;;;;*;;
+119001472;Obturación simple en diente temporal;;60;50;45;GRATUITA;50;50;50;50;50;50;50;;;;;;;;;;;;;;;;;
+11900472;Reconstrucción (Reconstrucción con pin = mapfre);;78;65;59;51;67;51;71€ /64€ (<15años);50€ / gratis < 15 años;52/ gratis < 15 años;50;60;;99;102,9;;71;;;;12,5;31,25;;;;;*;;
+11906988;Reconstrucción diente temporal;;78;65;59;GRATUITA;65;65;GRATUITO;GRATUITO;GRATUITO;GRATUITO;65;;;;;;;;;9,24;23,1;;;;;41,02;;
+3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+11907011;Apertura cameral;;60;50;45;45;36;45;24€/38,50€(<15años);40€ / gratis < 15 años;19;45;36,45;;;;;;;;;7,2;18;;;;;;;
+11900473;Endodoncia 1 conducto;;117;99;90;90;87,5;69;93;65;68,5;65;118,8;GRATUITO;149;154,35;;93;;;;26,4;66;;;;;*;;43,33
+11900474;Endodoncia 2 conductos;;156;132;120;90;112,5;82,75;118;80;82;80;137,7;GRATUITO;179;185,22;;118;;;;27,68;69,2;;;;;*;;55,71
+11900475;Endodoncia 3 conductos;;195;165;150;125;143,5;108;154;100;103,5;100;147,15;GRATUITO;208;216,09;;154;;;;37,12;92,8;;;;;*;;61,9
+11900476;Reendodoncia 1 conducto;;143;121;110;100;94;121;112;85;85;95;152,55;;?;;;113;;;;28,8;72;;;;;*;;
+119000519;Reendodoncia 2 conductos;;182;154;140;100;126;154;137;100;98,5;110;172,8;;?;;;138;;;;35,2;88;;;;;*;;
+119000520;Reendodoncia 3 conductos;;208;176;160;140;148;176;173;120;120;130;191,7;;?;;;174;;;;40;100;;;;;*;;
+4;(máxilo);;;;;;;;;;;;LEER COMENTARIO;;;;;;;;;;;;;;;;;
+119001459;Exodoncia simple;;45;36;32;GRATUITA;GRATUITO;GRATIS (AUTORIZACION);GRATUITO;GRATUITO;GRATUITO;GRATUITO;33,75;GRATUITO;44;41,16;;8;;;;6,16;15,4;;;;;9,47;;
+119000920;Exodoncia cordal;;75;60;53;GRATUITA;38;GRATIS (AUTORIZACION);GRATUITO;GRATUITO;GRATUITO;GRATUITO;58,05;GRATUITO;149;154,35;;15;;;;6,16;15,4;;;;;9,47;;72,43
+11900919;Resto radicular;;45;36;32;GRATUITA;34,5;GRATIS (AUTORIZACION);GRATUITO;GRATUITO;GRATUITO;60;93,83;;44;41,16;95,49;30;;;;6,16;15,4;;;;;;;
+119000921;Exodoncia cordal semi-incluido;;150;120;105;GRATUITA;51,5;GRATIS (AUTORIZACION);GRATUITO;GRATUITO;GRATUITO;GRATUITO;93,83;;149;154,35;;20;;;;23,1;57,75;;;;;18,93;;
+119003165;Exodoncia cordal incluido;;250;200;175;GRATUITA;116;GRATIS (AUTORIZACION);GRATUITO;GRATUITO;GRATUITO;GRATUITO;137,03;;248;360,15;;30;;;;38,64;96,6;;;;;50,48;;
+119000929;Apiceptomía (por pieza);;155;131;119;GRATUITA;84;70;135;GRATUITO;74;80;137,03;;?;;229,17;40;;;;23,8;59,5;;;;;44,8;;
+119000973;Quistectomía;;75;60;53;GRATUITA;119,5;por máxilo;114,5;GRATUITO;GRATUITO;75;93,83;;248;;;30;;;;38,64;96,6;;;;;79,52(incluida en la exo);;
+5;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+11900483;Periodontograma;;80;64;56;GRATUITA;42;GRATUITO;61,5;40;53;45;43,2;;179;185,22;;61,5;;;;10,9;27,25;;;;;28,35;;
+119001462;Curetaje (por pieza);;11;9;8;9;¿?;?;?;?;?;;62,1;;;;;;;;;¿?;¿?;;;;;;;
+119001461;Curetaje (por cuadrante);;80;64;56;64;65,5;50,5;62;45;51;50;70,2;GRATUITO;89;92,61;401,06;62;;;;10,9;27,25;;;;;31,5;;
+11200937;Gingivectomía (por cuadrante) ;;90;72;63;GRATUITA;65,5;51;77;46;51;50;74,25;;298;308,7;;77;;;;13,6;34;;;;;20,82;;
+11900487;Gingivectomía (por pieza) ;;30;24;21;GRATUITA;24;24;24;24;24;24;;;?;;;;;;;;;;;;;;;
+11900484;Tratamiento periodontal de mantenimiento (por cuadrante);;90;72;63;18;30;25,75;30;22;24;25;64,8;;?;;;30;;;;5,3;13,25;;;;;*;;24,76
+11900490;Ferulización periodontal ;;50€/pieza;40€/pieza;35€/pieza;30;;;;75;74;80;70,2€ X PIEZA;;50;51,45;;99;;;;7;17,5;;;;;;;
+11900486;Membrana;;;;;;264,5;183;308;225;185;225;270;;;;;308;;;;38,01;95,03;;;;;120;;
+11900488;Tejido conectivo/relleno oseo;;;;;;149,5;121;255;271,5;274;200;150;;;;;;;;;54,3;135,75;;;;;80;;
+11900489;Alargamiento coronario;;;;;;;;;;;;;;179;185,22;;;;;;16,24;40,6;;;;;;;
+6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+11900491;Prótesis completa superior o inferior;;600;480;420;400;345;273;371;325;323;290;inmediata:281,25/ completa:406,25;;645;668,85;;371;;;;163,75;163,75;;;120;;*;;
+11900492;Parcial acrílico de 1 a 3 piezas;;322;258;226;350;276;211;280,5;245;216;215;267,3;;496;;;280,5;;;;123,75;123,75;;;68;;*;;
+11900492;Parcial acrílico de 4 a 6 piezas;;380;305;266;365;316;235,75;331;283;256,5;250;387,3;;496;514,5;;331;;;;146;146;;;96;;*;;
+11900495;Base parcial esquelético;;362;290;254;175;287;223;373,8;243;247;210;358,75;;695;720,3;;300;;;;139,25;139,25;;;para esqueletico de;;*;;
+119000523;Piezas esquelético;;52€ (x pieza);42€ (x pieza) ; 37€ (x pieza) ;32€ (x pieza);43,50€ (x pieza);32,50€ (XPZA);45€ (por pza);35€  (X PZA);35€( X PZA);38;43€ x pieza;;79;;;50€/pieza;;;; 20€ (x pieza) ; 20€ (x pieza) ;;;5pzas: 224€;;*;;
+11900493;Compostura acrílico;;88;71;62;36;47;32;40,5;32;32,5;35;53,33;;79;82,32;204,87;40,5;;;;18;18;;;20;;*;;
+11900494;Compostura esquelético;;110;88;77;58;65,5;55;73;54;54;60;53,33;;99;102,9;;75;;;;32,25;32,25;;;20;;*;;
+11900496;Reponer piezas;;88;71;62;32;54;44,25;58;65;45,5;45;acrilico:35,78€ / esquelet:46,58€;;79;82,32;;58;;;;25, 75;25, 75;;;24;;*;;
+;Refuerzo metálico;;88;71;62;?;47,7;38;51;35;39;37;77,5;;79;;97,21;50;;;;22,5;22,5;;;*;;;;
+11900497;Rebase;;150;120;105;52;65,5;54;57;50;51;50;72,9;;149;154,35;;57;;;;25,25;25,25; ;;30;;*;;
+11900498;Ataches metálicos (x unidad);;221;177;112;96;184;132;159,5;125;136;140;175;;198;205,8;;159,5;;;;56;56;;;112;;*;;
+7;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+119001467;Tallado selectivo (sesión);;88;71;62;;GRATUITO;12,75;15;13,5;GRATUITO;50;35,1;;79;82,32;;;;;;2,7;6,75;;;*;;;;
+11900477;Perno muñón colado uni/birradicular;;100;80;70;72;98;58;90;64;64;65;101,25;;159;164,64;;90;;;;15,9;39,75;;;25;;*;;
+119000524;Perno muñón colado multirradicular;;150;120;105;86;115;69;102,5;75;79,5;75;116,1;;159;164,64;;102,5;;;;18,1;45,25;;;25;;*;;
+11900499;Provisional resina (pieza)= corona provisional;;50;40;35;25;32,8;19;25;19;21,5;20;27,68;;119;123,48;97,21;25;;;;4,4;11;;;12/estetica: 22€;;*;;
+11900500;Corona metal cerámica/porcelana;;350;280;245;175;239;203,3;268;203,5;190,5;200;240;;347;360,15;;352;;;;44,7;111,75;;;67;;*;;
+11900501;Corona zirconio;;450;360;315;300;360;315;450;425;425;450;450;;447;463,05;;475;;;;90;225;;;127;;*;;
+11900502;Corona feldespática (sin cofia);;450;360;315;450;360;315;450;450;450;450;450;;447;463,05;;300;;;;90;225;;;120;;;;
+11900503;Corona feldespática (con cofia de cristal);;450;360;315;450;360;315;450;450;450;450;450;;447;463,05;;352;;;;90;225;;;*;;;;
+11900504;Corona de galvano;;450;360;315;450;360;315;450;450;450;450;450;;397;411,6;;;;;;90;225;;;*;;;;
+11900507;Carilla de composite;;160;128;112;53;157,5;81,5;77;58;58;75;160;;149;156,35;;77;;;;13,6;34;;;*;;*;;
+11900508;Carilla de porcelana;;450;360;315;300;239;203,5;270;198,5;185,5;195;270;;298;411,6;;255;;;;45;112,5;;;120;;*;;
+11900506;Incrustaciones de Composite;;118;98;83;60;97,5;97,5;110,5;75;81;80;97,5;;298;308,7;;95;;;;19,5;48,75;;;*;;;;
+11900505;Incrustaciones de Porcelana;;331;265;232;102;178;140;173;135;136;145;294,3;;298;308,7;;150;;;;30,6;76,5;;;115;;;;
+11900307;Levantar corona o puente (por pieza);;26;21;19;12;35,5;21;22,5;GRATUITO;GRATUITO;30;30;;?;;;22,5;;;;4;10;;;*;;*;;
+11900527;Recementado de coronas;;33;20,5;20,5;18;20,5;20,5;23;18;19,5;20;17,55;;30;51,45;;25;;;;4,1;10,25;;;*;;*;;
+LDA00478;Encerado ( por pieza);;12;10;9;;?;?;?;?;;13;10;;?;;;;;;;2;5;;;*;;;;
+8;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+11900930;Corona sobre implante;;625;500;450;500;528,5;346;622,5;539,5;539,5;500;500;;496;514,5;868,06;516;;;;X;X;;;126;;*;;
+119000525;Corona sobre implante estética ( de canino a canino);;650;520;470;520;520;520;650;662;650;650;650;;?;;;672;;;;X;X;;;126;;*;;
+11900931;Sobredentadura;;3120;2600;2350;2600;2600;2600;2579,5;2653;2500;2500;2500;;1794;3292,8;;2305,5;;;;X;X;;;1500;;;;
+11900932;Atache sobredentadura;;350;280;245;280;280;280;280;280;280;280;280;280;397;411,6;280;;280;280;280;X;X;;;*;;*;;
+11900933;Protesis fija híbrida;;4200;3500;3150;3500;3500;3500;4175;3534;3500;3500;3500;;3572;3704,4;;3851;;;;X;X;;;2000;;;;
+119000012;Revisión anual. Prótesis Híbrida (1 prótesis);;114;95;86;95;95;95;95;95;95;95;95;95;95;95;95;95;95;95;95;;;;;;;;;
+119000013;Revisión anual. Prótesis Híbrida (2 prótesis);;180;150;135;150;150;150;150;150;150;150;150;150;150;150;150;150;150;150;150;;;;;;;;;
+9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+11900526;Blanqueamiento interno (por diente);;50;40;35;24;40;40;37;25;26,5;30;55;;109;;;37;;;;6,5;16,25;;;;;*;;
+11907010;Blanqueamiento por arcada (en clinica y en casa)= combinado;;500€ (completo);200€ (arcada);180€ (arcada);330€ (completo);200€ (arcada);200€ (arcada);222;350;331;375€ (POR ARCADA);331,43;;;;;410;;;;39,20€ (arcada);98€ (arcada);;;;;*;;
+11907009;Blanqueamiento por arcada (en casa);;350€ (completo);140€ (arcada);123€ (arcada);265€ ( completo);140€ (arcada);140€ (arcada);140€ (arcada);162;162;180;143,75;;;;;222;;;;25,64(arcada);64,10€ (arcada);;;20€/arcada;;*;;
+10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+119001468;Férula de descarga;;325;275;250;240;250;250;250;250;250;250;275,4;;349;360;;250;;;;50;125;;;65;;*;;
+119001469;Control férula;;40;33;30;30;30;30;30;30;30;32;35,1;;30;30,87;;50;;;;6;15;;;;;;;
+11900533;Férula dental blanda deportiva;;162;135;120;135;135;135;135;135;135;135;135;;135;;291,65;135;;;;27;68;;;;;*;;
+119000540;ESTUDIO ATM;;150;150;150;150;150;150;150;150;150;150;150;150;150;102,9;;150;;;;;;;;;;;;
+119001473;FERULA DE ROTH;;500;500;500;500;500;500;500;500;500;500;500;500;500;;;500;;;;;;;;;;;;
+119000011;REVISIONES FERULA DE ROTH;;75€/ REVIS.;75€/ REVIS.;75€/ REVIS.;75€/ REVIS.;75€/ REVIS.;75€/ REVIS.;75€/ REVIS.;75€/ REVIS.;75€/ REVIS.;75;75;75;75;;;75;;;;;;;;;;;;
