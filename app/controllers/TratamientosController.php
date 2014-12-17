@@ -96,7 +96,12 @@ class TratamientosController extends \BaseController {
 	public function edit($id)
 	{
 		$tratamiento = Tratamientos::where('id', $id)->first();
-		var_dump($tratamiento);
+		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
+			->leftJoin('companias', 'companias.id','=','companias_id')
+			->select('tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id')
+			->where('tratamientos.id' , $tratamiento->id)
+			->get();
+		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios);;
 
 	}
 
