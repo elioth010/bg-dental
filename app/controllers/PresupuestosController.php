@@ -27,8 +27,31 @@ class PresupuestosController extends \BaseController {
 	{
 		echo $numerohistoria;
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+
 		$grupos = Grupos::lists('nombre', 'id');
-		return View::make('presupuestos.crearpresupuesto')->with(array('grupos' => $grupos))->with(array('paciente' => $paciente));
+		$grupos[0] = '-- Elija un grupo --';
+		ksort($grupos);
+
+		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id')->get();
+		$tratamientos = array();
+		foreach ($tratamientosAll as $t) {
+			//var_dump($t);
+			$tratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre);
+		}
+
+		$tratamientos[0] = '-- Elija primero un grupo de tratamientos --';
+
+		foreach (array_keys($grupos) as $key) {
+			if (!array_key_exists($key, $tratamientos)) {
+				$tratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+			}
+		}
+		ksort($tratamientos);
+
+		return View::make('presupuestos.crearpresupuesto')
+							->with(array('grupos' => $grupos,
+										'paciente' => $paciente,
+										'tratamientos' => $tratamientos));
 	}
 
 
@@ -39,7 +62,8 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$presupuesto = Presupuestos::create(Input::all());
+		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $presupuesto->numerohistoria));
 	}
 
 
@@ -51,7 +75,8 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function verpresupuestos($numerohistoria)
 	{
-		$paciente_q = Pacientes::on('quiron')->where('numerohistoria',$numerohistoria)->first()->toArray();
+		//$paciente_q = Pacientes::on('quiron')->where('numerohistoria',$numerohistoria)->first()->toArray();
+		$paciente_q = Pacientes::where('numerohistoria',$numerohistoria)->first()->toArray();
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
 		if(!$paciente_b) {
 		Pacientes::create($paciente_q);
