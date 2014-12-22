@@ -78,7 +78,9 @@ class PacientesController extends BaseController {
 
 	public function verficha($numerohistoria)
 	{
-		$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
+		//$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
+		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->get();
+
 		$companias = Companias::lists('nombre', 'id');
 		//var_dump($paciente);
 		return View::make('pacientes.verficha')->with('paciente',$paciente)->with(array('companias' => $companias));
