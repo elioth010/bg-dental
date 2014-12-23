@@ -20,17 +20,33 @@
 </div>
 
 <div>
-{{ Form::open(array('url' => "pacientes/$paciente->numerohistoria/guardarpresupuesto", 'id' => 'NuevoPresuForm')) }}
+{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
     <h1>Nuevo presupuesto</h1>
 
     {{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}
+    {{ Form::label('nombre', 'Nombre del presupuesto:') }}
+    {{ Form::text('nombre') }}
+    {{ Form::label('descuento', 'Descuento:') }}
+    {{ Form::text('descuento') }}
 
-    <div>Nombre del presupuesto:
-        {{ Form::text('nombre') }}<p>
-        {{ Form::select('grupo', $grupos, null, array('onchange' => 'updateTratamientos(this.selectedIndex)')) }}
+    <div>
+        <h2>Tratamientos</h2>
+        <div id='tratamientos-1'>
+            {{ Form::label('grupo-1', 'Grupo de tratamientos:') }}
+            {{ Form::select('grupo-1', $grupos, null, array('onchange' => 'updateTratamientos(1, this.selectedIndex)')) }}
+            {{ Form::label('tratamiento-1', 'Tratamiento:') }}
+            {{ Form::select('tratamiento-1', array($tratamientos[0]), null, array('id' => 's_tratamiento-1'))}}
+        </div>
+        <br/>
+        {{ HTML::link('#', 'Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
     </div>
-    <div id="tratamientosdiv">
-        {{Form::select('tratamiento', array($tratamientos[0]), null, array('id' => 's_tratamiento'))}}
+
+    <div id="piezasdiv">
+        <h2>Piezas</h2>
+        {{ Form::label('pieza1', 'Desde la pieza:') }}
+        {{ Form::text('pieza1') }}
+        {{ Form::label('pieza2', 'Hasta la pieza:') }}
+        {{ Form::text('pieza2') }}
     </div>
 
     {{ Form::submit('Guardar cambios')}}
@@ -42,11 +58,12 @@
 <script type="text/javascript">
 
 var tratamientos = {{ json_encode($tratamientos) }}
-var tratamientosSelect = $('#s_tratamiento')[0]
+var lastIndex = 1
 
-function updateTratamientos(index) {
-    tratamientosSelect.options.length=0;
-    console.log(index);
+function updateTratamientos(id, index) {
+    console.log('updateTratamientos ' + id + ' ' + index)
+    tratamientosSelect = $('#s_tratamiento-' + id)[0]
+    tratamientosSelect.options.length=0
 
     if (index == 0) {
         tratamientosSelect.options[tratamientosSelect.options.length]=new Option(tratamientos[0], 0)
@@ -58,8 +75,33 @@ function updateTratamientos(index) {
     }
 }
 
+function addTratamiento() {
+    lastIndex++
+    console.log('addTratamiento... ' + lastIndex)
+
+    div = $("div[id^=tratamientos]:last")
+    div2 = div.clone()
+    div2[0].id = 'tratamientos-' + lastIndex
+
+    div2.children('label').attr('for',
+        function(index, old) { return old.replace(/\d+/, lastIndex); }
+    );
+    div2.children('select').attr('name',
+        function(index, old) { return old.replace(/\d+/, lastIndex); }
+    );
+    div2.children('select').attr('id',
+        function(index, old) { return old.replace(/\d+/, lastIndex); }
+    );
+    div2.insertAfter(div)
+
+    $('#grupo-' + lastIndex)[0].setAttribute("onchange", 'updateTratamientos(' + lastIndex + ', this.selectedIndex)');
+
+    return false
+}
+
+
 $(document).ready(function() {
-    updateTratamientos(0);
+
 });
 
 
