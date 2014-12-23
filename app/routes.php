@@ -4,7 +4,7 @@
 // {
 // 	return View::make('hello');
 // });
-
+// La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
 Event::listen('illuminate.query', function($query)
 {
     var_dump($query);
@@ -54,6 +54,8 @@ Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosContro
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
 Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@findTratamientos');
+Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
+
 
 
 //rutas para llenar db de datos:
