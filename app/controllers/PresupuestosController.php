@@ -58,11 +58,11 @@ class PresupuestosController extends \BaseController {
 		$grupos[0] = '-- Elija un grupo --';
 		ksort($grupos);
 
-		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id')->get();
+		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id', 'precio_base')->get();
 		$tratamientos = array();
 		foreach ($tratamientosAll as $t) {
 			//var_dump($t);
-			$tratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre);
+			$tratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
 		}
 
 		$tratamientos[0] = '-- Elija primero un grupo de tratamientos --';

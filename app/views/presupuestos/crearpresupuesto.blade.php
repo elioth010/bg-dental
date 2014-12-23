@@ -35,7 +35,9 @@
             {{ Form::label('grupo-1', 'Grupo de tratamientos:') }}
             {{ Form::select('grupo-1', $grupos, null, array('onchange' => 'updateTratamientos(1, this.selectedIndex)')) }}
             {{ Form::label('tratamiento-1', 'Tratamiento:') }}
-            {{ Form::select('tratamiento-1', array($tratamientos[0]), null, array('id' => 's_tratamiento-1'))}}
+            {{ Form::select('tratamiento-1', array($tratamientos[0]), null,
+                                            array('id' => 's_tratamiento-1',
+                                                'onchange' => 'updatePrecios(1, this.selectedIndex)'))}}
         </div>
         <br/>
         {{ HTML::link('#', 'Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
@@ -48,7 +50,12 @@
         {{ Form::label('pieza2', 'Hasta la pieza:') }}
         {{ Form::text('pieza2') }}
     </div>
-
+    <div>
+        <h2>Precio</h2>
+        <p>Subtotal: <span id="p_subtotal">0.00</span></p>
+        <p>Descuento: <span id="p_descuento">0.00</span></p>
+        <p>Total: <span id="p_total">0.00</span></p>
+    </div>
     {{ Form::submit('Guardar cambios')}}
     {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}
     {{ Form::close() }}
@@ -95,10 +102,19 @@ function addTratamiento() {
     div2.insertAfter(div)
 
     $('#grupo-' + lastIndex)[0].setAttribute("onchange", 'updateTratamientos(' + lastIndex + ', this.selectedIndex)');
+    $('#tratamiento-' + lastIndex)[0].setAttribute("onchange", 'updatePrecio(' + lastIndex + ', this.selectedIndex)');
 
     return false
 }
 
+function updatePrecios(id, index) {
+    console.log('updatePrecios ' + id + ' ' + index)
+
+    $('#grupo-' + id)[0]
+    precio = tratamientos[id][index]['precio']
+    $('#p_subtotal').text(precio)
+    $('#p_total').text(precio)
+}
 
 $(document).ready(function() {
 
