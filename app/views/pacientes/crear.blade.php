@@ -1,7 +1,14 @@
 @extends('layouts.main')
  
 @section('contenido')
-crear.blade.php    
+crear.blade.php
+    @if ($errors->has())
+
+        @foreach ($errors->all() as $error)
+            {{ $error }}</br>
+        @endforeach
+
+    @endif
 {{ Form::open(array('url'=>'pacientes/guardar')) }}     
     <h1>Datos del nuevo paciente</h1>
     NHC:
@@ -21,7 +28,13 @@ crear.blade.php
     
     Teléfono 1: {{ Form::text('addrtel1') }}</p>
     Teléfono 2: {{ Form::text('addrtel2') }}</p>
-    Sexo: {{ Form::text('sexo') }}</p>
+    Correo elctrónico: {{ Form::text('mail') }}</p>
+
+
+    Mujer: {{ Form::radio('sex', 'mujer') }}<br>
+    Hombre: {{ Form::radio('sex', 'varon') }} </p>
+
+
     Compañía: {{ Form::select('compania', $companias, null) }}
     </p>
     {{ Form::submit('Guardar cambios')}}

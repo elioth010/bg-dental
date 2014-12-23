@@ -37,8 +37,16 @@ class PacientesController extends BaseController {
 	 */
 	public function store()
 	{
-		$crear_p = Pacientes::create(Input::all());		
-		return Redirect::to('pacientes');
+
+
+		$validator = Validator::make(Input::all(), Pacientes::$p_rules);
+
+		if ($validator->passes()) {
+			$crear_p = Pacientes::create(Input::all());
+			return Redirect::to('pacientes')->with('message', 'Paciente creado con éxito.');
+		} else {
+			return Redirect::to('pacientes/crear')->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
+		}
 	}
 
 
