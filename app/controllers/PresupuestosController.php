@@ -9,6 +9,9 @@ class PresupuestosController extends \BaseController {
 
 	public function verPresupuesto($id)
 	{
+		//Creo que debería sacar tres variables:
+		//presupuesto, tratamientos del presu y precios de los tratamientos en vez de 
+		//de usar un query para todo.
 		$presupuesto = Presupuestos::where('presupuesto_id',$id)
 			->leftJoin('users', 'users.id', '=', 'user_id')
 			->leftJoin('presupuestos_tratamientos', 'presupuestos_tratamientos.presupuesto_id', '=', 'presupuestos.id')
