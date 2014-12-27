@@ -88,7 +88,54 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function store()
 	{
-		$presupuesto = Presupuestos::create(Input::all());
+		$num = Input::get('num_tratamientos');
+
+		$ok = TRUE;
+		for ($i=1; $i<=$num; $i++) {
+			if (!(Input::has('grupo-' . $i)  && Input::has('tratamiento-' . $i))) {
+				$ok = FALSE;
+				echo 'no hay ' . $i;
+				break;
+			}
+		}
+
+		if (!$ok) {
+			return 'Error en los parametros';
+		}
+
+		var_dump(Input::all());
+
+		$nombre = Input::get('nombre', 'Sin nombre');
+		if (empty($nombre)) {
+			$nombre = 'Sin nombre';
+		}
+
+		//$presupuesto = Presupuestos::create(Input::all());
+		$presupuesto = new Presupuestos;
+		$presupuesto->nombre = $nombre;
+		$presupuesto->aceptado = 0;
+		$presupuesto->numerohistoria = Input::get('numerohistoria');
+		if ($presupuesto->save()) {
+			echo 'Guardado presupuesto con id ' . $presupuesto->id . '<br>';
+		}
+
+		for ($i=1; $i<=$num; $i++) {
+			$grupo = Input::get('grupo-' . $i);
+			if ($grupo == 0) {
+				continue;
+			}
+			$tratamiento = Input::get('tratamiento-' . $i);
+
+			$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $tratamiento,
+						'tipostratamientos_id' => 0, 'unidades' => Input::get('unidades-1', 0),
+						'desc_euros' => 0, 'desc_porcien' => 0);
+
+			$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
+		}
+
+		# TODO: unidades, piezas
+		# Campo tipostratamientos_id: ???
+
 		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $presupuesto->numerohistoria));
 	}
 

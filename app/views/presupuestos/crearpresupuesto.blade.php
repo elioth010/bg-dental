@@ -24,6 +24,7 @@
     <h1>Nuevo presupuesto</h1>
 
     {{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}
+    {{ Form::hidden('num_tratamientos', 1) }}
     {{ Form::label('nombre', 'Nombre del presupuesto:') }}
     {{ Form::text('nombre') }}
     {{ Form::label('descuento', 'Descuento:') }}
@@ -102,8 +103,9 @@ function addTratamiento() {
     div2.insertAfter(div)
 
     $('#grupo-' + lastIndex)[0].setAttribute("onchange", 'updateTratamientos(' + lastIndex + ', this.selectedIndex)');
-    $('#tratamiento-' + lastIndex)[0].setAttribute("onchange", 'updatePrecio(' + lastIndex + ', this.selectedIndex)');
+    $('#s_tratamiento-' + lastIndex)[0].setAttribute("onchange", 'updatePrecio(' + lastIndex + ', this.selectedIndex)');
 
+    $('input[name="num_tratamientos"]').val(lastIndex)
     return false
 }
 
