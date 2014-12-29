@@ -55,7 +55,13 @@ class TratamientosController extends \BaseController {
 	public function store()
 	{
 		$crear_t = Tratamientos::create(Input::all());
-		return Redirect::to('tratamientos');
+                $last_id = DB::getPdo()->lastInsertId();
+                $companias = Companias::lists('id');
+                $tratamiento = new Tratamientos;
+               foreach($companias as $compania){
+                     $tratamiento->companias()->attach(array('precio' => '0.00' , 'companias_id'=>$compania, 'tratamientos_id'=>$last_id));
+                }
+                return Redirect::to('tratamientos');
 	}
 
 
@@ -114,7 +120,6 @@ class TratamientosController extends \BaseController {
 			->where('tratamientos.id' , $tratamiento->id)
 			->get();
 		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios);
-
 	}
 
 	public function editar_t($id){
