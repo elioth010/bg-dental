@@ -14,7 +14,8 @@ class TratamientosController extends \BaseController {
 					->leftJoin('companias', 'companias.id','=','companias_id')
 					->leftJoin('grupostratamientos', 'grupostratamientos.id', '=', 'grupostratamientos_id')
 					->select('tratamientos.precio_base','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id', 'grupostratamientos.nombre')
-					->groupBy('nombre_comp')->orderBy('tratamientos.nombre')->get();
+					->groupBy('nombre_comp')->orderBy('tratamientos.nombre')
+					->where('tratamientos.activo', '=', '1')->get();
 		/*$tcp_contenidos = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 			->leftJoin('companias', 'companias.id','=','companias_id')
 			->leftJoin('grupostratamientos', 'grupostratamientos.id', '=', 'grupostratamientos_id')
@@ -27,7 +28,7 @@ class TratamientosController extends \BaseController {
 							ORDER BY t.nombre')->get();*/
 		$tcp_contenido = Tratamientos::leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')->leftJoin('companias','companias.id','=', 'precios.companias_id')
 							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'tratamientos.precio_base','companias.nombre as nombre_comp',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
-							->groupBy('tratamientos.nombre')->orderBy('tratamientos.nombre')->get();
+							->groupBy('tratamientos.nombre')->orderBy('tratamientos.nombre')->where('tratamientos.activo', '=', '1')->get();
 
 		return View::make('tratamientos.index')->with(array('tcp_cabecera' => $tcp_cabecera))->with(array('tcp_contenido' => $tcp_contenido));
 	}
