@@ -4,11 +4,11 @@
 // {
 // 	return View::make('hello');
 // });
-
-//Event::listen('illuminate.query', function($query)
-//{
- //   var_dump($query);
-//});
+// La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
+Event::listen('illuminate.query', function($query)
+{
+    var_dump($query);
+});
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 
@@ -35,7 +35,9 @@ Route::get('tratamientos/grupos', 'GruposController@index');
 Route::get('tratamientos/creargrupo', 'GruposController@create');
 Route::post('tratamientos/guardargrupo', 'GruposController@store');
 Route::get('tratamientos/crear', 'TratamientosController@create');
+Route::get('tratamientos/editar/{id}', 'TratamientosController@edit');
 Route::post('tratamientos/guardar', 'TratamientosController@store');
+Route::post('tratamientos/guardartratamiento/{id}', 'TratamientosController@editar_t');
 
 
 //Rutas compañías:
@@ -49,8 +51,12 @@ Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
 
 Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@verpresupuestos');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
+Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
+
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
 Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@findTratamientos');
+Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
+
 
 
 //rutas para llenar db de datos:

@@ -6,33 +6,28 @@
   <h1>
   Tratamientos
   </h1>
-   
-   
-   <?php $un_trat = "nombre raro";?>
-   @foreach($tcp as $tcp)
-   
-      @if($un_trat === 'nombre raro' or $un_trat != $tcp->nombre_trat)
-	  <p><h2>{{$tcp->nombre_trat}}</h2><br>
-	  <?php $un_trat = $tcp->nombre_trat ?>
-      @else
-      <table>
-      	    <tr>
-		<td>{{$tcp->nombre_comp}}</td>
-		<td>{{$tcp->precio}}</td>
-		<td>{{ HTML::link('/tratamientos/'.$tcp->id.'/editar', 'editar')}}</td>
-	    </tr>
-      </table>
-      @endif
-      
-      
-   @endforeach
-   
+  <table>
+      <tr>
+          <th>Código</th>
+          <th>Nombre tratamiento</th>
+          <th>Precio base</th>
+            @foreach($tcp_cabecera as $tcp_cabecera)
+              <th>{{$tcp_cabecera->nombre_comp}}</th>
+          @endforeach
+      </tr>
+      @foreach($tcp_contenido as $tcp_contenido)
+          <tr>
 
-   
-   
-   
+          <td>{{$tcp_contenido->codigo}}</td>
+          <td>{{ HTML::link('/tratamientos/editar/'.$tcp_contenido->id, $tcp_contenido->nombre_trat)}}</td>
+          <td>{{$tcp_contenido->precio_base.'€'}}</td>
+              <?php $precios = explode(",", $tcp_contenido->precios);?>
+                    @foreach($precios as $precio)
+                        <td>{{$precio.'€'}}</td>
+                    @endforeach
+          </tr>
+      @endforeach
 
-      
-@stop 
+  </table>
 
-
+@stop

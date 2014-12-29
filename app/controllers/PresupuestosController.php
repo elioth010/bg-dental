@@ -7,6 +7,32 @@ class PresupuestosController extends \BaseController {
 		return $tratamientos;
 	}
 
+	public function verPresupuesto($id)
+	{
+		//Creo que debería sacar tres variables:
+		//presupuesto, tratamientos del presu y precios de los tratamientos en vez de 
+		//de usar un query para todo.
+		$presupuesto = Presupuestos::where('presupuesto_id',$id)
+			->leftJoin('users', 'users.id', '=', 'user_id')
+			->leftJoin('presupuestos_tratamientos', 'presupuestos_tratamientos.presupuesto_id', '=', 'presupuestos.id')
+			->leftJoin('tratamientos' , 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
+			->leftJoin('profesionales', 'profesionales.id', '=', 'presupuestos.profesional_id')
+			->leftJoin('pacientes', 'pacientes.numerohistoria', '=','presupuestos.numerohistoria')
+			->leftJoin('companias', 'pacientes.compania', '=', 'companias.id')
+			->select('aceptado','presupuesto_id','presupuestos.created_at as creado', 'presupuestos.updated_at as modificado', 'presupuestos.nombre as nombre_pre',
+				'profesionales.nombre as profesional',
+				'tratamientos.nombre as nombre_t',
+				'tratamientos.precio_base as precio_base',
+				'pacientes.nombre as nombre_pa','pacientes.apellido1 as apellido1', 'pacientes.apellido2 as apellido2',
+				'companias.nombre as nombre_comp',
+				'users.firstname as nombre_u')
+			->get();
+		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto));
+	}
+
+
+
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -27,8 +53,31 @@ class PresupuestosController extends \BaseController {
 	{
 		echo $numerohistoria;
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+
 		$grupos = Grupos::lists('nombre', 'id');
-		return View::make('presupuestos.crearpresupuesto')->with(array('grupos' => $grupos))->with(array('paciente' => $paciente));
+		$grupos[0] = '-- Elija un grupo --';
+		ksort($grupos);
+
+		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id', 'precio_base')->get();
+		$tratamientos = array();
+		foreach ($tratamientosAll as $t) {
+			//var_dump($t);
+			$tratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
+		}
+
+		$tratamientos[0] = '-- Elija primero un grupo de tratamientos --';
+
+		foreach (array_keys($grupos) as $key) {
+			if (!array_key_exists($key, $tratamientos)) {
+				$tratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+			}
+		}
+		ksort($tratamientos);
+
+		return View::make('presupuestos.crearpresupuesto')
+							->with(array('grupos' => $grupos,
+										'paciente' => $paciente,
+										'tratamientos' => $tratamientos));
 	}
 
 
@@ -39,7 +88,55 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$num = Input::get('num_tratamientos');
+
+		$ok = TRUE;
+		for ($i=1; $i<=$num; $i++) {
+			if (!(Input::has('grupo-' . $i)  && Input::has('tratamiento-' . $i))) {
+				$ok = FALSE;
+				echo 'no hay ' . $i;
+				break;
+			}
+		}
+
+		if (!$ok) {
+			return 'Error en los parametros';
+		}
+
+		var_dump(Input::all());
+
+		$nombre = Input::get('nombre', 'Sin nombre');
+		if (empty($nombre)) {
+			$nombre = 'Sin nombre';
+		}
+
+		//$presupuesto = Presupuestos::create(Input::all());
+		$presupuesto = new Presupuestos;
+		$presupuesto->nombre = $nombre;
+		$presupuesto->aceptado = 0;
+		$presupuesto->numerohistoria = Input::get('numerohistoria');
+		if ($presupuesto->save()) {
+			echo 'Guardado presupuesto con id ' . $presupuesto->id . '<br>';
+		}
+
+		for ($i=1; $i<=$num; $i++) {
+			$grupo = Input::get('grupo-' . $i);
+			if ($grupo == 0) {
+				continue;
+			}
+			$tratamiento = Input::get('tratamiento-' . $i);
+
+			$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $tratamiento,
+						'tipostratamientos_id' => 0, 'unidades' => Input::get('unidades-1', 0),
+						'desc_euros' => 0, 'desc_porcien' => 0);
+
+			$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
+		}
+
+		# TODO: unidades, piezas
+		# Campo tipostratamientos_id: ???
+
+		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $presupuesto->numerohistoria));
 	}
 
 
@@ -51,7 +148,8 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function verpresupuestos($numerohistoria)
 	{
-		$paciente_q = Pacientes::on('quiron')->where('numerohistoria',$numerohistoria)->first()->toArray();
+		//$paciente_q = Pacientes::on('quiron')->where('numerohistoria',$numerohistoria)->first()->toArray();
+		$paciente_q = Pacientes::where('numerohistoria',$numerohistoria)->first()->toArray();
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
 		if(!$paciente_b) {
 		Pacientes::create($paciente_q);

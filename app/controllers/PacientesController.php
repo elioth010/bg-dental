@@ -9,12 +9,10 @@ class PacientesController extends BaseController {
 	 */
 	public function index()
 	{
-		
 		//$pacientes = Pacientes::on('quiron')->where('created_at', '>=', 'DATE_SUB(NOW(), INTERVAL 1 DAY)')->orderBy('created_at')->get();
-		$pacientes = Pacientes::whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)')->orderBy('created_at')->get();
+		$pacientes = Pacientes::whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 100 DAY)')->orderBy('created_at')->get();
 		//$pacientes = Pacientes::all();
 		return View::make('pacientes.index', array('pacientes' => $pacientes));
-		
 	}
 
 
@@ -37,8 +35,16 @@ class PacientesController extends BaseController {
 	 */
 	public function store()
 	{
-		$crear_p = Pacientes::create(Input::all());		
-		return Redirect::to('pacientes');
+
+
+		$validator = Validator::make(Input::all(), Pacientes::$p_rules);
+
+		if ($validator->passes()) {
+			$crear_p = Pacientes::create(Input::all());
+			return Redirect::to('pacientes')->with('message', 'Paciente creado con éxito.');
+		} else {
+			return Redirect::to('pacientes/crear')->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
+		}
 	}
 
 
@@ -78,7 +84,9 @@ class PacientesController extends BaseController {
 
 	public function verficha($numerohistoria)
 	{
-		$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
+		//$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
+		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->get();
+
 		$companias = Companias::lists('nombre', 'id');
 		//var_dump($paciente);
 		return View::make('pacientes.verficha')->with('paciente',$paciente)->with(array('companias' => $companias));
