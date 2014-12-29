@@ -204,8 +204,15 @@ header{
 }
 
 /* tablas */
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+	/*width:100%;
+	height:100%;*/
+	margin:0px;padding:0px;
+}
 
-th{
+/*th{
 	padding: 5px;
 	border: 1px solid gray;
 }
@@ -213,7 +220,79 @@ th{
 td{
 	padding: 5px;
 	border: 1px solid gray;
+}*/
+
+tr:last-child td:last-child {
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
 }
+table tr:first-child td:first-child {
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+table tr:first-child td:last-child {
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+}
+tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+}
+tr:hover td{}
+tr:nth-child(odd){ background-color:#aad4ff; }
+tr:nth-child(even)    { background-color:#ffffff; }
+td{
+	vertical-align:middle;	
+	border:1px solid #b2b2b2;
+	border-width:0px 1px 1px 0px;
+	text-align:left;
+	padding:7px;
+	font-size:10px;
+	font-family:Arial;
+	font-weight:normal;
+	color:#000000;
+}
+tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}
+tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}
+tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+tr:first-child td{
+		background:-o-linear-gradient(bottom, #0000ff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0000ff), color-stop(1, #007fff) );
+	background:-moz-linear-gradient( center top, #0000ff 5%, #007fff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0000ff", endColorstr="#007fff");	background: -o-linear-gradient(top,#0000ff,007fff);
+
+	background-color:#0000ff;
+	border:0px solid #b2b2b2;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#ffffff;
+}
+tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #0000ff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0000ff), color-stop(1, #007fff) );
+	background:-moz-linear-gradient( center top, #0000ff 5%, #007fff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0000ff", endColorstr="#007fff");	background: -o-linear-gradient(top,#0000ff,007fff);
+
+	background-color:#0000ff;
+}
+tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
+}
+
 .tbl_izq{
 	float: left;
 	min-width: 300px;
@@ -223,6 +302,13 @@ td{
 	display: block;
 	max-height: 470px;
 	overflow: scroll;
+}
+
+/*  crear clientes */
+
+#crear p{
+	text-align: left;
+	padding-top: 10px;
 }
 
 /* footer */

@@ -3,14 +3,16 @@
 @section('contenido')
     <h1>Edición de tratamiento</h1>
 
-        {{ Form::open(array('url'=>'tratamientos/$tratamiento->id/guardartratamiento')) }}
+        {{ Form::open(array('url'=>'tratamientos/guardartratamiento/'.$tratamiento->id)) }}
 
-        Código:
-        {{ Form::text('codigo', null, array('placeholder'=>$tratamiento->codigo)) }}
-        {{ Form::text('nombre', null, array('placeholder'=>$tratamiento->nombre)) }}<p>
+
+        {{Form::label('Código')}}
+        {{ Form::text('codigo', $tratamiento->codigo ) }}
+        {{ Form::text('nombre', $tratamiento->nombre) }}<p>
         @foreach($tcp as $tcp)<li>
-            {{$tcp['nombre_comp'].": "}}
-            {{ Form::text('nombre', null, array('placeholder'=>$tcp['precio'])) }}</li><br>
+            {{Form::label($tcp['nombre_comp'])}}
+
+            {{ Form::text('precio_comp-'.$tcp['id'], $tcp['precio']) }}</li><br>
         @endforeach
 
         {{ Form::submit('Guardar cambios')}}

@@ -38,9 +38,6 @@
                     	</ul>
                     </li>            
                     <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}
-                    	<ul>
-                    	<li>{{ HTML::link('tratamientos/crearcompania', ' Crear compania') }}</li>
-                    	</ul>
                     	</li>
                     
                      @else

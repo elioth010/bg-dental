@@ -30,6 +30,7 @@ class TratamientosController extends \BaseController {
 							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'tratamientos.precio_base','companias.nombre as nombre_comp',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
 							->groupBy('tratamientos.nombre')->orderBy('tratamientos.nombre')->where('tratamientos.activo', '=', '1')->get();
 
+		//print_r($tcp_contenido);
 		return View::make('tratamientos.index')->with(array('tcp_cabecera' => $tcp_cabecera))->with(array('tcp_contenido' => $tcp_contenido));
 	}
 
@@ -109,10 +110,18 @@ class TratamientosController extends \BaseController {
 		$tratamiento = Tratamientos::where('id', $id)->first();
 		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 			->leftJoin('companias', 'companias.id','=','companias_id')
-			->select('tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id')
+			->select('companias.nombre as nombre_comp', 'companias.id', 'precio')
 			->where('tratamientos.id' , $tratamiento->id)
 			->get();
-		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios);;
+		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios);
+
+	}
+
+	public function editar_t($id){
+		$guardar_t = Input::all();
+		var_dump($guardar_t);
+		$nombre = $guardar_t;
+
 
 	}
 

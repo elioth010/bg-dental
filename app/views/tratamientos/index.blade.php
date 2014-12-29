@@ -2,8 +2,6 @@
  
 @section('contenido')
 
-    INDEX_____
-
   {{ HTML::link('/tratamientos/buscar', 'Buscar tratamientos')}}<p>
   <h1>
   Tratamientos
@@ -22,16 +20,14 @@
 
           <td>{{$tcp_contenido->codigo}}</td>
           <td>{{ HTML::link('/tratamientos/editar/'.$tcp_contenido->id, $tcp_contenido->nombre_trat)}}</td>
-          <td>{{$tcp_contenido->precio_base}}</td>
+          <td>{{$tcp_contenido->precio_base.'€'}}</td>
               <?php $precios = explode(",", $tcp_contenido->precios);?>
                     @foreach($precios as $precio)
-                        <td>{{$precio}}</td>
+                        <td>{{$precio.'€'}}</td>
                     @endforeach
           </tr>
       @endforeach
 
   </table>
 
-@stop 
-
-
+@stop

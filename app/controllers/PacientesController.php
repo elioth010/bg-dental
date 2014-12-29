@@ -9,12 +9,10 @@ class PacientesController extends BaseController {
 	 */
 	public function index()
 	{
-		
 		//$pacientes = Pacientes::on('quiron')->where('created_at', '>=', 'DATE_SUB(NOW(), INTERVAL 1 DAY)')->orderBy('created_at')->get();
-		$pacientes = Pacientes::whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 1 DAY)')->orderBy('created_at')->get();
+		$pacientes = Pacientes::whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 100 DAY)')->orderBy('created_at')->get();
 		//$pacientes = Pacientes::all();
 		return View::make('pacientes.index', array('pacientes' => $pacientes));
-		
 	}
 
 
