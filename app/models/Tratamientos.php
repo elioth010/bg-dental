@@ -3,10 +3,10 @@
 class Tratamientos extends Eloquent {
 
     protected $table = 'tratamientos';
-    protected $fillable = array('codigo','nombre','precio_base','grupostratamientos_id', 'tipostratamientos_id');
+    protected $fillable = array('codigo','nombre','precio_base','grupostratamientos_id', 'tipostratamientos_id', 'activo');
 
     public function companias() {
-        return $this->belongsToMany('Companias', 'precio_base', 'tratamientos_id','companias_id')->withPivot('precio');
+        return $this->belongsToMany('Companias', 'precios', 'tratamientos_id','companias_id')->withPivot('precios');
     }
 
     public function presupuestos() {
