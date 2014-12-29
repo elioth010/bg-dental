@@ -8,6 +8,7 @@
     {{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}
     {{ Form::text('precio_base', null, array('placeholder'=>'euros')) }}
     General? {{ Form::checkbox('tipostratamientos_id') }}
+    {{Form::hidden('activo', '1')}}
     {{ Form::submit('Guardar')}}
 
 {{ Form::close() }}
