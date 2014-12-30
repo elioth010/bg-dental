@@ -15,7 +15,7 @@ class TratamientosController extends \BaseController {
 
 		foreach($precios as $p) {
 			//$tratamientos[$p->tratamientos_id]->precios = explode(",", $p->precios);
-			$tratamientos[$p->tratamientos_id]->precios = $p->precios;
+			$tratamientos[$p->tratamientos_id-1]->precios = $p->precios;
 		}
 
 		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
