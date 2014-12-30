@@ -6,7 +6,7 @@ class Tratamientos extends Eloquent {
     protected $fillable = array('codigo','nombre','precio_base','grupostratamientos_id', 'tipostratamientos_id', 'activo');
 
     public function companias() {
-        return $this->belongsToMany('Companias', 'precios', 'tratamientos_id','companias_id')->withPivot('precios');
+        return $this->belongsToMany('Companias', 'precios', 'companias_id', 'tratamientos_id')->withPivot('precios');
     }
 
     public function presupuestos() {

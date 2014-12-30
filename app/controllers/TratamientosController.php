@@ -44,7 +44,7 @@ class TratamientosController extends \BaseController {
         $companias_ids = Companias::lists('id');
 
 		foreach($companias_ids as $cid){
-			$tratamiento->companias()->attach(array('precio' => '0.00' , 'companias_id'=>$cid, 'tratamientos_id'=>$tratamiento->id));
+			$tratamiento->companias()->attach($tratamiento->id, array('precio' => '0.00' , 'companias_id'=>$cid, 'tratamientos_id'=>$tratamiento->id));
 		}
 
 		return Redirect::to('tratamientos');
