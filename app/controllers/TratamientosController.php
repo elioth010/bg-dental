@@ -14,7 +14,8 @@ class TratamientosController extends \BaseController {
 		$precios = Precios::select('tratamientos_id', DB::raw('GROUP_CONCAT(precios.precio order by companias_id) as precios'))->groupBy('tratamientos_id')->get();
 
 		foreach($precios as $p) {
-			$tratamientos[$p->tratamientos_id-1]->precios = $p->precios;
+			$t = $tratamientos->find($p->tratamientos_id);
+			$t->precios = $p->precios;
 		}
 
 		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
@@ -44,7 +45,7 @@ class TratamientosController extends \BaseController {
         $companias_ids = Companias::lists('id');
 
 		foreach($companias_ids as $cid){
-			$tratamiento->companias()->attach(array('precio' => '0.00' , 'companias_id'=>$cid, 'tratamientos_id'=>$tratamiento->id));
+			$tratamiento->companias()->attach($tratamiento->id, array('precio' => '0.00' , 'companias_id'=>$cid, 'tratamientos_id'=>$tratamiento->id));
 		}
 
 		return Redirect::to('tratamientos');
@@ -101,11 +102,12 @@ class TratamientosController extends \BaseController {
 	{
 		$tratamiento = Tratamientos::findOrFail($id);
 
-		$precios = Precios::where('tratamientos_id', '=', $id)->get();
-		$companias = Companias::lists('nombre', 'id');
+		$precios = Precios::where('tratamientos_id', '=', $id)->orderBy('companias_id')->get();
+		$companias = Companias::select('nombre', 'id')->get();
 
-		foreach($companias as $k => $v) {
-			$precios[$k-1]->compania = $v;
+		foreach($precios as $p) {
+			$c = $companias->find($p->companias_id);
+			$p->compania = $c->nombre;
 		}
 
 		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios);
