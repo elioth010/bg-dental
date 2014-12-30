@@ -4,6 +4,7 @@
  <h3>
   Compañías:
   </h2>
+  
     <table border = "1">
       <tr>
       <th>Id
@@ -12,6 +13,7 @@
       </th><th>Comentarios
       </th>
       </tr>
+      
       @foreach($companias as $companias)
         <tr>
         <td>{{$companias->id}}</td>
@@ -20,5 +22,6 @@
         <td>{{$companias->comentarios}}</td>
         </tr>
       @endforeach
+      
     </table>
 @stop

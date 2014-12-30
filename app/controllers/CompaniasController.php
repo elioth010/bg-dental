@@ -10,6 +10,7 @@ class CompaniasController extends BaseController {
 	public function index()
 	{
 		$companias = Companias::all();
+                
 		return View::make('tratamientos.companias', array('companias' => $companias));
 	}
 
@@ -34,7 +35,7 @@ class CompaniasController extends BaseController {
 	public function store()
 	{
 		Companias::create(Input::all());
-		echo "Compania guardado";
+		echo "Compañía guardada";
 		return Redirect::to('tratamientos/crearcompania');
 	}
 
