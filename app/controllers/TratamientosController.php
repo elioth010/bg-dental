@@ -41,14 +41,14 @@ class TratamientosController extends \BaseController {
 	 */
 	public function store()
 	{
-		$crear_t = Tratamientos::create(Input::all());
-                $last_id = DB::getPdo()->lastInsertId();
-                $companias = Companias::lists('id');
-                $tratamiento = new Tratamientos;
-               foreach($companias as $compania){
-                     $tratamiento->companias()->attach(array('precio' => '0.00' , 'companias_id'=>$compania, 'tratamientos_id'=>$last_id));
-                }
-                return Redirect::to('tratamientos');
+		$tratamiento = Tratamientos::create(Input::all());
+        $companias_ids = Companias::lists('id');
+
+		foreach($companias_ids as $cid){
+			$tratamiento->companias()->attach(array('precio' => '0.00' , 'companias_id'=>$cid, 'tratamientos_id'=>$tratamiento->id));
+		}
+
+		return Redirect::to('tratamientos');
 	}
 
 
@@ -114,7 +114,7 @@ class TratamientosController extends \BaseController {
 		var_dump($guardar_t);
 		$nombre = $guardar_t;
 
-
+		return Redirect::to('tratamientos');
 	}
 
 	public function editarprecios($id)

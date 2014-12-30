@@ -1,5 +1,5 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
 
   {{ HTML::link('/tratamientos/buscar', 'Buscar tratamientos')}}<p>
