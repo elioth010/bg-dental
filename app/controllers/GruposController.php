@@ -21,8 +21,8 @@ class GruposController extends BaseController {
 	 */
 	public function create()
 	{
-		$grupos = Grupos::all();
-		return View::make('tratamientos.grupos')->with('grupos',$grupos);
+		$grupo = Grupos::all();
+		return View::make('tratamientos.grupos')->with('grupo',$grupo);
 	}
 
 
@@ -35,7 +35,7 @@ class GruposController extends BaseController {
 	{
 		Grupos::create(Input::all());
 		echo "Grupo guardado";
-		return Redirect::to('tratamientos/grupos');
+		return Redirect::to('tratamientos/creargrupo');
 	}
 
 
