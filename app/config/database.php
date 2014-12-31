@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'bg_dental',
+	'default' => 'beta_bg_dental',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -74,10 +74,10 @@ return array(
 			'prefix'    => '',
 		),
 		
-		'bg_dental' => array(
+		'beta_bg_dental' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'bg_dental',
+			'database'  => 'beta_bg_dental',
 			'username'  => 'testing',
 			'password'  => 'testing$$',
 			'charset'   => 'utf8',
