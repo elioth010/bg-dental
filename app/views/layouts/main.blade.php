@@ -37,8 +37,13 @@
                     	<li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li>
                     	</ul>
                     </li>            
-                    <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}
-                    	</li>
+                    <li>Otros datos:
+                        <ul>
+                            <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
+                            <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
+                            <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
+                        </ul>
+                    </li>
                     
                      @else
                      ¡No estás dentro!

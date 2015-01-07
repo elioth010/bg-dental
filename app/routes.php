@@ -61,6 +61,10 @@ Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupue
 
 Route::resource('profesional', 'ProfesionalController');
 
+//Rutas Especialidades:
+
+Route::resource('especialidad', 'EspecialidadController');
+
 //rutas para llenar db de datos:
 
 //creando compañías:

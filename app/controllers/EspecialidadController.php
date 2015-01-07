@@ -1,6 +1,6 @@
 <?php
 
-class ProfesionalController extends \BaseController {
+class EspecialidadController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,9 +9,8 @@ class ProfesionalController extends \BaseController {
 	 */
 	public function index()
 	{
-		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')->get();
-                $especialidades = Especialidad::lists('especialidad','id');
-                return View::make('profesionales.index', array('profesionales' => $profesionales))->with('especialidades', $especialidades);
+		$especialidades = Especialidad::all();
+                return View::make('especialidades.index', array('especialidades' => $especialidades));
 	}
 
 
@@ -22,8 +21,7 @@ class ProfesionalController extends \BaseController {
 	 */
 	public function create()
 	{
-		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')->get();
-                return View::make('profesionales.index', array('profesionales' => $profesionales))->with('especialidades', $especialidades);;
+		//
 	}
 
 
@@ -34,9 +32,9 @@ class ProfesionalController extends \BaseController {
 	 */
 	public function store()
 	{
-		Profesional::create(Input::all());
-		echo "Profesional guardado";
-		return Redirect::to('profesional');
+		Especialidad::create(Input::all());
+		echo "Especialidad guardada";
+		return Redirect::to('especialidad');
 	}
 
 
