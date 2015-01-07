@@ -57,7 +57,9 @@ Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@ver
 Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@findTratamientos');
 Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 
+//Rutas Profesionales:
 
+Route::resource('profesional', 'ProfesionalController');
 
 //rutas para llenar db de datos:
 
