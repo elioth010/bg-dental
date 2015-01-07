@@ -5,10 +5,10 @@
 // 	return View::make('hello');
 // });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
-/*Event::listen('illuminate.query', function($query)
+Event::listen('illuminate.query', function($query)
 {
     var_dump($query);
-});*/
+});
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 
@@ -57,7 +57,13 @@ Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@ver
 Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@findTratamientos');
 Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 
+//Rutas Profesionales:
 
+Route::resource('profesional', 'ProfesionalController');
+
+//Rutas Especialidades:
+
+Route::resource('especialidad', 'EspecialidadController');
 
 //rutas para llenar db de datos:
 

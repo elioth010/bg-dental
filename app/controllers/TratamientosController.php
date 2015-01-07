@@ -9,29 +9,16 @@ class TratamientosController extends \BaseController {
 	 */
 	public function index()
 	{
-		//$companias_cabecera = Companias::orderBy('nombre')->all();
-		$tcp_cabecera = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
-					->leftJoin('companias', 'companias.id','=','companias_id')
-					->leftJoin('grupostratamientos', 'grupostratamientos.id', '=', 'grupostratamientos_id')
-					->select('tratamientos.precio_base','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id', 'grupostratamientos.nombre')
-					->groupBy('nombre_comp')->orderBy('tratamientos.nombre')
-					->where('tratamientos.activo', '=', '1')->get();
-		/*$tcp_contenidos = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
-			->leftJoin('companias', 'companias.id','=','companias_id')
-			->leftJoin('grupostratamientos', 'grupostratamientos.id', '=', 'grupostratamientos_id')
-			->select('tratamientos.precio_base','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id', 'grupostratamientos.nombre')
-			->get();
-		$tcp_contenido = 	Tratamientos::raw('SELECT t.codigo, t.nombre AS nombre_trat,t.precio_base, c.nombre as nombre_comp, GROUP_CONCAT(p.precio) FROM tratamientos t
-							LEFT JOIN precios p ON p.tratamientos_id = t.id
-							LEFT JOIN companias c on c.id = p.companias_id
-							GROUP BY t.nombre
-							ORDER BY t.nombre')->get();*/
-		$tcp_contenido = Tratamientos::leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')->leftJoin('companias','companias.id','=', 'precios.companias_id')
-							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'tratamientos.precio_base','companias.nombre as nombre_comp',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
-							->groupBy('tratamientos.nombre')->orderBy('tratamientos.nombre')->where('tratamientos.activo', '=', '1')->get();
+		$companias = Companias::select('nombre')->get();
+		$tratamientos = Tratamientos::select('id', 'codigo', 'nombre', 'precio_base')->get();
+		$precios = Precios::select('tratamientos_id', DB::raw('GROUP_CONCAT(precios.precio order by companias_id) as precios'))->groupBy('tratamientos_id')->get();
 
-		//print_r($tcp_contenido);
-		return View::make('tratamientos.index')->with(array('tcp_cabecera' => $tcp_cabecera))->with(array('tcp_contenido' => $tcp_contenido));
+		foreach($precios as $p) {
+			$t = $tratamientos->find($p->tratamientos_id);
+			$t->precios = $p->precios;
+		}
+
+		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
 	}
 
 
@@ -54,14 +41,14 @@ class TratamientosController extends \BaseController {
 	 */
 	public function store()
 	{
-		$crear_t = Tratamientos::create(Input::all());
-                $last_id = DB::getPdo()->lastInsertId();
-                $companias = Companias::lists('id');
-                $tratamiento = new Tratamientos;
-               foreach($companias as $compania){
-                     $tratamiento->companias()->attach(array('precio' => '0.00' , 'companias_id'=>$compania, 'tratamientos_id'=>$last_id));
-                }
-                return Redirect::to('tratamientos');
+		$tratamiento = Tratamientos::create(Input::all());
+        $companias_ids = Companias::lists('id');
+
+		foreach($companias_ids as $cid){
+			$tratamiento->companias()->attach($tratamiento->id, array('precio' => '0.00' , 'companias_id'=>$cid, 'tratamientos_id'=>$tratamiento->id));
+		}
+
+		return Redirect::to('tratamientos');
 	}
 
 
@@ -96,13 +83,13 @@ class TratamientosController extends \BaseController {
 					->select('tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id')
 					->where('tratamientos.id' , $tratamiento->id)
 					->get();
-		
+
 		} else {
 		  return Redirect::to('pacientes/buscar');
 		}
 		//var_dump($paciente);
-		
-		
+
+
 		return View::make('tratamientos.vertratamiento')->with('tratamientos',$tratamientos)->with('tcp' , $tcp);
 	 }
 	/**
@@ -113,21 +100,36 @@ class TratamientosController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$tratamiento = Tratamientos::where('id', $id)->first();
-		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
-			->leftJoin('companias', 'companias.id','=','companias_id')
-			->select('companias.nombre as nombre_comp', 'companias.id', 'precio')
-			->where('tratamientos.id' , $tratamiento->id)
-			->get();
+		$tratamiento = Tratamientos::findOrFail($id);
+
+		$precios = Precios::where('tratamientos_id', '=', $id)->orderBy('companias_id')->get();
+		$companias = Companias::select('nombre', 'id')->get();
+
+		foreach($precios as $p) {
+			$c = $companias->find($p->companias_id);
+			$p->compania = $c->nombre;
+		}
+
 		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios);
 	}
 
 	public function editar_t($id){
-		$guardar_t = Input::all();
-		var_dump($guardar_t);
-		$nombre = $guardar_t;
+		$tratamiento = Tratamientos::findOrFail($id);
+		$tratamiento->codigo = Input::get('codigo');
+		$tratamiento->nombre = Input::get('nombre');
+		$tratamiento->save();
 
+		foreach(Input::all() as $k => $v) {
+			if (substr($k, 0, 12) != 'precio_comp-')
+				continue;
 
+			$precio_id = explode('-', $k)[1];
+			$precio = Precios::findOrFail($precio_id);
+			$precio->precio = $v;
+			$precio->save();
+		}
+
+		return Redirect::to('tratamientos');
 	}
 
 	public function editarprecios($id)

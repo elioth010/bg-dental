@@ -1,6 +1,6 @@
 <?php
 
-class CompaniasController extends BaseController {
+class EspecialidadController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
@@ -9,9 +9,8 @@ class CompaniasController extends BaseController {
 	 */
 	public function index()
 	{
-		$companias = Companias::all();
-                
-		return View::make('tratamientos.companias', array('companias' => $companias));
+		$especialidades = Especialidad::all();
+                return View::make('especialidades.index', array('especialidades' => $especialidades));
 	}
 
 
@@ -22,8 +21,7 @@ class CompaniasController extends BaseController {
 	 */
 	public function create()
 	{
-		$companias = Companias::all();
-		return View::make('tratamientos.companias')->with('companias',$companias);
+		//
 	}
 
 
@@ -34,9 +32,9 @@ class CompaniasController extends BaseController {
 	 */
 	public function store()
 	{
-		Companias::create(Input::all());
-		echo "Compañía guardada";
-		return Redirect::to('tratamientos/crearcompania');
+		Especialidad::create(Input::all());
+		echo "Especialidad guardada";
+		return Redirect::to('especialidad');
 	}
 
 
