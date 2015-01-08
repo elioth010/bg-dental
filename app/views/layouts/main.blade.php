@@ -37,7 +37,7 @@
                     	<li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li>
                     	</ul>
                     </li>            
-                    <li>Otros datos:
+                    <li>{{ HTML::link('#', 'Otros datos') }}
                         <ul>
                             <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
                             <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
