@@ -28,15 +28,16 @@
                     <ul>
                         <li>{{ HTML::link('pacientes/crear', 'Crear pacientes') }}</li>
                         <li>{{ HTML::link('pacientes/buscar', 'Buscar pacientes') }}</li>
-                    </ul> --}}
-                    </li>
+                    </ul> 
+                    </li> --}}
                     <li>{{ HTML::link('tratamientos', 'Tratamientos') }}
                         <ul>
                             {{-- <li>{{ HTML::link('tratamientos/crear', 'Crear tratamientos') }}</li> --}}
                             <li>{{ HTML::link('tratamientos/grupos', 'Grupos de tratamientos') }}</li>
                             {{-- <li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li> --}}
                         </ul>
-                    </li>
+                    </li>            
+
                     <li>Otros datos:
                         <ul>
                             <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
@@ -44,14 +45,16 @@
                             <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
                         </ul>
                     </li>
-
+                    <li>{{ HTML::link('users/login', 'Login') }}</li>
+                    <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
                     <li>{{ HTML::link('users/logout', 'Salir') }}</li>
 
                     @else
 
                     <li>{{ HTML::link('users/login', 'Entrar') }}</li>
+
                     @endif
-                </ul> 
+                
 
             </div> 
 
