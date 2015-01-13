@@ -302,6 +302,7 @@ tr:first-child td:last-child{
 	display: block;
 	max-height: 470px;
 	overflow: scroll;
+	margin-right: 50px;
 }
 
 /*  crear clientes */
