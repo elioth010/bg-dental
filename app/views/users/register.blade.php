@@ -23,6 +23,6 @@
     {{ Form::password('password_confirmation', array('class'=>'input-block-level', 'placeholder'=>'Confirm Password')) }}<br>
  
     {{ Form::submit('Registrar usuario', array('class'=>'btn btn-large btn-primary btn-block'))}}
->>>>>>> origin/master
+
 {{ Form::close() }}
 @stop
