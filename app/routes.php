@@ -4,10 +4,10 @@
 // 	return View::make('hello');
 // });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
-Event::listen('illuminate.query', function($query)
+/*Event::listen('illuminate.query', function($query)
 {
     var_dump($query);
-});
+});*/
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 
@@ -68,14 +68,23 @@ Route::resource('especialidad', 'EspecialidadController');
 
 //creando compañías:
 Route::get('crearcompanias', function() {
-$comps = array('PRIVADO','MAPFRE','G.C. GRANDES COLECTIVOS','G.C COMP DENT CASER','G.C. CASER MOD.PLENA','G.C CASER POL.DENTAL','G.C.UNION MADRILEÑA','SÓLO MEDIFIATC GESTISEP','COSALUD','AVANT SALUD','COMPAÑÍAS BARCOS','C. EXTRANJERAS ','ASEPEYO1','EMBAJADA','LIBIA','ASEPEYO2','ASEPEYO','CARITAS B','CARITAS C','LABORATORIO','MAPFRE2','FIAT','GROUPAMA');	
-foreach($comps as $comps) {
-	$comps_codes = substr(strtolower($comps),0,10);
-	$compania = new Companias;
-	$compania->nombre = $comps;
-	$compania->codigo = $comps_codes;
-	$compania->save();
-	echo $comps_codes."-".$comps."<br>";
+    $archivo = fopen(storage_path().'/companias_p.csv', 'r');
+    while (( $comps = fgetcsv($archivo, 2500, ',')) !== FALSE)
+      {
+        $compas = new Companias;
+        $compas = $comps[0];
+        $siexiste = Companias::where('nombre','LIKE', '%'.$compas.'%')->get();
+        echo $siexiste;
+        if($siexiste == ''){
+//	$comps_codes = substr(strtolower($comps),0,10);
+//	$compania = new Companias;
+//	$compania->nombre = $comps;
+//	$compania->codigo = $comps_codes;
+//	$compania->save();
+	//echo "baf-".$compas."<br>";
+        } else { 
+            //echo "Compañía ".$compas." ya existe <br>";
+        }
 }
 
 });

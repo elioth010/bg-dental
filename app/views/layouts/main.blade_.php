@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>BG-Dental</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
-  <head>
-    <title>BG-Dental</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-		
-    <link rel="icon" type="image/png" sizes="16x16" href="/imagenes/favicon.png" /> 
-	<link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
-    {{ HTML::style('css/main.css') }}
-  </head>
- 
-  <body>
- <div id="wrapper">
- <header>
- <div class="logo"></div>
- </header>
- 
-                     @if(Auth::check())
-                    Logeado.
- <div id="menu">
+        <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
+        {{ HTML::style('css/main.css') }}
+    </head>
+
+    <body>
+        <div id="wrapper">
+            <header>
+                <div class="logo"></div></br><h2>Versión de PRUEBAS.</br></h2>
+            </header>
+
+            @if(Auth::check())
+
+            <div id="menu">
 
                 <ul class="nav">  
                     <li>{{ HTML::link('users/register', 'Registrar') }}</li>
@@ -30,30 +28,33 @@
                     <ul>
                         <li>{{ HTML::link('pacientes/crear', 'Crear pacientes') }}</li>
                         <li>{{ HTML::link('pacientes/buscar', 'Buscar pacientes') }}</li>
-                    </ul> --}}
-                    </li>
+                    </ul> 
+                    </li> --}}
                     <li>{{ HTML::link('tratamientos', 'Tratamientos') }}
                         <ul>
                             {{-- <li>{{ HTML::link('tratamientos/crear', 'Crear tratamientos') }}</li> --}}
                             <li>{{ HTML::link('tratamientos/grupos', 'Grupos de tratamientos') }}</li>
                             {{-- <li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li> --}}
                         </ul>
-                    </li>
-                    <li>{{ HTML::link('#', 'Otros datos') }}
+                    </li>            
+
+                    <li>Otros datos:
                         <ul>
                             <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
                             <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
                             <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
                         </ul>
                     </li>
-
+                    <li>{{ HTML::link('users/login', 'Login') }}</li>
+                    <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
                     <li>{{ HTML::link('users/logout', 'Salir') }}</li>
 
                     @else
 
                     <li>{{ HTML::link('users/login', 'Entrar') }}</li>
+
                     @endif
-                </ul> 
+                
 
             </div> 
 
