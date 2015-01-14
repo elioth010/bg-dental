@@ -8,6 +8,8 @@
     {{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}
     {{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}
  
+
     {{ Form::submit('Entrar', array('class'=>'btn btn-large btn-primary btn-block'))}}
+
 {{ Form::close() }}
 @stop

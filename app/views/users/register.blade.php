@@ -10,6 +10,7 @@
         @endforeach
     </ul>
  
+
      {{ Form::label('firstname', 'Nombre') }}
      {{ Form::text('firstname', null, array('class'=>'input-block-level', 'placeholder'=>'First Name')) }}<br>
      {{ Form::label('lastname', 'Apellidos') }}
@@ -22,5 +23,6 @@
     {{ Form::password('password_confirmation', array('class'=>'input-block-level', 'placeholder'=>'Confirm Password')) }}<br>
  
     {{ Form::submit('Registrar usuario', array('class'=>'btn btn-large btn-primary btn-block'))}}
+
 {{ Form::close() }}
 @stop
