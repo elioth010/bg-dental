@@ -1,5 +1,5 @@
 @extends('layouts.main')
-
+ 
 @section('contenido')
 	<div class="search">
   {{ HTML::link('/tratamientos/buscar', 'Buscar tratamientos')}}</div>
@@ -11,20 +11,20 @@
           <th>Código</th>
           <th>Nombre tratamiento</th>
           <th>Precio base</th>
-            @foreach($companias as $c)
-              <th>{{$c->nombre}}</th>
+            @foreach($tcp_cabecera as $tcp_cabecera)
+              <th>{{$tcp_cabecera->nombre_comp}}</th>
           @endforeach
       </tr>
-      @foreach($tratamientos as $t)
+      @foreach($tcp_contenido as $tcp_contenido)
           <tr>
 
-          <td>{{$t->codigo}}</td>
-          <td>{{ HTML::link('/tratamientos/editar/'.$t->id, $t->nombre)}}</td>
-          <td>{{$t->precio_base.'€'}}</td>
-          <?php $precios = explode(',', $t->precios); ?>
-          @foreach($precios as $p)
-          <td>{{ $p }}</td>
-          @endforeach
+          <td>{{$tcp_contenido->codigo}}</td>
+          <td>{{ HTML::link('/tratamientos/editar/'.$tcp_contenido->id, $tcp_contenido->nombre_trat)}}</td>
+          <td>{{$tcp_contenido->precio_base.'€'}}</td>
+              <?php $precios = explode(",", $tcp_contenido->precios);?>
+                    @foreach($precios as $precio)
+                        <td>{{$precio.'€'}}</td>
+                    @endforeach
           </tr>
       @endforeach
 

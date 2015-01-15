@@ -6,8 +6,8 @@
  
   <body>
  <div id="wrapper">
- <header>
- <div class="logo"></div>
+ <header>Versión BETA.
+     <div class="logo"></div></br><h2>Versión de PRUEBAS.</br></h2>
  </header>
  <div class="container">
         @if(Session::has('message'))
@@ -17,7 +17,7 @@
         @yield('contenido')
         
         
- <div class="register">  {{ HTML::link('users/register', 'Registrar un nuevo usuario...') }}</div>
+ <div class="register">  {{--{{ HTML::link('users/register', 'Registrar un nuevo usuario...') }}--}}</div>
     
     </div>
     <footer>

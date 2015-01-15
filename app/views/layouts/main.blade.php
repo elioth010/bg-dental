@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
 @include('includes.head')
   </head>
@@ -15,21 +16,21 @@
  <div id="menu">
 
                 <ul class="nav">  
-                    <li>{{ HTML::link('users/register', 'Register') }}</li>   
-                    <li>{{ HTML::link('users/logout', 'logout') }}</li>
-                    <li>{{ HTML::link('pacientes', 'Pacientes') }}
-                    	<ul>
-                    		<li>{{ HTML::link('pacientes/crear', 'Crear pacientes') }}</li>
-                    		<li>{{ HTML::link('pacientes/buscar', 'Buscar pacientes') }}</li>
-                    	</ul>
-                    	</li>
+                    <li>{{ HTML::link('users/register', 'Registrar') }}</li>
+
+                    {{-- <li>{{ HTML::link('pacientes', 'Pacientes') }}
+                    <ul>
+                        <li>{{ HTML::link('pacientes/crear', 'Crear pacientes') }}</li>
+                        <li>{{ HTML::link('pacientes/buscar', 'Buscar pacientes') }}</li>
+                    </ul> --}}
+                    </li>
                     <li>{{ HTML::link('tratamientos', 'Tratamientos') }}
-                    	<ul>
-                    	<li>{{ HTML::link('tratamientos/crear', 'Crear tratamientos') }}</li>
-                    	<li>{{ HTML::link('tratamientos/grupos', 'Grupos de tratamientos') }}</li>
-                    	<li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li>
-                    	</ul>
-                    </li>            
+                        <ul>
+                            {{-- <li>{{ HTML::link('tratamientos/crear', 'Crear tratamientos') }}</li> --}}
+                            <li>{{ HTML::link('tratamientos/grupos', 'Grupos de tratamientos') }}</li>
+                            {{-- <li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li> --}}
+                        </ul>
+                    </li>
                     <li>{{ HTML::link('#', 'Otros datos') }}
                         <ul>
                             <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
@@ -37,6 +38,7 @@
                             <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
                         </ul>
                     </li>
+
                   </ul> 
 			 </div> 
 			 
