@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('contenido')
-
-  {{ HTML::link('/tratamientos/buscar', 'Buscar tratamientos')}}<p>
+	<div class="search">
+  {{ HTML::link('/tratamientos/buscar', 'Buscar tratamientos')}}</div>
   <h1>
   Tratamientos
   </h1>

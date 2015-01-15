@@ -333,4 +333,16 @@ footer{
 	border-top: 1px solid #333;
 	min-height: 100px;
 	text-align: center;
+	font-family: 'Raleway', sans-serif;
+}
+footer p{
+	padding: 5px 0;
+}
+footer a{
+	text-decoration: none;
+	color:#1271b3;
+}
+footer a:hover{
+	text-decoration: none;
+	color:#66a3e5;
 }

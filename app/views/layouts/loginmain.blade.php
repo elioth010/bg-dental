@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Login</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{ HTML::style('css/main.css') }}
+@include('includes.head')
   </head>
  
   <body>
@@ -23,7 +20,9 @@
  <div class="register">  {{ HTML::link('users/register', 'Registrar un nuevo usuario...') }}</div>
     
     </div>
-    <footer>Esto sera el footer</footer>
+    <footer>
+    @include('includes.footer')
+    </footer>
     </div>
   </body>
 </html>
