@@ -4,10 +4,11 @@
 // 	return View::make('hello');
 // });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
-/*Event::listen('illuminate.query', function($query)
+Event::listen('illuminate.query', function($query)
 {
     var_dump($query);
-});*/
+});
+
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 

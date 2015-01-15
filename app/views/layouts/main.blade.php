@@ -4,31 +4,31 @@
   <head>
 @include('includes.head')
   </head>
- 
+
  <body>
  <div id="wrapper">
  <header>
  <div class="logo"></div>
  </header>
- 
+
                     @if(Auth::check())
                     Logeado.
  <div id="menu">
 
-                <ul class="nav">  
+                <ul class="nav">
                     <li>{{ HTML::link('users/register', 'Registrar') }}</li>
 
-                    {{-- <li>{{ HTML::link('pacientes', 'Pacientes') }}
+                    <li>{{ HTML::link('pacientes', 'Pacientes') }}
                     <ul>
                         <li>{{ HTML::link('pacientes/crear', 'Crear pacientes') }}</li>
                         <li>{{ HTML::link('pacientes/buscar', 'Buscar pacientes') }}</li>
-                    </ul> --}}
+                    </ul>
                     </li>
                     <li>{{ HTML::link('tratamientos', 'Tratamientos') }}
                         <ul>
-                            {{-- <li>{{ HTML::link('tratamientos/crear', 'Crear tratamientos') }}</li> --}}
+                            <li>{{ HTML::link('tratamientos/crear', 'Crear tratamientos') }}</li>
                             <li>{{ HTML::link('tratamientos/grupos', 'Grupos de tratamientos') }}</li>
-                            {{-- <li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li> --}}
+                            <li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li>
                         </ul>
                     </li>
                     <li>{{ HTML::link('#', 'Otros datos') }}
