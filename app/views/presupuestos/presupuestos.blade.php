@@ -39,7 +39,8 @@
   </tr>
   @foreach($presupuestos as $presupuesto)
     <tr>
-    <td>{{$presupuesto->presupuesto_id}}</td>
+    <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', $presupuesto->presupuesto_id,
+                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}</td>
     <td>{{$presupuesto->creado}}</td>
     <td>{{$presupuesto->modificado}}</td>
     <td>{{$presupuesto->nombre_p}}</td>

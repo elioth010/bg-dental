@@ -50,12 +50,12 @@ Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
 //Rutas presupuestos:
 
 Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@verpresupuestos');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
 Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
 Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@findTratamientos');
-Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 
 //Rutas Profesionales:
 

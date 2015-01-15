@@ -7,11 +7,18 @@ class PresupuestosController extends \BaseController {
 		return $tratamientos;
 	}
 
-	public function verPresupuesto($id)
+	public function verPresupuesto($paciente, $id)
 	{
-		//Creo que debería sacar tres variables:
-		//presupuesto, tratamientos del presu y precios de los tratamientos en vez de 
-		//de usar un query para todo.
+		$presupuesto = Presupuestos::find($id);
+		//$tratamientos = PresupuestoTratamiento::where('presupuesto_id', $id)->get();
+		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
+/*
+		$tratamientos = $presupuesto->tratamientos()->select('*')
+									->join('presupuestos_tratamientos', 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
+									->get();
+*/
+
+		/*
 		$presupuesto = Presupuestos::where('presupuesto_id',$id)
 			->leftJoin('users', 'users.id', '=', 'user_id')
 			->leftJoin('presupuestos_tratamientos', 'presupuestos_tratamientos.presupuesto_id', '=', 'presupuestos.id')
@@ -27,7 +34,10 @@ class PresupuestosController extends \BaseController {
 				'companias.nombre as nombre_comp',
 				'users.firstname as nombre_u')
 			->get();
-		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto));
+		*/
+		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
+																	 'tratamientos' => $tratamientos,
+																	 'paciente' => $paciente));
 	}
 
 
