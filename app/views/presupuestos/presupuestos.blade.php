@@ -49,11 +49,15 @@
     <td>{{$presupuesto->nombre_u}}</td>
     <td>{{$presupuesto->profesional}}</td>
     <td>{{$presupuesto->aceptado}}</td>
+    <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', 'Ver',
+                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }} |
+                {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
+                            array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}</td>
   </tr>
   @endforeach
 </table>
-      
-      
+
+
 
 
 </div>

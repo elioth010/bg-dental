@@ -52,6 +52,7 @@ Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
 Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@verpresupuestos');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
+Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
 Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
