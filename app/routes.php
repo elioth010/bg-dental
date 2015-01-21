@@ -4,10 +4,11 @@
 // 	return View::make('hello');
 // });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
-/*Event::listen('illuminate.query', function($query)
+Event::listen('illuminate.query', function($query)
 {
     var_dump($query);
-});*/
+});
+
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 
@@ -18,7 +19,7 @@ Route::get('pacientes', 'PacientesController@index');
 Route::get('pacientes/buscar', 'PacientesController@show');
 Route::post('pacientes/busqueda', 'PacientesController@busqueda');
 Route::get('populate', 'PopulateController@populate');
-Route::get('pacientes/verficha-{numerohistoria}', 'PacientesController@verficha');
+Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
 Route::get('pacientes/crear', 'PacientesController@crear');
 Route::post('pacientes/guardar', 'PacientesController@store');
 Route::post('pacientes/{numerohistoria}/editarficha', 'PacientesController@editarficha');
@@ -49,12 +50,13 @@ Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
 //Rutas presupuestos:
 
 Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@verpresupuestos');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
+Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
 Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
 Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@findTratamientos');
-Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 
 //Rutas Profesionales:
 

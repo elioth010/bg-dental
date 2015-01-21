@@ -26,19 +26,13 @@
     {{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}
     {{ Form::hidden('num_tratamientos', 1) }}
     {{ Form::label('nombre', 'Nombre del presupuesto:') }}
-    {{ Form::text('nombre') }}
+    {{ Form::text('nombre', $presupuesto->nombre) }}
     {{ Form::label('descuento', 'Descuento:') }}
     {{ Form::text('descuento') }}
 
     <div>
         <h2>Tratamientos</h2>
-        <div id='tratamientos-1'>
-            {{ Form::label('grupo-1', 'Grupo de tratamientos:') }}
-            {{ Form::select('grupo-1', $grupos, null, array('onchange' => 'updateTratamientos(1, this.selectedIndex)')) }}
-            {{ Form::label('tratamiento-1', 'Tratamiento:') }}
-            {{ Form::select('tratamiento-1', array($tratamientos[0]), null,
-                                            array('id' => 's_tratamiento-1',
-                                                'onchange' => 'updatePrecios(1, this.selectedIndex)'))}}
+        <div id='tratamientos'>
         </div>
         <br/>
         {{ HTML::link('#', 'Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
@@ -65,8 +59,9 @@
 
 <script type="text/javascript">
 
-var tratamientos = {{ json_encode($tratamientos) }}
-var lastIndex = 1
+var grupos = {{ json_encode($grupos) }}
+var tratamientos = {{ json_encode($atratamientos) }}
+var lastIndex = 0
 
 function updateTratamientos(id, index) {
     console.log('updateTratamientos ' + id + ' ' + index)
@@ -83,29 +78,40 @@ function updateTratamientos(id, index) {
     }
 }
 
-function addTratamiento() {
+function addTratamiento(gid, tid) {
     lastIndex++
     console.log('addTratamiento... ' + lastIndex)
 
-    div = $("div[id^=tratamientos]:last")
-    div2 = div.clone()
-    div2[0].id = 'tratamientos-' + lastIndex
+    grupo = "grupo-" + lastIndex
+    trat = "tratamiento-" + lastIndex
 
-    div2.children('label').attr('for',
-        function(index, old) { return old.replace(/\d+/, lastIndex); }
-    );
-    div2.children('select').attr('name',
-        function(index, old) { return old.replace(/\d+/, lastIndex); }
-    );
-    div2.children('select').attr('id',
-        function(index, old) { return old.replace(/\d+/, lastIndex); }
-    );
-    div2.insertAfter(div)
+    label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
+    select1 = $('<select>').attr({onchange: "updateTratamientos(" + lastIndex + ", this.selectedIndex)", id: grupo, name: grupo})
+    label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
+    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + trat, name: trat})
 
-    $('#grupo-' + lastIndex)[0].setAttribute("onchange", 'updateTratamientos(' + lastIndex + ', this.selectedIndex)');
-    $('#s_tratamiento-' + lastIndex)[0].setAttribute("onchange", 'updatePrecio(' + lastIndex + ', this.selectedIndex)');
+    for(var i = 0; i < grupos.length; i++) {
+        select1.append(new Option(grupos[i], i))
+    }
+    select2.append(new Option(tratamientos[0], 0))
+    for(var i = 0; i < tratamientos.length; i++) {
+        select2.append(new Option(tratamientos[1][i]['nombre'], tratamientos[1][i]['id']))
+    }
+
+    nuevodiv = $("<div>").attr({id: trat})
+    nuevodiv.append(label1)
+    nuevodiv.append(select1)
+    nuevodiv.append(label2)
+    nuevodiv.append(select2)
+
+    div = $("#tratamientos")
+    div.append(nuevodiv)
 
     $('input[name="num_tratamientos"]').val(lastIndex)
+
+    if (gid) select1.val(gid)
+    if (tid) select2.val(tid)
+
     return false
 }
 
@@ -119,6 +125,18 @@ function updatePrecios(id, index) {
 }
 
 $(document).ready(function() {
+
+<?php if (empty($tratamientos)) { ?>
+    addTratamiento()
+
+<?php } else { ?>
+    @foreach($tratamientos as $t)
+    // TODO: No se guarda el grupo
+    // addTratamiento({{$t->grupo}}, {{$t->trat}})
+    addTratamiento(1, {{$t->pivot->tratamiento_id}})
+
+    @endforeach
+<?php } ?>
 
 });
 
