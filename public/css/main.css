@@ -327,6 +327,26 @@ tr:first-child td:last-child{
 	padding-top: 10px;
 }
 
+/* registro */
+.labelreg{
+	width: 120px;
+	height: 100%;
+	display: block;
+	float: left;
+}
+.labelreg li{
+	line-height: 24px;
+}
+.labelreg2{
+	width: 180px;
+	height: 100%;
+	display: block;
+	float: right;
+}
+.labelreg2 li{
+	line-height: 24px;
+}
+
 /* footer */
 footer{
 	padding-top: 20px;

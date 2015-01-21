@@ -10,19 +10,22 @@
         @endforeach
     </ul>
  
-
-     {{ Form::label('firstname', 'Nombre') }}
-     {{ Form::text('firstname', null, array('class'=>'input-block-level', 'placeholder'=>'First Name')) }}<br>
-     {{ Form::label('lastname', 'Apellidos') }}
-    {{ Form::text('lastname', null, array('class'=>'input-block-level', 'placeholder'=>'Last Name')) }}<br>
-     {{ Form::label('email', 'Correo electrónico') }}
-    {{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}<br>
-     {{ Form::label('password', 'Contraseña') }}
-    {{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}<br>
-     {{ Form::label('password_confirmation', 'Repita la contraseña') }}
-    {{ Form::password('password_confirmation', array('class'=>'input-block-level', 'placeholder'=>'Confirm Password')) }}<br>
- 
-    {{ Form::submit('Registrar usuario', array('class'=>'btn btn-large btn-primary btn-block'))}}
+	<ul class="labelreg">
+	 <li>{{ Form::label ('firstname', 'Nombre') }}</li>
+     <li>{{ Form::label('lastname', 'Apellidos') }}</li>
+     <li>{{ Form::label('email', 'Correo electrónico') }}</li>
+     <li>{{ Form::label('password', 'Contraseña') }}</li>
+     <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
+  	</ul>
+	 
+	<ul class="labelreg2"> 
+     <li>{{ Form::text('firstname', null, array('class'=>'input-block-level', 'placeholder'=>'First Name')) }}  </li>   
+     <li>{{ Form::text('lastname', null, array('class'=>'input-block-level', 'placeholder'=>'Last Name')) }} </li>
+     <li>{{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}   </li>  
+     <li>{{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}   </li>
+     <li>{{ Form::password('password_confirmation', array('class'=>'input-block-level', 'placeholder'=>'Confirm Password')) }}</li>
+	<li>{{ Form::submit('Registrar usuario', array('class'=>'botonl'))}}</li>
+    </ul>
 
 {{ Form::close() }}
 @stop
