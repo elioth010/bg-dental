@@ -8,7 +8,8 @@
 		"twitter/bootstrap": "*",
 		"fzaninotto/faker": "1.5.*@dev",
 		"mnshankar/CSV": "dev-master",
-                "doctrine/dbal": "2.6.*@dev"
+                "doctrine/dbal": "2.6.*@dev",
+                 "makzumi/calendar": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

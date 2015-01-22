@@ -66,6 +66,13 @@ Route::resource('profesional', 'ProfesionalController');
 
 Route::resource('especialidad', 'EspecialidadController');
 
+//Rutas guardias
+
+Route::resource('guardia', 'Guardiacontroller');
+
+//Rutas turnos
+
+Route::resource ('turno', 'TurnoController');
 //rutas para llenar db de datos:
 
 //creando compañías:
