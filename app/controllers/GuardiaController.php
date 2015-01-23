@@ -10,21 +10,22 @@ class GuardiaController extends \BaseController {
 	public function index()
 	{
             $events = array(
-                "2014-04-09 10:30:00" => array(
+                "2015-01-01 10:30:00" => array(
                     "Event 1",
-                    "Event 2 <strong> with html</stong>",
+                    "Event 2 <strong> with html</strong>",
                 ),
-                "2014-04-12 14:12:23" => array(
+                "2015-01-12 14:12:23" => array(
                     "Event 3",
                 ),
-                "2014-05-14 08:00:00" => array(
+                "2015-01-14 08:00:00" => array(
                     "Event 4",
                 ),
             );
-             //$cal = Calendar::make();
-             //echo $cal->generate();
+             $cal = Calendar::make();
+             //$cal->setEvents($events);
+             //$cal->setDayLabels(array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'));
+             echo $cal->generate();
             
-            echo "Hola";
     }
 
 

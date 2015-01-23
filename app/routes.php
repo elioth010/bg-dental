@@ -68,7 +68,7 @@ Route::resource('especialidad', 'EspecialidadController');
 
 //Rutas guardias
 
-Route::resource('guardia', 'Guardiacontroller');
+Route::resource('guardia', 'GuardiaController');
 
 //Rutas turnos
 
