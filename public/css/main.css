@@ -269,11 +269,11 @@ tr:last-child td:last-child{
 	border-width:0px 0px 0px 0px;
 }
 tr:first-child td{
-		background:-o-linear-gradient(bottom, #0000ff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0000ff), color-stop(1, #007fff) );
-	background:-moz-linear-gradient( center top, #0000ff 5%, #007fff 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0000ff", endColorstr="#007fff");	background: -o-linear-gradient(top,#0000ff,007fff);
+	/*	background:-o-linear-gradient(bottom, #1271b3 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #1271b3), color-stop(1, #007fff) );
+	background:-moz-linear-gradient( center top, #1271b3 5%, #007fff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#1271b3", endColorstr="#007fff");	background: -o-linear-gradient(top,#1271b3,#007fff);*/
 
-	background-color:#0000ff;
+	background-color:#1271b3;
 	border:0px solid #b2b2b2;
 	text-align:center;
 	border-width:0px 0px 1px 1px;
@@ -283,11 +283,11 @@ tr:first-child td{
 	color:#ffffff;
 }
 tr:first-child:hover td{
-	background:-o-linear-gradient(bottom, #0000ff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0000ff), color-stop(1, #007fff) );
+	/*background:-o-linear-gradient(bottom, #0000ff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #0000ff), color-stop(1, #007fff) );
 	background:-moz-linear-gradient( center top, #0000ff 5%, #007fff 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0000ff", endColorstr="#007fff");	background: -o-linear-gradient(top,#0000ff,007fff);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#0000ff", endColorstr="#007fff");	background: -o-linear-gradient(top,#0000ff,007fff);*/
 
-	background-color:#0000ff;
+	background-color:#66a3e5;
 }
 tr:first-child td:first-child{
 	border-width:0px 0px 1px 0px;
@@ -346,6 +346,37 @@ tr:first-child td:last-child{
 .labelreg2 li{
 	line-height: 24px;
 }
+
+.labelreg3{
+	width: 350px;
+	height: 100%;
+	display: block;
+	float: left;
+}
+.labelreg3 li{
+	line-height: 24px;
+}
+
+.labelreg3 a{
+	text-decoration: none;
+	color:#1271b3;
+}
+.labelreg3 a:hover{
+	text-decoration: none;
+	color:#66a3e5;
+}
+.labelreg4{
+	width: 80px;
+	height: 100%;
+	display: block;
+	float: left;
+	margin-left: 100px;
+}
+.labelreg4 li{
+	line-height: 24px;
+}
+
+
 
 /* footer */
 footer{
