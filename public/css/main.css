@@ -96,7 +96,7 @@ body {
 .container{
 	max-height: 500px;
 	min-height: 450px;
-	overflow: scroll;
+	overflow: hidden;
 	padding-bottom: 15px;
 	border-top: 2px solid #1271b3;
 }
@@ -295,17 +295,17 @@ tr:first-child td:first-child{
 tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
 }
-
+/* tablero division */
 .tbl_izq{
 	float: left;
 	min-width: 300px;
 }
 .tbl_drc{
-	float: right;
+	float: left;
 	display: block;
 	max-height: 470px;
 	overflow: scroll;
-	margin-right: 50px;
+	margin-left: 50px;
 }
 /* botones login */
 .botonl{
@@ -375,8 +375,6 @@ tr:first-child td:last-child{
 .labelreg4 li{
 	line-height: 24px;
 }
-
-
 
 /* footer */
 footer{
