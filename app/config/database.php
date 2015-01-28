@@ -85,6 +85,16 @@ return array(
 			'prefix'    => '',
 		),
 		
+            'beta_bg_dental' => array(
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'database'  => 'beta_bg_dental',
+			'username'  => 'testing',
+			'password'  => 'testing$$',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+		),
 		
 		
 		
