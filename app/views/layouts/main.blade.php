@@ -38,6 +38,7 @@
                             <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
                         </ul>
                     </li>
+                    <li>{{ HTML::link('users/logout', 'Salir') }}</li>
 
                   </ul> 
 			 </div> 
