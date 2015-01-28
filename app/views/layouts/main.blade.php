@@ -12,7 +12,7 @@
  </header>
 
                     @if(Auth::check())
-                    Logeado.
+                    
  <div id="menu">
 
                 <ul class="nav">
@@ -38,12 +38,13 @@
                             <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
                         </ul>
                     </li>
+                    <li>{{ HTML::link('users/logout', 'Salir') }}</li>
 
                   </ul> 
 			 </div> 
 			 
 			         @else
-                     <div id="menu">¡No estás dentro!
+                     <div id="menu">
                      <ul class="nav"><li>{{ HTML::link('users/login', 'Login') }}</li></ul>
                      @endif
 
