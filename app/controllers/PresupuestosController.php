@@ -7,11 +7,18 @@ class PresupuestosController extends \BaseController {
 		return $tratamientos;
 	}
 
-	public function verPresupuesto($id)
+	public function verPresupuesto($paciente, $id)
 	{
-		//Creo que debería sacar tres variables:
-		//presupuesto, tratamientos del presu y precios de los tratamientos en vez de 
-		//de usar un query para todo.
+		$presupuesto = Presupuestos::find($id);
+		//$tratamientos = PresupuestoTratamiento::where('presupuesto_id', $id)->get();
+		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
+/*
+		$tratamientos = $presupuesto->tratamientos()->select('*')
+									->join('presupuestos_tratamientos', 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
+									->get();
+*/
+
+		/*
 		$presupuesto = Presupuestos::where('presupuesto_id',$id)
 			->leftJoin('users', 'users.id', '=', 'user_id')
 			->leftJoin('presupuestos_tratamientos', 'presupuestos_tratamientos.presupuesto_id', '=', 'presupuestos.id')
@@ -27,7 +34,10 @@ class PresupuestosController extends \BaseController {
 				'companias.nombre as nombre_comp',
 				'users.firstname as nombre_u')
 			->get();
-		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto));
+		*/
+		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
+																	 'tratamientos' => $tratamientos,
+																	 'paciente' => $paciente));
 	}
 
 
@@ -59,27 +69,71 @@ class PresupuestosController extends \BaseController {
 		ksort($grupos);
 
 		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id', 'precio_base')->get();
-		$tratamientos = array();
+		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
 			//var_dump($t);
-			$tratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
+			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
 		}
 
-		$tratamientos[0] = '-- Elija primero un grupo de tratamientos --';
+		$atratamientos[0] = '-- Elija primero un grupo de tratamientos --';
 
 		foreach (array_keys($grupos) as $key) {
-			if (!array_key_exists($key, $tratamientos)) {
-				$tratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+			if (!array_key_exists($key, $atratamientos)) {
+				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
 			}
 		}
-		ksort($tratamientos);
+		ksort($atratamientos);
+
+		$presupuesto = new Presupuestos;
 
 		return View::make('presupuestos.crearpresupuesto')
 							->with(array('grupos' => $grupos,
 										'paciente' => $paciente,
-										'tratamientos' => $tratamientos));
+										'atratamientos' => $atratamientos,
+										'tratamientos' => array(),
+										'presupuesto' => $presupuesto));
 	}
 
+
+	/**
+	* Usa la misma plantilla de crear presupuesto para editarlo
+	*
+	* @return Response
+	*/
+	public function editarPresupuesto($numerohistoria, $presupuesto)
+	{
+		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)->firstOrFail();
+		$paciente = $presupuesto->paciente;
+
+		$grupos = Grupos::lists('nombre', 'id');
+		$grupos[0] = '-- Elija un grupo --';
+		ksort($grupos);
+
+		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id', 'precio_base')->get();
+		$atratamientos = array();
+		foreach ($tratamientosAll as $t) {
+			//var_dump($t);
+			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
+		}
+
+		$atratamientos[0] = '-- Elija primero un grupo de tratamientos --';
+
+		foreach (array_keys($grupos) as $key) {
+			if (!array_key_exists($key, $atratamientos)) {
+				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+			}
+		}
+		ksort($atratamientos);
+
+		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
+
+		return View::make('presupuestos.crearpresupuesto')
+							->with(array('grupos' => $grupos,
+										'paciente' => $paciente,
+										'atratamientos' => $atratamientos,
+										'tratamientos' => $tratamientos,
+										'presupuesto' => $presupuesto));
+	}
 
 	/**
 	 * Store a newly created resource in storage.

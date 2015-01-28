@@ -122,6 +122,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'mnshankar\CSV\CSVServiceProvider',
+                'Makzumi\Calendar\CalendarServiceProvider',
 
 	),
 

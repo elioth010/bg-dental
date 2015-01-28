@@ -9,7 +9,7 @@
     {{ Form::text('precio_base', null, array('placeholder'=>'euros')) }}
     General? {{ Form::checkbox('tipostratamientos_id') }}
     {{Form::hidden('activo', '1')}}
-    {{ Form::submit('Guardar')}}
+    {{ Form::submit('Guardar', array('class'=>'botonl'))}}
 
 {{ Form::close() }}
 @stop

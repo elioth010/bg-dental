@@ -7,7 +7,7 @@
     {{ Form::text('nombre', null, array('placeholder'=>'Texto a buscar o NHC')) }}
     
    <!-- {{ Form::text('apellido2', null, array('placeholder'=>'Segundo apellido')) }}-->
-    {{ Form::submit('Buscar')}}
+    {{ Form::submit('Buscar', array('class'=>'botonl'))}}
 {{ Form::close() }}
 @stop
  

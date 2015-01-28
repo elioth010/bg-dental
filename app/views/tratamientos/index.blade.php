@@ -1,8 +1,8 @@
 @extends('layouts.main')
  
 @section('contenido')
-
-  {{ HTML::link('/tratamientos/buscar', 'Buscar tratamientos')}}<p>
+	<div class="search">
+  {{ HTML::link('/tratamientos/buscar', 'Buscar tratamientos')}}</div>
   <h1>
   Tratamientos
   </h1>
@@ -16,7 +16,7 @@
           @endforeach
       </tr>
       @foreach($tcp_contenido as $tcp_contenido)
-          <tr>
+          <tr title="{{$tcp_contenido->nombre_trat}}">
 
           <td>{{$tcp_contenido->codigo}}</td>
           <td>{{ HTML::link('/tratamientos/editar/'.$tcp_contenido->id, $tcp_contenido->nombre_trat)}}</td>

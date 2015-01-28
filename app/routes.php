@@ -4,10 +4,11 @@
 // 	return View::make('hello');
 // });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
-/*Event::listen('illuminate.query', function($query)
+Event::listen('illuminate.query', function($query)
 {
     var_dump($query);
-});*/
+});
+
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 
@@ -18,7 +19,7 @@ Route::get('pacientes', 'PacientesController@index');
 Route::get('pacientes/buscar', 'PacientesController@show');
 Route::post('pacientes/busqueda', 'PacientesController@busqueda');
 Route::get('populate', 'PopulateController@populate');
-Route::get('pacientes/verficha-{numerohistoria}', 'PacientesController@verficha');
+Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
 Route::get('pacientes/crear', 'PacientesController@crear');
 Route::post('pacientes/guardar', 'PacientesController@store');
 Route::post('pacientes/{numerohistoria}/editarficha', 'PacientesController@editarficha');
@@ -49,12 +50,13 @@ Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
 //Rutas presupuestos:
 
 Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@verpresupuestos');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
+Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
 Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
 Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@findTratamientos');
-Route::get('presupuestos/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 
 //Rutas Profesionales:
 
@@ -64,29 +66,81 @@ Route::resource('profesional', 'ProfesionalController');
 
 Route::resource('especialidad', 'EspecialidadController');
 
+//Rutas guardias
+
+Route::resource('guardia', 'GuardiaController');
+
+//Rutas turnos
+
+Route::resource ('turno', 'TurnoController');
 //rutas para llenar db de datos:
 
 //creando compañías:
 Route::get('crearcompanias', function() {
-    $archivo = fopen(storage_path().'/companias_p.csv', 'r');
+    $archivo = fopen(storage_path().'/companias.csv', 'r');
     while (( $comps = fgetcsv($archivo, 2500, ',')) !== FALSE)
       {
         $compas = new Companias;
         $compas = $comps[0];
-        $siexiste = Companias::where('nombre','LIKE', '%'.$compas.'%')->get();
-        echo $siexiste;
-        if($siexiste == ''){
-//	$comps_codes = substr(strtolower($comps),0,10);
-//	$compania = new Companias;
-//	$compania->nombre = $comps;
-//	$compania->codigo = $comps_codes;
-//	$compania->save();
-	//echo "baf-".$compas."<br>";
-        } else { 
-            //echo "Compañía ".$compas." ya existe <br>";
+        $siexiste = Companias::where('nombre','LIKE', '%'.$compas.'%')->first();
+        if(empty($siexiste)){
+        echo "Crear compañía: ".$compas."<br>";
+	$compas_codes = substr(strtolower($compas),0,10);
+	echo $compas_codes."<br>";
+        $compania = new Companias;
+	$compania->nombre = $compas;
+	$compania->codigo = $compas_codes;
+	$compania->save();
+        } else {
+            echo "Compañía ".$compas." ya existe <br>";
         }
 }
+});
+Route::get('creartcps', function() {
+    $archivo = fopen(storage_path().'/tcps.csv', 'r');
+    while (( $tcps = fgetcsv($archivo, 2500, ';')) !== FALSE)
+      {
+        $tratamiento = new Tratamientos;
+        $cod_trat = $tcps[0];
+        $nombre_trat = $tcps[1];
+        $siexiste_tcp = Tratamientos::where('codigo',$cod_trat)->lists('id');
+        if(empty($siexiste_tcp)){
+        echo "Crear Tratamientos: ".$cod_trat."<br>";
+	$tratamiento->nombre = $nombre_trat;
+        $tratamiento->codigo = $cod_trat;
+        $tratamiento->activo = 1;
+        $tratamiento->save();
+        } else {
+        echo "Tratamiento ".$cod_trat." ya existe <br>";
+        }
+}
+});
 
+Route::get('asignarprecios', function() {
+    $archivo = fopen(storage_path().'/tcps.csv', 'r');
+    while (( $tcps = fgetcsv($archivo, 1000, ';')) !== FALSE)
+      {
+        $cod_trat = $tcps[0];
+        $comp = $tcps[4];
+        
+        $id_comp = Companias::where('nombre','LIKE', '%'.$comp.'%')->lists('id');
+        $id_comp = $id_comp[0];
+//        echo $id_comp[0]."<br>";
+        
+        $precio = $tcps[2];
+        
+        $id_tratamiento = Tratamientos::where('codigo',$cod_trat)->first();
+        $siexiste = Precios::where('tratamientos_id', $id_tratamiento->id)->where('companias_id', $id_comp)->lists('id');
+        if(empty($siexiste)){
+        
+        Tratamientos::find($id_tratamiento->id)->companias()->attach($id_comp, array('precio' => $precio));
+        //echo "Añadido tratamiento ".$id_tratamiento->nombre." a compañía ".$id_comp." precio: ".$precio."<br>";
+        //$tratamiento->companias()->attach($id_comp, array('precio' => $precio));
+        }
+       else {
+           echo "Precio para esta compañía y tratamientos ya existe";
+       }
+    }
 });
 Route::get('crearpresu', function() {
 	$presupuesto = new Presupuestos;
