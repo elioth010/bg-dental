@@ -96,7 +96,7 @@ body {
 .container{
 	max-height: 500px;
 	min-height: 450px;
-	overflow: hidden;
+	overflow: auto;
 	padding-bottom: 15px;
 	border-top: 2px solid #1271b3;
 }
