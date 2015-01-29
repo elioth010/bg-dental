@@ -23,7 +23,7 @@ class GuardiaController extends \BaseController {
             );
              $cal = Calendar::make();
              //$cal->setEvents($events);
-             $cal->setDayLabels(array('L', 'M', 'X', 'J', 'V', 'S', 'D'));
+             $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
              $cal->setStartWeek('L');
              $cal->setBasePath('/guardia'); // Base path for navigation URLs
              $cal->setDate(Input::get('cdate')); //Set starting date
