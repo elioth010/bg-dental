@@ -1,5 +1,6 @@
 @extends('layouts.main')
  
 @section('contenido')
-{{ $calendario }}
+{{ Form::open(array('url'=>'guardias'))
+    
 @stop
