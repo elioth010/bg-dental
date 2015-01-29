@@ -15,7 +15,7 @@
      
         @foreach($paciente as $paciente)
         <tr>        
-        <td>{{ HTML::link('pacientes/'.$paciente->numerohistoria, $paciente->numerohistoria); }}
+        <td>{{ HTML::link('pacientes/ver/'.$paciente->numerohistoria, $paciente->numerohistoria); }}
         </td>
         <td>{{$paciente->nombre}}</td>
         <td>{{$paciente->apellido1." ".$paciente->apellido2}}</td>

@@ -13,7 +13,7 @@ crear.blade.php
 {{ Form::open(array('url'=>'pacientes/guardar')) }}     
     <h1>Datos del nuevo paciente</h1>
     NHC:
-    {{ Form::text('numerohistoria', 'automático') }}
+    {{ Form::text('numerohistoria') }}
     Nombre:
     {{ Form::text('nombre') }}
     Apellidos:
