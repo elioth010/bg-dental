@@ -101,6 +101,16 @@ body {
 	border-top: 2px solid #1271b3;
 }
 
+.container a{
+	text-decoration: none;
+	color:#1271b3;
+	font-weight: bold;
+}
+.container a:hover{
+	text-decoration: none;
+	color:#66a3e5;
+	font-weight: bold;
+}
 .top{
 	padding-top: 30px;}
 
@@ -376,6 +386,48 @@ tr:first-child td:last-child{
 	line-height: 24px;
 }
 
+/* Calendario */
+.table_cal{
+	margin: 5px auto;
+	width: 960px;
+	height: 415px;
+	border: 1px solid #888;
+}
+.table_cal td{
+	width: 14%;
+}
+.table_cal a{
+	color: #fff;
+	font-size: 16px;
+}
+.table_cal a:hover{
+	color: #66a3e5;
+	font-weight: bold;
+	font-size: 16px;
+}
+.table_cal tr:first-child td{
+	background-color:#1271b3;
+	border:0px solid #fff;
+	text-align:center;
+	border-width:1px 0px 1px 1px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#ffffff;
+}
+.table_cal .date{
+	height: 64px;
+	width: 100%;
+	margin: 0;
+}
+.table_cal .cal_day{
+	height: 10px;
+	width: 100%;
+}
+.table_cal p{
+	text-align: center;
+	padding-top: 10px;
+	overflow: auto;}
 /* footer */
 footer{
 	padding-top: 20px;
