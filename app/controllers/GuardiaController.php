@@ -2,17 +2,11 @@
 
 class GuardiaController extends \BaseController {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index()
 	{
             $events = array(
                 "2015-01-01 10:30:00" => array(
                     "Dr. Urbano",
-                    
                 ),
                 "2015-01-12 14:12:23" => array(
                     "Dra. Rocío",
@@ -57,11 +51,8 @@ class GuardiaController extends \BaseController {
              
             
     }
-
-
-	// Añadir guardias
-    
-	public function create()
+        
+        public function create()
 	{
             $profesionales = Profesional::lists('id', 'nombre', 'apellido');
 //            $events = array(); 
@@ -77,64 +68,32 @@ class GuardiaController extends \BaseController {
 //             $cal->setTableClass('table_cal'); //Set the table's class name
 //             $calendario = $cal->generate();
             //->with('calendario' , $calendario)
-             return View::make('agenda.crear')->with('profesionales', $profesionales);
+             return View::make('agenda.crear_guardias')->with('profesionales', $profesionales);
              
 	}
 
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
 	public function store()
 	{
 		//
 	}
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function show($id)
 	{
 		//
 	}
 
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function edit($id)
 	{
 		//
 	}
 
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function update($id)
 	{
 		//
 	}
 
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function destroy($id)
 	{
 		//
