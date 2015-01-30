@@ -11,26 +11,26 @@ class GuardiaController extends \BaseController {
 	{
             $events = array(
                 "2015-01-01 10:30:00" => array(
-                    "Event 1",
-                    "Event 2 <strong> with html</strong>",
+                    "Dr. Urbano",
+                    
                 ),
                 "2015-01-12 14:12:23" => array(
-                    "Event 3",
+                    "Dra. Rocío",
                 ),
                 "2015-01-14 08:00:00" => array(
-                    "Event 4",
+                    "Dr. Rodriguez de Moya",
                 ),
             );
              $cal = Calendar::make();
              //$cal->setEvents($events);
-             $cal->setDayLabels(array('L', 'M', 'X', 'J', 'V', 'S', 'D'));
+             $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
              $cal->setStartWeek('L');
              $cal->setBasePath('/guardia'); // Base path for navigation URLs
              $cal->setDate(Input::get('cdate')); //Set starting date
              $cal->showNav(true); // Show or hide navigation
              $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
              $cal->setEvents($events); // Receives the events array
-             $cal->setTableClass('table'); //Set the table's class name
+             $cal->setTableClass('table_cal'); //Set the table's class name
              /**
                 
                 
@@ -52,20 +52,33 @@ class GuardiaController extends \BaseController {
                 
               **/
              $calendario = $cal->generate();
+             //echo $calendario;
              return View::make('agenda.guardias')->with('calendario' , $calendario);
              
             
     }
 
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
+	// Añadir guardias
+    
 	public function create()
 	{
-		//
+            $profesionales = Profesional::lists('id', 'nombre', 'apellido');
+//            $events = array(); 
+//            $cal = Calendar::make();
+//             //$cal->setEvents($events);
+//             $cal->setDayLabels(array('L', 'M', 'X', 'J', 'V', 'S', 'D'));
+//             $cal->setStartWeek('L');
+//             $cal->setBasePath('/guardia'); // Base path for navigation URLs
+//             $cal->setDate(Input::get('cdate')); //Set starting date
+//             $cal->showNav(true); // Show or hide navigation
+//             $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+//             $cal->setEvents($events); // Receives the events array
+//             $cal->setTableClass('table_cal'); //Set the table's class name
+//             $calendario = $cal->generate();
+            //->with('calendario' , $calendario)
+             return View::make('agenda.crear')->with('profesionales', $profesionales);
+             
 	}
 
 
