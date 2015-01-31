@@ -102,7 +102,8 @@ class PresupuestosController extends \BaseController {
 	*/
 	public function editarPresupuesto($numerohistoria, $presupuesto)
 	{
-		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)->firstOrFail();
+		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
+									->where('aceptado', 0)->firstOrFail();
 		$paciente = $presupuesto->paciente;
 
 		$grupos = Grupos::lists('nombre', 'id');
@@ -133,6 +134,15 @@ class PresupuestosController extends \BaseController {
 										'atratamientos' => $atratamientos,
 										'tratamientos' => $tratamientos,
 										'presupuesto' => $presupuesto));
+	}
+
+	public function aceptarPresupuesto($numerohistoria, $presupuesto) {
+		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
+									->where('aceptado', 0)->firstOrFail();
+		$presupuesto->aceptado = 1;
+		$presupuesto->save();
+		return Redirect::action('PresupuestosController@verpresupuestos', array($numerohistoria))
+						->with('message', '¡Presupuesto aceptado!');;
 	}
 
 	/**

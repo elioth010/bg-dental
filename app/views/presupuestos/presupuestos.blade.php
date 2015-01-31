@@ -48,11 +48,16 @@
     <td>{{$presupuesto->descuentototal}}</td>
     <td>{{$presupuesto->nombre_u}}</td>
     <td>{{$presupuesto->profesional}}</td>
-    <td>{{$presupuesto->aceptado}}</td>
+    <td><?php if ($presupuesto->aceptado) echo 'Sí'; else echo 'No'; ?></td>
     <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', 'Ver',
-                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }} |
-                {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
-                            array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}</td>
+                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}
+        <?php if (!$presupuesto->aceptado) { ?>
+        | {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
+                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}
+        | {{ HTML::linkAction('PresupuestosController@aceptarPresupuesto', 'Aceptar',
+                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}
+        <?php } ?>
+                </td>
   </tr>
   @endforeach
 </table>

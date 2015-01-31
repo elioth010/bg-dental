@@ -53,6 +53,7 @@ Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@ve
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto}/aceptar', 'PresupuestosController@aceptarPresupuesto');
 Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
