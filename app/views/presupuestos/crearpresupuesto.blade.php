@@ -29,7 +29,10 @@
     {{ Form::text('nombre', $presupuesto->nombre) }}
     {{ Form::label('descuento', 'Descuento:') }}
     {{ Form::text('descuento') }}
-
+    {{ Form::select('tdescuento', array('E' => 'EUR', 'P' => '%'), 'E') }}
+    <br>
+    {{ Form::label('profesional', 'Profesional:') }}
+    {{ Form::select('tprofesional', $profesionales) }}
     <div>
         <h2>Tratamientos</h2>
         <div id='tratamientos'>

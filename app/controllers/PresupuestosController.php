@@ -85,13 +85,17 @@ class PresupuestosController extends \BaseController {
 		ksort($atratamientos);
 
 		$presupuesto = new Presupuestos;
+		//$profesionales = Profesional::lists('nombre', 'id');
+		$profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre", 'id'))->get();
+		$profesionales = $profesionales->toArray()[0];
 
 		return View::make('presupuestos.crearpresupuesto')
 							->with(array('grupos' => $grupos,
 										'paciente' => $paciente,
 										'atratamientos' => $atratamientos,
 										'tratamientos' => array(),
-										'presupuesto' => $presupuesto));
+										'presupuesto' => $presupuesto,
+										'profesionales' => $profesionales));
 	}
 
 
