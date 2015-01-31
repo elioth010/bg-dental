@@ -41,6 +41,7 @@
         {{ HTML::link('#', 'Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
     </div>
 
+    <!--
     <div id="piezasdiv">
         <h2>Piezas</h2>
         {{ Form::label('pieza1', 'Desde la pieza:') }}
@@ -48,6 +49,8 @@
         {{ Form::label('pieza2', 'Hasta la pieza:') }}
         {{ Form::text('pieza2') }}
     </div>
+-->
+
     <div>
         <h2>Precio</h2>
         <p>Subtotal: <span id="p_subtotal">0.00</span></p>

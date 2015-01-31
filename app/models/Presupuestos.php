@@ -3,7 +3,7 @@
 class Presupuestos extends Eloquent {
 
     protected $table = 'presupuestos';
-    protected $fillable = array('nombre','aceptado','numerohistoria');
+    protected $fillable = array('nombre','aceptado','numerohistoria', 'user_id', 'profesional_id');
 
     public function tratamientos() {
         return $this->belongsToMany('Tratamientos', 'presupuestos_tratamientos', 'presupuesto_id', 'tratamiento_id');
@@ -19,4 +19,13 @@ class Presupuestos extends Eloquent {
         }
         return parent::newPivot($parent, $attributes, $table, $exists);
     }
+
+    public static $p_rules = array(
+        'nombre'=>'required|alpha_dash|min:2',
+        'descuento'=>'required|numeric',
+//        'grupo'=>'required|numeric|valor de grupo existente',
+//        'tratamiento'=>'required|numeric|valor de tratamiento existente',
+//        'piezas'=>'...',
+    );
+
 }
