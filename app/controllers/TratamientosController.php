@@ -114,18 +114,23 @@ class TratamientosController extends \BaseController {
 	public function edit($id)
 	{
 		$tratamiento = Tratamientos::where('id', $id)->first();
+                $grupos = Grupos::lists('nombre','id');
 		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 			->leftJoin('companias', 'companias.id','=','companias_id')
 			->select('companias.nombre as nombre_comp', 'companias.id', 'precio')
 			->where('tratamientos.id' , $tratamiento->id)
 			->get();
-		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios);
+		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios)->with('grupos', $grupos);
 	}
 
 	public function editar_t($id){
-		$guardar_t = Input::all();
-		var_dump($guardar_t);
-		$nombre = $guardar_t;
+                $i = 0;
+                for($i;$i<=0;$i++){
+                $input = Input::get('precio-'.$i);
+                //unset($input['_token']);    
+		//$guardar_t = Tratamientos::firstOrCreate($input);
+                var_dump($input);}
+		//  $nombre = $guardar_t;
 
 
 	}
