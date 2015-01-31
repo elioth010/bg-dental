@@ -1,6 +1,15 @@
 <?php
 
 class GuardiaController extends \BaseController {
+    
+    
+    
+
+//    echo "<pre>";
+//
+//    print_r(dates_month(2,2012)); 
+//
+//    echo"</pre>"; 
 
 	public function index()
 	{
@@ -15,6 +24,7 @@ class GuardiaController extends \BaseController {
                     "Dr. Rodriguez de Moya",
                 ),
             );
+//            var_dump($events);
              $cal = Calendar::make();
              //$cal->setEvents($events);
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
@@ -25,28 +35,7 @@ class GuardiaController extends \BaseController {
              $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
              $cal->setEvents($events); // Receives the events array
              $cal->setTableClass('table_cal'); //Set the table's class name
-             /**
-                
-                
-                
-                $cal->setView(Input::get('cv')); //'day' or 'week' or null
-                $cal->setStartEndHours(8,20); // Set the hour range for day and week view
-                $cal->setTimeClass('ctime'); //Class Name for times column on day and week views
-                $cal->setEventsWrap(array('<p>', '</p>')); // Set the event's content wrapper
-                $cal->setDayWrap(array('<div>','</div>')); //Set the day's number wrapper
-                $cal->setNextIcon('>>'); //Can also be html: <i class='fa fa-chevron-right'></i>
-                $cal->setPrevIcon('<<'); // Same as above
-                $cal->setDayLabels(array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat')); //Label names for week days
-
-                $cal->setDateWrap(array('<div>','</div>')); //Set cell inner content wrapper
-                
-                $cal->setHeadClass('table-header'); //Set top header's class name
-                $cal->setNextClass('btn'); // Set next btn class name
-                $cal->setPrevClass('btn'); // Set Prev btn class name
-                
-              **/
              $calendario = $cal->generate();
-             //echo $calendario;
              return View::make('agenda.guardias')->with('calendario' , $calendario);
              
             
@@ -54,27 +43,43 @@ class GuardiaController extends \BaseController {
         
         public function create()
 	{
-            $profesionales = Profesional::lists('id', 'nombre', 'apellido');
-//            $events = array(); 
-//            $cal = Calendar::make();
-//             //$cal->setEvents($events);
-//             $cal->setDayLabels(array('L', 'M', 'X', 'J', 'V', 'S', 'D'));
-//             $cal->setStartWeek('L');
-//             $cal->setBasePath('/guardia'); // Base path for navigation URLs
-//             $cal->setDate(Input::get('cdate')); //Set starting date
-//             $cal->showNav(true); // Show or hide navigation
-//             $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-//             $cal->setEvents($events); // Receives the events array
-//             $cal->setTableClass('table_cal'); //Set the table's class name
-//             $calendario = $cal->generate();
-            //->with('calendario' , $calendario)
-             return View::make('agenda.crear_guardias')->with('profesionales', $profesionales);
+            $profesionales = Profesional::get();
+            
+                $select_prof = "<select>";
+                    foreach($profesionales as $profesionales){
+                    $select_prof .= "<option name = 'id' value =".$profesionales->id.">".$profesionales->nombre." ".$profesionales->apellido1." ".$profesionales->apellido2."</option>";
+                    }
+                $select_prof .= "</select>";
+                $mes = 1;
+                $ano = 2015;
+              $numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
+              $i = 1;
+              $events = array();
+              $date;
+              for($i;$i<=$numero;$i++){
+                  $date_in = $ano."-".$mes."-".$i;
+                  $input = "<input  type = \"hidden\" name=\"dia\" value= ".$date_in.">";
+                  $events[$ano."-".$mes."-".$i] = array($input, $select_prof);
+              }
+             $cal = Calendar::make();
+             $cal->setEvents($events);
+             $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
+             $cal->setStartWeek('L');
+             $cal->setBasePath('/guardia'); // Base path for navigation URLs
+             $cal->setDate(Input::get('cdate')); //Set starting date
+             $cal->showNav(true); // Show or hide navigation
+             $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+             $cal->setEvents($events); // Receives the events array
+             $cal->setTableClass('table_cal'); //Set the table's class name
+             $calendario = $cal->generate();
+             return View::make('agenda.crear_guardias')->with('calendario', $calendario);
              
 	}
 
 	public function store()
 	{
-		//
+		$guardias = Input::all();
+                var_dump($guardias);
 	}
 
 	public function show($id)
