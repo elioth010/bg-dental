@@ -93,9 +93,14 @@ function addTratamiento(gid, tid) {
     for(var i = 0; i < grupos.length; i++) {
         select1.append(new Option(grupos[i], i))
     }
-    select2.append(new Option(tratamientos[0], 0))
-    for(var i = 0; i < tratamientos.length; i++) {
-        select2.append(new Option(tratamientos[1][i]['nombre'], tratamientos[1][i]['id']))
+
+    if (tid == null) {
+        select2.append(new Option(tratamientos[0], 0))
+    } else {
+        for(var i = 0; i < tratamientos.length; i++) {
+            console.log('updateTratamientos ' + tratamientos[1][i]['nombre'] + ' ' + tratamientos[1][i]['id'])
+            select2.append(new Option(tratamientos[1][i]['nombre'], tratamientos[1][i]['id']))
+        }
     }
 
     nuevodiv = $("<div>").attr({id: trat})
