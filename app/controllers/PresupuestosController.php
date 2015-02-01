@@ -273,13 +273,14 @@ class PresupuestosController extends \BaseController {
 				$total += $t->precio_base;
 			}
 
-			if ($p->tipodescuento == 'E') {
-				$descuento = $p->descuento;
-				$descuentotext = $p->descuento . '€';
-			} else {
+			if ($p->tipodescuento == 'P') {
 				$descuento = $p->descuento * $total / 100;
 				$descuentotext = $p->descuento . '%';
+			} else {
+				$descuento = $p->descuento;
+				$descuentotext = $p->descuento . '€';
 			}
+
 			$p->importe_total = $total - $descuento;
 			$p->descuentototal = $descuentotext;
 			$p->profesional_n = $profesionales[$p->profesional_id];

@@ -56,7 +56,7 @@
     <div>
         <h2>Precio</h2>
         <p>Subtotal: <span id="p_subtotal"></span></p>
-        <p>Descuento: <span id="p_descuento"></span></p>
+        <p>Descuento total: <span id="p_descuento"></span></p>
         <p>Total: <span id="p_total"></span></p>
     </div>
     {{ Form::submit('Guardar cambios')}}
@@ -93,11 +93,27 @@ function addTratamiento(gid, tid) {
 
     grupo = "grupo-" + lastIndex
     trat = "tratamiento-" + lastIndex
+    lprecio = "precio-" + lastIndex
+    lpreciof = "preciof-" + lastIndex
+    ldescu = "descuento-" + lastIndex
+    tdescu = "tipodescuento-" + lastIndex
 
+    // Grupo de tratamientos
     label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
     select1 = $('<select>').attr({onchange: "updateTratamientos(" + lastIndex + ", this.selectedIndex)", id: grupo, name: grupo})
+
+    // Tratamiento
     label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
-    select2 = $('<select>').attr({onchange: "updatePrecios()", id: "s_" + trat, name: trat})
+    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + trat, name: trat})
+
+    // Descuento
+    label3 = $("<label>").attr({for: ldescu}).text('Descuento:')
+    input3 = $('<input>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: ldescu, name: ldescu,
+                                type: "text"})
+    select3 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + tdescu, name: tdescu})
+    select3.append(new Option('EUR', 'E'))
+    select3.append(new Option('%', 'P'))
+    // TODO: default value: 0
 
     for(var i = 0; i < grupos.length; i++) {
         select1.append(new Option(grupos[i], i))
@@ -117,6 +133,11 @@ function addTratamiento(gid, tid) {
     nuevodiv.append(select1)
     nuevodiv.append(label2)
     nuevodiv.append(select2)
+    nuevodiv.append('Precio base: <span id="' + lprecio + '">0.00</span><br>')
+    nuevodiv.append(label3)
+    nuevodiv.append(input3)
+    nuevodiv.append(select3)
+    nuevodiv.append('Precio final del tratamiento: <span id="' + lpreciof + '">0.00</span>')
 
     div = $("#tratamientos")
     div.append(nuevodiv)
@@ -129,29 +150,67 @@ function addTratamiento(gid, tid) {
     return false
 }
 
-function updatePrecios() {
-    console.log('updatePrecios')
+function updatePrecios(id, index) {
+    console.log('updatePrecios ' + id + ', ' + index)
+
+    if (id != null) {
+        p1 = $('#precio-' + id)[0]
+        p2 = $('#preciof-' + id)[0]
+        desc = $('#descuento-' + id)[0].value
+        tipodesc = $('#s_tipodescuento-' + id)[0].value
+
+        if (index != null) {
+            if (index == 0) {
+                p1.innerText = '0.00'
+                p2.innerText = '0.00'
+            } else {
+                g = $('#grupo-' + id)[0].value
+
+                if (tipodesc == 'P') {
+                    descuento = desc * tratamientos[g][index-1]['precio'] / 100
+                    preciofinal = tratamientos[g][index-1]['precio'] - descuento
+                } else {
+                    preciofinal = tratamientos[g][index-1]['precio'] - desc
+                }
+
+                p1.innerText = tratamientos[g][index-1]['precio']
+                p2.innerText = preciofinal
+            }
+        } else {
+            if (tipodesc == 'P') {
+                descuento = desc * p1.innerText / 100
+                preciofinal = p1.innerText - descuento
+            } else {
+                preciofinal = p1.innerText - desc
+            }
+
+            p2.innerText = preciofinal
+        }
+    }
+
 
     subtotal = 0
     for (i=1; i<=lastIndex; i++) {
-        g = $('#grupo-' + i)[0].value
-        t = $('#s_tratamiento-' + i)[0].selectedIndex
-        if (t != 0) subtotal += parseInt(tratamientos[g][t]['precio'])
+        //g = $('#grupo-' + i)[0].value
+        //t = $('#s_tratamiento-' + i)[0].selectedIndex
+        //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precio'])
+        subtotal += parseFloat($('#preciof-' + i)[0].innerText)
     }
 
     desc = $('#descuento')[0].value
     tdesc = $('#tipodescuento')[0].value
-    if (tdesc == 'E') {
-        descuento = desc
-        descuentotext = desc
-    } else {
+    if (tdesc == 'P') {
         descuento = desc * subtotal / 100
         descuentotext = descuento + ' (' + desc + '%)'
+    } else {
+        descuento = desc
+        descuentotext = desc
     }
     total = subtotal - descuento
     $('#p_subtotal')[0].innerText = subtotal
     $('#p_descuento')[0].innerText = descuentotext
     $('#p_total')[0].innerText = total
+
 }
 
 $(document).ready(function() {
