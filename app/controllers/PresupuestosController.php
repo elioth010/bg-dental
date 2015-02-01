@@ -136,12 +136,19 @@ class PresupuestosController extends \BaseController {
 
 		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
 
+		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
+		$profesionales = array();
+		foreach ($profesionales1 as $p){
+			$profesionales[$p->id] = $p->nombre;
+		}
+
 		return View::make('presupuestos.crearpresupuesto')
 							->with(array('grupos' => $grupos,
 										'paciente' => $paciente,
 										'atratamientos' => $atratamientos,
 										'tratamientos' => $tratamientos,
-										'presupuesto' => $presupuesto));
+										'presupuesto' => $presupuesto,
+										'profesionales' => $profesionales));
 	}
 
 	public function aceptarPresupuesto($numerohistoria, $presupuesto) {
@@ -193,7 +200,10 @@ class PresupuestosController extends \BaseController {
 			$presupuesto->user_id = Session::get('user_id');
 			$presupuesto->profesional_id = Input::get('tprofesional');
 			$presupuesto->numerohistoria = Input::get('numerohistoria');
+			$presupuesto->descuento = Input::get('descuento');
+			$presupuesto->tipodescuento = Input::get('tipodescuento');
 
+			//var_dump($presupuesto);return;
 			if ($presupuesto->save()) {
 				echo 'Guardado presupuesto con id ' . $presupuesto->id . '<br>';
 			}
@@ -215,10 +225,10 @@ class PresupuestosController extends \BaseController {
 			# TODO: unidades, piezas
 			# Campo tipostratamientos_id: ???
 		} else {
-			return Redirect::action('PresupuestosController@editarPresupuesto', array($presupuesto->numerohistoria))->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
+			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
 		}
 
-		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $presupuesto->numerohistoria))->with('message', 'Paciente creado con éxito.');
+		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Presupuesto creado con éxito.');
 	}
 
 
@@ -262,7 +272,16 @@ class PresupuestosController extends \BaseController {
 			foreach ($tratamientos as $t) {
 				$total += $t->precio_base;
 			}
-			$p->importe_total = $total;
+
+			if ($p->tipodescuento == 'E') {
+				$descuento = $p->descuento;
+				$descuentotext = $p->descuento . '€';
+			} else {
+				$descuento = $p->descuento * $total / 100;
+				$descuentotext = $p->descuento . '%';
+			}
+			$p->importe_total = $total - $descuento;
+			$p->descuentototal = $descuentotext;
 			$p->profesional_n = $profesionales[$p->profesional_id];
 			$p->user_n = $users[$p->user_id];
 		}

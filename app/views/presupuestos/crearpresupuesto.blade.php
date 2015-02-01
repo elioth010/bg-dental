@@ -27,9 +27,11 @@
     {{ Form::hidden('num_tratamientos', 1) }}
     {{ Form::label('nombre', 'Nombre del presupuesto:') }}
     {{ Form::text('nombre', $presupuesto->nombre) }}
-    {{ Form::label('descuento', 'Descuento:') }}
-    {{ Form::text('descuento') }}
-    {{ Form::select('tdescuento', array('E' => 'EUR', 'P' => '%'), 'E') }}
+    {{ Form::label('descuento', 'Descuento total:') }}
+    {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()')) }}
+    {{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
+                    $presupuesto->tipodescuento, array('id' => 'tipodescuento', 'onchange' => 'updatePrecios()')) }}
+
     <br>
     {{ Form::label('profesional', 'Profesional:') }}
     {{ Form::select('tprofesional', $profesionales) }}
@@ -53,9 +55,9 @@
 
     <div>
         <h2>Precio</h2>
-        <p>Subtotal: <span id="p_subtotal">0.00</span></p>
-        <p>Descuento: <span id="p_descuento">0.00</span></p>
-        <p>Total: <span id="p_total">0.00</span></p>
+        <p>Subtotal: <span id="p_subtotal"></span></p>
+        <p>Descuento: <span id="p_descuento"></span></p>
+        <p>Total: <span id="p_total"></span></p>
     </div>
     {{ Form::submit('Guardar cambios')}}
     {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}
@@ -77,6 +79,7 @@ function updateTratamientos(id, index) {
     if (index == 0) {
         tratamientosSelect.options[tratamientosSelect.options.length]=new Option(tratamientos[0], 0)
     } else {
+        tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- Elija un tratamiento --', '0')
         for (i=0; i<tratamientos[index].length; i++) {
             t = tratamientos[index][i]
             tratamientosSelect.options[tratamientosSelect.options.length]=new Option(t['nombre'], t['id'])
@@ -94,7 +97,7 @@ function addTratamiento(gid, tid) {
     label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
     select1 = $('<select>').attr({onchange: "updateTratamientos(" + lastIndex + ", this.selectedIndex)", id: grupo, name: grupo})
     label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
-    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + trat, name: trat})
+    select2 = $('<select>').attr({onchange: "updatePrecios()", id: "s_" + trat, name: trat})
 
     for(var i = 0; i < grupos.length; i++) {
         select1.append(new Option(grupos[i], i))
@@ -126,19 +129,39 @@ function addTratamiento(gid, tid) {
     return false
 }
 
-function updatePrecios(id, index) {
-    console.log('updatePrecios ' + id + ' ' + index)
+function updatePrecios() {
+    console.log('updatePrecios')
 
-    $('#grupo-' + id)[0]
-    precio = tratamientos[id][index]['precio']
-    $('#p_subtotal').text(precio)
-    $('#p_total').text(precio)
+    subtotal = 0
+    for (i=1; i<=lastIndex; i++) {
+        g = $('#grupo-' + i)[0].value
+        t = $('#s_tratamiento-' + i)[0].selectedIndex
+        if (t != 0) subtotal += parseInt(tratamientos[g][t]['precio'])
+    }
+
+    desc = $('#descuento')[0].value
+    tdesc = $('#tipodescuento')[0].value
+    if (tdesc == 'E') {
+        descuento = desc
+        descuentotext = desc
+    } else {
+        descuento = desc * subtotal / 100
+        descuentotext = descuento + ' (' + desc + '%)'
+    }
+    total = subtotal - descuento
+    $('#p_subtotal')[0].innerText = subtotal
+    $('#p_descuento')[0].innerText = descuentotext
+    $('#p_total')[0].innerText = total
 }
 
 $(document).ready(function() {
 
 <?php if (empty($tratamientos)) { ?>
     addTratamiento()
+
+    $('#p_subtotal')[0].innerText = '0.00'
+    $('#p_descuento')[0].innerText = '0.00'
+    $('#p_total')[0].innerText = '0.00'
 
 <?php } else { ?>
     @foreach($tratamientos as $t)
@@ -147,6 +170,7 @@ $(document).ready(function() {
     addTratamiento(1, {{$t->pivot->tratamiento_id}})
 
     @endforeach
+    updatePrecios()
 <?php } ?>
 
 });
