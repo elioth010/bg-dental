@@ -104,6 +104,7 @@ function addTratamiento(gid, tid) {
     lpreciof = "preciof-" + lastIndex
     ldescu = "descuento-" + lastIndex
     tdescu = "tipodescuento-" + lastIndex
+    lpiezas = "piezas-" + lastIndex;
 
     // Grupo de tratamientos
     label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
@@ -165,24 +166,51 @@ function updatePrecios(id, index) {
         p2 = $('#preciof-' + id)[0]
         desc = $('#descuento-' + id)[0].value
         tipodesc = $('#s_tipodescuento-' + id)[0].value
+        grupo = $('#grupo-' + id)[0].value
+        lpiezas = $('#piezas-' + id)[0]
+        divtratamiento = $("#tratamiento-" + id)
 
         if (index != null) {
             if (index == 0) {
                 p1.innerHTML = '0.00'
                 p2.innerHTML = '0.00'
             } else {
-                g = $('#grupo-' + id)[0].value
-
                 if (tipodesc == 'P') {
-                    descuento = desc * tratamientos[g][index-1]['precio'] / 100
-                    preciofinal = tratamientos[g][index-1]['precio'] - descuento
+                    descuento = desc * tratamientos[grupo][index-1]['precio'] / 100
+                    preciofinal = tratamientos[grupo][index-1]['precio'] - descuento
                 } else {
-                    preciofinal = tratamientos[g][index-1]['precio'] - desc
+                    preciofinal = tratamientos[grupo][index-1]['precio'] - desc
                 }
 
-                p1.innerHTML = tratamientos[g][index-1]['precio']
+                p1.innerHTML = tratamientos[grupo][index-1]['precio']
                 p2.innerHTML = preciofinal
             }
+
+            tipo = tratamientos[grupo][index-1]['tipo']
+
+            // 1 = pieza, 2 = general, 3 = puente
+            if (tipo == 2) {
+                lpiezas.remove()
+            } else {
+                if (tipo == 3) {
+                    piezastext = "Elegir puente"
+                } else {
+                    piezastext = "Elegir piezas"
+                }
+
+                if (lpiezas == undefined) {
+                    var newLink = $("<a />", {
+                        id : 'piezas-' + id,
+                        href : "#",
+                        text : piezastext
+                    });
+
+                    divtratamiento.append(newLink)
+                } else {
+                    lpiezas.text = piezastext
+                }
+            }
+
         } else {
             if (tipodesc == 'P') {
                 descuento = desc * p1.innerHTML / 100
@@ -193,6 +221,9 @@ function updatePrecios(id, index) {
 
             p2.innerHTML = preciofinal
         }
+
+        p2.innerHTML += ' '
+
     }
 
     subtotal = 0
