@@ -85,6 +85,8 @@ class PresupuestosController extends \BaseController {
 		ksort($atratamientos);
 
 		$presupuesto = new Presupuestos;
+		$presupuesto->descuento = 0; // valor por defecto
+
 		//$profesionales2 = Profesional::lists('nombre', 'id');
 		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
 

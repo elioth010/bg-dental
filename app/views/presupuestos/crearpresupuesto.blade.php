@@ -117,10 +117,10 @@ function addTratamiento(gid, tid) {
     label3 = $("<label>").attr({for: ldescu}).text('Descuento:')
     input3 = $('<input>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: ldescu, name: ldescu,
                                 type: "text"})
+    input3.val(0)
     select3 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + tdescu, name: tdescu})
     select3.append(new Option('EUR', 'E'))
     select3.append(new Option('%', 'P'))
-    // TODO: default value: 0
 
     for(var i = 0; i < grupos.length; i++) {
         select1.append(new Option(grupos[i], i))
@@ -168,8 +168,8 @@ function updatePrecios(id, index) {
 
         if (index != null) {
             if (index == 0) {
-                p1.innerText = '0.00'
-                p2.innerText = '0.00'
+                p1.innerHTML = '0.00'
+                p2.innerHTML = '0.00'
             } else {
                 g = $('#grupo-' + id)[0].value
 
@@ -180,28 +180,27 @@ function updatePrecios(id, index) {
                     preciofinal = tratamientos[g][index-1]['precio'] - desc
                 }
 
-                p1.innerText = tratamientos[g][index-1]['precio']
-                p2.innerText = preciofinal
+                p1.innerHTML = tratamientos[g][index-1]['precio']
+                p2.innerHTML = preciofinal
             }
         } else {
             if (tipodesc == 'P') {
-                descuento = desc * p1.innerText / 100
-                preciofinal = p1.innerText - descuento
+                descuento = desc * p1.innerHTML / 100
+                preciofinal = p1.innerHTML - descuento
             } else {
-                preciofinal = p1.innerText - desc
+                preciofinal = p1.innerHTML - desc
             }
 
-            p2.innerText = preciofinal
+            p2.innerHTML = preciofinal
         }
     }
-
 
     subtotal = 0
     for (i=1; i<=lastIndex; i++) {
         //g = $('#grupo-' + i)[0].value
         //t = $('#s_tratamiento-' + i)[0].selectedIndex
         //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precio'])
-        subtotal += parseFloat($('#preciof-' + i)[0].innerText)
+        subtotal += parseFloat($('#preciof-' + i)[0].innerHTML)
     }
 
     desc = $('#descuento')[0].value
@@ -214,9 +213,9 @@ function updatePrecios(id, index) {
         descuentotext = desc
     }
     total = subtotal - descuento
-    $('#p_subtotal')[0].innerText = subtotal
-    $('#p_descuento')[0].innerText = descuentotext
-    $('#p_total')[0].innerText = total
+    $('#p_subtotal')[0].innerHTML = subtotal
+    $('#p_descuento')[0].innerHTML = descuentotext
+    $('#p_total')[0].innerHTML = total
 
 }
 
