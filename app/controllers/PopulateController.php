@@ -33,13 +33,12 @@ class PopulateController extends BaseController {
     $populator = array('numerohistoria'=>$numerohistoria,'apellido1'=>$apellido1,'apellido2'=>$apellido2,
 		'nombre'=>$nombre,'NIF'=>$NIF,'fechanacimiento'=>$fechanacimiento,'sexo'=>$sexo,'Direccion'=>$Direccion,
 		'addrnamestre'=>$addrnamestre,'addrtel1'=>$addrtel1,'addrtel2'=>$addrtel2,'terrdesc'=>$terrdesc,'addrpostcode'=>$addrpostcode);
-   
-    
+
+
     //Populate::;
-    Populate::create(array('numerohistoria'=>$numerohistoria,'apellido1'=>$apellido1,'apellido2'=>$apellido2,
-		'nombre'=>$nombre,'NIF'=>$NIF,'fechanacimiento'=>$fechanacimiento,'sexo'=>$sexo,'Direccion'=>$Direccion,
-		'addrnamestre'=>$addrnamestre,'addrtel1'=>$addrtel1,'addrtel2'=>$addrtel2,'terrdesc'=>$terrdesc,'addrpostcode'=>$addrpostcode))->setConnection('quiron');
-    
+
+    Populate::create($populator);
+
     }
     //$extracto = Populate::table('pacientes')->lists('nombre','sexo');
     //var_dump($extracto);
