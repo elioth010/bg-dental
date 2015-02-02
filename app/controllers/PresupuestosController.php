@@ -79,7 +79,7 @@ class PresupuestosController extends \BaseController {
 
 		foreach (array_keys($grupos) as $key) {
 			if (!array_key_exists($key, $atratamientos)) {
-				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+				$atratamientos[$key] = array();
 			}
 		}
 		ksort($atratamientos);

@@ -79,11 +79,18 @@ function updateTratamientos(id, index) {
     if (index == 0) {
         tratamientosSelect.options[tratamientosSelect.options.length]=new Option(tratamientos[0], 0)
     } else {
-        tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- Elija un tratamiento --', '0')
         for (i=0; i<tratamientos[index].length; i++) {
+            if (i==0) {
+                tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- Elija un tratamiento --', '0')
+            }
             t = tratamientos[index][i]
             tratamientosSelect.options[tratamientosSelect.options.length]=new Option(t['nombre'], t['id'])
         }
+
+        if (tratamientosSelect.options.length == 0) {
+            tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- No hay tratamientos --', '0')
+        }
+
     }
 }
 
