@@ -36,23 +36,29 @@
     <th>Creado por</th>
     <th>Profesional</th>
     <th>Aceptado</th>
+    <th>Acciones</th>
   </tr>
   @foreach($presupuestos as $presupuesto)
     <tr>
-    <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', $presupuesto->presupuesto_id,
-                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}</td>
-    <td>{{$presupuesto->creado}}</td>
-    <td>{{$presupuesto->modificado}}</td>
-    <td>{{$presupuesto->nombre_p}}</td>
-    <td>{{$total}}</td>
+    <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', $presupuesto->id,
+                array($paciente->numerohistoria, $presupuesto->id)) }}</td>
+    <td>{{$presupuesto->created_at}}</td>
+    <td>{{$presupuesto->updated_at}}</td>
+    <td>{{$presupuesto->nombre}}</td>
+    <td>{{$presupuesto->importe_total}}</td>
     <td>{{$presupuesto->descuentototal}}</td>
-    <td>{{$presupuesto->nombre_u}}</td>
-    <td>{{$presupuesto->profesional}}</td>
-    <td>{{$presupuesto->aceptado}}</td>
+    <td>{{$presupuesto->user_n}}</td>
+    <td>{{$presupuesto->profesional_n}}</td>
+    <td><?php if ($presupuesto->aceptado) echo 'Sí'; else echo 'No'; ?></td>
     <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', 'Ver',
-                array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }} |
-                {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
-                            array($paciente->numerohistoria, $presupuesto->presupuesto_id)) }}</td>
+                array($paciente->numerohistoria, $presupuesto->id)) }}
+        <?php if (!$presupuesto->aceptado) { ?>
+        | {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
+                array($paciente->numerohistoria, $presupuesto->id)) }}
+        | {{ HTML::linkAction('PresupuestosController@aceptarPresupuesto', 'Aceptar',
+                array($paciente->numerohistoria, $presupuesto->id)) }}
+        <?php } ?>
+                </td>
   </tr>
   @endforeach
 </table>

@@ -11,10 +11,10 @@
         {{ Form::text('nombre', $tratamiento->nombre) }}<p>
         @foreach($tcp as $tcp)<li>
             {{Form::label($tcp['nombre_comp'])}}
-
-            {{ Form::text('precio_comp-'.$tcp['id'], $tcp['precio']) }}</li><br>
+            
+            {{ Form::text('precio-'.$tcp['id'], $tcp['precio']) }}</li><br>
         @endforeach
-
+        {{ Form::select('grupostratamientos_id', $grupos) }}
         {{ Form::submit('Guardar cambios')}}
         {{ Form::button('Atrás')}} {{ HTML::link('tratamientos', 'Tratamientos') }}
 
