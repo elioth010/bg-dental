@@ -4,12 +4,13 @@
 
 {{ Form::open(array('url'=>'users/signin', 'class'=>'form-signin')) }}
     <h2 class="form-signin-heading">Introduce tus datos de usuario </h2>
- 
-    {{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}
-    {{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}
+ 	<ul class="labelreg3">
+ 	
+    <li>{{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}</li>
+    <li>{{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}</li>
  
 
-    {{ Form::submit('Entrar', array('class'=>'btn btn-large btn-primary btn-block'))}}
-
+    <li>{{ Form::submit('Entrar', array('class'=>'botonl'))}}</li>
+	</ul>
 {{ Form::close() }}
 @stop

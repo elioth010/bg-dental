@@ -26,31 +26,30 @@ class UsersController extends BaseController {
     $user->email = Input::get('email');
     $user->password = Hash::make(Input::get('password'));
     $user->save();
- 
+
     return Redirect::to('users/login')->with('message', 'Thanks for registering!');
     } else {
         // validation has failed, display error messages
         return Redirect::to('users/register')->with('message', 'The following errors occurred')->withErrors($validator)->withInput();
     }
-     
+
     }
-    
+
     public function getLogin() {
     return View::make('users.login');
     }
-    
+
     public function postSignin() {
-             if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
-	     return Redirect::to('tratamientos')->with('message', 'You are now logged in!');
-    } else {
-    return Redirect::to('users/login')
-        ->with('message', 'Error en nombre de usuario y/o contraseña')
-        ->withInput();
+        if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
+            Session::put('user_id', Auth::id());
+            return Redirect::to('tratamientos')->with('message', 'You are now logged in!');
+        } else {
+            return Redirect::to('users/login')
+                ->with('message', 'Error en nombre de usuario y/o contraseña')
+                ->withInput();
+        }
     }
 
-
-    }
-    
     public function getDashboard() {
       $this->layout->content = View::make('users.dashboard');
 }

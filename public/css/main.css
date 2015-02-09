@@ -385,6 +385,16 @@ tr:first-child td:last-child{
 .labelreg4 li{
 	line-height: 24px;
 }
+.labelreg5{
+	width: 120px;
+	height: 100%;
+	display: block;
+	float: left;
+	margin-left: 100px;
+}
+.labelreg5 li{
+	line-height: 24px;
+}
 
 /* Calendario */
 .table_cal{
