@@ -198,30 +198,44 @@ function updatePrecios(id, index) {
 
                 p1.innerHTML = tratamientos[grupo][index-1]['precio']
                 p2.innerHTML = preciofinal
-            }
 
-            tipo = tratamientos[grupo][index-1]['tipo']
+                tipo = tratamientos[grupo][index-1]['tipo']
 
-            // 1 = pieza, 2 = general, 3 = puente
-            if (tipo == 2) {
-                lpiezas.remove()
-            } else {
-                if (tipo == 3) {
-                    piezastext = "Elegir puente"
+                // 1 = pieza, 2 = general, 3 = puente
+                if (tipo == 2) {
+                    if (lpiezas != undefined) {
+                        lpiezas.remove()
+                        ipiezas.remove()
+                    }
                 } else {
-                    piezastext = "Elegir piezas"
-                }
+                    if (tipo == 3) {
+                        piezastext = "Elegir puente"
+                        piezasplaceholder = "3-6,..."
+                    } else {
+                        piezastext = "Elegir piezas"
+                        piezasplaceholder = "3,..."
+                    }
 
-                if (lpiezas == undefined) {
-                    var newLink = $("<a />", {
-                        id : 'piezas-' + id,
-                        href : "#",
-                        text : piezastext
-                    });
+                    if (lpiezas == undefined) {
+                        var newLink = $("<a />", {
+                            id : 'piezas-' + id,
+                            href : "#",
+                            text : piezastext
+                        });
 
-                    divtratamiento.append(newLink)
-                } else {
-                    lpiezas.text = piezastext
+                        divtratamiento.append(newLink)
+                    } else {
+                        lpiezas.text = piezastext
+                    }
+
+                    if (ipiezas == undefined) {
+                        input = $('<input>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: piezasplaceholder})
+                        divtratamiento.append(input)
+                    } else {
+                        ipiezas = $('#ipiezas-' + id)
+                        ipiezas.attr({placeholder: piezasplaceholder})
+                    }
+
                 }
             }
 
