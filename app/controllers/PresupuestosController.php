@@ -40,7 +40,14 @@ class PresupuestosController extends \BaseController {
 																	 'paciente' => $paciente));
 	}
 
+	public function borrarPresupuesto($paciente, $presupuesto) {
+		$presupuesto = Presupuestos::where('id', $presupuesto)->where('aceptado', 0)->firstOrFail();
+		$presupuesto->tratamientos()->detach();
+		$presupuesto->delete();
 
+		return Redirect::action('PresupuestosController@verpresupuestos', array($paciente))
+						->with('message', '¡Presupuesto borrado!');;
+	}
 
 
 	/**

@@ -60,8 +60,16 @@
         <p>Total: <span id="p_total"></span></p>
     </div>
     {{ Form::submit('Guardar cambios')}}
-    {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}
+    {{ Form::button('Atrás')}}
     {{ Form::close() }}
+
+    <br/>
+    {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}
+    <?php if (!empty($tratamientos)) { ?>
+        <br/>
+        {{ HTML::linkAction('PresupuestosController@borrarPresupuesto', 'Eliminar este presupuesto',
+                            array($paciente->numerohistoria, $presupuesto->id)) }}
+    <?php } ?>
 </div>
 
 
@@ -130,9 +138,9 @@ function addTratamiento(gid, tid) {
     if (tid == null) {
         select2.append(new Option(tratamientos[0], 0))
     } else {
-        for(var i = 0; i < tratamientos.length; i++) {
-            console.log('updateTratamientos ' + tratamientos[1][i]['nombre'] + ' ' + tratamientos[1][i]['id'])
-            select2.append(new Option(tratamientos[1][i]['nombre'], tratamientos[1][i]['id']))
+        for(var i = 0; i < tratamientos[gid].length; i++) {
+            console.log('updateTratamientos ' + tratamientos[gid][i]['nombre'] + ' ' + tratamientos[gid][i]['id'])
+            select2.append(new Option(tratamientos[gid][i]['nombre'], tratamientos[gid][i]['id']))
         }
     }
 
@@ -168,12 +176,18 @@ function updatePrecios(id, index) {
         tipodesc = $('#s_tipodescuento-' + id)[0].value
         grupo = $('#grupo-' + id)[0].value
         lpiezas = $('#piezas-' + id)[0]
+        ipiezas = $('#ipiezas-' + id)[0]
         divtratamiento = $("#tratamiento-" + id)
 
         if (index != null) {
             if (index == 0) {
                 p1.innerHTML = '0.00'
                 p2.innerHTML = '0.00'
+
+                if (lpiezas != undefined) {
+                    lpiezas.remove()
+                    ipiezas.remove()
+                }
             } else {
                 if (tipodesc == 'P') {
                     descuento = desc * tratamientos[grupo][index-1]['precio'] / 100
