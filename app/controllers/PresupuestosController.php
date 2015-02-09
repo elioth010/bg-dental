@@ -220,7 +220,7 @@ class PresupuestosController extends \BaseController {
 
 				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $tratamiento,
 							'tipostratamientos_id' => 0, 'unidades' => Input::get('unidades-1', 0),
-							'desc_euros' => 0, 'desc_porcien' => 0);
+							'descuento' => Input::get('descuento-1', 0), 'tipodescuento' => Input::get('tipodescuento-1', 'e'));
 
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
 			}

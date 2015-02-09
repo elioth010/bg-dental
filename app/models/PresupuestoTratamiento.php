@@ -3,9 +3,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class PresupuestoTratamiento extends Pivot {
 
+    public $timestamps = false;
     protected $table = 'presupuestos_tratamientos';
-    protected $fillable = array('presupuesto_id','tratamiento_id','tipostratamientos_id','unidades','desc_euros','desc_porcien',
-                                'pieza1', 'pieza2', 'pieza3', 'estado');
+    protected $fillable = array('presupuesto_id', 'tratamiento_id', 'tipostratamientos_id', 'unidades', 'descuento', 'tipodescuento', 'piezas', 'estado');
 
     public function tratamientos() {
         return $this->belongsTo('Tratamientos');

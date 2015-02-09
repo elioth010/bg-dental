@@ -96,7 +96,7 @@ function updateTratamientos(id, index) {
 
 function addTratamiento(gid, tid) {
     lastIndex++
-    console.log('addTratamiento... ' + lastIndex)
+    console.log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ')')
 
     grupo = "grupo-" + lastIndex
     trat = "tratamiento-" + lastIndex
