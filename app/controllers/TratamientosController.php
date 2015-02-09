@@ -16,21 +16,11 @@ class TratamientosController extends \BaseController {
 					->select('tratamientos.precio_base','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id', 'grupostratamientos.nombre')
 					->groupBy('nombre_comp')->orderBy('tratamientos.nombre')
 					->where('tratamientos.activo', '=', '1')->get();
-		/*$tcp_contenidos = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
-			->leftJoin('companias', 'companias.id','=','companias_id')
-			->leftJoin('grupostratamientos', 'grupostratamientos.id', '=', 'grupostratamientos_id')
-			->select('tratamientos.precio_base','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id', 'grupostratamientos.nombre')
-			->get();
-		$tcp_contenido = 	Tratamientos::raw('SELECT t.codigo, t.nombre AS nombre_trat,t.precio_base, c.nombre as nombre_comp, GROUP_CONCAT(p.precio) FROM tratamientos t
-							LEFT JOIN precios p ON p.tratamientos_id = t.id
-							LEFT JOIN companias c on c.id = p.companias_id
-							GROUP BY t.nombre
-							ORDER BY t.nombre')->get();*/
 		$tcp_contenido = Tratamientos::leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')->leftJoin('companias','companias.id','=', 'precios.companias_id')
 							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'tratamientos.precio_base','companias.nombre as nombre_comp',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
 							->groupBy('tratamientos.nombre')->orderBy('tratamientos.nombre')->where('tratamientos.activo', '=', '1')->get();
 
-		//print_r($tcp_contenido);
+		
 		return View::make('tratamientos.index')->with(array('tcp_cabecera' => $tcp_cabecera))->with(array('tcp_contenido' => $tcp_contenido));
 	}
 
@@ -117,22 +107,24 @@ class TratamientosController extends \BaseController {
                 $grupos = Grupos::lists('nombre','id');
 		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 			->leftJoin('companias', 'companias.id','=','companias_id')
-			->select('companias.nombre as nombre_comp', 'companias.id', 'precio')
+			->select('companias.nombre as nombre_comp', 'companias.id', 'precio', 'grupostratamientos_id')
 			->where('tratamientos.id' , $tratamiento->id)
 			->get();
-		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios)->with('grupos', $grupos);
+                $tipos = DB::table('tipostratamientos')->get();
+		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios)->with('grupos', $grupos)->with('tipos', $tipos);
 	}
 
-	public function editar_t($id){
-                $i = 0;
-                for($i;$i<=0;$i++){
-                $input = Input::get('precio-'.$i);
-                //unset($input['_token']);    
-		//$guardar_t = Tratamientos::firstOrCreate($input);
-                var_dump($input);}
-		//  $nombre = $guardar_t;
-
-
+	public function guardar_t($id){
+                $codigo = Input::get('codigo');
+                $grupostratamientos_id = Input::get('grupostratamientos_id');
+                $tipostratamientos_id = Input::get('tipotratamiento');
+                $tratamiento = Tratamientos::find($id);
+                $tratamiento->grupostratamientos_id = $grupostratamientos_id;
+                $tratamiento->tipostratamientos_id = $tipostratamientos_id;
+                $tratamiento->save();
+                $tratamientoaguardado = Tratamientos::where('id',$id)->first();
+                return Redirect::to('tratamientos');
+                
 	}
 
 	public function editarprecios($id)
