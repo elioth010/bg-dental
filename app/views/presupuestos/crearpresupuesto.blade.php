@@ -3,18 +3,18 @@
 @section('contenido')
 
 <div>
-    <h1>Presupuestos del paciente</h1>
-
-
+    <h1>Datos del paciente</h1>
 	    NHC:
 	    {{ $paciente->numerohistoria }}<br>
 	    Nombre:
-	    {{ $paciente->nombre }}
-
-	    {{ $paciente->apellido1 . ' ' . $paciente->apellido2 }}<br>
+	    {{ $paciente->nombre }} {{ $paciente->apellido1 . ' ' . $paciente->apellido2 }}
+	    <br>
 	    NIF:
 	    {{ $paciente->NIF }}
+        <br>
+        Compañía:
 	    {{ $paciente->compania }}
+</div>
 
 
 <div id="dodontograma" style="display: none">
@@ -43,18 +43,8 @@
         <div id='tratamientos'>
         </div>
         <br/>
-        {{ HTML::link('#', 'Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
+        {{ Form::button('Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
     </div>
-
-    <!--
-    <div id="piezasdiv">
-        <h2>Piezas</h2>
-        {{ Form::label('pieza1', 'Desde la pieza:') }}
-        {{ Form::text('pieza1') }}
-        {{ Form::label('pieza2', 'Hasta la pieza:') }}
-        {{ Form::text('pieza2') }}
-    </div>
--->
 
     <div>
         <h2>Precio</h2>
@@ -134,6 +124,13 @@ function addTratamiento(gid, tid) {
     select3.append(new Option('EUR', 'E'))
     select3.append(new Option('%', 'P'))
 
+    divPrecio = $("<div>").attr({id: "dprecio-" + lastIndex})
+    divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span><br>')
+    divPrecio.append(label3)
+    divPrecio.append(input3)
+    divPrecio.append(select3)
+    divPrecio.append('Precio final del tratamiento: <span id="' + lpreciof + '">0.00</span>')
+
     for(var i = 0; i < grupos.length; i++) {
         select1.append(new Option(grupos[i], i))
     }
@@ -152,11 +149,8 @@ function addTratamiento(gid, tid) {
     nuevodiv.append(select1)
     nuevodiv.append(label2)
     nuevodiv.append(select2)
-    nuevodiv.append('Precio base: <span id="' + lprecio + '">0.00</span><br>')
-    nuevodiv.append(label3)
-    nuevodiv.append(input3)
-    nuevodiv.append(select3)
-    nuevodiv.append('Precio final del tratamiento: <span id="' + lpreciof + '">0.00</span>')
+    nuevodiv.append(divPrecio)
+    nuevodiv.append('<hr/>')
 
     div = $("#tratamientos")
     div.append(nuevodiv)
