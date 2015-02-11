@@ -1,10 +1,3 @@
-@section('javascripts')
-	<script src="//davidlynch.org/projects/maphilight/jquery.maphilight.js"></script>
-	<script type="text/javascript">$(function() {
-        $('.odontograma').maphilight();
-    });</script>
-@stop
-
 @section('odontograma')
 	{{ HTML::image('/imagenes/odontograma.jpg', 'Odontograma', array('usemap' => '#odontograma', 'class' => 'odontograma')) }}
 	<map id="odontograma" name="odontograma">
