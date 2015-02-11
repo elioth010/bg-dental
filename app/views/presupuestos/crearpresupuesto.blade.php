@@ -17,6 +17,9 @@
 	    {{ $paciente->compania }}
 
 
+<div id="dodontograma" style="display: none">
+@include('presupuestos.odontograma')
+@yield('odontograma')
 </div>
 
 <div>
@@ -175,18 +178,17 @@ function updatePrecios(id, index) {
         desc = $('#descuento-' + id)[0].value
         tipodesc = $('#s_tipodescuento-' + id)[0].value
         grupo = $('#grupo-' + id)[0].value
-        lpiezas = $('#piezas-' + id)[0]
-        ipiezas = $('#ipiezas-' + id)[0]
+        ipiezas = $('#ipiezas-' + id)
         divtratamiento = $("#tratamiento-" + id)
+        dpiezas = $('#dpiezas-' + id)
 
         if (index != null) {
             if (index == 0) {
                 p1.innerHTML = '0.00'
                 p2.innerHTML = '0.00'
 
-                if (lpiezas != undefined) {
-                    lpiezas.remove()
-                    ipiezas.remove()
+                if (dpiezas.length) {
+                    dpiezas.remove()
                 }
             } else {
                 if (tipodesc == 'P') {
@@ -203,11 +205,11 @@ function updatePrecios(id, index) {
 
                 // 1 = pieza, 2 = general, 3 = puente
                 if (tipo == 2) {
-                    if (lpiezas != undefined) {
-                        lpiezas.remove()
-                        ipiezas.remove()
+                    if (dpiezas.length) {
+                        dpiezas.remove()
                     }
                 } else {
+
                     if (tipo == 3) {
                         piezastext = "Elegir puente"
                         piezasplaceholder = "3-6,..."
@@ -216,26 +218,25 @@ function updatePrecios(id, index) {
                         piezasplaceholder = "3,..."
                     }
 
-                    if (lpiezas == undefined) {
-                        var newLink = $("<a />", {
-                            id : 'piezas-' + id,
-                            href : "#",
-                            text : piezastext
-                        });
+                    if (!dpiezas.length) {
+                        dpiezas = $("<div>").attr("id", "dpiezas-" + id)
 
-                        divtratamiento.append(newLink)
-                    } else {
-                        lpiezas.text = piezastext
-                    }
+                        newLink = $("<a />", {id: 'piezas-' + id, href : "#", text : piezastext});
+                        dpiezas.append(newLink)
 
-                    if (ipiezas == undefined) {
                         input = $('<input>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: piezasplaceholder})
-                        divtratamiento.append(input)
+                        dpiezas.append(input)
+
+                        odontograma = $('#dodontograma').clone()
+                        odontograma.attr({id: "odontograma-" + id, style: ""})
+                        dpiezas.append(odontograma)
+                        divtratamiento.append(dpiezas)
                     } else {
-                        ipiezas = $('#ipiezas-' + id)
+                        lpiezas = $('#piezas-' + id)[0]
+                        lpiezas.text = piezastext
+
                         ipiezas.attr({placeholder: piezasplaceholder})
                     }
-
                 }
             }
 

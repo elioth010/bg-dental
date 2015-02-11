@@ -3,6 +3,7 @@
 
   <head>
 @include('includes.head')
+@yield('javascripts')
   </head>
 
  <body>
