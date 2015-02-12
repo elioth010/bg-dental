@@ -40,7 +40,14 @@ class PresupuestosController extends \BaseController {
 																	 'paciente' => $paciente));
 	}
 
+	public function borrarPresupuesto($paciente, $id) {
+		$presupuesto = Presupuestos::where('id', $id)->where('aceptado', 0)->firstOrFail();
+		$presupuesto->tratamientos()->detach();
+		$presupuesto->delete();
 
+		return Redirect::action('PresupuestosController@verpresupuestos', array($paciente))
+						->with('message', '¡Presupuesto borrado!');
+	}
 
 
 	/**
@@ -68,23 +75,26 @@ class PresupuestosController extends \BaseController {
 		$grupos[0] = '-- Elija un grupo --';
 		ksort($grupos);
 
-		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id', 'precio_base')->get();
+		$tratamientosAll = DB::table('tratamientos')->get(array('nombre', 'id', 'grupostratamientos_id',
+																'precio_base', 'tipostratamientos_id'));
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
-			//var_dump($t);
-			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
+			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre,
+																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
 		}
 
 		$atratamientos[0] = '-- Elija primero un grupo de tratamientos --';
 
 		foreach (array_keys($grupos) as $key) {
 			if (!array_key_exists($key, $atratamientos)) {
-				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+				$atratamientos[$key] = array();
 			}
 		}
 		ksort($atratamientos);
 
 		$presupuesto = new Presupuestos;
+		$presupuesto->descuento = 0; // valor por defecto
+
 		//$profesionales2 = Profesional::lists('nombre', 'id');
 		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
 
@@ -217,7 +227,7 @@ class PresupuestosController extends \BaseController {
 
 				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $tratamiento,
 							'tipostratamientos_id' => 0, 'unidades' => Input::get('unidades-1', 0),
-							'desc_euros' => 0, 'desc_porcien' => 0);
+							'descuento' => Input::get('descuento-1', 0), 'tipodescuento' => Input::get('tipodescuento-1', 'e'));
 
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
 			}
