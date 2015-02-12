@@ -2,44 +2,34 @@
 
 @section('contenido')
 
-<div>
+<div class="top_reg">
     <h1>Presupuestos del paciente</h1>
-
-
-	    NHC:
-	    {{ $paciente->numerohistoria }}<br>
-	    Nombre:
-	    {{ $paciente->nombre }}
-
-	    {{ $paciente->apellido1 . ' ' . $paciente->apellido2 }}<br>
-	    NIF:
-	    {{ $paciente->NIF }}
-	    {{ $paciente->compania }}
-
+	<ul class="labelreg6">
+	    <li>NHC: <span class="bold">{{ $paciente->numerohistoria }}</span></li>
+	    <li>Nombre: <span class="bold">{{ $paciente->nombre }} {{ $paciente->apellido1 . ' ' . $paciente->apellido2 }}</span></li>
+	    <li>NIF: <span class="bold">{{ $paciente->NIF }}</span></li>
+	    <li>{{ $paciente->compania }}</li>
+	</ul>
 
 </div>
 
 <div>
-{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
+	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
     <h1>Nuevo presupuesto</h1>
+    
+	<ul class="labelreg6">
+    	<li>{{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}</li>
+   		<li>{{ Form::hidden('num_tratamientos', 1) }}</li>
+    	<li>{{ Form::label('nombre', 'Nombre del presupuesto:') }} {{ Form::text('nombre', $presupuesto->nombre) }}</li>
+    	<li>{{ Form::label('descuento', 'Descuento total:') }} {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()')) }}{{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
+                    $presupuesto->tipodescuento, array('id' => 'tipodescuento', 'onchange' => 'updatePrecios()')) }}</li>
 
-    {{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}
-    {{ Form::hidden('num_tratamientos', 1) }}
-    {{ Form::label('nombre', 'Nombre del presupuesto:') }}
-    {{ Form::text('nombre', $presupuesto->nombre) }}
-    {{ Form::label('descuento', 'Descuento total:') }}
-    {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()')) }}
-    {{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
-                    $presupuesto->tipodescuento, array('id' => 'tipodescuento', 'onchange' => 'updatePrecios()')) }}
-
-    <br>
-    {{ Form::label('profesional', 'Profesional:') }}
-    {{ Form::select('tprofesional', $profesionales) }}
+    	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
+    </ul>
     <div>
         <h2>Tratamientos</h2>
         <div id='tratamientos'>
         </div>
-        <br/>
         {{ HTML::link('#', 'Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
     </div>
 
@@ -54,14 +44,15 @@
 -->
 
     <div>
-        <h2>Precio</h2>
-        <p>Subtotal: <span id="p_subtotal"></span></p>
-        <p>Descuento total: <span id="p_descuento"></span></p>
-        <p>Total: <span id="p_total"></span></p>
-    </div>
-    {{ Form::submit('Guardar cambios')}}
-    {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}
+        <ul class="labelreg6">
+        <li><h2>Precio</h2></li>
+        <li>Subtotal: <span id="p_subtotal"></span></li>
+        <li>Descuento total: <span id="p_descuento"></span></li>
+        <li>Total: <span id="p_total"></span></li>
+		<li>{{ Form::submit('Guardar cambios')}} {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}</li>
     {{ Form::close() }}
+    	</ul>
+    </div>
 </div>
 
 
