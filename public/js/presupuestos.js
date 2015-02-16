@@ -140,40 +140,58 @@ function updatePrecios(id, index) {
                     }
 
                     if (!dpiezas.length) {
+                        odontograma[id] = new Array
+
                         dpiezas = $("<div>").attr("id", "dpiezas-" + id)
 
-                        input = $('<input>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: piezasplaceholder})
-                        dpiezas.append(input)
+                        ipiezas = $('<input readonly>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: piezasplaceholder})
+                        dpiezas.append(ipiezas)
 
                         newLink = $("<a />", {id: 'piezas-' + id, href : "#", text : piezastext});
                         newLink.click(function(e) {
                             e.preventDefault();
                             $("#dodontograma-" + id).attr("style", "position:absolute;left:10%;top:5%");
+                            areas = $('#odontograma-' + id + ' area')
+                            for (i=0; i<areas.length; i++) {
+                                aid = areas[i].id.substr(1)
+                                if (odontograma[id][aid]) {
+                                    console.log('marcado ', id, aid)
+                                }
+                            }
                         });
                         dpiezas.append(newLink)
 
-                        odontograma = $('#dodontograma').clone()
-                        odontograma.attr({id: "dodontograma-" + id, style: "display:none"})
-                        odontograma.find('map').attr({name: "odontograma-" + id, id: "odontograma-" + id})
-                        odontograma.find('img').attr({usemap: "#odontograma-" + id, id: "iodontograma-" + id})
-                        dpiezas.append(odontograma)
+                        od = $('#dodontograma').clone()
+                        od.attr({id: "dodontograma-" + id, style: "display:none"})
+                        od.find('map').attr({name: "odontograma-" + id, id: "odontograma-" + id})
+                        od.find('img').attr({usemap: "#odontograma-" + id, id: "iodontograma-" + id})
+                        dpiezas.append(od)
                         divtratamiento.append(dpiezas)
                         $("#iodontograma-" + id).maphilight();
 
                         $('#dodontograma-' + id + ' > button').click(function(e) {
                             $(this).parent().attr("style", "display:none")
+
+                            active = ""
+                            console.log('odontograma id')
+
+                            for (i=0; i<odontograma[id].length; i++) {
+                                console.log(i, odontograma[id][i])
+                                if (odontograma[id][i]) {
+                                    active += i + ","
+                                }
+                            }
+                            active = active.substr(0, active.length-1)
+                            ipiezas.val(active)
+
                         });
 
                         // pinchas en el map, no en el div ni en la imagen
                         areas = $('#odontograma-' + id + ' area')
                         areas.click(function(e) {
                             e.preventDefault();
-                            console.log('pinchado '+  id + ' ' + this.id)
-                            var data = $(this).mouseout().data('maphilight') || {};
-                            data.alwaysOn = !data.alwaysOn;
-                            $(this).data('maphilight', data).trigger('alwaysOn.maphilight');
+                            onOdontogramaClick(id, this)
                         });
-
 
                     } else {
                         lpiezas = $('#piezas-' + id)[0]
@@ -221,4 +239,12 @@ function updatePrecios(id, index) {
     $('#p_descuento')[0].innerHTML = descuentotext
     $('#p_total')[0].innerHTML = total
 
+}
+
+function onOdontogramaClick(id, area) {
+    console.log('pinchado '+  id + ' ' + area.id)
+    var data = $(area).mouseout().data('maphilight') || {};
+    data.alwaysOn = !data.alwaysOn;
+    odontograma[1][area.id.substr(1)] = data.alwaysOn
+    $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
 }

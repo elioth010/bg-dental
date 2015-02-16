@@ -63,6 +63,7 @@
 <script type="text/javascript">
     var grupos = {{ json_encode($grupos) }}
     var tratamientos = {{ json_encode($atratamientos) }}
+    var odontograma = []
     var lastIndex = 0
 
     $(document).ready(function() {
