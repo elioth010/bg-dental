@@ -29,5 +29,25 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	protected $hidden = array('password', 'remember_token');
-
+        
+    public function isAdmin()
+    {
+        //Admin puede todo.
+            return $this->group_id == 1;
+        
+    }
+    
+    public function isUser()
+    {
+        //User puede ver presupuestos, pacientes, tratamientos, guardias.
+        return $this->group_id == 2;
+    }
+    
+    public function isViewer()
+    {
+        //Viewer sólo puede ver guardias y turnos.
+        return $this->group_id == 3;
+    }
+    
+   
 }

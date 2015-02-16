@@ -16,6 +16,7 @@
      <li>{{ Form::label('email', 'Correo electrónico') }}</li>
      <li>{{ Form::label('password', 'Contraseña') }}</li>
      <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
+     <li>{{Form::select($grupos->group_id)}}
   	</ul>
 	 
 	<ul class="labelreg2"> 
