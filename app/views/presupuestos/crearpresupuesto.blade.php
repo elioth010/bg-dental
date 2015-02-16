@@ -21,6 +21,9 @@
 <div id="dodontograma" style="display: none">
 @include('presupuestos.odontograma')
 @yield('odontograma')
+
+<button type="button" class="closeOdontograma">Cerrar</button>
+
 </div>
 
 <div>

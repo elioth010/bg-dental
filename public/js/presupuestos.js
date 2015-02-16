@@ -77,10 +77,10 @@ function addTratamiento(gid, tid) {
     nuevodiv.append(label2)
     nuevodiv.append(select2)
     nuevodiv.append(divPrecio)
-    nuevodiv.append('<hr/>')
 
     div = $("#tratamientos")
     div.append(nuevodiv)
+    div.append('<hr/>')
 
     $('input[name="num_tratamientos"]').val(lastIndex)
 
@@ -142,17 +142,39 @@ function updatePrecios(id, index) {
                     if (!dpiezas.length) {
                         dpiezas = $("<div>").attr("id", "dpiezas-" + id)
 
-                        newLink = $("<a />", {id: 'piezas-' + id, href : "#", text : piezastext});
-                        dpiezas.append(newLink)
-
                         input = $('<input>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: piezasplaceholder})
                         dpiezas.append(input)
 
+                        newLink = $("<a />", {id: 'piezas-' + id, href : "#", text : piezastext});
+                        newLink.click(function(e) {
+                            e.preventDefault();
+                            $("#dodontograma-" + id).attr("style", "position:absolute;left:10%;top:5%");
+                        });
+                        dpiezas.append(newLink)
+
                         odontograma = $('#dodontograma').clone()
-                        odontograma.attr({id: "odontograma-" + id, style: ""})
+                        odontograma.attr({id: "dodontograma-" + id, style: "display:none"})
+                        odontograma.find('map').attr({name: "odontograma-" + id, id: "odontograma-" + id})
+                        odontograma.find('img').attr({usemap: "#odontograma-" + id, id: "iodontograma-" + id})
                         dpiezas.append(odontograma)
                         divtratamiento.append(dpiezas)
-                        $('.odontograma').maphilight();
+                        $("#iodontograma-" + id).maphilight();
+
+                        $('#dodontograma-' + id + ' > button').click(function(e) {
+                            $(this).parent().attr("style", "display:none")
+                        });
+
+                        // pinchas en el map, no en el div ni en la imagen
+                        areas = $('#odontograma-' + id + ' area')
+                        areas.click(function(e) {
+                            e.preventDefault();
+                            console.log('pinchado '+  id + ' ' + this.id)
+                            var data = $(this).mouseout().data('maphilight') || {};
+                            data.alwaysOn = !data.alwaysOn;
+                            $(this).data('maphilight', data).trigger('alwaysOn.maphilight');
+                        });
+
+
                     } else {
                         lpiezas = $('#piezas-' + id)[0]
                         lpiezas.text = piezastext
