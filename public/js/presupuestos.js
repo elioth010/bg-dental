@@ -130,7 +130,8 @@ function updatePrecios(id, index) {
                         dpiezas.remove()
                     }
                 } else {
-
+                    odontograma[id] = new Array
+                    
                     if (tipo == 3) {
                         piezastext = "Elegir puente"
                         piezasplaceholder = "3-6,..."
@@ -140,8 +141,6 @@ function updatePrecios(id, index) {
                     }
 
                     if (!dpiezas.length) {
-                        odontograma[id] = new Array
-
                         dpiezas = $("<div>").attr("id", "dpiezas-" + id)
 
                         ipiezas = $('<input readonly>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: piezasplaceholder})
@@ -199,6 +198,7 @@ function updatePrecios(id, index) {
 
                         ipiezas.attr({placeholder: piezasplaceholder})
                     }
+                        ipiezas.val("")
                 }
             }
 
