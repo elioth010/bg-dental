@@ -38,7 +38,7 @@
 
     	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
     </ul>
-</div>
+
    		<div>
         <h2>Tratamientos</h2>
         <div id='tratamientos'>

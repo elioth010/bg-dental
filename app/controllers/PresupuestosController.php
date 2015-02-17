@@ -232,8 +232,6 @@ class PresupuestosController extends \BaseController {
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
 			}
 
-			# TODO: unidades, piezas
-			# Campo tipostratamientos_id: ???
 		} else {
 			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
 		}
