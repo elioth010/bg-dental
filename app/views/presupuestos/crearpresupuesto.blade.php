@@ -6,7 +6,7 @@
 @stop
 
 <div>
-@section('contenido') 
+@section('contenido')
 <div class="top_reg">
     <h1>Datos del paciente</h1>
 	<ul class="labelreg6">

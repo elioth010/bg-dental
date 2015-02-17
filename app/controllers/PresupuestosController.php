@@ -317,31 +317,31 @@ class PresupuestosController extends \BaseController {
 // 		    $paciente_b->addrpostcode = $paciente_q->addrpostcode;
 // 		    $paciente_b->save();
 // 		    var_dump($paciente_b);
-		  
-		
-		
+
+
+
 // 		Pacientes::create(array($paciente_q));
-		
+
 // 		$paciente_b = Pacientes::find($id);
 // 		var_dump($paciente_b);
-// 		
+//
 		//echo $paciente_q->numerohistoria;
 // 		$paciente_b = new Pacientes;
 // 		$paciente_b = $paciente_q;
 		//$paciente_b = $paciente_q;
 // 		Pacientes::create($paciente_b);
 // 		var_dump($paciente_b);
-// 		
+//
 		//$paciente_b = new Pacientes;
 		//Paciente_b->numerohistoria = $paciente_q('numerohistoria');
 		//var_dump($paciente_q->toArray());
 		//Pacientes::create($paciente_b);
-		
+
 		//$paciente_b = Pacientes::where('id', $id)->get();
-		
+
 		//print_r($paciente_q);
 		//Pacientes::firstOrCreate($paciente_b);
-		
+
 		//$presupuesto = Presupuestos::where(get();
 		//return View::make('pacientes.verficha')->with('paciente',$paciente);
 	}

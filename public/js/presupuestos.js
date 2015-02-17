@@ -123,7 +123,7 @@ function updatePrecios(id, index) {
                     }
                 } else {
                     odontograma[id] = new Array
-                    
+
                     if (tipo == 3) {
                         piezastext = "Elegir puente"
                         piezasplaceholder = "3-6,..."
