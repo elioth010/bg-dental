@@ -55,11 +55,18 @@ class GuardiaController extends \BaseController {
             $i = 1;
             $events = array();
             $date;
-            for($i;$i<=$numero;$i++){
-                  $date_in = $ano."-".$mes."-".$i;
-                  $input = "<input  type = \"hidden\" name=\"dia\" value= ".$date_in.">";
-                  $events[$ano."-".$mes."-".$i] = array($input, $select_prof);
+            $i = 1;
+            while($i<=$numero){
+                $date_in = $ano."-".$mes."-".$i;
+                $input = "<input  type = \"hidden\" name=\"dia\" value= ".$date_in.">";
+                $events[$date_in] = array($input, $select_prof);
+                $i++;
             }
+            //            for($i;$i<=$numero;$i++){
+            //                  $date_in = $ano."-".$mes."-".$i;
+            //                  $input = "<input  type = \"hidden\" name=\"dia\" value= ".$date_in.">";
+            //                  $events[$date_in] = array($input, $select_prof);
+            //            }
              $cal = Calendar::make();
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
              $cal->setStartWeek('L');
