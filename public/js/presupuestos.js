@@ -45,9 +45,9 @@ function addTratamiento(gid, tid) {
     // Descuento
     label3 = $("<label>").attr({for: ldescu}).text('Descuento:')
     input3 = $('<input>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: ldescu, name: ldescu,
-                                type: "text"})
+                                type: "text", size: 3})
     input3.val(0)
-    select3 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + tdescu, name: tdescu})
+    select3 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: "s_" + tdescu, name: tdescu})
     select3.append(new Option('EUR', 'E'))
     select3.append(new Option('%', 'P'))
 

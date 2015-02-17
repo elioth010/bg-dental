@@ -28,12 +28,12 @@
 
 <div>
 	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
-    <h1>Nuevo presupuesto</h1>    
+    <h1>Nuevo presupuesto</h1>
 	<ul class="labelreg6">
     	<li>{{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}</li>
    		<li>{{ Form::hidden('num_tratamientos', 1) }}</li>
     	<li>{{ Form::label('nombre', 'Nombre del presupuesto:') }} {{ Form::text('nombre', $presupuesto->nombre) }}</li>
-    	<li>{{ Form::label('descuento', 'Descuento total:') }} {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()')) }}{{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
+	<li>{{ Form::label('descuento', 'Descuento total:') }} {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()', 'size' => 3)) }}{{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
                     $presupuesto->tipodescuento, array('id' => 'tipodescuento', 'onchange' => 'updatePrecios()')) }}</li>
 
     	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
@@ -48,9 +48,9 @@
 <div>
         <ul class="labelreg6">
         <li><h2>Precio</h2></li>
-        <li>Subtotal: <span id="p_subtotal"></span></li>
-        <li>Descuento total: <span id="p_descuento"></span></li>
-        <li>Total: <span id="p_total"></span></li>
+        <li>Subtotal: <span id="p_subtotal">0.00</span></li>
+        <li>Descuento total: <span id="p_descuento">0</span></li>
+        <li>Total: <span id="p_total">0.00</span></li>
 		<li>{{ Form::submit('Guardar cambios')}} {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}   <?php if (!empty($tratamientos)) { ?></li>
     {{ Form::close() }}
     	<li>        {{ HTML::linkAction('PresupuestosController@borrarPresupuesto', 'Eliminar este presupuesto',
