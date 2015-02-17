@@ -223,11 +223,15 @@ class PresupuestosController extends \BaseController {
 				if ($grupo == 0) {
 					continue;
 				}
-				$tratamiento = Input::get('tratamiento-' . $i);
+				$t_id = Input::get('tratamiento-' . $i);
+				$t_unidades =  Input::get('iunidades-' . $i, 1);
+				$t_desc = Input::get('descuento-' . $i, 0);
+				$t_tdesc = Input::get('tipodescuento-' . $i, 'E');
+				$t_piezas = Input::get('ipiezas-' . $i);
 
-				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $tratamiento,
-							'tipostratamientos_id' => 0, 'unidades' => Input::get('unidades-1', 0),
-							'descuento' => Input::get('descuento-1', 0), 'tipodescuento' => Input::get('tipodescuento-1', 'e'));
+				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $t_id,
+							'unidades' => $t_unidades, 'piezas' => $t_piezas,
+							'descuento' => $t_desc, 'tipodescuento' => $t_tdesc);
 
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
 			}

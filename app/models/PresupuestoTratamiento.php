@@ -14,4 +14,8 @@ class PresupuestoTratamiento extends Pivot {
     public function presupuestos() {
         return $this->belongsTo('Presupuestos');
     }
+
+    // TODO: Validator:
+    // Comprobar que ha especificado las piezas/puente si el tratamiento lo requiere. piezas != ""
+
 }

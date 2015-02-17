@@ -160,6 +160,12 @@ function updatePrecios(id, index) {
                         });
                         dpiezas.append(newLink)
 
+                        label = $("<label>").attr({for: 'iunidades-' + id}).text('Unidades:')
+                        iunidades = $('<input readonly>').attr({id: 'iunidades-' + id, name: 'iunidades-' + id, type: "text", size: 2})
+                        iunidades.val(0)
+                        dpiezas.append(label)
+                        dpiezas.append(iunidades)
+
                         od = $('#dodontograma').clone()
                         od.attr({id: "dodontograma-" + id, style: "display:none"})
                         od.find('map').attr({name: "odontograma-" + id, id: "odontograma-" + id})
