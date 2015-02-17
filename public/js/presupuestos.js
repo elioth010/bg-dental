@@ -90,37 +90,29 @@ function addTratamiento(gid, tid) {
     return false
 }
 
+// Cuando se cambia de tratamiento en el selector
 function updatePrecios(id, index) {
     console.log('updatePrecios ' + id + ', ' + index)
 
     if (id != null) {
-        p1 = $('#precio-' + id)[0]
-        p2 = $('#preciof-' + id)[0]
-        desc = $('#descuento-' + id)[0].value
-        tipodesc = $('#s_tipodescuento-' + id)[0].value
-        grupo = $('#grupo-' + id)[0].value
+        precio = $('#precio-' + id)
+        preciof = $('#preciof-' + id)
+        desc = $('#descuento-' + id).val()
+        tipodesc = $('#s_tipodescuento-' + id).val()
+        grupo = $('#grupo-' + id).val()
         ipiezas = $('#ipiezas-' + id)
         divtratamiento = $("#tratamiento-" + id)
         dpiezas = $('#dpiezas-' + id)
 
         if (index != null) {
             if (index == 0) {
-                p1.innerHTML = '0.00'
-                p2.innerHTML = '0.00'
+                precio.text("0.00")
+                preciof.text("0.00")
 
                 if (dpiezas.length) {
                     dpiezas.remove()
                 }
             } else {
-                if (tipodesc == 'P') {
-                    descuento = desc * tratamientos[grupo][index-1]['precio'] / 100
-                    preciofinal = tratamientos[grupo][index-1]['precio'] - descuento
-                } else {
-                    preciofinal = tratamientos[grupo][index-1]['precio'] - desc
-                }
-
-                p1.innerHTML = tratamientos[grupo][index-1]['precio']
-                p2.innerHTML = preciofinal
 
                 tipo = tratamientos[grupo][index-1]['tipo']
 
@@ -175,20 +167,7 @@ function updatePrecios(id, index) {
                         $("#iodontograma-" + id).maphilight();
 
                         $('#dodontograma-' + id + ' > button').click(function(e) {
-                            $(this).parent().attr("style", "display:none")
-
-                            active = ""
-                            console.log('odontograma id')
-
-                            for (i=0; i<odontograma[id].length; i++) {
-                                console.log(i, odontograma[id][i])
-                                if (odontograma[id][i]) {
-                                    active += i + ","
-                                }
-                            }
-                            active = active.substr(0, active.length-1)
-                            ipiezas.val(active)
-
+                            onOdontogramaClose(id, $(this).parent(), ipiezas, iunidades);
                         });
 
                         // pinchas en el map, no en el div ni en la imagen
@@ -204,35 +183,69 @@ function updatePrecios(id, index) {
 
                         ipiezas.attr({placeholder: piezasplaceholder})
                     }
-                        ipiezas.val("")
+
+                    ipiezas.val("")
                 }
+
+                updatePrecioTratamiento(id, index, grupo)
             }
 
         } else {
-            if (tipodesc == 'P') {
-                descuento = desc * p1.innerHTML / 100
-                preciofinal = p1.innerHTML - descuento
-            } else {
-                preciofinal = p1.innerHTML - desc
-            }
 
-            p2.innerHTML = preciofinal
+            grupo = $('#grupo-' + id).val()
+            index = $('#s_tratamiento-' + id)[0].selectedIndex
+            updatePrecioTratamiento(id, index, grupo)
         }
 
-        p2.innerHTML += ' '
-
+        preciof.text(preciof.text() + " ")
     }
+
+    updatePrecioFinal()
+}
+
+
+function updatePrecioTratamiento(id, index, grupo) {
+
+    iunidades = $('#iunidades-' + id)
+
+    if (tipodesc == 'P') {
+
+        if (iunidades.length) {
+            descuento = desc * tratamientos[grupo][index-1]['precio'] * iunidades.val() / 100
+            preciofinal = tratamientos[grupo][index-1]['precio'] * iunidades.val() - descuento
+        } else {
+            descuento = desc * tratamientos[grupo][index-1]['precio'] / 100
+            preciofinal = tratamientos[grupo][index-1]['precio'] - descuento
+        }
+
+    } else {
+
+        if (iunidades.length) {
+            preciofinal = tratamientos[grupo][index-1]['precio'] * iunidades.val() - desc
+        } else {
+            preciofinal = tratamientos[grupo][index-1]['precio'] - desc
+        }
+    }
+
+    precio.text(tratamientos[grupo][index-1]['precio'])
+    preciof.text(preciofinal)
+}
+
+
+function updatePrecioFinal() {
+
+    // bucle 1
+    //g = $('#grupo-' + i)[0].value
+    //t = $('#s_tratamiento-' + i)[0].selectedIndex
+    //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precio'])
 
     subtotal = 0
     for (i=1; i<=lastIndex; i++) {
-        //g = $('#grupo-' + i)[0].value
-        //t = $('#s_tratamiento-' + i)[0].selectedIndex
-        //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precio'])
         subtotal += parseFloat($('#preciof-' + i)[0].innerHTML)
     }
 
-    desc = $('#descuento')[0].value
-    tdesc = $('#tipodescuento')[0].value
+    desc = $('#descuento').val()
+    tdesc = $('#tipodescuento').val()
     if (tdesc == 'P') {
         descuento = desc * subtotal / 100
         descuentotext = descuento + ' (' + desc + '%)'
@@ -241,10 +254,9 @@ function updatePrecios(id, index) {
         descuentotext = desc
     }
     total = subtotal - descuento
-    $('#p_subtotal')[0].innerHTML = subtotal
-    $('#p_descuento')[0].innerHTML = descuentotext
-    $('#p_total')[0].innerHTML = total
-
+    $('#p_subtotal').text(subtotal)
+    $('#p_descuento').text(descuentotext)
+    $('#p_total').text(total)
 }
 
 function onOdontogramaClick(id, area) {
@@ -253,4 +265,30 @@ function onOdontogramaClick(id, area) {
     data.alwaysOn = !data.alwaysOn;
     odontograma[1][area.id.substr(1)] = data.alwaysOn
     $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+}
+
+function onOdontogramaClose(id, parent, ipiezas, iunidades) {
+    parent.attr("style", "display:none")
+
+    active = ""
+    unidades = 0
+    console.log('odontograma id')
+
+    for (i=0; i<odontograma[id].length; i++) {
+        console.log(i, odontograma[id][i])
+        if (odontograma[id][i]) {
+            active += i + ","
+            unidades++
+        }
+    }
+    active = active.substr(0, active.length-1)
+    ipiezas.val(active)
+    iunidades.val(unidades)
+
+    precio = $('#precio-' + id)
+    preciof = $('#preciof-' + id)
+
+    preciof.text(precio.text() * unidades)
+
+    updatePrecioFinal()
 }
