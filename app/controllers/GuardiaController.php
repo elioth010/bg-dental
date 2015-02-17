@@ -51,7 +51,8 @@ class GuardiaController extends \BaseController {
             $select_prof .= "</select>";
             $mes = 2;
             $ano = 2015;
-            $numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
+            $numero = 1;
+//$numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
             $i = 1;
             $events = array();
             $date;
