@@ -10,21 +10,31 @@ class GuardiaController extends \BaseController {
 //    print_r(dates_month(2,2012)); 
 //
 //    echo"</pre>"; 
-
+//$events = array(
+//                "2015-02-01 10:30:00" => array(
+//                    "Dr. Urbano",
+//                ),
+//                "2015-02-12 14:12:23" => array(
+//                    "Dra. Rocío",
+//                ),
+//                "2015-02-14 08:00:00" => array(
+//                    "Dr. Rodriguez de Moya",
+//                ),
+//            );
 	public function index()
 	{
-            $events = array(
-                "2015-02-01 10:30:00" => array(
-                    "Dr. Urbano",
-                ),
-                "2015-02-12 14:12:23" => array(
-                    "Dra. Rocío",
-                ),
-                "2015-02-14 08:00:00" => array(
-                    "Dr. Rodriguez de Moya",
-                ),
-            );
-//            var_dump($events);
+            $eventos = Guardias::where('fecha_guardia', 'LIKE', '%-02-%')->get(array('fecha_guardia', 'profesional_id'));
+            
+            $events = array();
+            foreach($eventos as $evento){
+                
+                $profesionales = Profesional::find($evento->profesional_id);
+                $events[$evento->fecha_guardia] = $profesionales->nombre.", ".$profesionales->apellido1;
+            }
+            var_dump($events);
+            
+            
+            
              $cal = Calendar::make();
              //$cal->setEvents($events);
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
@@ -44,22 +54,23 @@ class GuardiaController extends \BaseController {
         public function create()
 	{
             $profesionales = Profesional::get();
-            $select_prof = "<select>";
-            foreach($profesionales as $profesionales){
-                    $select_prof .= "<option name = \"id\" value =".$profesionales->id.">".$profesionales->nombre." ".$profesionales->apellido1." ".$profesionales->apellido2."</option>";
+            $option_prof="";
+            foreach($profesionales as $i=>$profesionales){
+                    $option_prof .= "<option value =".$profesionales->id.">".$profesionales->nombre." ".$profesionales->apellido1." ".$profesionales->apellido2."</option>";
             }
-            $select_prof .= "</select>";
+            
             $mes = 2;
             $ano = 2015;
-            $numero = 1;
-//$numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
+//            $numero = 1;
+            $numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
             $i = 1;
             $events = array();
             $date;
             $i = 1;
             while($i<=$numero){
+                $select_prof = "<select name = \"profesional_id-" . $i . "\">" . $option_prof . "</select>";
                 $date_in = $ano."-".$mes."-".$i;
-                $input = "<input  type = \"hidden\" name=\"dia\" value= ".$date_in.">";
+                $input = '<input  type = "hidden" name="dia-'.$i.'" value= "'.$date_in.'">';
                 $events[$date_in] = array($input, $select_prof);
                 $i++;
             }
@@ -78,14 +89,21 @@ class GuardiaController extends \BaseController {
              $cal->setEvents($events); // Receives the events array
              $cal->setTableClass('table_cal'); //Set the table's class name
              $calendario = $cal->generate();
-             return View::make('agenda.crear_guardias')->with('calendario', $calendario);
+             return View::make('agenda.crear_guardias')->with('calendario', $calendario)->with('numero_dias', $numero);
              
 	}
 
 	public function store()
 	{
 		$guardias = Input::all();
-                var_dump($guardias);
+                $i = 1;
+                while($i<=$guardias['numero_dias']){
+                    $evento = new Guardias;
+                    $evento->fecha_guardia = $guardias["dia-".$i];
+                    $evento->profesional_id = $guardias['profesional_id-'.$i] ;
+                    $evento->save();
+                    $i++;
+                }
 	}
 
 	public function show($id)
