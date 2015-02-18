@@ -1,4 +1,5 @@
 
+// Se pincha en el select de grupo y actualiza el de tratamientos
 function updateTratamientos(id, index) {
     console.log('updateTratamientos ' + id + ' ' + index)
     tratamientosSelect = $('#s_tratamiento-' + id)[0]
@@ -22,6 +23,7 @@ function updateTratamientos(id, index) {
     }
 }
 
+// añadir descuento,piezas y unidad. Para edición
 function addTratamiento(gid, tid) {
     lastIndex++
     console.log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ')')
@@ -65,6 +67,7 @@ function addTratamiento(gid, tid) {
     if (tid == null) {
         select2.append(new Option(tratamientos[0], 0))
     } else {
+        select2.append(new Option('-- Elija un tratamiento --', '0'));
         for(var i = 0; i < tratamientos[gid].length; i++) {
             console.log('updateTratamientos ' + tratamientos[gid][i]['nombre'] + ' ' + tratamientos[gid][i]['id'])
             select2.append(new Option(tratamientos[gid][i]['nombre'], tratamientos[gid][i]['id']))
@@ -92,14 +95,14 @@ function addTratamiento(gid, tid) {
 
 // Cuando se cambia de tratamiento en el selector
 function updatePrecios(id, index) {
-    console.log('updatePrecios ' + id + ', ' + index)
+    grupo = $('#grupo-' + id).val()
+    console.log('updatePrecios ' + id + ', ' + index + ", " + grupo)
 
     if (id != null) {
         precio = $('#precio-' + id)
         preciof = $('#preciof-' + id)
         desc = $('#descuento-' + id).val()
         tipodesc = $('#s_tipodescuento-' + id).val()
-        grupo = $('#grupo-' + id).val()
         ipiezas = $('#ipiezas-' + id)
         divtratamiento = $("#tratamiento-" + id)
         dpiezas = $('#dpiezas-' + id)
@@ -192,7 +195,6 @@ function updatePrecios(id, index) {
 
         } else {
 
-            grupo = $('#grupo-' + id).val()
             index = $('#s_tratamiento-' + id)[0].selectedIndex
             updatePrecioTratamiento(id, index, grupo)
         }

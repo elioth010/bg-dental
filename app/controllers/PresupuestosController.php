@@ -103,11 +103,18 @@ class PresupuestosController extends \BaseController {
 			$profesionales[$p->id] = $p->nombre;
 		}
 
+		$tratamientos = array();
+		if (!is_null(Input::old('num_tratamientos'))) {
+			for ($i=1; $i <= Input::old('num_tratamientos'); $i++) {
+				$tratamientos[] = array('grupo' => 1, 'tratamiento_id' => Input::old('tratamiento-' . $i));
+			}
+		}
+
 		return View::make('presupuestos.crearpresupuesto')
 							->with(array('grupos' => $grupos,
 										'paciente' => $paciente,
 										'atratamientos' => $atratamientos,
-										'tratamientos' => array(),
+										'tratamientos' => $tratamientos,
 										'presupuesto' => $presupuesto,
 										'profesionales' => $profesionales));
 	}
@@ -144,7 +151,8 @@ class PresupuestosController extends \BaseController {
 		}
 		ksort($atratamientos);
 
-		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
+		// TODO: Sacar también grupos
+		$tratamientos = $presupuesto->tratamientos()->get(array('tratamiento_id'));
 
 		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
 		$profesionales = array();
@@ -177,6 +185,7 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function store()
 	{
+		$numero_historia = Input::get('numerohistoria');
 		$num = Input::get('num_tratamientos');
 
 		$ok = TRUE;
@@ -189,7 +198,7 @@ class PresupuestosController extends \BaseController {
 		}
 
 		if (!$ok) {
-			return Redirect::action('PresupuestosController@editarPresupuesto', array($presupuesto->numerohistoria))->with('message', 'Error en los parametros');
+			return Redirect::action('PresupuestosController@editarPresupuesto', array($numero_historia))->with('message', 'Error en los parametros');
 		}
 
 		//var_dump(Input::all());
@@ -197,7 +206,6 @@ class PresupuestosController extends \BaseController {
 		$validator = Validator::make(Input::all(), Presupuestos::$p_rules);
 
 		if ($validator->passes()) {
-
 			$nombre = Input::get('nombre', 'Sin nombre');
 			if (empty($nombre)) {
 				$nombre = 'Sin nombre';
@@ -209,7 +217,7 @@ class PresupuestosController extends \BaseController {
 			$presupuesto->aceptado = 0;
 			$presupuesto->user_id = Session::get('user_id');
 			$presupuesto->profesional_id = Input::get('tprofesional');
-			$presupuesto->numerohistoria = Input::get('numerohistoria');
+			$presupuesto->numerohistoria = $numero_historia;
 			$presupuesto->descuento = Input::get('descuento');
 			$presupuesto->tipodescuento = Input::get('tipodescuento');
 
@@ -237,10 +245,10 @@ class PresupuestosController extends \BaseController {
 			}
 
 		} else {
-			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
+			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Existen los siguientes errores:')->withErrors($validator->messages())->withInput();
 		}
 
-		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Presupuesto creado con éxito.');
+		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
 	}
 
 

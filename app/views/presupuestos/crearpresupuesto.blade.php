@@ -71,18 +71,20 @@
     <?php if (empty($tratamientos)) { ?>
         addTratamiento()
 
-        $('#p_subtotal')[0].innerText = '0.00'
-        $('#p_descuento')[0].innerText = '0.00'
-        $('#p_total')[0].innerText = '0.00'
+        $('#p_subtotal').text('0.00')
+        $('#p_descuento').text('0.00')
+        $('#p_total').text('0.00')
 
     <?php } else { ?>
-        @foreach($tratamientos as $t)
-        // TODO: No se guarda el grupo
-        // addTratamiento({{$t->grupo}}, {{$t->trat}})
-        addTratamiento(1, {{$t->pivot->tratamiento_id}})
+        @foreach($tratamientos as $key => $t)
+            // TODO: No se guarda el grupo
 
+            addTratamiento(1, {{ $t["tratamiento_id"] }})
+
+            // TODO: No pasarle el id sino el index
+            //updatePrecios({{ $key+1 }}, {{ $t["tratamiento_id"] }})
         @endforeach
-        updatePrecios()
+        // updatePrecios()
     <?php } ?>
 
     });
