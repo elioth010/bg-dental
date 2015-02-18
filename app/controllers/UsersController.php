@@ -11,7 +11,8 @@ class UsersController extends BaseController {
     protected $layout = "layouts.main";
     
     public function getRegister() {
-    $this->layout->content = View::make('users.register');
+    $usergroups = Usergroups::lists('nombre', 'id');    
+    $this->layout->content = View::make('users.register')->with(array('usergroups'=>$usergroups));
     }
     
     public function postCreate() {
@@ -25,9 +26,10 @@ class UsersController extends BaseController {
     $user->lastname = Input::get('lastname');
     $user->email = Input::get('email');
     $user->password = Hash::make(Input::get('password'));
+    $user->group_id = Input::get('group_id');
     $user->save();
 
-    return Redirect::to('users/login')->with('message', 'Thanks for registering!');
+    return Redirect::to('users/dashboard')->with('message', '¡Usuario registrado!');
     } else {
         // validation has failed, display error messages
         return Redirect::to('users/register')->with('message', 'The following errors occurred')->withErrors($validator)->withInput();
@@ -51,7 +53,9 @@ class UsersController extends BaseController {
     }
 
     public function getDashboard() {
-      $this->layout->content = View::make('users.dashboard');
+        $users = User::get();
+        $usergroups = Usergroups::lists('nombre', 'id');
+      $this->layout->content = View::make('users.dashboard')->with('users', $users)->with('usergroups', $usergroups);
 }
 
 public function getLogout() {

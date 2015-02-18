@@ -395,6 +395,21 @@ tr:first-child td:last-child{
 .labelreg5 li{
 	line-height: 24px;
 }
+.labelreg6{
+	width: 900px;
+	display: block;
+	float: left;
+	margin-left: 100px;
+}
+.labelreg6 li{
+	line-height: 24px;
+}
+.top_reg {
+	width: 1024px;
+	height: 120px;
+	display: block;
+	margin: 0 auto;
+}
 
 /* Calendario */
 .table_cal{
@@ -456,4 +471,8 @@ footer a{
 footer a:hover{
 	text-decoration: none;
 	color:#66a3e5;
+}
+/* ------- clases  ----*/
+.bold {
+	font-weight: bold;
 }

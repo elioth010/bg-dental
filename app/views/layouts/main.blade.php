@@ -3,6 +3,7 @@
 
   <head>
 @include('includes.head')
+@yield('javascripts')
   </head>
 
  <body>
@@ -17,6 +18,9 @@
 
                 <ul class="nav">
                     <li>{{ HTML::link('users/register', 'Registrar') }}</li>
+                    @if(Auth::user()->isAdmin())
+                    <li>{{ HTML::link('users/dashboard', 'Panel usuarios') }}</li>
+                    @endif
 
                     <li>{{ HTML::link('pacientes', 'Pacientes') }}
                     <ul>

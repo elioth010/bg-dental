@@ -40,13 +40,13 @@ class PresupuestosController extends \BaseController {
 																	 'paciente' => $paciente));
 	}
 
-	public function borrarPresupuesto($paciente, $presupuesto) {
-		$presupuesto = Presupuestos::where('id', $presupuesto)->where('aceptado', 0)->firstOrFail();
+	public function borrarPresupuesto($paciente, $id) {
+		$presupuesto = Presupuestos::where('id', $id)->where('aceptado', 0)->firstOrFail();
 		$presupuesto->tratamientos()->detach();
 		$presupuesto->delete();
 
 		return Redirect::action('PresupuestosController@verpresupuestos', array($paciente))
-						->with('message', '¡Presupuesto borrado!');;
+						->with('message', '¡Presupuesto borrado!');
 	}
 
 
@@ -223,17 +223,19 @@ class PresupuestosController extends \BaseController {
 				if ($grupo == 0) {
 					continue;
 				}
-				$tratamiento = Input::get('tratamiento-' . $i);
+				$t_id = Input::get('tratamiento-' . $i);
+				$t_unidades =  Input::get('iunidades-' . $i, 1);
+				$t_desc = Input::get('descuento-' . $i, 0);
+				$t_tdesc = Input::get('tipodescuento-' . $i, 'E');
+				$t_piezas = Input::get('ipiezas-' . $i);
 
-				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $tratamiento,
-							'tipostratamientos_id' => 0, 'unidades' => Input::get('unidades-1', 0),
-							'descuento' => Input::get('descuento-1', 0), 'tipodescuento' => Input::get('tipodescuento-1', 'e'));
+				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $t_id,
+							'unidades' => $t_unidades, 'piezas' => $t_piezas,
+							'descuento' => $t_desc, 'tipodescuento' => $t_tdesc);
 
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
 			}
 
-			# TODO: unidades, piezas
-			# Campo tipostratamientos_id: ???
 		} else {
 			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
 		}
@@ -315,31 +317,31 @@ class PresupuestosController extends \BaseController {
 // 		    $paciente_b->addrpostcode = $paciente_q->addrpostcode;
 // 		    $paciente_b->save();
 // 		    var_dump($paciente_b);
-		  
-		
-		
+
+
+
 // 		Pacientes::create(array($paciente_q));
-		
+
 // 		$paciente_b = Pacientes::find($id);
 // 		var_dump($paciente_b);
-// 		
+//
 		//echo $paciente_q->numerohistoria;
 // 		$paciente_b = new Pacientes;
 // 		$paciente_b = $paciente_q;
 		//$paciente_b = $paciente_q;
 // 		Pacientes::create($paciente_b);
 // 		var_dump($paciente_b);
-// 		
+//
 		//$paciente_b = new Pacientes;
 		//Paciente_b->numerohistoria = $paciente_q('numerohistoria');
 		//var_dump($paciente_q->toArray());
 		//Pacientes::create($paciente_b);
-		
+
 		//$paciente_b = Pacientes::where('id', $id)->get();
-		
+
 		//print_r($paciente_q);
 		//Pacientes::firstOrCreate($paciente_b);
-		
+
 		//$presupuesto = Presupuestos::where(get();
 		//return View::make('pacientes.verficha')->with('paciente',$paciente);
 	}
