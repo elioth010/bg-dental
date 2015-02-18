@@ -11,7 +11,7 @@ class PresupuestosController extends \BaseController {
 	{
 		$presupuesto = Presupuestos::find($id);
 		//$tratamientos = PresupuestoTratamiento::where('presupuesto_id', $id)->get();
-		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
+		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 /*
 		$tratamientos = $presupuesto->tratamientos()->select('*')
 									->join('presupuestos_tratamientos', 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
@@ -75,15 +75,14 @@ class PresupuestosController extends \BaseController {
 		$grupos[0] = '-- Elija un grupo --';
 		ksort($grupos);
 
-		$tratamientosAll = DB::table('tratamientos')->get(array('nombre', 'id', 'grupostratamientos_id',
+		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id',
 																'precio_base', 'tipostratamientos_id'));
+
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
 			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre,
 																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
 		}
-
-		$atratamientos[0] = '-- Elija primero un grupo de tratamientos --';
 
 		foreach (array_keys($grupos) as $key) {
 			if (!array_key_exists($key, $atratamientos)) {
@@ -95,8 +94,7 @@ class PresupuestosController extends \BaseController {
 		$presupuesto = new Presupuestos;
 		$presupuesto->descuento = 0; // valor por defecto
 
-		//$profesionales2 = Profesional::lists('nombre', 'id');
-		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
+		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
@@ -106,7 +104,7 @@ class PresupuestosController extends \BaseController {
 		$tratamientos = array();
 		if (!is_null(Input::old('num_tratamientos'))) {
 			for ($i=1; $i <= Input::old('num_tratamientos'); $i++) {
-				$tratamientos[] = array('grupo' => 1, 'tratamiento_id' => Input::old('tratamiento-' . $i));
+				$tratamientos[] = array('grupo' => Input::old('grupo-' . $i), 'tratamiento_id' => Input::old('tratamiento-' . $i));
 			}
 		}
 
@@ -135,7 +133,7 @@ class PresupuestosController extends \BaseController {
 		$grupos[0] = '-- Elija un grupo --';
 		ksort($grupos);
 
-		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id', 'precio_base')->get();
+		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'precio_base'));
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
 			//var_dump($t);
@@ -154,7 +152,7 @@ class PresupuestosController extends \BaseController {
 		// TODO: Sacar también grupos
 		$tratamientos = $presupuesto->tratamientos()->get(array('tratamiento_id'));
 
-		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
+		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
@@ -272,12 +270,12 @@ class PresupuestosController extends \BaseController {
 		*/
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
 
-		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
+		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
 		}
-		$users1 = User::select(DB::raw("CONCAT_WS(' ', firstname, lastname) AS nombre"), 'id')->get();
+		$users1 = User::get(array(DB::raw("CONCAT_WS(' ', firstname, lastname) AS nombre"), 'id'));
 		$users = array();
 		foreach ($users1 as $u){
 			$users[$u->id] = $u->nombre;
