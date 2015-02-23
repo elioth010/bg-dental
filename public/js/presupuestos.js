@@ -38,13 +38,33 @@ function addTratamiento(gid, tid) {
     tdescu = "tipodescuento-" + lastIndex
     lpiezas = "piezas-" + lastIndex;
 
-    // Grupo de tratamientos
+    // Select: Grupos de tratamientos
     label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
     select1 = $('<select>').attr({onchange: "updateSelectTratamientos(" + lastIndex + ", this.selectedIndex)", id: grupo, name: grupo})
 
-    // Tratamiento
+    select1.append(new Option('-- Elija un grupo --', 0));
+    for(var i = 0; i < grupos.length; i++) {
+        select1.append(new Option(grupos[i].nombre, grupos[i].id))
+    }
+
+    // Select: Tratamiento
     label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
     select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + trat, name: trat})
+
+    if (tid == null) {
+        select2.append(new Option('-- Elija primero un grupo de tratamientos --', 0))
+    } else {
+        if (tratamientos[gid].length == 0) {
+            select2.append(new Option('-- No hay tratamiento --', 0));
+        } else {
+            select2.append(new Option('-- Elija un tratamiento --', 0));
+            for(var i = 0; i < tratamientos[gid].length; i++) {
+                console.log('updateSelectTratamientos ' + tratamientos[gid][i]['nombre'] + ' ' + tratamientos[gid][i]['id'])
+                select2.append(new Option(tratamientos[gid][i]['nombre'], tratamientos[gid][i]['id']))
+            }
+        }
+
+    }
 
     // Descuento
     label3 = $("<label>").attr({for: ldescu}).text('Descuento:')
@@ -61,20 +81,6 @@ function addTratamiento(gid, tid) {
     divPrecio.append(input3)
     divPrecio.append(select3)
     divPrecio.append('Precio final del tratamiento: <span id="' + lpreciof + '">0.00</span>')
-
-    for(var i = 0; i < grupos.length; i++) {
-        select1.append(new Option(grupos[i], i))
-    }
-
-    if (tid == null) {
-        select2.append(new Option('-- Elija primero un grupo de tratamientos --', 0))
-    } else {
-        select2.append(new Option('-- Elija un tratamiento --', 0));
-        for(var i = 0; i < tratamientos[gid].length; i++) {
-            console.log('updateSelectTratamientos ' + tratamientos[gid][i]['nombre'] + ' ' + tratamientos[gid][i]['id'])
-            select2.append(new Option(tratamientos[gid][i]['nombre'], tratamientos[gid][i]['id']))
-        }
-    }
 
     nuevodiv = $("<div>").attr({id: trat})
     nuevodiv.append(label1)

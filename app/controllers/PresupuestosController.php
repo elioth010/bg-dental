@@ -68,14 +68,17 @@ class PresupuestosController extends \BaseController {
 
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
+			/*
 			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre,
+																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
+			*/
+			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre,
 																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
 		}
 
-		foreach (array_keys($grupos) as $key) {
-			if (!array_key_exists($key, $atratamientos)) {
-				// $atratamientos[$key] = array();
-				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+		foreach ($grupos as $grupo) {
+			if (!array_key_exists($grupo->id, $atratamientos)) {
+				$atratamientos[$grupo->id] = array();
 			}
 		}
 		ksort($atratamientos);
@@ -93,7 +96,7 @@ class PresupuestosController extends \BaseController {
 	{
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
 
-		$grupos = Grupos::lists('nombre', 'id'); ksort($grupos);
+		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
 		$atratamientos = $this->getTratamientosArray($grupos);
 
@@ -135,7 +138,7 @@ class PresupuestosController extends \BaseController {
 									->where('aceptado', 0)->firstOrFail();
 		$paciente = $presupuesto->paciente;
 
-		$grupos = Grupos::lists('nombre', 'id'); ksort($grupos);
+		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
 		$atratamientos = $this->getTratamientosArray($grupos);
 
