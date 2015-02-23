@@ -60,6 +60,29 @@ class PresupuestosController extends \BaseController {
 		//
 	}
 
+	// Construye un array para javascript de crear/editar presupuesto
+	private function getTratamientosArray($grupos) {
+
+		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id',
+																'precio_base', 'tipostratamientos_id'));
+
+		$atratamientos = array();
+		foreach ($tratamientosAll as $t) {
+			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre,
+																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
+		}
+
+		foreach (array_keys($grupos) as $key) {
+			if (!array_key_exists($key, $atratamientos)) {
+				// $atratamientos[$key] = array();
+				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
+			}
+		}
+		ksort($atratamientos);
+
+		return $atratamientos;
+	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -68,28 +91,11 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function crearpresupuesto($numerohistoria)
 	{
-		echo $numerohistoria;
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
 
-		$grupos = Grupos::lists('nombre', 'id');
-		$grupos[0] = '-- Elija un grupo --';
-		ksort($grupos);
+		$grupos = Grupos::lists('nombre', 'id'); ksort($grupos);
 
-		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id',
-																'precio_base', 'tipostratamientos_id'));
-
-		$atratamientos = array();
-		foreach ($tratamientosAll as $t) {
-			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre,
-																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
-		}
-
-		foreach (array_keys($grupos) as $key) {
-			if (!array_key_exists($key, $atratamientos)) {
-				$atratamientos[$key] = array();
-			}
-		}
-		ksort($atratamientos);
+		$atratamientos = $this->getTratamientosArray($grupos);
 
 		$presupuesto = new Presupuestos;
 		$presupuesto->descuento = 0; // valor por defecto
@@ -129,25 +135,9 @@ class PresupuestosController extends \BaseController {
 									->where('aceptado', 0)->firstOrFail();
 		$paciente = $presupuesto->paciente;
 
-		$grupos = Grupos::lists('nombre', 'id');
-		$grupos[0] = '-- Elija un grupo --';
-		ksort($grupos);
+		$grupos = Grupos::lists('nombre', 'id'); ksort($grupos);
 
-		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'precio_base'));
-		$atratamientos = array();
-		foreach ($tratamientosAll as $t) {
-			//var_dump($t);
-			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
-		}
-
-		$atratamientos[0] = '-- Elija primero un grupo de tratamientos --';
-
-		foreach (array_keys($grupos) as $key) {
-			if (!array_key_exists($key, $atratamientos)) {
-				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
-			}
-		}
-		ksort($atratamientos);
+		$atratamientos = $this->getTratamientosArray($grupos);
 
 		// TODO: Sacar también grupos
 		$tratamientos = $presupuesto->tratamientos()->get(array('tratamiento_id'));
