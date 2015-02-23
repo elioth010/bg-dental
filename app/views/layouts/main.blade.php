@@ -38,8 +38,8 @@
                     <li>{{ HTML::link('#', 'Otros datos') }}
                         <ul>
                             <li>{{ HTML::linkAction('CompaniasController@index', 'Compañías') }}</li>
-                            <li>{{ HTML::linkAction('ProfesionalController', 'Profesionales') }}</li>
-                            <li>{{ HTML::linkAction('EspecialidadController', 'Especialidades') }}</li>
+                            <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
+                            <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
                         </ul>
                     </li>
                     <li>{{ HTML::link('users/logout', 'Salir') }}</li>
