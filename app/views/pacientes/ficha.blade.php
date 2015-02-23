@@ -12,16 +12,14 @@
       </th><th>Apellidos
       </th>
       </tr>
-     
+
         @foreach($paciente as $paciente)
-        <tr>        
-        <td>{{ HTML::link('pacientes/ver/'.$paciente->numerohistoria, $paciente->numerohistoria); }}
-        </td>
+        <tr>
+        <td>{{ HTML::linkAction('PacientesController@verficha', $paciente->numerohistoria, $paciente->numerohistoria) }}</td>
         <td>{{$paciente->nombre}}</td>
         <td>{{$paciente->apellido1." ".$paciente->apellido2}}</td>
-        
         </tr>
         @endforeach
-     
+
     </table>
 @stop

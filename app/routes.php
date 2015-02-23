@@ -19,7 +19,7 @@ Route::get('pacientes', 'PacientesController@index');
 Route::get('pacientes/buscar', 'PacientesController@show');
 Route::post('pacientes/busqueda', 'PacientesController@busqueda');
 Route::get('populate', 'PopulateController@populate');
-Route::get('pacientes/ver/{numerohistoria}', 'PacientesController@verficha');
+Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
 Route::get('pacientes/crear', 'PacientesController@crear');
 Route::post('pacientes/guardar', 'PacientesController@store');
 Route::post('pacientes/{numerohistoria}/editarficha', 'PacientesController@editarficha');

@@ -12,9 +12,9 @@
     {{$tcp['nombre_comp'].": "}}
     {{ Form::text('nombre', null, array('placeholder'=>$tcp['precio'])) }}</li><br>
     @endforeach
-    
+
     {{ Form::submit('Guardar cambios')}}
-    {{ Form::button('Atrás')}} {{ HTML::link('tratamientos', 'Tratamientos') }}
+    {{ Form::button('Atrás')}} {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}
     @endforeach
 {{ Form::close() }}
 @stop

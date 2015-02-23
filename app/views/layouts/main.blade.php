@@ -22,24 +22,24 @@
                     <li>{{ HTML::link('users/dashboard', 'Panel usuarios') }}</li>
                     @endif
 
-                    <li>{{ HTML::link('pacientes', 'Pacientes') }}
+                    <li>{{ HTML::linkAction('PacientesController@index', 'Pacientes') }}
                     <ul>
-                        <li>{{ HTML::link('pacientes/crear', 'Crear pacientes') }}</li>
-                        <li>{{ HTML::link('pacientes/buscar', 'Buscar pacientes') }}</li>
+                        <li>{{ HTML::linkAction('PacientesController@crear', 'Crear pacientes') }}</li>
+                        <li>{{ HTML::linkAction('PacientesController@show', 'Buscar pacientes') }}</li>
                     </ul>
                     </li>
-                    <li>{{ HTML::link('tratamientos', 'Tratamientos') }}
+                    <li>{{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}
                         <ul>
-                            <li>{{ HTML::link('tratamientos/crear', 'Crear tratamientos') }}</li>
-                            <li>{{ HTML::link('tratamientos/grupos', 'Grupos de tratamientos') }}</li>
-                            <li>{{ HTML::link('tratamientos/creargrupo', ' Crear grupo de tratamientos') }}</li>
+                            <li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
+                            <li>{{ HTML::linkAction('GruposController@index', 'Grupos de tratamientos') }}</li>
+                            <li>{{ HTML::linkAction('GruposController@create', 'Crear grupo de tratamientos') }}</li>
                         </ul>
                     </li>
                     <li>{{ HTML::link('#', 'Otros datos') }}
                         <ul>
-                            <li>{{ HTML::link('tratamientos/companias', 'Compañías') }}</li>
-                            <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
-                            <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
+                            <li>{{ HTML::linkAction('CompaniasController@index', 'Compañías') }}</li>
+                            <li>{{ HTML::linkAction('ProfesionalController', 'Profesionales') }}</li>
+                            <li>{{ HTML::linkAction('EspecialidadController', 'Especialidades') }}</li>
                         </ul>
                     </li>
                     <li>{{ HTML::link('users/logout', 'Salir') }}</li>

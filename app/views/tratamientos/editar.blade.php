@@ -23,7 +23,7 @@
         @endif
         @endforeach</li>
         <li>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}</li><br>
-        <li>{{ Form::button('Atrás')}} {{ HTML::link('tratamientos', 'Tratamientos') }}</li>
+        <li>{{ Form::button('Atrás')}} {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}</li>
 
     {{ Form::close() }}
 @stop
