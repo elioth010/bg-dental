@@ -131,8 +131,8 @@ class PresupuestosController extends \BaseController {
 
 		$atratamientos = $this->getTratamientosArray($grupos);
 
-		// TODO: Sacar también grupos
-		$tratamientos = $presupuesto->tratamientos()->get(array('tratamiento_id'));
+		$tratamientos = $presupuesto->tratamientos()
+									->get(array('tratamiento_id', 'grupostratamientos_id'));
 
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();

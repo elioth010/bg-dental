@@ -79,7 +79,7 @@
         @foreach($tratamientos as $key => $t)
             // TODO: No se guarda el grupo
 
-            addTratamiento(1, {{ $t["tratamiento_id"] }})
+            addTratamiento({{ $t["grupostratamientos_id"] }}, {{ $t["tratamiento_id"] }})
 
         @endforeach
         // updatePrecios()

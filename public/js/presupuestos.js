@@ -55,13 +55,15 @@ function addTratamiento(gid, tid) {
     if (tid == null) {
         select2.append(new Option('-- Elija primero un grupo de tratamientos --', 0))
     } else {
-        if (tratamientos[gid].length == 0) {
+        if (tratamientos[gid] == undefined) {
             select2.append(new Option('-- No hay tratamiento --', 0));
         } else {
             select2.append(new Option('-- Elija un tratamiento --', 0));
-            for(var i = 0; i < tratamientos[gid].length; i++) {
-                select2.append(new Option(tratamientos[gid][i]['nombre'], tratamientos[gid][i]['id']))
+
+            for(t in tratamientos[gid]) {
+                select2.append(new Option(tratamientos[gid][t].nombre, t))
             }
+
         }
 
     }
