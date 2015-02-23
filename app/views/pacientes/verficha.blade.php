@@ -1,9 +1,9 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
 verficha.blade.php
     @foreach($paciente as $paciente)
-{{ Form::open(array('url'=>'pacientes/$paciente->id/editarficha')) }}     
+{{ Form::open(array('url'=>'pacientes/$paciente->id/editarficha')) }}
     <h1>Ficha del paciente:</h1>
 
 <ul class="labelreg4">
@@ -16,7 +16,7 @@ verficha.blade.php
     <li>Código Postal:</li>
     <li>Teléfonos:</li>
     <li>Compañía:</li>
- 
+
 </ul>
 
 <ul class="labelreg3">

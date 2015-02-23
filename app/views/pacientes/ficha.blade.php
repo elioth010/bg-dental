@@ -1,10 +1,10 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
         <h1>
   Paciente:
   </h1>
- 
+
     <table border = "1">
       <tr>
       <th>NHC

@@ -1,10 +1,10 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
     <h1>Ficha del tratamiento</h1>
     @foreach($tratamientos as $tratamiento)
-{{ Form::open(array('url'=>'tratamientos/$tratamiento->id/editartratamiento')) }}     
-    
+{{ Form::open(array('url'=>'tratamientos/$tratamiento->id/editartratamiento')) }}
+
     Código:
     {{ Form::text('codigo', null, array('placeholder'=>$tratamiento->codigo)) }}
     {{ Form::text('nombre', null, array('placeholder'=>$tratamiento->nombre)) }}<p>

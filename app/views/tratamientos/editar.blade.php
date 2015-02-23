@@ -10,11 +10,11 @@
         {{ Form::text('nombre', $tratamiento->nombre) }}</li>
         <li>{{--@foreach($tcp as $tcp)
             {{Form::label($tcp['nombre_comp'])}}
-            
+
             {{ Form::text('precio-'.$tcp['id'], $tcp['precio']) }}
         @endforeach --}}</li>
             {{ Form::select('grupostratamientos_id', $grupos, $tratamiento->grupostratamientos_id) }}
-        
+
         <li>@foreach($tipos as $tipo)
         @if($tratamiento->tipostratamientos_id === $tipo->id)
         {{ Form::radio('tipotratamiento', $tipo->id, true)}}{{$tipo->tipo}}</li>

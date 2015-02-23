@@ -13,7 +13,7 @@
  </header>
 
                     @if(Auth::check())
-                    
+
  <div id="menu">
 
                 <ul class="nav">
@@ -44,29 +44,29 @@
                     </li>
                     <li>{{ HTML::link('users/logout', 'Salir') }}</li>
 
-                  </ul> 
-			 </div> 
-			 
+                  </ul>
+			 </div>
+
 			         @else
                      <div id="menu">
                      <ul class="nav"><li>{{ HTML::link('users/login', 'Login') }}</li></ul>
                      @endif
 
-    
+
     <div class="container">
         @if(Session::has('message'))
             <p class="alert">{{ Session::get('message') }}</p>
         @endif
-   
+
         @yield('contenido')
-   
-       
-   
+
+
+
     </div>
- 
- 	<footer>   
+
+ 	<footer>
 	@include('includes.footer')
  	</footer>
-  </div> 
+  </div>
   </body>
 </html>
