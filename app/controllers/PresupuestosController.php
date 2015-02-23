@@ -68,20 +68,9 @@ class PresupuestosController extends \BaseController {
 
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
-			/*
 			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre,
 																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
-			*/
-			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre,
-																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
 		}
-
-		foreach ($grupos as $grupo) {
-			if (!array_key_exists($grupo->id, $atratamientos)) {
-				$atratamientos[$grupo->id] = array();
-			}
-		}
-		ksort($atratamientos);
 
 		return $atratamientos;
 	}

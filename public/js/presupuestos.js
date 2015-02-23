@@ -1,23 +1,23 @@
 
 // Se pincha en el select de grupo y actualiza el de tratamientos
-function updateSelectTratamientos(id, index) {
-    console.log('updateSelectTratamientos ' + id + ' ' + index)
+function updateSelectTratamientos(id, gid) {
+    console.log('updateSelectTratamientos ' + id + ' ' + gid)
     tratamientosSelect = $('#s_tratamiento-' + id)[0]
     tratamientosSelect.options.length=0
 
-    if (index == 0) {
+    if (gid == 0) {
         tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- Elija primero un grupo de tratamientos --', 0)
     } else {
-        for (i=0; i<tratamientos[index].length; i++) {
-            if (i==0) {
-                tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- Elija un tratamiento --', 0)
-            }
-            t = tratamientos[index][i]
-            tratamientosSelect.options[tratamientosSelect.options.length]=new Option(t['nombre'], t['id'])
-        }
 
-        if (tratamientosSelect.options.length == 0) {
+        if (tratamientos[gid] == undefined) {
             tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- No hay tratamientos --', 0)
+        } else {
+            tratamientosSelect.options[tratamientosSelect.options.length]=new Option('-- Elija un tratamiento --', 0)
+
+            gtratamientos = tratamientos[gid]
+            for(tid in gtratamientos) {
+                tratamientosSelect.options[tratamientosSelect.options.length]=new Option(gtratamientos[tid].nombre, tid)
+            }
         }
 
     }
@@ -32,6 +32,7 @@ function addTratamiento(gid, tid) {
 
     grupo = "grupo-" + lastIndex
     trat = "tratamiento-" + lastIndex
+    strat = "s_tratamiento-" + lastIndex
     lprecio = "precio-" + lastIndex
     lpreciof = "preciof-" + lastIndex
     ldescu = "descuento-" + lastIndex
@@ -40,7 +41,7 @@ function addTratamiento(gid, tid) {
 
     // Select: Grupos de tratamientos
     label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
-    select1 = $('<select>').attr({onchange: "updateSelectTratamientos(" + lastIndex + ", this.selectedIndex)", id: grupo, name: grupo})
+    select1 = $('<select>').attr({onchange: "updateSelectTratamientos(" + lastIndex + ", this.value)", id: grupo, name: grupo})
 
     select1.append(new Option('-- Elija un grupo --', 0));
     for(var i = 0; i < grupos.length; i++) {
@@ -49,7 +50,7 @@ function addTratamiento(gid, tid) {
 
     // Select: Tratamiento
     label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
-    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.selectedIndex)", id: "s_" + trat, name: trat})
+    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.value)", id: strat, name: trat})
 
     if (tid == null) {
         select2.append(new Option('-- Elija primero un grupo de tratamientos --', 0))
@@ -59,7 +60,6 @@ function addTratamiento(gid, tid) {
         } else {
             select2.append(new Option('-- Elija un tratamiento --', 0));
             for(var i = 0; i < tratamientos[gid].length; i++) {
-                console.log('updateSelectTratamientos ' + tratamientos[gid][i]['nombre'] + ' ' + tratamientos[gid][i]['id'])
                 select2.append(new Option(tratamientos[gid][i]['nombre'], tratamientos[gid][i]['id']))
             }
         }
@@ -149,9 +149,9 @@ function creaDivPiezas(id) {
 }
 
 // Cuando se cambia de tratamiento en el selector
-function updatePrecios(id, index) {
+function updatePrecios(id, tid) {
     grupo = $('#grupo-' + id).val()
-    console.log('updatePrecios ' + id + ', ' + index + ", " + grupo)
+    console.log('updatePrecios ' + id + ', ' + tid + ", " + grupo)
 
     if (id != null) {
         precio = $('#precio-' + id)
@@ -162,8 +162,8 @@ function updatePrecios(id, index) {
         divtratamiento = $("#tratamiento-" + id)
         dpiezas = $('#dpiezas-' + id)
 
-        if (index != null) {
-            if (index == 0) {
+        if (tid != null) {
+            if (tid == 0) {
                 precio.text("0.00")
                 preciof.text("0.00")
 
@@ -172,7 +172,7 @@ function updatePrecios(id, index) {
                 }
             } else {
 
-                tipo = tratamientos[grupo][index-1]['tipo']
+                tipo = tratamientos[grupo][tid]['tipo']
 
                 // 1 = pieza, 2 = general, 3 = puente
                 if (tipo == 2) {
@@ -199,13 +199,13 @@ function updatePrecios(id, index) {
                     ipiezas.val("")
                 }
 
-                updatePrecioTratamiento(id, index, grupo)
+                updatePrecioTratamiento(id, tid, grupo)
             }
 
         } else {
-
-            index = $('#s_tratamiento-' + id)[0].selectedIndex
-            updatePrecioTratamiento(id, index, grupo)
+            console.log('algo ' + id)
+            tid = $('#s_tratamiento-' + id)[0].value
+            updatePrecioTratamiento(id, tid, grupo)
         }
 
         preciof.text(preciof.text() + " ")
@@ -215,35 +215,35 @@ function updatePrecios(id, index) {
 }
 
 // Actualiza los campos de precio cuando se ha seleccionado otro tratamiento
-function updatePrecioTratamiento(id, index, grupo) {
-    console.log('updatePrecioTratamiento ' + id + ', ' + index + ", " + grupo)
+function updatePrecioTratamiento(id, tid, grupo) {
+    console.log('updatePrecioTratamiento ' + id + ', ' + tid + ", " + grupo)
 
     iunidades = $('#iunidades-' + id)
 
-    if (index == 0) {
+    if (tid == 0) {
         precio.text("0.00")
         preciof.text("0.00")
     } else {
         if (tipodesc == 'P') {
 
             if (iunidades.length) {
-                descuento = desc * tratamientos[grupo][index-1]['precio'] * iunidades.val() / 100
-                preciofinal = tratamientos[grupo][index-1]['precio'] * iunidades.val() - descuento
+                descuento = desc * tratamientos[grupo][tid].precio * iunidades.val() / 100
+                preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - descuento
             } else {
-                descuento = desc * tratamientos[grupo][index-1]['precio'] / 100
-                preciofinal = tratamientos[grupo][index-1]['precio'] - descuento
+                descuento = desc * tratamientos[grupo][tid].precio / 100
+                preciofinal = tratamientos[grupo][tid].precio - descuento
             }
 
         } else {
 
             if (iunidades.length) {
-                preciofinal = tratamientos[grupo][index-1]['precio'] * iunidades.val() - desc
+                preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - desc
             } else {
-                preciofinal = tratamientos[grupo][index-1]['precio'] - desc
+                preciofinal = tratamientos[grupo][tid].precio - desc
             }
         }
 
-        precio.text(tratamientos[grupo][index-1]['precio'])
+        precio.text(tratamientos[grupo][tid].precio)
         preciof.text(preciofinal)
     }
 

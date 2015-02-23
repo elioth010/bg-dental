@@ -81,8 +81,6 @@
 
             addTratamiento(1, {{ $t["tratamiento_id"] }})
 
-            // TODO: No pasarle el id sino el index
-            //updatePrecios({{ $key+1 }}, {{ $t["tratamiento_id"] }})
         @endforeach
         // updatePrecios()
     <?php } ?>
