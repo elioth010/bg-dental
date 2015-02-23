@@ -32,6 +32,7 @@
 	<ul class="labelreg6">
     	<li>{{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}</li>
    		<li>{{ Form::hidden('num_tratamientos', 1) }}</li>
+        <li>{{ Form::hidden('presupuesto_id', $presupuesto->id) }}</li>
     	<li>{{ Form::label('nombre', 'Nombre del presupuesto:') }} {{ Form::text('nombre', $presupuesto->nombre) }}</li>
 	    <li>{{ Form::label('descuento', 'Descuento total:') }} {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()', 'size' => 3)) }}{{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
                     $presupuesto->tipodescuento, array('id' => 'tipodescuento', 'onchange' => 'updatePrecios()')) }}</li>

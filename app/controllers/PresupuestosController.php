@@ -191,8 +191,7 @@ class PresupuestosController extends \BaseController {
 				$nombre = 'Sin nombre';
 			}
 
-			//$presupuesto = Presupuestos::create(Input::all());
-			$presupuesto = new Presupuestos;
+			$presupuesto = Presupuestos::firstOrNew(array('id' => Input::get('presupuesto_id')));
 			$presupuesto->nombre = $nombre;
 			$presupuesto->aceptado = 0;
 			$presupuesto->user_id = Session::get('user_id');
@@ -206,6 +205,8 @@ class PresupuestosController extends \BaseController {
 				echo 'Guardado presupuesto con id ' . $presupuesto->id . '<br>';
 			}
 
+			$presupuesto->tratamientos()->detach();
+			
 			for ($i=1; $i<=$num; $i++) {
 				$grupo = Input::get('grupo-' . $i);
 				if ($grupo == 0) {
