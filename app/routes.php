@@ -156,15 +156,15 @@ Route::get('crearpresu', function() {
 
 
 Route::get('creartrats', function() {
-      $archivo = fopen(storage_path().'/tratamientos.csv', 'r');
+      $archivo = fopen(storage_path().'/l.csv', 'r');
       $grupo = "Grupo";
       $id_grupo = "X";
       while (( $data = fgetcsv($archivo, 2500, ';', '"')) !== FALSE)
       {
 // 	    $grupo = "Grupo";
 
-	    $tratamiento = new Tratamientos;
-	      if(strlen($data['0']) == 1)
+	    //$tratamiento = new Tratamientos;
+	      if(strlen($data['0']) == 2 )
 		      {
 			$grupo_id = $data['0'];
 			$grupo_s = Grupos::where('id',$grupo_id)->first();
@@ -185,46 +185,24 @@ Route::get('creartrats', function() {
 			$precio_8 = $data['11'];
 			$precio_9 = $data['12'];
 			$precio_10 = $data['13'];
-			$precio_11 = $data['14'];
-			$precio_12 = $data['15'];
-			$precio_13 = $data['16'];
-			$precio_14 = $data['17'];
-			$precio_15 = $data['18'];
-			$precio_16 = $data['19'];
-			$precio_17 = $data['20'];
-			$precio_18 = $data['21'];
-			$precio_19 = $data['22'];
-			$precio_20 = $data['23'];
-			$precio_21 = $data['24'];
-		       }
-	    $tratamiento->precio_base = $precio;
-	    $tratamiento->grupostratamientos_id = $id_grupo;
-	    $tratamiento->codigo = $codigo;
-	    $tratamiento->nombre = $nombre;
-	    $tratamiento->save();
-	    $tratamiento->companias()->attach(1, array('precio' => $precio_1));
-	    $tratamiento->companias()->attach(2, array('precio' => $precio_2));
-	    $tratamiento->companias()->attach(3, array('precio' => $precio_3));
-	    $tratamiento->companias()->attach(4, array('precio' => $precio_4));
-	    $tratamiento->companias()->attach(5, array('precio' => $precio_5));
-	    $tratamiento->companias()->attach(6, array('precio' => $precio_6));
-	    $tratamiento->companias()->attach(7, array('precio' => $precio_7));
-	    $tratamiento->companias()->attach(8, array('precio' => $precio_8));
-	    $tratamiento->companias()->attach(9, array('precio' => $precio_9));
-	    $tratamiento->companias()->attach(10, array('precio' => $precio_10));
-	    $tratamiento->companias()->attach(11, array('precio' => $precio_11));
-	    $tratamiento->companias()->attach(12, array('precio' => $precio_12));
-	    $tratamiento->companias()->attach(13, array('precio' => $precio_13));
-	    $tratamiento->companias()->attach(14, array('precio' => $precio_14));
-	    $tratamiento->companias()->attach(15, array('precio' => $precio_15));
-	    $tratamiento->companias()->attach(16, array('precio' => $precio_16));
-	    $tratamiento->companias()->attach(17, array('precio' => $precio_17));
-	    $tratamiento->companias()->attach(18, array('precio' => $precio_18));
-	    $tratamiento->companias()->attach(19, array('precio' => $precio_19));
-	    $tratamiento->companias()->attach(20, array('precio' => $precio_20));
-	    $tratamiento->companias()->attach(21, array('precio' => $precio_21));
-
-	    //echo $grupo."-".$codigo."-".$nombre."-".$precio." - Precio MAPFRE: ".$precio_1."<br>";
+			
+                       }
+//	    $tratamiento->precio_base = $precio;
+//	    $tratamiento->grupostratamientos_id = $id_grupo;
+//	    $tratamiento->codigo = $codigo;
+//	    $tratamiento->nombre = $nombre;
+//	    $tratamiento->save();
+//	    $tratamiento->companias()->attach(1, array('precio' => $precio_1));
+//	    $tratamiento->companias()->attach(2, array('precio' => $precio_2));
+//	    $tratamiento->companias()->attach(3, array('precio' => $precio_3));
+//	    $tratamiento->companias()->attach(4, array('precio' => $precio_4));
+//	    $tratamiento->companias()->attach(5, array('precio' => $precio_5));
+//	    $tratamiento->companias()->attach(6, array('precio' => $precio_6));
+//	    $tratamiento->companias()->attach(7, array('precio' => $precio_7));
+//	    $tratamiento->companias()->attach(8, array('precio' => $precio_8));
+//	    $tratamiento->companias()->attach(9, array('precio' => $precio_9));
+	    
+	    echo $grupo."-".$codigo."-".$nombre."-".$precio." - Precio MAPFRE: ".$precio_1."<br>";
       }
 
 });
