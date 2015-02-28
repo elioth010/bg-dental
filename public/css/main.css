@@ -453,6 +453,18 @@ tr:first-child td:last-child{
 	text-align: center;
 	padding-top: 10px;
 	overflow: auto;}
+
+/* select */
+.select_prof{
+    font-size: 10px;
+    width: 100px;
+}
+
+/* odontograma */
+.odontograma{
+    margin: auto;
+    
+}
 /* footer */
 footer{
 	padding-top: 20px;

@@ -5,7 +5,7 @@
     <script src="/js/presupuestos.js"></script>
 @stop
 
-<div>
+
 @section('contenido')
 <div class="top_reg">
     <h1>Datos del paciente</h1>
@@ -26,7 +26,7 @@
 
 </div>
 
-<div>
+
 	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
     <h1>Nuevo presupuesto</h1>
 	<ul class="labelreg6">
@@ -40,7 +40,7 @@
     	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
     </ul>
 
-   	<div>
+  
         <h2>Tratamientos</h2>
         <div id='tratamientos'>
         </div>
@@ -59,7 +59,7 @@
                 </li>
         	</ul>
         </div>
-    </div>
+   
 <script type="text/javascript">
     var grupos = {{ json_encode($grupos) }}
     var tratamientos = {{ json_encode($atratamientos) }}

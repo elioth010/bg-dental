@@ -10,6 +10,7 @@
  <div id="wrapper">
  <header>
  <div class="logo"></div>
+ {{ HTML::link('users/logout', 'Salir') }}
  </header>
 
                     @if(Auth::check())
@@ -17,9 +18,13 @@
  <div id="menu">
 
                 <ul class="nav">
-                    <li>{{ HTML::link('users/register', 'Registrar') }}</li>
+                    
                     @if(Auth::user()->isAdmin())
-                    <li>{{ HTML::link('users/dashboard', 'Panel usuarios') }}</li>
+                    <li>{{ HTML::link('users/dashboard', 'Panel usuarios') }}
+                        <ul>
+                            <li>{{ HTML::link('users/register', 'Registrar') }}</li>
+                        </ul>
+                    </li>
                     @endif
 
                     <li>{{ HTML::linkAction('PacientesController@index', 'Pacientes') }}
@@ -42,7 +47,12 @@
                             <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
                         </ul>
                     </li>
-                    <li>{{ HTML::link('users/logout', 'Salir') }}</li>
+                    <li>{{ HTML::link('#', 'Agenda') }}
+                        <ul>
+                            <li>{{ HTML::link('turno', 'Turnos') }}</li>
+                            <li>{{ HTML::link('guardia', 'Guardias') }}</li>
+                        </ul>
+                    </li>
 
                   </ul>
 			 </div>

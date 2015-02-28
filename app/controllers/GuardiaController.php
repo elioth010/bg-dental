@@ -56,7 +56,7 @@ class GuardiaController extends \BaseController {
             $profesionales = Profesional::get();
             $option_prof="";
             foreach($profesionales as $i=>$profesionales){
-                    $option_prof .= "<option value =".$profesionales->id.">".$profesionales->nombre." ".$profesionales->apellido1." ".$profesionales->apellido2."</option>";
+                    $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1." ".$profesionales->apellido1."</option>";
             }
             
             $mes = 2;
@@ -68,7 +68,7 @@ class GuardiaController extends \BaseController {
             $date;
             $i = 1;
             while($i<=$numero){
-                $select_prof = "<select name = \"profesional_id-" . $i . "\">" . $option_prof . "</select>";
+                $select_prof = "<select class = \"select_prof\" name = \"profesional_id-" . $i . "\">" . $option_prof . "</select>";
                 $date_in = $ano."-".$mes."-".$i;
                 $input = '<input  type = "hidden" name="dia-'.$i.'" value= "'.$date_in.'">';
                 $events[$date_in] = array($input, $select_prof);
