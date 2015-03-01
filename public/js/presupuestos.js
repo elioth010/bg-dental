@@ -135,18 +135,6 @@ function creaDivPiezas(id) {
     od.find('img').attr({usemap: "#odontograma-" + id, id: "iodontograma-" + id})
     dpiezas.append(od)
 
-    $("#iodontograma-" + id).maphilight();
-
-    $('#dodontograma-' + id + ' > button').click(function(e) {
-        onOdontogramaClose(id, $(this).parent(), ipiezas, iunidades);
-    });
-
-    areas = $('#odontograma-' + id + ' area')
-    areas.click(function(e) {
-        e.preventDefault();
-        onOdontogramaClick(id, this)
-    });
-
     return dpiezas;
 }
 
@@ -193,6 +181,7 @@ function updatePrecios(id, tid) {
                     if (!dpiezas.length) {
                         dpiezas = creaDivPiezas(id)
                         divtratamiento.append(dpiezas)
+                        odontogramaHighlight(id)
                     } else {
                         lpiezas = $('#piezas-' + id)[0]
                         lpiezas.text = piezastext
@@ -284,6 +273,20 @@ function onOdontogramaClick(id, area) {
     data.alwaysOn = !data.alwaysOn;
     odontograma[1][area.id.substr(1)] = data.alwaysOn
     $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+}
+
+function odontogramaHighlight(id) {
+    $("#iodontograma-" + id).maphilight();
+
+    $('#dodontograma-' + id + ' > button').click(function(e) {
+        onOdontogramaClose(id, $(this).parent(), ipiezas, iunidades);
+    });
+
+    areas = $('#odontograma-' + id + ' area')
+    areas.click(function(e) {
+        e.preventDefault();
+        onOdontogramaClick(id, this)
+    });
 }
 
 function onOdontogramaClose(id, parent, ipiezas, iunidades) {
