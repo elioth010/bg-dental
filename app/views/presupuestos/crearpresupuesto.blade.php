@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('javascripts')
-    <script src="//davidlynch.org/projects/maphilight/jquery.maphilight.js"></script>
+    <script src="/js/jquery.maphilight.min.js"></script>
     <script src="/js/presupuestos.js"></script>
 @stop
 
@@ -40,7 +40,7 @@
     	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
     </ul>
 
-  
+
         <h2>Tratamientos</h2>
         <div id='tratamientos'>
         </div>
@@ -59,7 +59,7 @@
                 </li>
         	</ul>
         </div>
-   
+
 <script type="text/javascript">
     var grupos = {{ json_encode($grupos) }}
     var tratamientos = {{ json_encode($atratamientos) }}
@@ -77,12 +77,9 @@
 
     <?php } else { ?>
         @foreach($tratamientos as $key => $t)
-            // TODO: No se guarda el grupo
-
             addTratamiento({{ $t["grupostratamientos_id"] }}, {{ $t["tratamiento_id"] }})
-
+            updatePrecios(lastIndex, {{ $t["tratamiento_id"] }})
         @endforeach
-        // updatePrecios()
     <?php } ?>
 
     });

@@ -97,6 +97,8 @@ function addTratamiento(gid, tid) {
 
     $('input[name="num_tratamientos"]').val(lastIndex)
 
+    // TODO: si tipo, meter piezas...
+
     if (gid) select1.val(gid)
     if (tid) select2.val(tid)
 
@@ -114,12 +116,14 @@ function creaDivPiezas(id) {
         e.preventDefault();
         $("#dodontograma-" + id).attr("style", "position:absolute;left:10%;top:5%");
         areas = $('#odontograma-' + id + ' area')
+        /*
         for (i=0; i<areas.length; i++) {
             aid = areas[i].id.substr(1)
             if (odontograma[id][aid]) {
                 console.log('marcado ', id, aid)
             }
         }
+        */
     });
     dpiezas.append(newLink)
 
@@ -297,7 +301,7 @@ function onOdontogramaClose(id, parent, ipiezas, iunidades) {
     console.log('odontograma id')
 
     for (i=0; i<odontograma[id].length; i++) {
-        console.log(i, odontograma[id][i])
+        //console.log(i, odontograma[id][i])
         if (odontograma[id][i]) {
             active += i + ","
             unidades++

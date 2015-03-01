@@ -10,31 +10,8 @@ class PresupuestosController extends \BaseController {
 	public function verPresupuesto($paciente, $id)
 	{
 		$presupuesto = Presupuestos::find($id);
-		//$tratamientos = PresupuestoTratamiento::where('presupuesto_id', $id)->get();
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
-/*
-		$tratamientos = $presupuesto->tratamientos()->select('*')
-									->join('presupuestos_tratamientos', 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
-									->get();
-*/
 
-		/*
-		$presupuesto = Presupuestos::where('presupuesto_id',$id)
-			->leftJoin('users', 'users.id', '=', 'user_id')
-			->leftJoin('presupuestos_tratamientos', 'presupuestos_tratamientos.presupuesto_id', '=', 'presupuestos.id')
-			->leftJoin('tratamientos' , 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
-			->leftJoin('profesionales', 'profesionales.id', '=', 'presupuestos.profesional_id')
-			->leftJoin('pacientes', 'pacientes.numerohistoria', '=','presupuestos.numerohistoria')
-			->leftJoin('companias', 'pacientes.compania', '=', 'companias.id')
-			->select('aceptado','presupuesto_id','presupuestos.created_at as creado', 'presupuestos.updated_at as modificado', 'presupuestos.nombre as nombre_pre',
-				'profesionales.nombre as profesional',
-				'tratamientos.nombre as nombre_t',
-				'tratamientos.precio_base as precio_base',
-				'pacientes.nombre as nombre_pa','pacientes.apellido1 as apellido1', 'pacientes.apellido2 as apellido2',
-				'companias.nombre as nombre_comp',
-				'users.firstname as nombre_u')
-			->get();
-		*/
 		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
 																	 'tratamientos' => $tratamientos,
 																	 'paciente' => $paciente));
@@ -206,7 +183,7 @@ class PresupuestosController extends \BaseController {
 			}
 
 			$presupuesto->tratamientos()->detach();
-			
+
 			for ($i=1; $i<=$num; $i++) {
 				$grupo = Input::get('grupo-' . $i);
 				if ($grupo == 0) {
