@@ -51,6 +51,10 @@
                         <ul>
                             <li>{{ HTML::link('turno', 'Turnos') }}</li>
                             <li>{{ HTML::link('guardia', 'Guardias') }}</li>
+                            @if(Auth::user()->isAdmin())
+                            <li>{{ HTML::link('turno/create', 'Crear turnos') }}</li>
+                            <li>{{ HTML::link('guardia/create', 'Crear guardias') }}</li>
+                            @endif
                         </ul>
                     </li>
 

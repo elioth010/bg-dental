@@ -23,7 +23,15 @@ class GuardiaController extends \BaseController {
 //            );
 	public function index()
 	{
-            $eventos = Guardias::where('fecha_guardia', 'LIKE', '%-02-%')->get(array('fecha_guardia', 'profesional_id'));
+            if(null !== Input::get('cdate')){
+            $cdate = explode("-", Input::get('cdate'));
+            $mes = $cdate[1];
+            $ano = $cdate[0];
+            } else {
+                $mes = date("m");
+                $ano = date("Y");
+            }
+            $eventos = Guardias::where('fecha_guardia', 'LIKE', '%-'.$mes.'-%')->get(array('fecha_guardia', 'profesional_id'));
             
             $events = array();
             foreach($eventos as $evento){
@@ -59,14 +67,21 @@ class GuardiaController extends \BaseController {
                     $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1." ".$profesionales->apellido1."</option>";
             }
             
-            $mes = 2;
-            $ano = 2015;
+            if(null !== Input::get('cdate')){
+            $cdate = explode("-", Input::get('cdate'));
+            $mes = $cdate[1];
+            $ano = $cdate[0];
+            } else {
+                $mes = date("m");
+                $ano = date("Y");
+            }
 //            $numero = 1;
+//        var_dump($ano);
             $numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
             $i = 1;
             $events = array();
             $date;
-            $i = 1;
+            
             while($i<=$numero){
                 $select_prof = "<select class = \"select_prof\" name = \"profesional_id-" . $i . "\">" . $option_prof . "</select>";
                 $date_in = $ano."-".$mes."-".$i;
@@ -82,7 +97,7 @@ class GuardiaController extends \BaseController {
              $cal = Calendar::make();
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
              $cal->setStartWeek('L');
-             $cal->setBasePath('/guardia'); // Base path for navigation URLs
+             $cal->setBasePath('/guardia/create'); // Base path for navigation URLs
              $cal->setDate(Input::get('cdate')); //Set starting date
              $cal->showNav(true); // Show or hide navigation
              $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
