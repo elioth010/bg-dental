@@ -462,8 +462,12 @@ tr:first-child td:last-child{
 
 /* odontograma */
 .odontograma{
-    margin: auto;
-    
+    margin: 10px 0 0 40px;    
+}
+/* exit */
+.exit{
+	float: right;
+	margin-right: 20px;
 }
 /* footer */
 footer{
