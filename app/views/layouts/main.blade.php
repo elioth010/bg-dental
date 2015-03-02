@@ -10,7 +10,12 @@
  <div id="wrapper">
  <header>
  <div class="logo"></div>
- {{ HTML::link('users/logout', 'Salir') }}
+ <div class="exit">
+
+<!--  {{ HTML::link('users/logout', HTML::image('imagenes/exit.png', 'Salir')) }} -->
+
+ {{ html_entity_decode( HTML::link("users/logout", HTML::image("imagenes/exit.png", "Salir", array('title' => 'Salir')) ) ) }}
+ </div>
  </header>
 
                     @if(Auth::check())
