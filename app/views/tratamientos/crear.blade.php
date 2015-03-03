@@ -3,14 +3,15 @@
 @section('contenido')
 {{ Form::open(array('url'=>'tratamientos/guardar')) }}     
     <h1>Creación de tratamientos:</h1>
-    {{ Form::select('grupostratamientos_id', $grupos) }}
-    {{ Form::text('codigo', null, array('placeholder'=>'código')) }}
-    {{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}
-    {{ Form::text('precio_base', null, array('placeholder'=>'euros')) }}
+    <ul class="labelreg6">
+    <li>{{ Form::select('grupostratamientos_id', $grupos) }}</li>
+    <li>{{ Form::text('codigo', null, array('placeholder'=>'código')) }}</li>
+    <li>{{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}</li>
+    <li>{{ Form::text('precio_base', null, array('placeholder'=>'euros')) }}</li>
     General? {{ Form::checkbox('tipostratamientos_id') }}
-    {{Form::hidden('activo', '1')}}
-    {{ Form::submit('Guardar', array('class'=>'botonl'))}}
+    <li>{{Form::hidden('activo', '1')}}</li>
+    <li>{{ Form::submit('Guardar', array('class'=>'botonl'))}}</li>
 
 {{ Form::close() }}
 @stop
- 
+ 	</ul>

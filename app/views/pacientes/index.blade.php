@@ -1,9 +1,9 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
-   
-  <div class="search">     
-  {{ HTML::link('/pacientes/buscar', 'Buscar pacientes')}}
+
+  <div class="search">
+  {{ HTML::linkAction('PacientesController@show', 'Buscar pacientes') }}
   </div>
   <div class="top">
   <h3>
@@ -18,7 +18,7 @@
       </tr>
       @foreach($pacientes as $paciente)
         <tr>
-        <td>{{ HTML::link('pacientes/ver/'.$paciente->numerohistoria, $paciente->numerohistoria); }}</td>
+        <td>{{ HTML::linkAction('PacientesController@verficha', $paciente->numerohistoria, $paciente->numerohistoria) }}</td>
         <td>{{$paciente->nombre}}</td>
         <td>{{$paciente->apellido1." ".$paciente->apellido2}}</td>
         </tr>
@@ -26,4 +26,3 @@
     </table>
 </div>
 @stop
-

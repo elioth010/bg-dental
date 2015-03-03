@@ -1,11 +1,11 @@
 @extends('layouts.main')
 
 @section('javascripts')
-    <script src="//davidlynch.org/projects/maphilight/jquery.maphilight.js"></script>
+    <script src="/js/jquery.maphilight.min.js"></script>
     <script src="/js/presupuestos.js"></script>
 @stop
 
-<div>
+
 @section('contenido')
 <div class="top_reg">
     <h1>Datos del paciente</h1>
@@ -26,40 +26,40 @@
 
 </div>
 
-<div>
+
 	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
     <h1>Nuevo presupuesto</h1>
 	<ul class="labelreg6">
     	<li>{{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}</li>
    		<li>{{ Form::hidden('num_tratamientos', 1) }}</li>
+        <li>{{ Form::hidden('presupuesto_id', $presupuesto->id) }}</li>
     	<li>{{ Form::label('nombre', 'Nombre del presupuesto:') }} {{ Form::text('nombre', $presupuesto->nombre) }}</li>
-	<li>{{ Form::label('descuento', 'Descuento total:') }} {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()', 'size' => 3)) }}{{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
+	    <li>{{ Form::label('descuento', 'Descuento total:') }} {{ Form::text('descuento', $presupuesto->descuento, array('onchange' => 'updatePrecios()', 'size' => 3)) }}{{ Form::select('tipodescuento', array('E' => 'EUR', 'P' => '%'),
                     $presupuesto->tipodescuento, array('id' => 'tipodescuento', 'onchange' => 'updatePrecios()')) }}</li>
 
     	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
     </ul>
 
-   		<div>
+
         <h2>Tratamientos</h2>
         <div id='tratamientos'>
         </div>
-        <!-- {{ HTML::link('#', 'Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }} -->
         {{ Form::button('Añadir', array('id' => 'b_addTratamiento', 'onclick' => 'addTratamiento()')) }}
-<div>
-        <ul class="labelreg6">
-        <li><h2>Precio</h2></li>
-        <li>Subtotal: <span id="p_subtotal">0.00</span></li>
-        <li>Descuento total: <span id="p_descuento">0</span></li>
-        <li>Total: <span id="p_total">0.00</span></li>
-		<li>{{ Form::submit('Guardar cambios')}} {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}   <?php if (!empty($tratamientos)) { ?></li>
-    {{ Form::close() }}
-    	<li>        {{ HTML::linkAction('PresupuestosController@borrarPresupuesto', 'Eliminar este presupuesto',
-                            array($paciente->numerohistoria, $presupuesto->id)) }}
-    <?php } ?>
-</li>
-    	</ul>
-</div>
-</div>
+        <div>
+            <ul class="labelreg6">
+                <li><h2>Precio</h2></li>
+                <li>Subtotal: <span id="p_subtotal">0.00</span></li>
+                <li>Descuento total: <span id="p_descuento">0</span></li>
+                <li>Total: <span id="p_total">0.00</span></li>
+        		<li>{{ Form::submit('Guardar cambios')}} {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}   <?php if (!empty($tratamientos)) { ?></li>
+            {{ Form::close() }}
+            	<li>        {{ HTML::linkAction('PresupuestosController@borrarPresupuesto', 'Eliminar este presupuesto',
+                                    array($paciente->numerohistoria, $presupuesto->id)) }}
+            <?php } ?>
+                </li>
+        	</ul>
+        </div>
+
 <script type="text/javascript">
     var grupos = {{ json_encode($grupos) }}
     var tratamientos = {{ json_encode($atratamientos) }}
@@ -71,18 +71,15 @@
     <?php if (empty($tratamientos)) { ?>
         addTratamiento()
 
-        $('#p_subtotal')[0].innerText = '0.00'
-        $('#p_descuento')[0].innerText = '0.00'
-        $('#p_total')[0].innerText = '0.00'
+        $('#p_subtotal').text('0.00')
+        $('#p_descuento').text('0.00')
+        $('#p_total').text('0.00')
 
     <?php } else { ?>
-        @foreach($tratamientos as $t)
-        // TODO: No se guarda el grupo
-        // addTratamiento({{$t->grupo}}, {{$t->trat}})
-        addTratamiento(1, {{$t->pivot->tratamiento_id}})
-
+        @foreach($tratamientos as $key => $t)
+            addTratamiento({{ $t["grupostratamientos_id"] }}, {{ $t["tratamiento_id"] }})
+            updatePrecios(lastIndex, {{ $t["tratamiento_id"] }})
         @endforeach
-        updatePrecios()
     <?php } ?>
 
     });

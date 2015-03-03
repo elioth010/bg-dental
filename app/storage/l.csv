@@ -1,0 +1,155 @@
+15;;;;;;;;;;
+119000001;Consulta/Presupuesto;;0,00;0,00;0,00;0,00;0,00;0,00;0,00;15
+119000002;Revisión/Prueba;;0,00;0,00;0,00;0,00;0,00;0,00;0,00;15
+119001458;Rx Periapical;;0,00;0,00;0,00;0,00;0,00;0,00;0,00;15
+no existe;Ortopantomografía;;43,00;0,00;30,10;0,00;29,00;0,00;0,00;15
+no existe;Teleradiografía;;43,00;0,00;30,10;0,00;29,00;0,00;0,00;15
+1;1;;;;;;;;;
+119001460;Limpieza/Tartrectomía/Profilaxis;;60,00;50,00;18,00;0,00;0,00;0,00;0,00;1
+119001464;Fluoración (sesión);;24,00;20,00;30,80;0,00;0,00;0,00;0,00;1
+119001471;Sellado de fosas y fisuras (pieza);;24,00;20,00;30,80;0,00;0,00;0,00;0,00;1
+11900479;Pulpectomía;;90,00;72,00;69,30;72,00;72,00;72,00;72,00;1
+11900478;Pulpotomía;;70,00;56,00;49,00;0,00;51,00;44,25;40,00;1
+11900480F;Mantenedor de espacio;;176,00;140,80;123,20;0,00;90,00;70,00;56,00;1
+11900480R;Mantenedor de espacio;;176,00;140,80;123,20;0,00;135,00;116,50;100,00;1
+11900481;Apicoformacion (por sesión);;120,00;96,00;84,00;0,00;56,00;47,75;40,00;1
+2;2;;;;;;;;;
+119001470;Obturación simple;;36,00;30,00;27,00;30,00;37,00;32,00;28,00;2
+11900471;Obturación compleja  (Reconstrucción compleja = mapfre);;60,00;50,00;45,00;45,00;56,00;42,00;40,00;2
+119001472;Obturación simple en diente temporal;;60,00;50,00;45,00;0,00;50,00;50,00;50,00;2
+11900472;Reconstrucción (Reconstrucción con pin = mapfre);;78,00;65,00;59,00;51,00;67,00;51,00;50,00;2
+11906988;Reconstrucción diente temporal;;78,00;65,00;59,00;0,00;65,00;65,00;0,00;2
+3;;;;;;;;;;
+11907011;Apertura cameral;;60,00;50,00;45,00;45,00;36,00;45,00;45,00;3
+11900473;Endodoncia 1 conducto;;117,00;99,00;90,00;90,00;87,50;69,00;65,00;3
+11900474;Endodoncia 2 conductos;;156,00;132,00;120,00;90,00;112,50;82,75;80,00;3
+11900475;Endodoncia 3 conductos;;195,00;165,00;150,00;125,00;143,50;108,00;100,00;3
+11900476;Reendodoncia 1 conducto;;143,00;121,00;110,00;100,00;94,00;121,00;95,00;3
+119000519;Reendodoncia 2 conductos;;182,00;154,00;140,00;100,00;126,00;154,00;110,00;3
+119000520;Reendodoncia 3 conductos;;208,00;176,00;160,00;140,00;148,00;176,00;130,00;3
+4;(máxilo);;;;;;;;;
+119001459;Exodoncia simple;;45,00;36,00;32,00;0,00;0,00;0,00;0,00;4
+119000920;Exodoncia cordal;;75,00;60,00;53,00;0,00;38,00;0,00;0,00;4
+11900919;Resto radicular;;45,00;36,00;32,00;0,00;34,50;0,00;60,00;4
+119000921;Exodoncia cordal semi-incluido;;150,00;120,00;105,00;0,00;51,50;0,00;0,00;4
+119003165;Exodoncia cordal incluido;;250,00;200,00;175,00;0,00;116,00;0,00;0,00;4
+119000929;Apiceptomía (por pieza);;155,00;131,00;119,00;0,00;84,00;70,00;80,00;4
+119000973;Quistectomía;;75,00;60,00;53,00;0,00;119,50;;75,00;4
+5;;;;;;;;;;
+11900483;Periodontograma;;80,00;64,00;56,00;0,00;42,00;0,00;45,00;5
+119001462;Curetaje (por pieza);;11,00;9,00;8,00;9,00;;;;5
+119001461;Curetaje (por cuadrante);;80,00;64,00;56,00;64,00;65,50;50,50;50,00;5
+11200937;Gingivectomía (por cuadrante);;90,00;72,00;63,00;0,00;65,50;51,00;50,00;5
+11900487;Gingivectomía (por pieza);;30,00;24,00;21,00;0,00;24,00;24,00;24,00;5
+11900484;Tratamiento periodontal de mantenimiento (por cuadrante);;90,00;72,00;63,00;18,00;30,00;25,75;25,00;5
+11900490;Ferulización periodontal;;50,00;40,00;35,00;30,00;;;80,00;5
+11900486;Membrana;;;;;;264,50;183,00;225,00;5
+11900488;Tejido conectivo/relleno oseo;;;;;;149,50;121,00;200,00;5
+11900489;Alargamiento coronario;;;;;;;;;5
+6;;;;;;;;;;
+11900491;Prótesis completa superior o inferior;;600,00;480,00;420,00;400,00;345,00;273,00;290,00;6
+11900492;Parcial acrílico de 1 a 3 piezas;;322,00;258,00;226,00;350,00;276,00;211,00;215,00;6
+11900492;Parcial acrílico de 4 a 6 piezas;;380,00;305,00;266,00;365,00;316,00;235,75;250,00;6
+11900495;Base parcial esquelético;;362,00;290,00;254,00;175,00;287,00;223,00;210,00;6
+119000523;Piezas esquelético;;52,00;42,00;37,00;32,00;43,50;32,50;38,00;6
+11900493;Compostura acrílico;;88,00;71,00;62,00;36,00;47,00;32,00;35,00;6
+11900494;Compostura esquelético;;110,00;88,00;77,00;58,00;65,50;55,00;60,00;6
+11900496A mirar original;Reponer piezas;;88,00;71,00;62,00;32,00;54,00;44,25;45,00;6
+11900496E mirar original;Reponer piezas;;88,00;71,00;62,00;32,00;54,00;44,25;45,00;6
+no existe;Refuerzo metálico;;88,00;71,00;62,00;88,00;47,70;38,00;37,00;6
+11900497;Rebase;;150,00;120,00;105,00;52,00;65,50;54,00;50,00;6
+11900498;Ataches metálicos (x unidad);;221,00;177,00;112,00;96,00;184,00;132,00;140,00;6
+7;;;;;;;;;;
+119001467;Tallado selectivo (sesión);;88,00;71,00;62,00;;0,00;12,75;50,00;7
+11900477;Perno muñón colado uni/birradicular;;100,00;80,00;70,00;72,00;98,00;58,00;65,00;7
+119000524;Perno muñón colado multirradicular;;150,00;120,00;105,00;86,00;115,00;69,00;75,00;7
+11900499;Provisional resina (pieza)= corona provisional;;50,00;40,00;35,00;25,00;32,80;19,00;20,00;7
+11900500;Corona metal cerámica/porcelana;;350,00;280,00;245,00;175,00;239,00;203,30;200,00;7
+11900501;Corona zirconio;;450,00;360,00;315,00;300,00;360,00;315,00;450,00;7
+11900502;Corona feldespática (sin cofia);;450,00;360,00;315,00;450,00;360,00;315,00;450,00;7
+11900503;Corona feldespática (con cofia de cristal);;450,00;360,00;315,00;450,00;360,00;315,00;450,00;7
+11900504;Corona de galvano;;450,00;360,00;315,00;450,00;360,00;315,00;450,00;7
+11900507;Carilla de composite;;160,00;128,00;112,00;53,00;157,50;81,50;75,00;7
+11900508;Carilla de porcelana;;450,00;360,00;315,00;300,00;239,00;203,50;195,00;7
+11900506;Incrustaciones de Composite;;118,00;98,00;83,00;60,00;97,50;97,50;80,00;7
+11900505;Incrustaciones de Porcelana;;331,00;265,00;232,00;102,00;178,00;140,00;145,00;7
+11900307;Levantar corona o puente (por pieza);;26,00;21,00;19,00;12,00;35,50;21,00;30,00;7
+11900527;Recementado de coronas;;33,00;20,50;20,50;18,00;20,50;20,50;20,00;7
+LDA00478;Encerado ( por pieza);;12,00;10,00;9,00;;;;13,00;7
+8;;;;;;;;;;
+11900930;Corona sobre implante;;625,00;500,00;450,00;500,00;528,50;346,00;500,00;8
+119000525;Corona sobre implante estética ( de canino a canino);;650,00;520,00;470,00;520,00;520,00;520,00;650,00;8
+11900931;Sobredentadura;;3120,00;2600,00;2350,00;2600,00;2600,00;2600,00;2500,00;8
+11900932;Atache sobredentadura;;350,00;280,00;245,00;280,00;280,00;280,00;280,00;8
+11900933;Protesis fija híbrida;;4200,00;3500,00;3150,00;3500,00;3500,00;3500,00;3500,00;8
+119000012;Revisión anual. Prótesis Híbrida (1 prótesis);;114,00;95,00;86,00;95,00;95,00;95,00;95,00;8
+119000013;Revisión anual. Prótesis Híbrida (2 prótesis);;180,00;150,00;135,00;150,00;150,00;150,00;150,00;8
+9;;;;;;;;;;
+11900526;Blanqueamiento interno (por diente);;50,00;40,00;35,00;24,00;40,00;40,00;30,00;9
+11907010;Blanqueamiento por arcada (en clinica y en casa)= combinado;;500,00;200,00;180,00;330,00;200,00;200,00;375,00;9
+11907009;Blanqueamiento por arcada (en casa);;350,00;140,00;123,00;265,00;140,00;140,00;180,00;9
+10;;;;;;;;;;
+119001468;Férula de descarga;;325,00;275,00;250,00;240,00;250,00;250,00;250,00;10
+119001469;Control férula;;40,00;33,00;30,00;30,00;30,00;30,00;32,00;10
+11900533;Férula dental blanda deportiva;;162,00;135,00;120,00;135,00;135,00;135,00;135,00;10
+119000540;ESTUDIO ATM;;150,00;150,00;150,00;150,00;150,00;150,00;150,00;10
+119001473;FERULA DE ROTH;;500,00;500,00;500,00;500,00;500,00;500,00;500,00;10
+119000011;REVISIONES FERULA DE ROTH;;75,00;75,00;75,00;75,00;75,00;75,00;75,00;10
+;;;;;;;;;;
+;;;;;;;;;;
+;ORTODONCIA (DRA. CAÑETE);;;;;;;;;
+16;;PRIVADO;PRIVADO;;PERSONAL;MAPFRE;;;;16
+119000007;Consulta de ortodoncia;150 €;20,00;;0,00;0,00;;;;16
+11900509;Estudio de ortodoncia;;150,00;;120,00;60,00;;;;16
+11;;;;;;;;;;
+11900510;Disyuntor;400 €;400,00;;320,00;198 o 360;;;;11
+11900511;Quad Hélix;;200,00;;;198,00;;;;11
+no existe;Barra transpalatina, Arco lingual, Nance;200 €;;;;;;;;11
+11900512;Extra ortopedia con máscara facial o mentonera de tracción;200 €;200,00;;;298,00;;;;11
+11900513;Aparatología funcional removible;400 €;400,00;;;298,00;;;;11
+119000517;Aparatología funcional fija (Herbst);400 €;400,00;;;298,00;;;;11
+11900480;Mantenedor de espacio;150 €;150,00;;;;;;;11
+11900525;Visita mensual 1ª fase;40 €;40,00;;;24,00;;;;11
+;;;;;;;;;;
+12;;;;;;;;;;
+119000517x1;Ortodoncia fija. Montaje sup e inf.;1=350    2=700;350,00;;;360,00;;;;12
+119000517x2;Ortodoncia fija. Montaje sup e inf.;1=350    2=700;700,00;;;525,00;;;;12
+119000516;Visita mensual;80 €;80,00;;;40,00;;;;12
+11900517;Retención (por aparato);150 €;150,00;;;200,00;;;;12
+11900518;Visita retención (al mes, 3meses,6meses y al año);40 €;40,00;;;12,00;;;;12
+11900519;Suplemento brackets estéticos (por arcada);200 €;200,00;;;300,00;;;;12
+11900520;Pérdida de brackets estéticos;30 €;30,00;;;18,00;;;;12
+11900521;Pérdida de brackets metálicos;15 €;15,00;;;6,00;;;;12
+no existe;Microtornillo;300 €;300,00;;;;;;;12
+no existe;Reposición del aparato por pérdida, desgaste o rotura;150 €;150,00;;;150,00;;;;12
+no existe;Reposición de retención fija por pérdida, desgaste o rotura;150 €;150,00;;;60,00;;;;12
+no existe;Revisiones en período de latencia o descanso;;;;;12,00;;;;12
+;;;;;;;;;;
+17;MAXILOFACIAL;;;;;;;;;
+11200001;Consulta/Presupuesto;20,00;20,00;;;0,00;;;;17
+11200002;Revisión/Prueba;0,00;0,00;;;0,00;;;;17
+18;;;;;;;;;;
+112000934;Cirugía canino incluido. Extracción;350,00;350,00;;;245,00;;;;18
+11200918;Exodoncia simple;45,00;45,00;;;32,00;;;;18
+112000920;Exodoncia cordal/Resto radicular;75,00;75,00;;;53,00;;;;18
+11200922;Exodoncia cordal semi-incluido;150,00;150,00;;;105,00;;;;18
+112000932;Exodoncia cordal incluido;250,00;250,00;;;175,00;;;;18
+112000941;Exodoncia otras piezas incluidas;150,00;150,00;;;105,00;;;;18
+14;;;;;;;;;;
+112000929;Apiceptomía;150,00;150,00;;;105,00;;;;14
+112000973;Quistectomía;75,00;75,00;;;53,00;;;;14
+11200928;Implante dental;900,00;900,00;;;550,00;;;;14
+11200929;Elevación de seno traumática (unilateral)(incluye hueso/membrana);900,00;900,00;;;630,00;;;;14
+no existe;Elevación de seno atraumática (unilateral)(incluye hueso);500,00;500,00;;;350,00;;;;14
+112003028;Torus maxilomanduibular;350,00;350,00;;;245,00;;;;14
+11200925;Epulis y fibromas (Incluye AP);350,00;350,00;;;245,00;;;;14
+11200934;Verugas faciales;100,00;100,00;;;70,00;;;;14
+11200936;Rellenos Faciales con Ácido Hialurónico;450,00;450,00;;;315,00;;;;14
+112000717;Frenectomía labial o lingual;150,00;150,00;;;105,00;;;;14
+112000303;Biopsia cavidad oral (Incluye AP);350,00;350,00;;;245,00;;;;14
+112000937;Gingivectomía (por cuadrante);;;;;;;;;14
+112000957;Gingivectomía total;350,00;350,00;;;245,00;;;;14
+112000716;Cuerpos extraños superficiales cara y cuello. Extracción;150,00;150,00;;;105,00;;;;14
+112000952;Cuerpos extraños profundos cara y cuello. Extracción;200,00;200,00;;;140,00;;;;14
+no existe;Cirugía ortognática??;;;;;;;;;14
+11900488;INJERTO TEJIDO CONECTIVO;580,00;580,00;;;;;;;14

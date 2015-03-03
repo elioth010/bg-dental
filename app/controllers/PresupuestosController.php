@@ -10,31 +10,8 @@ class PresupuestosController extends \BaseController {
 	public function verPresupuesto($paciente, $id)
 	{
 		$presupuesto = Presupuestos::find($id);
-		//$tratamientos = PresupuestoTratamiento::where('presupuesto_id', $id)->get();
-		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
-/*
-		$tratamientos = $presupuesto->tratamientos()->select('*')
-									->join('presupuestos_tratamientos', 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
-									->get();
-*/
+		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 
-		/*
-		$presupuesto = Presupuestos::where('presupuesto_id',$id)
-			->leftJoin('users', 'users.id', '=', 'user_id')
-			->leftJoin('presupuestos_tratamientos', 'presupuestos_tratamientos.presupuesto_id', '=', 'presupuestos.id')
-			->leftJoin('tratamientos' , 'tratamientos.id', '=', 'presupuestos_tratamientos.tratamiento_id')
-			->leftJoin('profesionales', 'profesionales.id', '=', 'presupuestos.profesional_id')
-			->leftJoin('pacientes', 'pacientes.numerohistoria', '=','presupuestos.numerohistoria')
-			->leftJoin('companias', 'pacientes.compania', '=', 'companias.id')
-			->select('aceptado','presupuesto_id','presupuestos.created_at as creado', 'presupuestos.updated_at as modificado', 'presupuestos.nombre as nombre_pre',
-				'profesionales.nombre as profesional',
-				'tratamientos.nombre as nombre_t',
-				'tratamientos.precio_base as precio_base',
-				'pacientes.nombre as nombre_pa','pacientes.apellido1 as apellido1', 'pacientes.apellido2 as apellido2',
-				'companias.nombre as nombre_comp',
-				'users.firstname as nombre_u')
-			->get();
-		*/
 		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
 																	 'tratamientos' => $tratamientos,
 																	 'paciente' => $paciente));
@@ -60,6 +37,21 @@ class PresupuestosController extends \BaseController {
 		//
 	}
 
+	// Construye un array para javascript de crear/editar presupuesto
+	private function getTratamientosArray($grupos) {
+
+		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id',
+																'precio_base', 'tipostratamientos_id'));
+
+		$atratamientos = array();
+		foreach ($tratamientosAll as $t) {
+			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre,
+																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
+		}
+
+		return $atratamientos;
+	}
+
 
 	/**
 	 * Show the form for creating a new resource.
@@ -68,46 +60,34 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function crearpresupuesto($numerohistoria)
 	{
-		echo $numerohistoria;
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
 
-		$grupos = Grupos::lists('nombre', 'id');
-		$grupos[0] = '-- Elija un grupo --';
-		ksort($grupos);
+		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$tratamientosAll = DB::table('tratamientos')->get(array('nombre', 'id', 'grupostratamientos_id',
-																'precio_base', 'tipostratamientos_id'));
-		$atratamientos = array();
-		foreach ($tratamientosAll as $t) {
-			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre,
-																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
-		}
-
-		$atratamientos[0] = '-- Elija primero un grupo de tratamientos --';
-
-		foreach (array_keys($grupos) as $key) {
-			if (!array_key_exists($key, $atratamientos)) {
-				$atratamientos[$key] = array();
-			}
-		}
-		ksort($atratamientos);
+		$atratamientos = $this->getTratamientosArray($grupos);
 
 		$presupuesto = new Presupuestos;
 		$presupuesto->descuento = 0; // valor por defecto
 
-		//$profesionales2 = Profesional::lists('nombre', 'id');
-		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
+		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
 		}
 
+		$tratamientos = array();
+		if (!is_null(Input::old('num_tratamientos'))) {
+			for ($i=1; $i <= Input::old('num_tratamientos'); $i++) {
+				$tratamientos[] = array('grupo' => Input::old('grupo-' . $i), 'tratamiento_id' => Input::old('tratamiento-' . $i));
+			}
+		}
+
 		return View::make('presupuestos.crearpresupuesto')
 							->with(array('grupos' => $grupos,
 										'paciente' => $paciente,
 										'atratamientos' => $atratamientos,
-										'tratamientos' => array(),
+										'tratamientos' => $tratamientos,
 										'presupuesto' => $presupuesto,
 										'profesionales' => $profesionales));
 	}
@@ -124,29 +104,14 @@ class PresupuestosController extends \BaseController {
 									->where('aceptado', 0)->firstOrFail();
 		$paciente = $presupuesto->paciente;
 
-		$grupos = Grupos::lists('nombre', 'id');
-		$grupos[0] = '-- Elija un grupo --';
-		ksort($grupos);
+		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$tratamientosAll = DB::table('tratamientos')->select('nombre', 'id', 'grupostratamientos_id', 'precio_base')->get();
-		$atratamientos = array();
-		foreach ($tratamientosAll as $t) {
-			//var_dump($t);
-			$atratamientos[$t->grupostratamientos_id][] = array('id' => $t->id, 'nombre' => $t->nombre, 'precio' => $t->precio_base);
-		}
+		$atratamientos = $this->getTratamientosArray($grupos);
 
-		$atratamientos[0] = '-- Elija primero un grupo de tratamientos --';
+		$tratamientos = $presupuesto->tratamientos()
+									->get(array('tratamiento_id', 'grupostratamientos_id'));
 
-		foreach (array_keys($grupos) as $key) {
-			if (!array_key_exists($key, $atratamientos)) {
-				$atratamientos[$key] = array(array('id' => 0, 'nombre' => '-- No hay tratamiento --'));
-			}
-		}
-		ksort($atratamientos);
-
-		$tratamientos = $presupuesto->tratamientos()->select('presupuestos_tratamientos.*', 'tratamientos.nombre')->get();
-
-		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
+		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
@@ -177,6 +142,7 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function store()
 	{
+		$numero_historia = Input::get('numerohistoria');
 		$num = Input::get('num_tratamientos');
 
 		$ok = TRUE;
@@ -189,7 +155,7 @@ class PresupuestosController extends \BaseController {
 		}
 
 		if (!$ok) {
-			return Redirect::action('PresupuestosController@editarPresupuesto', array($presupuesto->numerohistoria))->with('message', 'Error en los parametros');
+			return Redirect::action('PresupuestosController@editarPresupuesto', array($numero_historia))->with('message', 'Error en los parametros');
 		}
 
 		//var_dump(Input::all());
@@ -197,19 +163,17 @@ class PresupuestosController extends \BaseController {
 		$validator = Validator::make(Input::all(), Presupuestos::$p_rules);
 
 		if ($validator->passes()) {
-
 			$nombre = Input::get('nombre', 'Sin nombre');
 			if (empty($nombre)) {
 				$nombre = 'Sin nombre';
 			}
 
-			//$presupuesto = Presupuestos::create(Input::all());
-			$presupuesto = new Presupuestos;
+			$presupuesto = Presupuestos::firstOrNew(array('id' => Input::get('presupuesto_id')));
 			$presupuesto->nombre = $nombre;
 			$presupuesto->aceptado = 0;
 			$presupuesto->user_id = Session::get('user_id');
 			$presupuesto->profesional_id = Input::get('tprofesional');
-			$presupuesto->numerohistoria = Input::get('numerohistoria');
+			$presupuesto->numerohistoria = $numero_historia;
 			$presupuesto->descuento = Input::get('descuento');
 			$presupuesto->tipodescuento = Input::get('tipodescuento');
 
@@ -217,6 +181,8 @@ class PresupuestosController extends \BaseController {
 			if ($presupuesto->save()) {
 				echo 'Guardado presupuesto con id ' . $presupuesto->id . '<br>';
 			}
+
+			$presupuesto->tratamientos()->detach();
 
 			for ($i=1; $i<=$num; $i++) {
 				$grupo = Input::get('grupo-' . $i);
@@ -237,10 +203,10 @@ class PresupuestosController extends \BaseController {
 			}
 
 		} else {
-			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
+			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Existen los siguientes errores:')->withErrors($validator->messages())->withInput();
 		}
 
-		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => Input::get('numerohistoria')))->with('message', 'Presupuesto creado con éxito.');
+		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
 	}
 
 
@@ -264,12 +230,12 @@ class PresupuestosController extends \BaseController {
 		*/
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
 
-		$profesionales1 = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->get();
+		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
 		}
-		$users1 = User::select(DB::raw("CONCAT_WS(' ', firstname, lastname) AS nombre"), 'id')->get();
+		$users1 = User::get(array(DB::raw("CONCAT_WS(' ', firstname, lastname) AS nombre"), 'id'));
 		$users = array();
 		foreach ($users1 as $u){
 			$users[$u->id] = $u->nombre;

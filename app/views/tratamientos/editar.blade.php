@@ -5,26 +5,26 @@
 
         {{ Form::open(array('url'=>'tratamientos/guardartratamiento/'.$tratamiento->id)) }}
 
-
-        {{Form::label('Código')}}
-        {{ Form::text('codigo', $tratamiento->codigo ) }}
-        {{ Form::text('nombre', $tratamiento->nombre) }}
-        {{--@foreach($tcp as $tcp)<li>
+	<ul class="labelreg6">
+       <li> {{Form::label('Código')}} {{ Form::text('codigo', $tratamiento->codigo ) }}
+        {{ Form::text('nombre', $tratamiento->nombre) }}</li>
+        <li>{{--@foreach($tcp as $tcp)
             {{Form::label($tcp['nombre_comp'])}}
-            
-            {{ Form::text('precio-'.$tcp['id'], $tcp['precio']) }}</li><br>
-        @endforeach --}}
-            {{ Form::select('grupostratamientos_id', $grupos, $tratamiento->grupostratamientos_id) }}<p>
-        
-        @foreach($tipos as $tipo)
+
+            {{ Form::text('precio-'.$tcp['id'], $tcp['precio']) }}
+        @endforeach --}}</li>
+            {{ Form::select('grupostratamientos_id', $grupos, $tratamiento->grupostratamientos_id) }}
+
+        <li>@foreach($tipos as $tipo)
         @if($tratamiento->tipostratamientos_id === $tipo->id)
-        {{ Form::radio('tipotratamiento', $tipo->id, true)}}{{$tipo->tipo}}<br>
+        {{ Form::radio('tipotratamiento', $tipo->id, true)}}{{$tipo->tipo}}</li>
         @else
-        {{ Form::radio('tipotratamiento', $tipo->id)}} {{$tipo->tipo}}<br>
+        <li>{{ Form::radio('tipotratamiento', $tipo->id)}} {{$tipo->tipo}}
         @endif
-        @endforeach
-        {{ Form::submit('Guardar cambios')}}
-        {{ Form::button('Atrás')}} {{ HTML::link('tratamientos', 'Tratamientos') }}
+        @endforeach</li>
+        <li>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}</li><br>
+        <li>{{ Form::button('Atrás')}} {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}</li>
 
     {{ Form::close() }}
 @stop
+	</ul>
