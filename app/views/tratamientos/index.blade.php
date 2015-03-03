@@ -10,8 +10,7 @@
       <tr>
           <th>Código</th>
           <th>Nombre tratamiento</th>
-          <th>Precio base</th>
-            @foreach($tcp_cabecera as $tcp_cabecera)
+          @foreach($tcp_cabecera as $tcp_cabecera)
               <th>{{$tcp_cabecera->nombre_comp}}</th>
           @endforeach
       </tr>
@@ -20,7 +19,7 @@
 
           <td>{{$tcp_contenido->codigo}}</td>
           <td>{{ HTML::linkAction('TratamientosController@edit', $tcp_contenido->nombre_trat, $tcp_contenido->id) }}</td>
-          <td>{{$tcp_contenido->precio_base.'€'}}</td>
+          
               <?php $precios = explode(",", $tcp_contenido->precios);?>
                     @foreach($precios as $precio)
                         <td>{{$precio.'€'}}</td>

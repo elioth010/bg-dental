@@ -12,7 +12,7 @@ class TurnoController extends \BaseController {
                 $mes = date("m");
                 $ano = date("Y");
             }
-            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->get(array('fecha_turno', 'profesional_id'));
+            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
             
             $events = array();
             foreach($eventos as $evento){
