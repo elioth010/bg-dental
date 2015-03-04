@@ -18,8 +18,8 @@ class TratamientosController extends \BaseController {
 					->where('tratamientos.activo', '=', '1')->get();
 		$tcp_contenido = Tratamientos::leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')->leftJoin('companias','companias.id','=', 'precios.companias_id')
 							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre as nombre_trat','companias.nombre as nombre_comp',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
-							->groupBy('tratamientos.nombre')->orderBy('companias.id')->where('tratamientos.activo', '=', '1')->get();
-
+							->groupBy('tratamientos.id')->orderBy('companias.id')->where('tratamientos.activo', '=', '1')->get();
+                
 		
 		return View::make('tratamientos.index')->with(array('tcp_cabecera' => $tcp_cabecera))->with(array('tcp_contenido' => $tcp_contenido));
 	}
