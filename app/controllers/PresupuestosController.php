@@ -40,13 +40,19 @@ class PresupuestosController extends \BaseController {
 	// Construye un array para javascript de crear/editar presupuesto
 	private function getTratamientosArray($grupos) {
 
-		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id',
-																'precio_base', 'tipostratamientos_id'));
+		$preciosObj = Precios::where('companias_id', 1)->get(array('tratamientos_id', 'precio'));
+		$precios = array();
+		foreach ($preciosObj as $p)
+		{
+			$precios[$p->tratamientos_id]  = $p->precio;
+		}
+
+		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
 
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
 			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre,
-																'precio' => $t->precio_base, 'tipo' => $t->tipostratamientos_id);
+																'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
 		}
 
 		return $atratamientos;
@@ -61,6 +67,13 @@ class PresupuestosController extends \BaseController {
 	public function crearpresupuesto($numerohistoria)
 	{
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+		//$companias = Companias::lists(array('id', 'nombre'));
+		$companias = Companias::lists('nombre', 'id');
+
+		$paciente->companias_text = $companias[$paciente->compania];
+		if (is_numeric($paciente->compania2)) {
+			$paciente->companias_text .= ' y ' . $companias[$paciente->compania2];
+		}
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
@@ -248,7 +261,7 @@ class PresupuestosController extends \BaseController {
 			$total = 0;
 			$tratamientos = $p->tratamientos;
 			foreach ($tratamientos as $t) {
-				$total += $t->precio_base;
+				$total += $t->precio_base; // FIXME: ya no se usa precio_base
 			}
 
 			if ($p->tipodescuento == 'P') {

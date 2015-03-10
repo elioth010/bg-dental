@@ -13,7 +13,7 @@
 	    <li>NHC: <span class="bold">{{ $paciente->numerohistoria }}</span></li>
 	    <li>Nombre: <span class="bold">{{ $paciente->nombre }} {{ $paciente->apellido1 . ' ' . $paciente->apellido2 }}</span></li>
 	    <li>NIF: <span class="bold">{{ $paciente->NIF }}</span></li>
-	    <li>{{ $paciente->compania }}</li>
+	    <li>Compañías: <span class="bold">{{ $paciente->companias_text }}<span class="bold"></li>
 	</ul>
 
 </div>
