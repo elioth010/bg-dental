@@ -38,20 +38,29 @@ class PresupuestosController extends \BaseController {
 	}
 
 	// Construye un array para javascript de crear/editar presupuesto
-	private function getTratamientosArray($grupos) {
+	private function getTratamientosArray($grupos, $companias) {
 
-		$preciosObj = Precios::where('companias_id', 1)->get(array('tratamientos_id', 'precio'));
+		$preciosObj = Precios::whereIn('companias_id', $companias)->get(array('tratamientos_id', 'precio', 'companias_id'));
 		$precios = array();
+		$companiaEconomica = array();
+
+		// Escoge el precio más barato de las dos compañías
 		foreach ($preciosObj as $p)
 		{
-			$precios[$p->tratamientos_id]  = $p->precio;
+			if (!(array_key_exists($p->tratamientos_id, $precios)) ||
+				((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
+
+				$precios[$p->tratamientos_id] = $p->precio;
+				$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
+			}
+
 		}
 
 		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
 
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
-			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre,
+			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
 																'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
 		}
 
@@ -67,17 +76,19 @@ class PresupuestosController extends \BaseController {
 	public function crearpresupuesto($numerohistoria)
 	{
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
-		//$companias = Companias::lists(array('id', 'nombre'));
-		$companias = Companias::lists('nombre', 'id');
+		$companias_list = Companias::lists('nombre', 'id');
 
-		$paciente->companias_text = $companias[$paciente->compania];
+		$paciente->companias_text = $companias_list[$paciente->compania];
+		$companias = array();
+		$companias[] = $paciente->compania;
 		if (is_numeric($paciente->compania2)) {
-			$paciente->companias_text .= ' y ' . $companias[$paciente->compania2];
+			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
+			$companias[] = $paciente->compania2;
 		}
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$atratamientos = $this->getTratamientosArray($grupos);
+		$atratamientos = $this->getTratamientosArray($grupos, $companias);
 
 		$presupuesto = new Presupuestos;
 		$presupuesto->descuento = 0; // valor por defecto
@@ -116,10 +127,19 @@ class PresupuestosController extends \BaseController {
 		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
 									->where('aceptado', 0)->firstOrFail();
 		$paciente = $presupuesto->paciente;
+		$companias_list = Companias::lists('nombre', 'id');
+
+		$paciente->companias_text = $companias_list[$paciente->compania];
+		$companias = array();
+		$companias[] = $paciente->compania;
+		if (is_numeric($paciente->compania2)) {
+			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
+			$companias[] = $paciente->compania2;
+		}
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$atratamientos = $this->getTratamientosArray($grupos);
+		$atratamientos = $this->getTratamientosArray($grupos, $companias);
 
 		$tratamientos = $presupuesto->tratamientos()
 									->get(array('tratamiento_id', 'grupostratamientos_id'));
@@ -196,6 +216,8 @@ class PresupuestosController extends \BaseController {
 			}
 
 			$presupuesto->tratamientos()->detach();
+
+			$precios = Precios::paciente($numero_historia);
 
 			for ($i=1; $i<=$num; $i++) {
 				$grupo = Input::get('grupo-' . $i);

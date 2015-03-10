@@ -84,12 +84,15 @@ function addTratamiento(gid, tid) {
     divPrecio.append(select3)
     divPrecio.append('Precio final del tratamiento: <span id="' + lpreciof + '">0.00</span>')
 
+    compania = $("<input>").attr({name: "compania-" + lastIndex, type: "hidden", value: 0})
+
     nuevodiv = $("<div>").attr({id: trat})
     nuevodiv.append(label1)
     nuevodiv.append(select1)
     nuevodiv.append(label2)
     nuevodiv.append(select2)
     nuevodiv.append(divPrecio)
+    nuevodiv.append(compania)
 
     div = $("#tratamientos")
     div.append(nuevodiv)
@@ -157,6 +160,8 @@ function updatePrecios(id, tid) {
         dpiezas = $('#dpiezas-' + id)
 
         if (tid != null) {
+            $('input[name="compania-' + id + '"]').val(tratamientos[grupo][tid]['compania'])
+
             if (tid == 0) {
                 precio.text("0.00")
                 preciof.text("0.00")
