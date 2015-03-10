@@ -33,7 +33,6 @@ class TratamientosController extends \BaseController {
 	public function create()
 	{
 		$grupos = Grupos::lists('nombre', 'id');
-                $tipos_tratamientos = 
 		return View::make('tratamientos.crear')->with(array('grupos' => $grupos));
 	}
 
