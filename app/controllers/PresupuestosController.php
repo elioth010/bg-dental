@@ -67,6 +67,13 @@ class PresupuestosController extends \BaseController {
 	public function crearpresupuesto($numerohistoria)
 	{
 		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+		//$companias = Companias::lists(array('id', 'nombre'));
+		$companias = Companias::lists('nombre', 'id');
+
+		$paciente->companias_text = $companias[$paciente->compania];
+		if (is_numeric($paciente->compania2)) {
+			$paciente->companias_text .= ' y ' . $companias[$paciente->compania2];
+		}
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
