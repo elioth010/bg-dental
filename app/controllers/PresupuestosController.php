@@ -294,6 +294,12 @@ class PresupuestosController extends \BaseController {
 		}
 		*/
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
+		$companias_list = Companias::lists('nombre', 'id');
+		$paciente_b->companias_text = $companias_list[$paciente_b->compania];
+
+		if (is_numeric($paciente_b->compania2)) {
+			$paciente_b->companias_text .= ' y ' . $companias_list[$paciente_b->compania2];
+		}
 
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();

@@ -15,7 +15,7 @@
         <td>NIF:</td>
 	    <td>{{$paciente->NIF}}</td>
         <td>Compañía:</td>
-        <td>{{$paciente->compania}}</td>
+        <td>{{ $paciente->companias_text }}</td>
 	 </tr>
       </table>
 
