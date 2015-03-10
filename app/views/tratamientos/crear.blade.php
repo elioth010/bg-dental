@@ -7,8 +7,27 @@
     <li>{{ Form::select('grupostratamientos_id', $grupos) }}</li>
     <li>{{ Form::text('codigo', null, array('placeholder'=>'código')) }}</li>
     <li>{{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}</li>
-    <li>{{ Form::text('precio_base', null, array('placeholder'=>'euros')) }}</li>
-    General? {{ Form::checkbox('tipostratamientos_id') }}
+    {{ Form::select('tipostratamientos_id', $tipostratamientos) }}
+    <br><br>
+    Tabla:
+    <table>
+        <tr>
+        <th>Compañía</th>
+        <th>Precio<th>
+        </tr>
+        @foreach($companias as $compania)
+        <tr>
+            <td>
+                {{$compania->nombre}}
+                {{Form::hidden('id-'.$compania->id, $compania->id)}}
+            </td>
+            <td>
+                {{Form::text('precio-'.$compania->id)}}
+            </td>
+        </tr>
+        @endforeach
+    </table>
+    <br><br>    
     <li>{{Form::hidden('activo', '1')}}</li>
     <li>{{ Form::submit('Guardar', array('class'=>'botonl'))}}</li>
 

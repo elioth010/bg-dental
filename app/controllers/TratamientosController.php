@@ -33,8 +33,12 @@ class TratamientosController extends \BaseController {
 	public function create()
 	{
 		$grupos = Grupos::lists('nombre', 'id');
-                $tipos_tratamientos = 
-		return View::make('tratamientos.crear')->with(array('grupos' => $grupos));
+                $tipos_tratamientos = TiposTratamientos::lists('tipo', 'id');
+                $companias = Companias::get();
+		return View::make('tratamientos.crear')
+                        ->with(array('grupos' => $grupos))
+                        ->with(array('tipostratamientos' => $tipos_tratamientos))
+                        ->with(array('companias' => $companias));
 	}
 
 
@@ -45,14 +49,31 @@ class TratamientosController extends \BaseController {
 	 */
 	public function store()
 	{
-		$crear_t = Tratamientos::create(Input::all());
-                $last_id = DB::getPdo()->lastInsertId();
-                $companias = Companias::lists('id');
-                $tratamiento = new Tratamientos;
-               foreach($companias as $compania){
-                     $tratamiento->companias()->attach(array('precio' => '0.00' , 'companias_id'=>$compania, 'tratamientos_id'=>$last_id));
-                }
-                return Redirect::to('tratamientos');
+            $tratamiento = new Tratamientos;
+            $codigo = Input::get('codigo');
+            $nombre = Input::get('nombre');
+            $grupo = Input::get('grupostratamientos_id');
+            $tipo = Input::get('tipostratamientos_id');
+            $activo = Input::get('activo');
+            $last_id = DB::getPdo()->lastInsertId();
+            $companias = Companias::lists('id');
+            $tratamiento->nombre = $nombre;
+            $tratamiento->codigo = $codigo;
+            $tratamiento->grupostratamientos_id= $grupo;
+            $tratamiento->tipostratamientos_id = $tipo;
+            $tratamiento->activo=$activo;
+            $tratamiento->save();
+            $num_companias = Companias::count();
+            $i = 1;
+            while($i <= $num_companias){
+            if(Input::has('id-'.$i)){
+            $compania= Input::get('id-'.$i);
+            $precio = Input::get('precio-'.$i);
+            $tratamiento->companias()->attach($compania, array('precio' => $precio));
+            }
+            $i++;
+           }
+            //return Redirect::to('tratamientos');
 	}
 
 
