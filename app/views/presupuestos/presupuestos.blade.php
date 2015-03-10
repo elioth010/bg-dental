@@ -45,7 +45,7 @@
     <td>{{$presupuesto->created_at}}</td>
     <td>{{$presupuesto->updated_at}}</td>
     <td>{{$presupuesto->nombre}}</td>
-    <td>{{$presupuesto->importe_total}}</td>
+    <td>{{ $presupuesto->importe_total }}€</td>
     <td>{{$presupuesto->descuentototal}}</td>
     <td>{{$presupuesto->user_n}}</td>
     <td>{{$presupuesto->profesional_n}}</td>

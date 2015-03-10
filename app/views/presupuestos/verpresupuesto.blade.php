@@ -11,7 +11,10 @@
         <th></th>
         <th>Nombre</th>
         <th>Unidades</th>
+        <th>Precio unidad</th>
         <th>Descuento €</th>
+        <th>Precio final</th>
+        <th>Compañía</th>
         <th>Piezas</th>
         <th>Estado</th>
       </tr>
@@ -21,9 +24,12 @@
         <td>{{ $i }}</td>
         <td>{{ $t->nombre }}</td>
         <td>{{ $t->unidades }}</td>
-        <td>{{ $t->descuento }} {{ $t->tipodescuento }}</td>
+        <td>{{ $t->precio_unidad }}€</td>
+        <td>{{ $t->descuento_text }}</td>
+        <td>{{ $t->precio_final }}€</td>
+        <td>{{ $t->compania_text }}</td>
         <td>{{ $t->piezas }}</td>
-        <td>{{ $t->estado }}</td>
+        <td>{{ $t->estado_text }}</td>
       </tr>
       <?php $i++ ?>
       @endforeach

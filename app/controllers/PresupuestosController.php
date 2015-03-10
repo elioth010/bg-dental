@@ -11,6 +11,29 @@ class PresupuestosController extends \BaseController {
 	{
 		$presupuesto = Presupuestos::find($id);
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+		$companias_list = Companias::lists('nombre', 'id');
+
+		foreach($tratamientos as $t) {
+			$t->precio_final = $t->precio_unidad * $t->unidades;
+
+			if ($t->tipodescuento == 'P') {
+				$descuento = $t->descuento * $t->precio_final / 100;
+				$descuentotext = $t->descuento . '%';
+			} else {
+				$descuento = $t->descuento;
+				$descuentotext = $t->descuento . '€';
+			}
+
+			$t->precio_final -= $descuento;
+			$t->descuento_text = $descuentotext;
+			$t->compania_text = $companias_list[$t->compania_id];
+
+			if ($t->estado == 1) {
+				$t->estado_text = 'Aceptado';
+			} else {
+				$t->estado_text = 'Pendiente de aprobación';
+			}
+		}
 
 		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
 																	 'tratamientos' => $tratamientos,
@@ -229,10 +252,13 @@ class PresupuestosController extends \BaseController {
 				$t_desc = Input::get('descuento-' . $i, 0);
 				$t_tdesc = Input::get('tipodescuento-' . $i, 'E');
 				$t_piezas = Input::get('ipiezas-' . $i);
+				$t_compania = Input::get('compania-' . $i);
+				$t_precio = $precios[$t_id][$t_compania];
 
 				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $t_id,
 							'unidades' => $t_unidades, 'piezas' => $t_piezas,
-							'descuento' => $t_desc, 'tipodescuento' => $t_tdesc);
+							'descuento' => $t_desc, 'tipodescuento' => $t_tdesc,
+							'compania_id' => $t_compania, 'precio_unidad' => $t_precio);
 
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
 			}
@@ -277,13 +303,16 @@ class PresupuestosController extends \BaseController {
 		}
 
 		$presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)->get();
-		//var_dump($presupuestos[0]); return;
+
+		$precios = Precios::paciente($numerohistoria);
 
 		foreach ($presupuestos as $p) {
 			$total = 0;
-			$tratamientos = $p->tratamientos;
+
+			$tratamientos = $p->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+
 			foreach ($tratamientos as $t) {
-				$total += $t->precio_base; // FIXME: ya no se usa precio_base
+				$total += $precios[$t->tratamiento_id][$t->compania_id];
 			}
 
 			if ($p->tipodescuento == 'P') {
