@@ -9,7 +9,7 @@ class PopulateController extends BaseController {
         for ($i=0; $i < 200; $i++)
         {
             $faker = Faker\Factory::create('es_ES');
-            //$nb = array('hembra','varon');
+            //$nb = array('mujer','varon');
             $nombre = $faker->firstname;
             $numerohistoria = $faker->unique()->randomNumber(4);
             $apellido1 = $faker->lastname;
@@ -22,9 +22,9 @@ class PopulateController extends BaseController {
             if($title == 'Mr.'){
                 $sexo = "varon";
             } else {
-                $sexo = "hembra";
+                $sexo = "mujer";
             }
-            //$sexo = $faker->words('hembra','varon');
+            //$sexo = $faker->words('mujer','varon');
             $Direccion = $faker->streetAddress;
             $addrnamestre = $faker->streetName;
             $addrtel1 = $faker->phoneNumber;
