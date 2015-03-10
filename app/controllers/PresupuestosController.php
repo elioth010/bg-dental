@@ -12,6 +12,7 @@ class PresupuestosController extends \BaseController {
 		$presupuesto = Presupuestos::find($id);
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 		$companias_list = Companias::lists('nombre', 'id');
+		$total = 0;
 
 		foreach($tratamientos as $t) {
 			$t->precio_final = $t->precio_unidad * $t->unidades;
@@ -33,10 +34,13 @@ class PresupuestosController extends \BaseController {
 			} else {
 				$t->estado_text = 'Pendiente de aprobación';
 			}
+
+			$total += $t->precio_final;
 		}
 
 		return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
 																	 'tratamientos' => $tratamientos,
+																	 'total' => $total,
 																	 'paciente' => $paciente));
 	}
 

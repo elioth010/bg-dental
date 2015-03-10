@@ -280,7 +280,7 @@ function onOdontogramaClick(id, area) {
     console.log('pinchado '+  id + ' ' + area.id)
     var data = $(area).mouseout().data('maphilight') || {};
     data.alwaysOn = !data.alwaysOn;
-    odontograma[1][area.id.substr(1)] = data.alwaysOn
+    odontograma[id][area.id.substr(1)] = data.alwaysOn
     $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
 }
 
@@ -300,10 +300,8 @@ function odontogramaHighlight(id) {
 
 function onOdontogramaClose(id, parent, ipiezas, iunidades) {
     parent.attr("style", "display:none")
-
     active = ""
     unidades = 0
-    console.log('odontograma id')
 
     for (i=0; i<odontograma[id].length; i++) {
         //console.log(i, odontograma[id][i])
