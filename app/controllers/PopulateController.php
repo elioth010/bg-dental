@@ -46,7 +46,7 @@ class PopulateController extends BaseController {
 
             //Populate::;
 
-            PopulatePaciente::create($populator);
+            Pacientes::create($populator);
 
         }
         //$extracto = Populate::table('pacientes')->lists('nombre','sexo');
