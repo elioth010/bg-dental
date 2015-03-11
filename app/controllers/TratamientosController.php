@@ -127,13 +127,23 @@ class TratamientosController extends \BaseController {
 	{
 		$tratamiento = Tratamientos::where('id', $id)->first();
                 $grupos = Grupos::lists('nombre','id');
+                $companias = Companias::get();
 		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 			->leftJoin('companias', 'companias.id','=','companias_id')
-			->select('companias.nombre as nombre_comp', 'companias.id', 'precio', 'grupostratamientos_id')
+			->select('companias.nombre as nombre_comp', 'companias.id', 'precio', 'grupostratamientos_id', 'tipostratamientos_id')
 			->where('tratamientos.id' , $tratamiento->id)
 			->get();
+                if($precios){
+                    $num_companias = Companias::count();
+                    $i = 1;
+                    while($i<=$num_companias){
+                        $companias = Companias::first($i);
+                        echo $companias->nombre."</br>";
+                        $i++;
+                    }
+                }
                 $tipos = DB::table('tipostratamientos')->get();
-		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios)->with('grupos', $grupos)->with('tipos', $tipos);
+		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios)->with('grupos', $grupos)->with('tipos', $tipos)->with('companias', $companias);
 	}
 
 	public function guardar_t($id){
@@ -144,8 +154,20 @@ class TratamientosController extends \BaseController {
                 $tratamiento->grupostratamientos_id = $grupostratamientos_id;
                 $tratamiento->tipostratamientos_id = $tipostratamientos_id;
                 $tratamiento->save();
-                $tratamientoaguardado = Tratamientos::where('id',$id)->first();
-                return Redirect::to('tratamientos');
+                $num_companias = Companias::count();
+                $i = 1;
+                while($i <= $num_companias){
+                if(Input::has('precio-'.$i)){
+                $compania= Input::get('cid-'.$i);
+                $precio = Input::get('precio-'.$i);
+                $tratamiento->companias($compania)->detach($compania);
+                $tratamiento->companias()->attach($compania, array('precio' => $precio));
+                }
+                $i++;
+               }
+                
+                //$tratamientoaguardado = Tratamientos::where('id',$id)->first();
+                //return Redirect::to('tratamientos');
                 
 	}
 

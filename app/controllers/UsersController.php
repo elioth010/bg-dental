@@ -44,7 +44,7 @@ class UsersController extends BaseController {
     public function postSignin() {
         if (Auth::attempt(array('email'=>Input::get('email'), 'password'=>Input::get('password')))) {
             Session::put('user_id', Auth::id());
-            return Redirect::to('tratamientos')->with('message', 'You are now logged in!');
+            return Redirect::to('tratamientos');//->with('message', 'You are now logged in!');
         } else {
             return Redirect::to('users/login')
                 ->with('message', 'Error en nombre de usuario y/o contraseña')
@@ -60,7 +60,7 @@ class UsersController extends BaseController {
 
 public function getLogout() {
      Auth::logout();
-    return Redirect::to('users/login')->with('message', 'Your are now logged out!');
+    return Redirect::to('users/login');//->with('message', 'Your are now logged out!');
 }
 }
 ?>
