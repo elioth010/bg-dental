@@ -6,16 +6,17 @@
   <h1>
   Tratamientos
   </h1>
-  <table>
+  <table class="scroll">
+  <thead>
       <tr>
           <th>Código</th>
           <th>Nombre tratamiento</th>
           @foreach($tcp_cabecera as $tcp_cabecera)
-              <th>{{$tcp_cabecera->nombre_comp}}</th>
+          <th>{{$tcp_cabecera->nombre_comp}}</th>
           @endforeach
       </tr>
-  </table>
-<table>
+  </thead>
+  <tbody>	
       @foreach($tcp_contenido as $tcp_contenido)
           <tr title="{{$tcp_contenido->nombre_trat}}">
 
@@ -28,7 +29,26 @@
                     @endforeach
           </tr>
       @endforeach
-
+  </tbody>
   </table>
+
+<script type="text/javascript">
+var $table = $('table.scroll'),
+    $bodyCells = $table.find('tbody tr:first').children(),
+    colWidth;
+
+// Adjust the width of thead cells when window resizes
+$(window).resize(function() {
+    // Get the tbody columns width array
+    colWidth = $bodyCells.map(function() {
+        return $(this).width();
+    }).get();
+    
+    // Set the width of thead columns
+    $table.find('thead tr').children().each(function(i, v) {
+        $(v).width(colWidth[i]);
+    });    
+}).resize();
+</script>
 
 @stop
