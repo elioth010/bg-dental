@@ -75,6 +75,10 @@ Route::resource('guardia', 'GuardiaController');
 //Rutas turnos
 
 Route::resource ('turno', 'TurnoController');
+
+//Rutas tipos de tratamientos
+
+Route::resource ('tipos', 'TiposTratamientosController');
 //rutas para llenar db de datos:
 
 //creando compañías:

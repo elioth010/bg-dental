@@ -5,7 +5,7 @@ class PresupuestoTratamiento extends Pivot {
 
     public $timestamps = false;
     protected $table = 'presupuestos_tratamientos';
-    protected $fillable = array('presupuesto_id', 'tratamiento_id', 'unidades', 'descuento', 'tipodescuento', 'piezas', 'estado');
+    protected $fillable = array('presupuesto_id', 'tratamiento_id', 'precio_unidad', 'unidades', 'descuento', 'tipodescuento', 'piezas', 'estado', 'compania_id');
 
     public function tratamientos() {
         return $this->belongsTo('Tratamientos');
