@@ -9,9 +9,10 @@ class ProfesionalController extends \BaseController {
 	 */
 	public function index()
 	{
-		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')->get();
-                $especialidades = Especialidad::lists('especialidad','id');
-                return View::make('profesionales.index', array('profesionales' => $profesionales))->with('especialidades', $especialidades);
+//		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')->get();
+//                $especialidades = Especialidad::lists('especialidad','id');
+//                return View::make('profesionales.index', array('profesionales' => $profesionales))->with('especialidades', $especialidades);
+                return Redirect::to('profesional/create');
 	}
 
 
@@ -23,7 +24,9 @@ class ProfesionalController extends \BaseController {
 	public function create()
 	{
 		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')->get();
-                return View::make('profesionales.index', array('profesionales' => $profesionales))->with('especialidades', $especialidades);;
+                $sedes = Sedes::lists('nombre','id');
+                $especialidades = Especialidad::lists('especialidad','id');
+                return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes));
 	}
 
 

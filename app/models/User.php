@@ -49,5 +49,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->group_id == 3;
     }
     
-   
+   public function isMalaga()
+    {
+        //Viewer sólo puede ver guardias y turnos.
+        return $this->sede_id == 1;
+    }
+    
+    public function isMarbella()
+    {
+        //Viewer sólo puede ver guardias y turnos.
+        return $this->sede_id == 2;
+    }
+    
+     public function isAlgeciras()
+    {
+        //Viewer sólo puede ver guardias y turnos.
+        return $this->sede_id == 3;
+    }
+     public function isTodas()
+    {
+        //Viewer sólo puede ver guardias y turnos.
+        return $this->sede_id == 4;
+    }
 }
