@@ -14,6 +14,8 @@
               <th>{{$tcp_cabecera->nombre_comp}}</th>
           @endforeach
       </tr>
+  </table>
+<table>
       @foreach($tcp_contenido as $tcp_contenido)
           <tr title="{{$tcp_contenido->nombre_trat}}">
 
