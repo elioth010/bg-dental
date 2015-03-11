@@ -265,7 +265,7 @@ td{
 	border:1px solid #b2b2b2;
 	border-width:0px 1px 1px 0px;
 	text-align:left;
-	padding:7px;
+	padding:10px;
 	font-size:11px;
 	font-family:Arial;
 	font-weight:normal;
@@ -318,6 +318,51 @@ th {
 	font-weight:bold;
 	color:#ffffff;
 }
+
+/*table.scroll {
+    background-color: #fff;
+}
+table.scroll tbody {
+    height: 400px;
+    overflow: auto;
+}
+table.scroll td {
+    padding: 3px 10px;
+}
+
+table.scroll thead > table.scroll tr, table.scroll tbody{
+    display:block;}*/
+    
+table.scroll {
+    width: 100%;  /* Optional */
+    /* border-collapse: collapse; */
+    border-spacing: 0;
+}
+
+table.scroll tbody,
+table.scroll thead { display: block; }
+
+thead tr th { 
+    height: 30px;
+    /* text-align: left; */
+}
+
+table.scroll tbody {
+    height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+tbody td, thead th {
+    /* width: 20%; */ /* Optional */
+    /* white-space: nowrap; */
+}
+
+tbody td:last-child, thead th:last-child {
+    border-right: none;
+}
+    
 /* tablero division */
 .tbl_izq{
 	float: left;

@@ -4,6 +4,7 @@
   <head>
 @include('includes.head')
 @yield('javascripts')
+@yield('ceeseeses')
   </head>
 
  <body>

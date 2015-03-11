@@ -78,12 +78,19 @@ function addTratamiento(gid, tid) {
     select3.append(new Option('EUR', 'E'))
     select3.append(new Option('%', 'P'))
 
+    label4 = $("<label>").attr({for: lpreciof}).text('Precio final del tratamiento:')
+    input4 = $('<input>').attr({onchange: "updatePrecioManual(" + lastIndex + ")", id: lpreciof, name: lpreciof,
+                            type: "text", size: 3})
+    input4.val(0.00)
+
     divPrecio = $("<div>").attr({id: "dprecio-" + lastIndex})
     divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span> <span id="' + lcompania + '"></span><br>')
     divPrecio.append(label3)
     divPrecio.append(input3)
     divPrecio.append(select3)
-    divPrecio.append('Precio final del tratamiento: <span id="' + lpreciof + '">0.00</span>')
+    divPrecio.append(label4)
+    divPrecio.append(input4)
+    divPrecio.append(' <span id="notaprecio-' + lastIndex + '" style="color: red"></span>')
 
     compania = $("<input>").attr({name: "compania-" + lastIndex, type: "hidden", value: 0})
 
@@ -255,6 +262,23 @@ function updatePrecioTratamiento(id, tid, grupo) {
 
 }
 
+// Cuando quien hace el presupuesto cambia manualmente la casilla del precio del tratamiento
+function updatePrecioManual(id) {
+    console.log('updatePrecioManual ' + id)
+
+    precio = $('#precio-' + id).text()
+    unidades = $('#iunidades-' + id).val()
+    lpreciof = $('#preciof-' + id).val()
+
+    if (lpreciof > precio * unidades) {
+        $('#notaprecio-' + id).text('El precio es más alto de lo normal')
+    } else {
+        $('#notaprecio-' + id).text('')
+    }
+
+}
+
+// El precio total del presupuesto
 function updatePrecioFinal() {
 
     // bucle 1
@@ -323,7 +347,7 @@ function onOdontogramaClose(id, parent, ipiezas, iunidades) {
     precio = $('#precio-' + id)
     preciof = $('#preciof-' + id)
 
-    preciof.text(precio.text() * unidades)
+    preciof.val(precio.text() * unidades)
 
     updatePrecioFinal()
 }
