@@ -31,9 +31,17 @@ class PopulateController extends BaseController {
             $addrtel2 = $faker->phoneNumber;
             $terrdesc = $faker->state;
             $addrpostcode = $faker->postcode;
+            $compania = $faker->numberBetween(1, 7);
+
+            $compania2 = $faker->numberBetween(0, 3);
+            while ($compania2 == $compania) {
+                $compania2 = $faker->numberBetween(0, 3);
+            }
+
             $populator = array('numerohistoria'=>$numerohistoria,'apellido1'=>$apellido1,'apellido2'=>$apellido2,
             'nombre'=>$nombre,'NIF'=>$NIF,'fechanacimiento'=>$fechanacimiento,'sexo'=>$sexo,'Direccion'=>$Direccion,
-            'addrnamestre'=>$addrnamestre,'addrtel1'=>$addrtel1,'addrtel2'=>$addrtel2,'terrdesc'=>$terrdesc,'addrpostcode'=>$addrpostcode);
+            'addrnamestre'=>$addrnamestre,'addrtel1'=>$addrtel1,'addrtel2'=>$addrtel2,'terrdesc'=>$terrdesc,
+            'addrpostcode'=>$addrpostcode,'compania'=>$compania,'compania2'=>$compania2);
 
 
             //Populate::;

@@ -10,19 +10,24 @@
         {{Form::label('Nombre')}}{{ Form::text('nombre', $tratamiento->nombre) }}</li>
        <table>
            <tr>
-               <th>Compañía</th>
-               <th>Precio</th>
-           </tr>
+               
+               
            
                
-       @foreach($tcp as $tcp)
+       @foreach($companias as $compania)
+                <td>{{$compania}}</td>
+       @endforeach
+           </tr>
+       
+           
        <tr>
-            <td>{{Form::label($tcp['nombre_comp'])}}
-            {{Form::hidden('cid-'.$tcp['id'])}}</td>
             
-            <td>{{ Form::text('precio-'.$tcp['id'], $tcp['precio']) }}<td>
+           @foreach($tcp as $tcp)
+           <td>{{Form::hidden('cid-'.$tcp['id'])}}{{ Form::text('precio-'.$tcp['id'], $tcp['precio']) }}</td>
+            @endforeach
+            
        </tr>
-        @endforeach
+        
        </table></br>
         {{Form::label('Grupo')}}{{ Form::select('grupostratamientos_id', $grupos, $tratamiento->grupostratamientos_id) }}
         </br>
