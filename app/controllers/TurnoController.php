@@ -16,15 +16,11 @@ class TurnoController extends \BaseController {
             
             $events = array();
             foreach($eventos as $evento){
-                
                 $profesionales = Profesional::find($evento->profesional_id);
                 $events[$evento->fecha_turno] = $profesionales->nombre.", ".$profesionales->apellido1;
             }
             var_dump($events);
-            
-            
-            
-             $cal = Calendar::make();
+            $cal = Calendar::make();
              //$cal->setEvents($events);
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
              $cal->setStartWeek('L');

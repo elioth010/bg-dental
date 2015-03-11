@@ -11,8 +11,9 @@ class UsersController extends BaseController {
     protected $layout = "layouts.main";
     
     public function getRegister() {
-    $usergroups = Usergroups::lists('nombre', 'id');    
-    $this->layout->content = View::make('users.register')->with(array('usergroups'=>$usergroups));
+    $usergroups = Usergroups::lists('nombre', 'id');
+    $sedes = Sedes::lists('nombre', 'id');
+    $this->layout->content = View::make('users.register')->with(array('usergroups'=>$usergroups, 'sedes' => $sedes));
     }
     
     public function postCreate() {
@@ -27,6 +28,7 @@ class UsersController extends BaseController {
     $user->email = Input::get('email');
     $user->password = Hash::make(Input::get('password'));
     $user->group_id = Input::get('group_id');
+    $user->sede_id = Input::get('sede_id');
     $user->save();
 
     return Redirect::to('users/dashboard')->with('message', '¡Usuario registrado!');
