@@ -66,7 +66,7 @@ class PresupuestosController extends \BaseController {
 	// Construye un array para javascript de crear/editar presupuesto
 	private function getTratamientosArray($grupos, $companias) {
 
-		$preciosObj = Precios::whereIn('companias_id', $companias)->get(array('tratamientos_id', 'precio', 'companias_id'));
+		$preciosObj = Precios::whereIn('companias_id', array_keys($companias))->get(array('tratamientos_id', 'precio', 'companias_id'));
 		$precios = array();
 		$companiaEconomica = array();
 
@@ -139,6 +139,7 @@ class PresupuestosController extends \BaseController {
 										'atratamientos' => $atratamientos,
 										'tratamientos' => $tratamientos,
 										'presupuesto' => $presupuesto,
+										'companias' => $companias,
 										'profesionales' => $profesionales));
 	}
 
@@ -182,6 +183,7 @@ class PresupuestosController extends \BaseController {
 										'atratamientos' => $atratamientos,
 										'tratamientos' => $tratamientos,
 										'presupuesto' => $presupuesto,
+										'companias' => $companias,
 										'profesionales' => $profesionales));
 	}
 

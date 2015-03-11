@@ -33,6 +33,7 @@ function addTratamiento(gid, tid) {
     grupo = "grupo-" + lastIndex
     trat = "tratamiento-" + lastIndex
     strat = "s_tratamiento-" + lastIndex
+    lcompania = "compania-" + lastIndex
     lprecio = "precio-" + lastIndex
     lpreciof = "preciof-" + lastIndex
     ldescu = "descuento-" + lastIndex
@@ -78,7 +79,7 @@ function addTratamiento(gid, tid) {
     select3.append(new Option('%', 'P'))
 
     divPrecio = $("<div>").attr({id: "dprecio-" + lastIndex})
-    divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span><br>')
+    divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span> <span id="' + lcompania + '"></span><br>')
     divPrecio.append(label3)
     divPrecio.append(input3)
     divPrecio.append(select3)
@@ -160,9 +161,11 @@ function updatePrecios(id, tid) {
         dpiezas = $('#dpiezas-' + id)
 
         if (tid != null) {
-            $('input[name="compania-' + id + '"]').val(tratamientos[grupo][tid]['compania'])
 
             if (tid == 0) {
+                $('input[name="compania-' + id + '"]').val(0)
+                $('#compania-' + id).text('')
+
                 precio.text("0.00")
                 preciof.text("0.00")
 
@@ -170,6 +173,9 @@ function updatePrecios(id, tid) {
                     dpiezas.remove()
                 }
             } else {
+                $('input[name="compania-' + id + '"]').val(tratamientos[grupo][tid]['compania'])
+                text = '(' + companias[tratamientos[grupo][tid]['compania']] + ')'
+                $('#compania-' + id).text(text.toUpperCase())
 
                 tipo = tratamientos[grupo][tid]['tipo']
 
