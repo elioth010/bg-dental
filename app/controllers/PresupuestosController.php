@@ -2,13 +2,12 @@
 
 class PresupuestosController extends \BaseController {
 
-	public function findTratamiento($grupoID){
+	public function findTratamiento($grupoID) {
 		$tratamientos = Tratamientos::where('grupos_tratamientos_id', $grupoID)->lists('nombre', 'id');
 		return $tratamientos;
 	}
 
-	public function verPresupuesto($paciente, $id)
-	{
+	public function verPresupuesto($paciente, $id) {
 		$presupuesto = Presupuestos::find($id);
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 		$companias_list = Companias::lists('nombre', 'id');
@@ -67,7 +66,7 @@ class PresupuestosController extends \BaseController {
 	// Construye un array para javascript de crear/editar presupuesto
 	private function getTratamientosArray($grupos, $companias) {
 
-		$preciosObj = Precios::whereIn('companias_id', $companias)->get(array('tratamientos_id', 'precio', 'companias_id'));
+		$preciosObj = Precios::whereIn('companias_id', array_keys($companias))->get(array('tratamientos_id', 'precio', 'companias_id'));
 		$precios = array();
 		$companiaEconomica = array();
 
@@ -107,10 +106,10 @@ class PresupuestosController extends \BaseController {
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
 		$companias = array();
-		$companias[] = $paciente->compania;
-		if (is_numeric($paciente->compania2)) {
+		$companias[$paciente->compania] = $companias_list[$paciente->compania];
+		if ($paciente->compania2 != 0) {
 			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[] = $paciente->compania2;
+			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
 		}
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
@@ -140,6 +139,7 @@ class PresupuestosController extends \BaseController {
 										'atratamientos' => $atratamientos,
 										'tratamientos' => $tratamientos,
 										'presupuesto' => $presupuesto,
+										'companias' => $companias,
 										'profesionales' => $profesionales));
 	}
 
@@ -158,10 +158,10 @@ class PresupuestosController extends \BaseController {
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
 		$companias = array();
-		$companias[] = $paciente->compania;
-		if (is_numeric($paciente->compania2)) {
+		$companias[$paciente->compania] = $companias_list[$paciente->compania];
+		if ($paciente->compania2 != 0) {
 			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[] = $paciente->compania2;
+			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
 		}
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
@@ -183,6 +183,7 @@ class PresupuestosController extends \BaseController {
 										'atratamientos' => $atratamientos,
 										'tratamientos' => $tratamientos,
 										'presupuesto' => $presupuesto,
+										'companias' => $companias,
 										'profesionales' => $profesionales));
 	}
 
@@ -297,7 +298,7 @@ class PresupuestosController extends \BaseController {
 		$companias_list = Companias::lists('nombre', 'id');
 		$paciente_b->companias_text = $companias_list[$paciente_b->compania];
 
-		if (is_numeric($paciente_b->compania2)) {
+		if ($paciente_b->compania2 != 0) {
 			$paciente_b->companias_text .= ' y ' . $companias_list[$paciente_b->compania2];
 		}
 
