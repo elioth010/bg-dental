@@ -9,19 +9,16 @@ class TratamientosController extends \BaseController {
 	 */
 	public function index()
 	{
-		//$companias_cabecera = Companias::orderBy('nombre')->all();
-		$tcp_cabecera = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
-					->leftJoin('companias', 'companias.id','=','companias_id')
-					->leftJoin('grupostratamientos', 'grupostratamientos.id', '=', 'grupostratamientos_id')
-					->select('tratamientos.codigo', 'tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id', 'grupostratamientos.nombre')
-					->groupBy('nombre_comp')->orderBy('tratamientos.grupostratamientos_id')
-					->where('tratamientos.activo', '=', '1')->get();
-		$tcp_contenido = Tratamientos::leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')->leftJoin('companias','companias.id','=', 'precios.companias_id')
-							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre as nombre_trat','companias.nombre as nombre_comp',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
-							->groupBy('tratamientos.id')->orderBy('companias.id')->where('tratamientos.activo', '=', '1')->get();
-                
-		
-		return View::make('tratamientos.index')->with(array('tcp_cabecera' => $tcp_cabecera))->with(array('tcp_contenido' => $tcp_contenido));
+		$companias = Companias::lists('nombre', 'id');
+
+		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
+							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
+							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
+							->groupBy('tratamientos.id')
+							->orderBy('precios.companias_id')
+							->get();
+
+		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
 	}
 
 
@@ -108,13 +105,13 @@ class TratamientosController extends \BaseController {
 					->select('tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id')
 					->where('tratamientos.id' , $tratamiento->id)
 					->get();
-		
+
 		} else {
 		  return Redirect::to('pacientes/buscar');
 		}
 		//var_dump($paciente);
-		
-		
+
+
 		return View::make('tratamientos.vertratamiento')->with('tratamientos',$tratamientos)->with('tcp' , $tcp);
 	 }
 	/**
@@ -158,10 +155,10 @@ class TratamientosController extends \BaseController {
                 }
                 $i++;
                }
-                
+
                 //$tratamientoaguardado = Tratamientos::where('id',$id)->first();
                 //return Redirect::to('tratamientos');
-                
+
 	}
 
 	public function editarprecios($id)
