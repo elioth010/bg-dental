@@ -133,15 +133,8 @@ class TratamientosController extends \BaseController {
 			->select('companias.nombre as nombre_comp', 'companias.id', 'precio', 'grupostratamientos_id', 'tipostratamientos_id')
 			->where('tratamientos.id' , $tratamiento->id)
 			->get();
-                if($precios){
-                    $num_companias = Companias::count();
-                    $i = 1;
-                    while($i<=$num_companias){
-                        $companias = Companias::first($i);
-                        echo $companias->nombre."</br>";
-                        $i++;
-                    }
-                }
+                $companias = Companias::lists('nombre', 'id');
+                var_dump($companias);
                 $tipos = DB::table('tipostratamientos')->get();
 		return View::make('tratamientos.editar')->with('tratamiento', $tratamiento)->with('tcp' , $precios)->with('grupos', $grupos)->with('tipos', $tipos)->with('companias', $companias);
 	}
