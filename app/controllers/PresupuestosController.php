@@ -259,11 +259,13 @@ class PresupuestosController extends \BaseController {
 				$t_piezas = Input::get('ipiezas-' . $i);
 				$t_compania = Input::get('compania-' . $i);
 				$t_precio = $precios[$t_id][$t_compania];
+				$t_preciof = Input::get('preciof-' . $i);
 
 				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $t_id,
 							'unidades' => $t_unidades, 'piezas' => $t_piezas,
 							'descuento' => $t_desc, 'tipodescuento' => $t_tdesc,
-							'compania_id' => $t_compania, 'precio_unidad' => $t_precio);
+							'compania_id' => $t_compania, 'precio_unidad' => $t_precio,
+							'precio_final' => $t_preciof);
 
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
 			}
