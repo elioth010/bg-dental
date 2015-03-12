@@ -5,7 +5,7 @@ crear.blade.php
     @if ($errors->has())
 
         @foreach ($errors->all() as $error)
-            {{ $error }}</br>
+            {{ $error }}<br/>
         @endforeach
 
     @endif

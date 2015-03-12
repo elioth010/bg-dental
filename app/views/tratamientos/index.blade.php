@@ -33,20 +33,21 @@
 	        </tr>
 	  
 			@foreach($tratamientos as $tratamiento)
-			<?php $precios = explode(",", $tratamiento->precios);
-			// HACK para no mostrar los tratamientos sin precios
-			if (!empty($precios[0])) {
-			?>
+			<?php $precios = explode(",", $tratamiento->precios); ?>
 			<tr title="{{ $tratamiento->nombre }}">
 
 				<td>{{ $tratamiento->codigo }}</td>
 				<td>{{ HTML::linkAction('TratamientosController@edit', $tratamiento->nombre, $tratamiento->id) }}</td>
 
 				@foreach($precios as $precio)
-				<td>{{ $precio.'€' }}</td>
+				<?php if($precio == "NULL") { ?>
+					<td style="color: red">NO DISPONIBLE</td>
+				<?php } else { ?>
+					<td>{{ $precio.'€' }}</td>
+				<?php } ?>
+
 				@endforeach
 			</tr>
-			<?php } ?>
 			@endforeach
 	    </tbody>
 	</table>

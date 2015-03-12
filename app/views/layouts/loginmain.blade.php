@@ -7,7 +7,7 @@
   <body>
  <div id="wrapper">
  <header>Versión BETA.
-     <div class="logo"></div></br><h2>Versión de PRUEBAS.</br></h2>
+     <div class="logo"></div><br/><h2>Versión de PRUEBAS.<br/></h2>
  </header>
  <div class="container">
         @if(Session::has('message'))
