@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Precios extends Migration {
+class PreciosPreciofinal extends Migration {
 
 	/**
 	 * Run the migrations.
