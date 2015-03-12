@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('contenido')
-verficha.blade.php
+
     @foreach($paciente as $paciente)
 {{ Form::open(array('url'=>'paciente/'.$paciente->id, 'method' => 'put')) }}
     <h1>Ficha del paciente:</h1>

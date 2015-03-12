@@ -1,7 +1,7 @@
 @extends('layouts.main')
  
 @section('contenido')
-crear.blade.php
+
     @if ($errors->has())
 
         @foreach ($errors->all() as $error)
