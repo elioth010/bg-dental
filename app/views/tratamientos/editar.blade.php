@@ -17,7 +17,14 @@
            </tr>
            <tr>
             @foreach($precios as $tcp)
-                <td>{{Form::hidden('cid-'.$tcp->id)}}{{ Form::text('precio-'.$tcp->id, $tcp->precio) }}</td>
+                <td>{{Form::hidden('cid-'.$tcp->cid, $tcp->cid) }}
+                    {{ Form::checkbox('activado-'.$tcp->cid, '1', !$tcp->disabled, array('onclick' => 'document.getElementsByName("precio-'. $tcp->cid . '")[0].disabled = !this.checked;')) }}
+                    <?php if ($tcp->disabled) { ?>
+                        {{ Form::text('precio-'.$tcp->cid, $tcp->precio, array('size' => 5, 'disabled' => 1)) }}
+                    <?php } else { ?>
+                        {{ Form::text('precio-'.$tcp->cid, $tcp->precio, array('size' => 5)) }}
+                    <?php } ?>
+                </td>
             @endforeach
             </tr>
        </table>

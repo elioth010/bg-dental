@@ -13,7 +13,7 @@ class TratamientosController extends \BaseController {
 
 		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
 							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
-							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(precios.precio) as precios'))
+							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
 							->groupBy('tratamientos.id')
 							->orderBy('precios.companias_id')
 							->get();
@@ -50,21 +50,26 @@ class TratamientosController extends \BaseController {
         $tratamiento->nombre 				= Input::get('nombre');
         $tratamiento->codigo 				= Input::get('codigo');
         $tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
-        $tratamiento->tipostratamientos_id 	= Input::get('tipostratamientos_id');
-        $tratamiento->activo 				= Input::get('activo');
+        $tratamiento->tipostratamientos_id 	= Input::get('tipotratamiento');
+        $tratamiento->activo 				= Input::get('activo', 1);
         $tratamiento->save();
 
         $num_companias = Companias::count();
         $i = 1;
         while($i <= $num_companias){
-            if(Input::has('id-'.$i)){
-	            $compania= Input::get('id-'.$i);
+            if(Input::has('cid-'.$i)){
+	            $compania = Input::get('cid-'.$i);
 	            $precio = Input::get('precio-'.$i);
-	            $tratamiento->companias()->attach($compania, array('precio' => $precio));
+				if ($precio == '') $precio = NULL;
+
+				$pt = array('precio' => $precio);
+	            $tratamiento->precios()->attach($compania, $pt);
             }
 			$i++;
 		}
-		//return Redirect::to('tratamientos');
+
+		return Redirect::action('TratamientosController@index');
+		//return Redirect::action('TratamientosController@edit', $tratamiento->id);
 	}
 
 
@@ -96,7 +101,7 @@ class TratamientosController extends \BaseController {
 			foreach($tratamientos as $tratamiento){
 				$tratamiento_id = $tratamiento->id;
 			}
-			$tcp = DB::table('precios')->leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
+			$tcp = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 				->leftJoin('companias', 'companias.id','=','companias_id')
 				->select('tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id')
 				->where('tratamientos.id' , $tratamiento->id)
@@ -119,51 +124,24 @@ class TratamientosController extends \BaseController {
 	{
 		$tratamiento = Tratamientos::where('id', $id)->first();
         $grupos = Grupos::lists('nombre','id');
+		$companias = Companias::lists('nombre', 'id');
+		$tipos = TiposTratamientos::get();
 
-		$precios = DB::table('precios')->leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
+		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 			->leftJoin('companias', 'companias.id','=','companias_id')
-			->select('companias.nombre as nombre_comp', 'companias.id', 'precio', 'grupostratamientos_id', 'tipostratamientos_id')
-			->where('tratamientos.id' , $tratamiento->id)
+			->select('companias.nombre as nombre_comp', 'companias.id as cid', 'precio', 'grupostratamientos_id', 'tipostratamientos_id')
+			->where('tratamientos.id' , $id)
 			->get();
 
-        $companias = Companias::lists('nombre', 'id');
-        $tipos = DB::table('tipostratamientos')->get();
+		foreach($precios as $p) {
+			$p->disabled = is_null($p->precio) ? TRUE: FALSE;
+		}
 
 		return View::make('tratamientos.editar')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
 															 'grupos' => $grupos, 'tipos' => $tipos,
 															 'companias' => $companias));
 	}
 
-	public function guardar_t($id){
-		//$codigo = Input::get('codigo');
-
-		$tratamiento = Tratamientos::find($id);
-		$tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
-		$tratamiento->tipostratamientos_id 	= Input::get('tipotratamiento');
-		$tratamiento->save();
-
-		$num_companias = Companias::count();
-		$i = 1;
-		while($i <= $num_companias){
-			if(Input::has('precio-'.$i)){
-				$compania= Input::get('cid-'.$i);
-				$precio = Input::get('precio-'.$i);
-				$tratamiento->companias($compania)->detach($compania);
-				$tratamiento->companias()->attach($compania, array('precio' => $precio));
-			}
-			$i++;
-		}
-
-		//$tratamientoaguardado = Tratamientos::where('id',$id)->first();
-		//return Redirect::to('tratamientos');
-
-	}
-
-	public function editarprecios($id)
-	{
-		$tcp = Input::all();
-		var_dump($tcp);
-	}
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -172,7 +150,35 @@ class TratamientosController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$tratamiento = Tratamientos::find($id);
+		$tratamiento->nombre                = Input::get('nombre');
+        $tratamiento->codigo 				= Input::get('codigo');
+		$tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
+		$tratamiento->tipostratamientos_id 	= Input::get('tipotratamiento');
+        $tratamiento->activo 				= Input::get('activo', 1);
+		$tratamiento->save();
+
+		$tratamiento->precios()->detach();
+
+		$num_companias = Companias::count();
+		$i = 1;
+		while($i <= $num_companias){
+			echo $i;
+			if (Input::has('cid-'.$i)) {
+				echo $i;
+				$compania = Input::get('cid-'.$i);
+				$precio = Input::get('precio-'.$i);
+				$activado = Input::get('activado-'.$i);
+				if ($precio == '' || !$activado) $precio = NULL;
+
+				$pt = array('precio' => $precio);
+				$tratamiento->precios()->attach($compania, $pt);
+			}
+			$i++;
+		}
+
+		//return Redirect::to('tratamientos');
+		return Redirect::action('TratamientosController@edit', $tratamiento->id);
 	}
 
 

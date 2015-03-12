@@ -15,4 +15,3 @@
 @yield('listado_comps')
 </div>
 @stop
- 
