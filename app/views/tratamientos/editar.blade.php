@@ -21,9 +21,9 @@
             @endforeach
             </tr>
        </table>
-       </br>
+       <br/>
         {{Form::label('Grupo:')}} {{ Form::select('grupostratamientos_id', $grupos, $tratamiento->grupostratamientos_id) }}
-        </br>
+        <br/>
 
         {{Form::label('Tipo:')}}
         @foreach($tipos as $tipo)
