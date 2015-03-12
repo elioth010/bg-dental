@@ -96,7 +96,7 @@ class TratamientosController extends \BaseController {
 			foreach($tratamientos as $tratamiento){
 				$tratamiento_id = $tratamiento->id;
 			}
-			$tcp = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
+			$tcp = DB::table('precios')->leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 				->leftJoin('companias', 'companias.id','=','companias_id')
 				->select('tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id')
 				->where('tratamientos.id' , $tratamiento->id)
@@ -120,7 +120,7 @@ class TratamientosController extends \BaseController {
 		$tratamiento = Tratamientos::where('id', $id)->first();
         $grupos = Grupos::lists('nombre','id');
 
-		$precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
+		$precios = DB::table('precios')->leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
 			->leftJoin('companias', 'companias.id','=','companias_id')
 			->select('companias.nombre as nombre_comp', 'companias.id', 'precio', 'grupostratamientos_id', 'tipostratamientos_id')
 			->where('tratamientos.id' , $tratamiento->id)
@@ -129,7 +129,7 @@ class TratamientosController extends \BaseController {
         $companias = Companias::lists('nombre', 'id');
         $tipos = DB::table('tipostratamientos')->get();
 
-		return View::make('tratamientos.editar')->with(array('tratamiento' => $tratamiento, 'tcp' => $precios,
+		return View::make('tratamientos.editar')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
 															 'grupos' => $grupos, 'tipos' => $tipos,
 															 'companias' => $companias));
 	}
