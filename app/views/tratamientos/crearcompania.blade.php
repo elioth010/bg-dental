@@ -6,8 +6,8 @@
     <h1>Creación de compañías</h1>
     {{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}
     {{ Form::text('codigo', null, array('placeholder'=>'código')) }}
-    </br>{{ Form::textarea('comentarios', null, array('placeholder'=>'comentarios')) }}
-    </br>
+    <br/>{{ Form::textarea('comentarios', null, array('placeholder'=>'comentarios')) }}
+    <br/>
     {{ Form::submit('Guardar compañía')}}
 {{ Form::close() }}
 </div>
@@ -15,4 +15,3 @@
 @yield('listado_comps')
 </div>
 @stop
- 

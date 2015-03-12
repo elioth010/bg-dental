@@ -1,32 +1,54 @@
 @extends('layouts.main')
 
+@section('ceeseeses')
+<style>
+	tbody {
+		height: 300px;
+		overflow: auto;
+	}
+
+	td {
+		padding: 3px 10px;
+	}
+
+	thead > tr, tbody {
+		display:block;
+	}
+</style>
+@stop
+
 @section('contenido')
-	<div class="search">
-  {{ HTML::linkAction('TratamientosController@show', 'Buscar tratamientos') }}</div>
-  <h1>
-  Tratamientos
-  </h1>
-  <table>
-      <tr>
-          <th>Código</th>
-          <th>Nombre tratamiento</th>
-          @foreach($tcp_cabecera as $tcp_cabecera)
-              <th>{{$tcp_cabecera->nombre_comp}}</th>
-          @endforeach
-      </tr>
-      @foreach($tcp_contenido as $tcp_contenido)
-          <tr title="{{$tcp_contenido->nombre_trat}}">
+<div class="search">
+	{{ HTML::linkAction('TratamientosController@show', 'Buscar tratamientos') }}</div>
+	<h1>Tratamientos</h1>
 
-          <td>{{$tcp_contenido->codigo}}</td>
-          <td>{{ HTML::linkAction('TratamientosController@edit', $tcp_contenido->nombre_trat, $tcp_contenido->id) }}</td>
-          
-              <?php $precios = explode(",", $tcp_contenido->precios);?>
-                    @foreach($precios as $precio)
-                        <td>{{$precio.'€'}}</td>
-                    @endforeach
-          </tr>
-      @endforeach
+	<table>
+	    <tbody>
+	        <tr>
+	            <th>Código</th>
+	            <th>Nombre tratamiento</th>
+				@foreach($companias as $compania)
+				<th>{{ $compania }}</th>
+				@endforeach
+	        </tr>
+	  
+			@foreach($tratamientos as $tratamiento)
+			<?php $precios = explode(",", $tratamiento->precios); ?>
+			<tr title="{{ $tratamiento->nombre }}">
 
-  </table>
+				<td>{{ $tratamiento->codigo }}</td>
+				<td>{{ HTML::linkAction('TratamientosController@edit', $tratamiento->nombre, $tratamiento->id) }}</td>
 
+				@foreach($precios as $precio)
+				<?php if($precio == "NULL") { ?>
+					<td style="color: red">NO DISPONIBLE</td>
+				<?php } else { ?>
+					<td>{{ $precio.'€' }}</td>
+				<?php } ?>
+
+				@endforeach
+			</tr>
+			@endforeach
+	    </tbody>
+	</table>
 @stop

@@ -21,7 +21,7 @@ class PacientesController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function crear()
+	public function create()
 	{
 		$companias = Companias::lists('nombre', 'id');
 		return View::make('pacientes.crear')->with(array('companias' => $companias));
@@ -41,9 +41,9 @@ class PacientesController extends BaseController {
 
 		if ($validator->passes()) {
 			$crear_p = Pacientes::create(Input::all());
-			return Redirect::to('pacientes')->with('message', 'Paciente creado con éxito.');
+			return Redirect::to('paciente')->with('message', 'Paciente creado con éxito.');
 		} else {
-			return Redirect::to('pacientes/crear')->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
+			return Redirect::to('paciente/create')->with('message', 'Existen los siguientes errores:')->withErrors($validator)->withInput();
 		}
 	}
 
@@ -65,7 +65,7 @@ class PacientesController extends BaseController {
 
 		  
 		} else {
-		  return Redirect::to('pacientes/buscar');
+		  return Redirect::to('paciente/buscar');
 		}
 		//var_dump($paciente);
 		
@@ -74,20 +74,31 @@ class PacientesController extends BaseController {
 	 }
 	 
 	 
-	 public function show()
+	 public function buscar()
 	{
 		//echo "HOLA";
 		return View::make('pacientes.buscar');
 		
 	}
 
-
-	public function verficha($numerohistoria)
+        public function show($id)
 	{
 		//$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
-		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->get();
+		$paciente = Pacientes::where('id', $id)->get();
 
 		$companias = Companias::lists('nombre', 'id');
+                asort($companias);
+		//var_dump($paciente);
+		return View::make('pacientes.verficha')->with('paciente',$paciente)->with(array('companias' => $companias));
+	}
+        
+	public function edit($id)
+	{
+		//$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
+		$paciente = Pacientes::where('id', $id)->get();
+
+		$companias = Companias::lists('nombre', 'id');
+                asort($companias);
 		//var_dump($paciente);
 		return View::make('pacientes.verficha')->with('paciente',$paciente)->with(array('companias' => $companias));
 	}
@@ -99,16 +110,19 @@ class PacientesController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function editarficha($id)
+	public function update($id)
 	{
 		
-		$paciente = Input::get();
-		var_dump($paciente);
-		$editarpaciente = new Pacientes;
-		$editarpaciente->nombre = $paciente['nombre'];
-		$editarpaciente->save();
-		$paciente_editado = Pacientes::find($id);
-		var_dump($paciente_editado);
+		$paciente = Pacientes::find($id);
+                $paciente->update(Input::all());
+                return Redirect::to('paciente')->with('message', 'Paciente modificado con éxito.');
+                //$paciente->save();
+		//var_dump($paciente_d);
+//		$editarpaciente = new Pacientes;
+//		$editarpaciente->nombre = $paciente['nombre'];
+//		$editarpaciente->save();
+//		$paciente_editado = Pacientes::find($id);
+//		var_dump($paciente_editado);
 		
 	}
 
@@ -119,10 +133,10 @@ class PacientesController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		//
-	}
+//	public function update($id)
+//	{
+//		//
+//	}
 
 
 	/**

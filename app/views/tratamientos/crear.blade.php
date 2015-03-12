@@ -1,25 +1,25 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
-{{ Form::open(array('url'=>'tratamientos/guardar')) }}     
+{{ Form::open(array('url'=>'tratamientos/guardar')) }}
     <h1>Creación de tratamientos:</h1>
     <ul class="labelreg6">
     <li>{{ Form::select('grupostratamientos_id', $grupos) }}</li>
     <li>{{ Form::text('codigo', null, array('placeholder'=>'código')) }}</li>
     <li>{{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}</li>
-    {{ Form::select('tipostratamientos_id', $tipostratamientos) }}
+    {{ Form::select('tipotratamiento', $tipostratamientos) }}
     <br><br>
-    Tabla:
+
     <table>
         <tr>
-        <th>Compañía</th>
-        <th>Precio<th>
+            <th>Compañía</th>
+            <th>Precio<th>
         </tr>
         @foreach($companias as $compania)
         <tr>
             <td>
                 {{$compania->nombre}}
-                {{Form::hidden('id-'.$compania->id, $compania->id)}}
+                {{Form::hidden('cid-'.$compania->id, $compania->id)}}
             </td>
             <td>
                 {{Form::text('precio-'.$compania->id)}}
@@ -27,10 +27,10 @@
         </tr>
         @endforeach
     </table>
-    <br><br>    
+    <br><br>
     <li>{{Form::hidden('activo', '1')}}</li>
     <li>{{ Form::submit('Guardar', array('class'=>'botonl'))}}</li>
 
 {{ Form::close() }}
 @stop
- 	</ul>
+	</ul>

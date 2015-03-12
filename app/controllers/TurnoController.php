@@ -16,15 +16,11 @@ class TurnoController extends \BaseController {
             
             $events = array();
             foreach($eventos as $evento){
-                
                 $profesionales = Profesional::find($evento->profesional_id);
                 $events[$evento->fecha_turno] = $profesionales->nombre.", ".$profesionales->apellido1;
             }
             var_dump($events);
-            
-            
-            
-             $cal = Calendar::make();
+            $cal = Calendar::make();
              //$cal->setEvents($events);
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
              $cal->setStartWeek('L');
@@ -88,31 +84,33 @@ class TurnoController extends \BaseController {
              $cal->setEvents($events); // Receives the events array
              $cal->setTableClass('table_cal'); //Set the table's class name
              $calendario = $cal->generate();
-             return View::make('agenda.crear_turnos')->with('calendario', $calendario)->with('numero_dias', $numero);
-             
+             return View::make('agenda.crear_turnos')->with(array('calendario' => $calendario, 'numero_dias' => $numero));
+
 	}
 
 	public function store()
 	{
 		$turnos = Input::all();
-                var_dump($turnos['numero_dias']);
-                $i = 1;
-                while($i<=$turnos['numero_dias']){
-                    $evento = new Turnos;
-                    $evento->fecha_turno = $turnos["dia-m-".$i];
-                    $evento->profesional_id = $turnos['profesional_id-m-'.$i] ;
-                    $evento->save();
-                    $i++;
-                }
-                $ii = 1;
-                while($ii<=$turnos['numero_dias']){
-                    $evento = new Turnos;
-                    $evento->fecha_turno = $turnos["dia-t-".$ii];
-                    $evento->profesional_id = $turnos['profesional_id-t-'.$ii] ;
-                    $evento->save();
-                    $ii++;
-                }
-                var_dump($turnos['numero_dias']);
+        var_dump($turnos['numero_dias']);
+        $i = 1;
+        while($i<=$turnos['numero_dias']){
+            $evento = new Turnos;
+            $evento->fecha_turno = $turnos["dia-m-".$i];
+            $evento->profesional_id = $turnos['profesional_id-m-'.$i] ;
+            // TODO: mañana
+            $evento->save();
+            $i++;
+        }
+        $ii = 1;
+        while($ii<=$turnos['numero_dias']){
+            $evento = new Turnos;
+            $evento->fecha_turno = $turnos["dia-t-".$ii];
+            $evento->profesional_id = $turnos['profesional_id-t-'.$ii] ;
+            // TODO: tarde
+            $evento->save();
+            $ii++;
+        }
+        var_dump($turnos['numero_dias']);
 	}
 
 	public function show($id)
