@@ -148,7 +148,7 @@ class TratamientosController extends \BaseController {
 			if(Input::has('precio-'.$i)){
 				$compania= Input::get('cid-'.$i);
 				$precio = Input::get('precio-'.$i);
-				$tratamiento->companias($compania)->detach($compania);
+				$tratamiento->companias()->detach($compania);
 				$tratamiento->companias()->attach($compania, array('precio' => $precio));
 			}
 			$i++;

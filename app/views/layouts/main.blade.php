@@ -35,8 +35,8 @@
 
                     <li>{{ HTML::linkAction('PacientesController@index', 'Pacientes') }}
                     <ul>
-                        <li>{{ HTML::linkAction('PacientesController@crear', 'Crear pacientes') }}</li>
-                        <li>{{ HTML::linkAction('PacientesController@show', 'Buscar pacientes') }}</li>
+                        <li>{{ HTML::linkAction('PacientesController@create', 'Crear pacientes') }}</li>
+                        <li>{{ HTML::linkAction('PacientesController@buscar', 'Buscar pacientes') }}</li>
                     </ul>
                     </li>
                     <li>{{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}

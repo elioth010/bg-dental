@@ -14,15 +14,16 @@ Route::controller('users', 'UsersController');
 
 Route::group(array('before' => 'auth'), function(){
 
+Route::get('paciente/buscar', 'PacientesController@buscar');
+Route::post('paciente/busqueda', 'PacientesController@busqueda');
+Route::resource('paciente', 'PacientesController');
+//Route::get('pacientes', 'PacientesController@index');
 
-Route::get('pacientes', 'PacientesController@index');
-Route::get('pacientes/buscar', 'PacientesController@show');
-Route::post('pacientes/busqueda', 'PacientesController@busqueda');
-Route::get('populate', 'PopulateController@populate');
-Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
-Route::get('pacientes/crear', 'PacientesController@crear');
-Route::post('pacientes/guardar', 'PacientesController@store');
-Route::post('pacientes/{numerohistoria}/editarficha', 'PacientesController@editarficha');
+//Route::get('populate', 'PopulateController@populate');
+//Route::get('pacientes/crear', 'PacientesController@crear');
+//Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
+//Route::post('pacientes/guardar', 'PacientesController@store');
+//Route::post('pacientes/editarficha/{id}', 'PacientesController@editarficha');
 
 
 

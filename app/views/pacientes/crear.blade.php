@@ -10,7 +10,7 @@ crear.blade.php
 
     @endif
 
-{{ Form::open(array('url'=>'pacientes/guardar')) }}     
+{{ Form::open(array('url'=>'paciente')) }}     
     <h1>Datos del nuevo paciente</h1>
     
 
@@ -45,6 +45,9 @@ crear.blade.php
     <li>{{ Form::text('mail') }}</li>
     <li>Mujer: {{ Form::radio('sex', 'mujer') }} Hombre: {{ Form::radio('sex', 'varon') }}</li>
     <li>{{ Form::select('compania', $companias, null) }} </li>
+    <?php $companias[0] = "--ninguna--";
+            asort($companias);?>
+    <li>{{ Form::select('compania2', $companias, null) }} </li>
         <br>    
     <li>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}</li>
     <li>{{HTML::link('previous', 'volver')}}</li>
