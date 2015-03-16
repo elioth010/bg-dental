@@ -319,49 +319,6 @@ th {
 	color:#ffffff;
 }
 
-/*table.scroll {
-    background-color: #fff;
-}
-table.scroll tbody {
-    height: 400px;
-    overflow: auto;
-}
-table.scroll td {
-    padding: 3px 10px;
-}
-
-table.scroll thead > table.scroll tr, table.scroll tbody{
-    display:block;}*/
-    
-table.scroll {
-    width: 100%;  /* Optional */
-    /* border-collapse: collapse; */
-    border-spacing: 0;
-}
-
-table.scroll tbody,
-table.scroll thead { display: block; }
-
-thead tr th { 
-    height: 30px;
-    /* text-align: left; */
-}
-
-table.scroll tbody {
-    height: 350px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-
-tbody td, thead th {
-    /* width: 20%; */ /* Optional */
-    /* white-space: nowrap; */
-}
-
-tbody td:last-child, thead th:last-child {
-    border-right: none;
-}
     
 /* tablero division */
 .tbl_izq{
@@ -519,8 +476,12 @@ tbody td:last-child, thead th:last-child {
 }
 
 /* odontograma */
-.odontograma{
-    margin: 10px 0 0 40px;    
+#odontograma-1{
+    left: 0% !important;    
+}
+/* tratamientos */
+#tratamiento-1{
+	line-height: 20px;
 }
 /* exit */
 .exit{

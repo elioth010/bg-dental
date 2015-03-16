@@ -23,16 +23,14 @@
 	<h1>Tratamientos</h1>
 
 	<table>
-	    <thead>
+	    <tbody>
 	        <tr>
-	            <td>Código</td>
-	            <td>Nombre tratamiento</td>
+	            <th>Código</th>
+	            <th>Nombre tratamiento</th>
 				@foreach($companias as $compania)
-				<td>{{ $compania }}</td>
+				<th>{{ $compania }}</th>
 				@endforeach
 	        </tr>
-	    </thead>
-	    <tbody>
 			@foreach($tratamientos as $tratamiento)
 			<?php $precios = explode(",", $tratamiento->precios);
 			// HACK para no mostrar los tratamientos sin precios
@@ -51,4 +49,16 @@
 			@endforeach
 	    </tbody>
 	</table>
+	
+		<table>
+	    <thead>
+	        <tr>
+	            <th style="width:85px">Código</th>
+	            <th style="width:204px">Nombre tratamiento</th>
+				@foreach($companias as $compania)
+				<th style="width:90px">{{ $compania }}</th>
+				@endforeach
+	        </tr>
+	    </thead>
+		</table>
 @stop
