@@ -78,8 +78,8 @@
 
     <?php } else { ?>
         @foreach($tratamientos as $key => $t)
-            addTratamiento({{ $t["grupostratamientos_id"] }}, {{ $t["tratamiento_id"] }})
-            updatePrecios(lastIndex, {{ $t["tratamiento_id"] }})
+            addTratamiento({{ $t }})
+            updatePrecios(lastIndex, {{ $t }})
         @endforeach
     <?php } ?>
 
