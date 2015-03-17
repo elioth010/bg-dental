@@ -111,6 +111,9 @@ body {
 	color:#66a3e5;
 	font-weight: bold;
 }
+.container li{
+	display: inherit;
+}
 .top{
 	padding-top: 30px;}
 
@@ -456,7 +459,6 @@ th {
 	color:#ffffff;
 }
 .table_cal .date{
-	height: 64px;
 	width: 100%;
 	margin: 0;
 }
@@ -466,9 +468,14 @@ th {
 }
 .table_cal p{
 	text-align: center;
-	padding-top: 5px;
+	padding-top: 1px;
 	overflow: auto;}
-
+.table_cal tbody tr:nth-child(odd){
+	height: 45px;
+}
+.table_cal tbody tr:nth-child(even){
+	min-height: 100px;
+}
 /* select */
 .select_prof{
     font-size: 10px;

@@ -64,7 +64,7 @@ class TurnoController extends \BaseController {
                 $date_in_m = $ano."-".$mes."-".$i." 10:00";
                 $input_m = '<input  type = "hidden" name="dia-m-'.$i.'" value= "'.$date_in_m.'">';
                 
-                $select_prof_m2 = "<select class = \"select_prof\" name = \"profesional_id-m2-" . $i . "\">" . $option_prof . "</select>";
+                $select_prof_m2 = "<select class = \"select_prof\" name = \"profesional_id-m2-" . $i . "\">" . $option_prof . "</select><hr>";
                 $date_in_m2 = $ano."-".$mes."-".$i." 10:01";
                 $input_m2 = '<input  type = "hidden" name="dia-m2-'.$i.'" value= "'.$date_in_m2.'">';
                 
