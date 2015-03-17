@@ -33,7 +33,7 @@
     <li>{{ Form::select('compania2', $companias, $paciente->compania2 ) }}</li>
         <br>
     <li>{{ Form::submit('Guardar cambios')}}</li>
-    <li>{{ Form::button('Atrás', array('class'=>'botonl'))}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</li>
+    <li>{{--{{ Form::button('Atrás', array('class'=>'botonl'))}}--}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</li>
 
 </ul>
     @endforeach
