@@ -14,8 +14,6 @@ class PresupuestosController extends \BaseController {
 		$total = 0;
 
 		foreach($tratamientos as $t) {
-			$t->precio_final = $t->precio_unidad * $t->unidades;
-
 			if ($t->tipodescuento == 'P') {
 				$descuento = $t->descuento * $t->precio_final / 100;
 				$descuentotext = $t->descuento . '%';
