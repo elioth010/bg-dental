@@ -8,7 +8,8 @@
   <div class="top">
   <h3>
   Últimos pacientes creados:
-  </h2>
+  </h3>
+  	<div class="labelreg6">
     <table border = "1">
       <tr>
       <th>NHC
@@ -24,5 +25,6 @@
         </tr>
       @endforeach
     </table>
+	</div>
 </div>
 @stop

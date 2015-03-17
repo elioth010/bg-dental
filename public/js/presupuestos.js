@@ -146,7 +146,7 @@ function creaDivPiezas(id) {
     newLink = $("<a />", {id: 'piezas-' + id, href : "#", text : piezastext});
     newLink.click(function(e) {
         e.preventDefault();
-        $("#dodontograma-" + id).attr("style", "position:absolute;left:10%;top:5%");
+        $("#dodontograma-" + id).attr("style", "position:absolute;left:25%;top:10%;border:5px solid #1271b3;background-color:#FFF;");
         areas = $('#odontograma-' + id + ' area')
         /*
         for (i=0; i<areas.length; i++) {

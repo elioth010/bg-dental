@@ -3,7 +3,7 @@
 @section('ceeseeses')
 <style>
 	tbody {
-		height: 340px;
+		height: 330px;
 		overflow: auto;
 	}
 
@@ -25,10 +25,10 @@
 	<table>
 	    <tbody>
 	        <tr>
-	            <th>Código</th>
-	            <th>Nombre tratamiento</th>
+	            <th style="width: 96px">Código</th>
+	            <th style="width: 287px">Nombre tratamiento</th>
 				@foreach($companias as $compania)
-				<th>{{ $compania }}</th>
+				<th style="width: 67px">{{ $compania }}</th>
 				@endforeach
 	        </tr>
 			@foreach($tratamientos as $tratamiento)
@@ -50,4 +50,15 @@
 			@endforeach
 	    </tbody>
 	</table>
+		<table>
+	    <thead>
+	        <tr>
+	            <th style="width: 96px">Código</th>
+	            <th style="width: 287px">Nombre tratamiento</th>
+				@foreach($companias as $compania)
+				<th style="width: 67px">{{ $compania }}</th>
+				@endforeach
+	        </tr>
+		</thead>
+		</table>
 @stop

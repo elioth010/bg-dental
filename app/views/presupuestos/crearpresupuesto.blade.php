@@ -22,11 +22,11 @@
 @include('presupuestos.odontograma')
 @yield('odontograma')
 
-<button type="button" class="closeOdontograma">Cerrar</button>
+<button type="button" class="botonl" style="margin:5px;">Cerrar</button>
 
 </div>
 
-
+	
 	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
     <h1>Nuevo presupuesto</h1>
 	<ul class="labelreg6">

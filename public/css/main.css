@@ -177,7 +177,7 @@ header{
 /* search */
 
 .search{
-	width: 150px;
+	width: 160px;
 	height: 25px;
 	position:fixed;
 	z-index:10;
@@ -476,12 +476,40 @@ th {
 }
 
 /* odontograma */
-#odontograma-1{
-    left: 0% !important;    
-}
+
 /* tratamientos */
-#tratamiento-1{
+#tratamientos {
+	padding-left: 5px;
+}
+div[id*='tratamiento-'] {
 	line-height: 20px;
+}
+div[id*='dpiezas-']{
+	padding: 5px 0 5px 0;
+}
+*[id^='descuento-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='s_tipodescuento-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='preciof-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='compania-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='precio-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='grupo-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='s_tratamiento-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='piezas-']{
+	margin: 0 10px 0 10px;
 }
 /* exit */
 .exit{
