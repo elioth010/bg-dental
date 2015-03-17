@@ -31,6 +31,7 @@ function removeTratamiento(id) {
 
     trat = "#tratamiento-" + id
     $(trat).remove()
+    updatePrecioFinal()
 }
 
 
@@ -320,15 +321,17 @@ function updatePrecioManual(id) {
 
 // El precio total del presupuesto
 function updatePrecioFinal() {
-
+    console.log('updatePrecioFinal')
     // bucle 1
     //g = $('#grupo-' + i)[0].value
     //t = $('#s_tratamiento-' + i)[0].selectedIndex
     //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precio'])
 
-    subtotal = 0
+    var subtotal = 0
     for (i=1; i<=lastIndex; i++) {
-        subtotal += parseFloat($('#preciof-' + i).val())
+        if ($('#tratamiento-' + i).length != 0) {
+            subtotal += parseFloat($('#preciof-' + i).val())
+        }
     }
 
     desc = $('#descuento').val()
