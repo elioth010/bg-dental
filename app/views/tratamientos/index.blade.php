@@ -3,7 +3,7 @@
 @section('ceeseeses')
 <style>
 	tbody {
-		height: 300px;
+		height: 340px;
 		overflow: auto;
 	}
 
@@ -31,7 +31,6 @@
 				<th>{{ $compania }}</th>
 				@endforeach
 	        </tr>
-	  
 			@foreach($tratamientos as $tratamiento)
 			<?php $precios = explode(",", $tratamiento->precios); ?>
 			<tr title="{{ $tratamiento->nombre }}">
