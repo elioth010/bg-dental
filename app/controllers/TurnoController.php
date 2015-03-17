@@ -15,21 +15,15 @@ class TurnoController extends \BaseController {
             $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
 //             $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</stong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
             $events = array();
-            //$events = "array(";
                 foreach($eventos as $evento){
                     $profesionales = Profesional::find($evento->profesional_id);
                     $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
-
-//                    $events .= "\"".$evento->fecha_turno."\"";
-//                    $events .= "=> array(\"".$profesionales->nombre."\"),";
-
                 }
-            //$events .= ")";
             var_dump($events);
             $cal = Calendar::make();
-             //$cal->setEvents($events);
+            //$cal->setEvents($events);
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-             //$cal->setStartWeek('L');
+            //$cal->setStartWeek('L');
              $cal->setBasePath('/turno'); // Base path for navigation URLs
              $cal->setDate(Input::get('cdate')); //Set starting date
              $cal->showNav(true); // Show or hide navigation
@@ -44,7 +38,7 @@ class TurnoController extends \BaseController {
         
         public function create()
 	{
-            $profesionales = Profesional::get();
+            $profesionales = Profesional::where('especialidades_id', 2)->get();
             $option_prof="";
             foreach($profesionales as $i=>$profesionales){
                     $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1." ".$profesionales->apellido1."</option>";
@@ -128,6 +122,7 @@ class TurnoController extends \BaseController {
         }
         $ii = 1;
         while($ii<=$turnos['numero_dias']){
+            
             $evento = new Turnos;
             $evento->fecha_turno = $turnos["dia-t-".$ii];
             $evento->profesional_id = $turnos['profesional_id-t-'.$ii] ;
@@ -145,7 +140,7 @@ class TurnoController extends \BaseController {
             $ii2++;
         }
         
-        var_dump($turnos['numero_dias']);
+        return Redirect::to('turno');
 	}
 
 	public function show($id)
