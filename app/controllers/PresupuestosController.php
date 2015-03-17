@@ -79,15 +79,17 @@ class PresupuestosController extends \BaseController {
 				$precios[$p->tratamientos_id] = $p->precio;
 				$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
 			}
-
 		}
 
 		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
 
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
-			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
+			// No mostrar el tratamiento si no tiene precio asignado en las compañías del paciente
+			if (array_key_exists($t->id, $precios)) {
+				$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
 																'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
+			}
 		}
 
 		return $atratamientos;
