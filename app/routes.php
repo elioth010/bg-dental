@@ -14,15 +14,16 @@ Route::controller('users', 'UsersController');
 
 Route::group(array('before' => 'auth'), function(){
 
+Route::get('paciente/buscar', 'PacientesController@buscar');
+Route::post('paciente/busqueda', 'PacientesController@busqueda');
+Route::resource('paciente', 'PacientesController');
+//Route::get('pacientes', 'PacientesController@index');
 
-Route::get('pacientes', 'PacientesController@index');
-Route::get('pacientes/buscar', 'PacientesController@show');
-Route::post('pacientes/busqueda', 'PacientesController@busqueda');
-Route::get('populate', 'PopulateController@populate');
-Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
-Route::get('pacientes/crear', 'PacientesController@crear');
-Route::post('pacientes/guardar', 'PacientesController@store');
-Route::post('pacientes/{numerohistoria}/editarficha', 'PacientesController@editarficha');
+//Route::get('populate', 'PopulateController@populate');
+//Route::get('pacientes/crear', 'PacientesController@crear');
+//Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
+//Route::post('pacientes/guardar', 'PacientesController@store');
+//Route::post('pacientes/editarficha/{id}', 'PacientesController@editarficha');
 
 
 
@@ -37,7 +38,7 @@ Route::post('tratamientos/guardargrupo', 'GruposController@store');
 Route::get('tratamientos/crear', 'TratamientosController@create');
 Route::get('tratamientos/editar/{id}', 'TratamientosController@edit');
 Route::post('tratamientos/guardar', 'TratamientosController@store');
-Route::post('tratamientos/guardartratamiento/{id}', 'TratamientosController@guardar_t');
+Route::post('tratamientos/guardartratamiento/{id}', 'TratamientosController@update');
 
 
 //Rutas compañías:
@@ -139,9 +140,9 @@ Route::get('asignarprecios', function() {
         $siexiste = Precios::where('tratamientos_id', $id_tratamiento->id)->where('companias_id', $id_comp)->lists('id');
         if(empty($siexiste)){
 
-        Tratamientos::find($id_tratamiento->id)->companias()->attach($id_comp, array('precio' => $precio));
+        Tratamientos::find($id_tratamiento->id)->precios()->attach($id_comp, array('precio' => $precio));
         //echo "Añadido tratamiento ".$id_tratamiento->nombre." a compañía ".$id_comp." precio: ".$precio."<br>";
-        //$tratamiento->companias()->attach($id_comp, array('precio' => $precio));
+        //$tratamiento->precios()->attach($id_comp, array('precio' => $precio));
         }
        else {
            echo "Precio para esta compañía y tratamientos ya existe";

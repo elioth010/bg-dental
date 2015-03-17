@@ -1,7 +1,7 @@
 @extends('layouts.main')
  
 @section('contenido')
-{{ Form::open(array('url'=>'pacientes/busqueda')) }}     
+{{ Form::open(array('url'=>'paciente/busqueda')) }}     
     <h1>Búsqueda de pacientes:</h1>
     
     {{ Form::text('nombre', null, array('placeholder'=>'Texto a buscar o NHC')) }}

@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('contenido')
-verficha.blade.php
+
     @foreach($paciente as $paciente)
-{{ Form::open(array('url'=>'pacientes/$paciente->id/editarficha')) }}
+{{ Form::open(array('url'=>'paciente/'.$paciente->id, 'method' => 'put')) }}
     <h1>Ficha del paciente:</h1>
 
 <ul class="labelreg4">
@@ -28,9 +28,11 @@ verficha.blade.php
     <li>{{ Form::text('terrdesc', $paciente->terrdesc) }}</li>
     <li>{{ Form::text('terrdesc', $paciente->addrpostcode) }}</li>
     <li>{{ Form::text('addrtel2', $paciente->addrtel2) }}  {{ Form::text('addrtel2', $paciente->addrtel2) }}</li>
-    <li>{{ Form::select('compania', $companias, null) }}</li>
+    <li>{{ Form::select('compania', $companias, $paciente->compania) }}</li>
+    <?php $companias[0]= "-- Ninguna --"; ?>
+    <li>{{ Form::select('compania2', $companias, $paciente->compania2 ) }}</li>
         <br>
-    <li>{{--{{ Form::submit('Guardar cambios')}}--}}</li>
+    <li>{{ Form::submit('Guardar cambios')}}</li>
     <li>{{ Form::button('Atrás', array('class'=>'botonl'))}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</li>
 
 </ul>

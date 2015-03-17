@@ -3,7 +3,7 @@
 @section('contenido')
 
   <div class="search">
-  {{ HTML::linkAction('PacientesController@show', 'Buscar pacientes') }}
+  {{ HTML::linkAction('PacientesController@buscar', 'Buscar pacientes') }}
   </div>
   <div class="top">
   <h3>
@@ -18,7 +18,7 @@
       </tr>
       @foreach($pacientes as $paciente)
         <tr>
-        <td>{{ HTML::linkAction('PacientesController@verficha', $paciente->numerohistoria, $paciente->numerohistoria) }}</td>
+        <td>{{ HTML::linkAction('PacientesController@edit',  $paciente->numerohistoria, $paciente->id) }}</td>
         <td>{{$paciente->nombre}}</td>
         <td>{{$paciente->apellido1." ".$paciente->apellido2}}</td>
         </tr>

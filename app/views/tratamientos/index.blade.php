@@ -3,7 +3,7 @@
 @section('ceeseeses')
 <style>
 	tbody {
-		height: 300px;
+		height: 340px;
 		overflow: auto;
 	}
 
@@ -32,33 +32,22 @@
 				@endforeach
 	        </tr>
 			@foreach($tratamientos as $tratamiento)
-			<?php $precios = explode(",", $tratamiento->precios);
-			// HACK para no mostrar los tratamientos sin precios
-			if (!empty($precios[0])) {
-			?>
+			<?php $precios = explode(",", $tratamiento->precios); ?>
 			<tr title="{{ $tratamiento->nombre }}">
 
 				<td>{{ $tratamiento->codigo }}</td>
 				<td>{{ HTML::linkAction('TratamientosController@edit', $tratamiento->nombre, $tratamiento->id) }}</td>
 
 				@foreach($precios as $precio)
-				<td>{{ $precio.'€' }}</td>
+				<?php if($precio == "NULL") { ?>
+					<td style="color: red">NO DISPONIBLE</td>
+				<?php } else { ?>
+					<td>{{ $precio.'€' }}</td>
+				<?php } ?>
+
 				@endforeach
 			</tr>
-			<?php } ?>
 			@endforeach
 	    </tbody>
 	</table>
-	
-		<table>
-	    <thead>
-	        <tr>
-	            <th style="width:85px">Código</th>
-	            <th style="width:204px">Nombre tratamiento</th>
-				@foreach($companias as $compania)
-				<th style="width:90px">{{ $compania }}</th>
-				@endforeach
-	        </tr>
-	    </thead>
-		</table>
 @stop
