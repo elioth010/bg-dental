@@ -25,6 +25,15 @@ function updateSelectTratamientos(id, gid) {
     updatePrecios(id)
 }
 
+
+function removeTratamiento(id) {
+    console.log('removeTratamiento', id)
+
+    trat = "#tratamiento-" + id
+    $(trat).remove()
+}
+
+
 // añadir descuento, piezas y unidad. Para edición
 function addTratamiento(gid, tid) {
     lastIndex++
@@ -93,6 +102,7 @@ function addTratamiento(gid, tid) {
     divPrecio.append(' <span id="notaprecio-' + lastIndex + '" style="color: red"></span>')
 
     compania = $("<input>").attr({name: "compania-" + lastIndex, type: "hidden", value: 0})
+    eliminarButton = $("<input>").attr({type: "button", onclick: "removeTratamiento(" + lastIndex + ")", value: 'Eliminar'})
 
     nuevodiv = $("<div>").attr({id: trat})
     nuevodiv.append(label1)
@@ -101,10 +111,12 @@ function addTratamiento(gid, tid) {
     nuevodiv.append(select2)
     nuevodiv.append(divPrecio)
     nuevodiv.append(compania)
+    nuevodiv.append(eliminarButton)
+    nuevodiv.append('<hr/>')
 
     div = $("#tratamientos")
     div.append(nuevodiv)
-    div.append('<hr/>')
+
 
     $('input[name="num_tratamientos"]').val(lastIndex)
 
@@ -164,7 +176,7 @@ function updatePrecios(id, tid) {
         desc = $('#descuento-' + id).val()
         tipodesc = $('#s_tipodescuento-' + id).val()
         ipiezas = $('#ipiezas-' + id)
-        divtratamiento = $("#tratamiento-" + id)
+        divprecio = $("#dprecio-" + id)
         dpiezas = $('#dpiezas-' + id)
 
         if (tid != null) {
@@ -174,7 +186,7 @@ function updatePrecios(id, tid) {
                 $('#compania-' + id).text('')
 
                 precio.text("0.00")
-                preciof.text("0.00")
+                preciof.val("0.00")
 
                 if (dpiezas.length) {
                     dpiezas.remove()
@@ -202,7 +214,7 @@ function updatePrecios(id, tid) {
 
                     if (!dpiezas.length) {
                         dpiezas = creaDivPiezas(id)
-                        divtratamiento.append(dpiezas)
+                        divprecio.append(dpiezas)
                         odontogramaHighlight(id)
                     } else {
                         lpiezas = $('#piezas-' + id)[0]
@@ -221,7 +233,6 @@ function updatePrecios(id, tid) {
             updatePrecioTratamiento(id, tid, grupo)
         }
 
-        preciof.text(preciof.text() + " ")
     }
 
     updatePrecioFinal()
@@ -235,7 +246,7 @@ function updatePrecioTratamiento(id, tid, grupo) {
 
     if (tid == 0) {
         precio.text("0.00")
-        preciof.text("0.00")
+        preciof.val("0.00")
     } else {
         if (tipodesc == 'P') {
 
@@ -257,7 +268,7 @@ function updatePrecioTratamiento(id, tid, grupo) {
         }
 
         precio.text(tratamientos[grupo][tid].precio)
-        preciof.text(preciofinal)
+        preciof.val(preciofinal)
     }
 
 }
@@ -276,6 +287,7 @@ function updatePrecioManual(id) {
         $('#notaprecio-' + id).text('')
     }
 
+    updatePrecioFinal()
 }
 
 // El precio total del presupuesto
@@ -288,7 +300,7 @@ function updatePrecioFinal() {
 
     subtotal = 0
     for (i=1; i<=lastIndex; i++) {
-        subtotal += parseFloat($('#preciof-' + i).text())
+        subtotal += parseFloat($('#preciof-' + i).val())
     }
 
     desc = $('#descuento').val()
@@ -349,5 +361,6 @@ function onOdontogramaClose(id, parent, ipiezas, iunidades) {
 
     preciof.val(precio.text() * unidades)
 
+    updatePrecioManual(id)
     updatePrecioFinal()
 }

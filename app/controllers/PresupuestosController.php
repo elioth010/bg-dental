@@ -14,8 +14,6 @@ class PresupuestosController extends \BaseController {
 		$total = 0;
 
 		foreach($tratamientos as $t) {
-			$t->precio_final = $t->precio_unidad * $t->unidades;
-
 			if ($t->tipodescuento == 'P') {
 				$descuento = $t->descuento * $t->precio_final / 100;
 				$descuentotext = $t->descuento . '%';
@@ -79,15 +77,18 @@ class PresupuestosController extends \BaseController {
 				$precios[$p->tratamientos_id] = $p->precio;
 				$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
 			}
-
 		}
 
 		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
 
 		$atratamientos = array();
 		foreach ($tratamientosAll as $t) {
-			$atratamientos[$t->grupostratamientos_id][$t->id] = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
-																'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
+			// No mostrar el tratamiento si no tiene precio asignado en las compañías del paciente
+			if (array_key_exists($t->id, $precios)) {
+				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
+							'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
+				$atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
+			}
 		}
 
 		return $atratamientos;
