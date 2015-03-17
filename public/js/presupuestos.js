@@ -35,9 +35,20 @@ function removeTratamiento(id) {
 
 
 // añadir descuento, piezas y unidad. Para edición
-function addTratamiento(gid, tid) {
+function addTratamiento(tratamiento) {
+    if (tratamiento != undefined) {
+        var gid = tratamiento["grupostratamientos_id"]
+        var tid = tratamiento["tratamiento_id"]
+        var preciof = tratamiento["precio_final"]
+    }
+
+    console.log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ',' + preciof + ')')
+
+    if (preciof === undefined) {
+        var preciof = 0.00
+    }
+
     lastIndex++
-    console.log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ')')
 
     grupo = "grupo-" + lastIndex
     trat = "tratamiento-" + lastIndex
@@ -60,7 +71,7 @@ function addTratamiento(gid, tid) {
 
     // Select: Tratamiento
     label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
-    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", this.value)", id: strat, name: trat})
+    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", {tratamiento_id: this.value})", id: strat, name: trat})
 
     if (tid == null) {
         select2.append(new Option('-- Elija primero un grupo de tratamientos --', 0))
@@ -90,7 +101,7 @@ function addTratamiento(gid, tid) {
     label4 = $("<label>").attr({for: lpreciof}).text('Precio final del tratamiento:')
     input4 = $('<input>').attr({onchange: "updatePrecioManual(" + lastIndex + ")", id: lpreciof, name: lpreciof,
                             type: "text", size: 3})
-    input4.val(0.00)
+    input4.val(preciof)
 
     divPrecio = $("<div>").attr({id: "dprecio-" + lastIndex})
     divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span> <span id="' + lcompania + '"></span><br>')
@@ -117,10 +128,7 @@ function addTratamiento(gid, tid) {
     div = $("#tratamientos")
     div.append(nuevodiv)
 
-
     $('input[name="num_tratamientos"]').val(lastIndex)
-
-    // TODO: si tipo, meter piezas...
 
     if (gid) select1.val(gid)
     if (tid) select2.val(tid)
@@ -166,9 +174,15 @@ function creaDivPiezas(id) {
 }
 
 // Cuando se cambia de tratamiento en el selector
-function updatePrecios(id, tid) {
+function updatePrecios(id, tratamiento) {
+
+    if (updatePrecios !== undefined) {
+        tid = tratamiento["tratamiento_id"]
+        preciofinal = tratamiento["precio_final"]
+    }
+
     grupo = $('#grupo-' + id).val()
-    console.log('updatePrecios ' + id + ', ' + tid + ", " + grupo)
+    console.log('updatePrecios ' + id + ', ' + tid + ", " + grupo + ", " + preciofinal)
 
     if (id != null) {
         precio = $('#precio-' + id)
@@ -215,31 +229,42 @@ function updatePrecios(id, tid) {
                     if (!dpiezas.length) {
                         dpiezas = creaDivPiezas(id)
                         divprecio.append(dpiezas)
+
+                        if (tratamiento["piezas"] !== undefined) {
+                            $('#ipiezas-' + id).val(tratamiento["piezas"])
+                            piezas = tratamiento["piezas"].split(',')
+                            for (var i = 0; i < piezas.length; i++) {
+                                odontogramaTogglePieza(id, piezas[i])
+                            }
+                        }
                         odontogramaHighlight(id)
+
+                        if (tratamiento["unidades"] !== undefined) {
+                            $('#iunidades-' + id).val(tratamiento["unidades"])
+                        }
+
                     } else {
                         lpiezas = $('#piezas-' + id)[0]
                         lpiezas.text = piezastext
+                        ipiezas.val("")
                     }
 
-                    ipiezas.val("")
                 }
-
-                updatePrecioTratamiento(id, tid, grupo)
             }
 
         } else {
             console.log('algo ' + id)
             tid = $('#s_tratamiento-' + id)[0].value
-            updatePrecioTratamiento(id, tid, grupo)
         }
 
+        updatePrecioTratamiento(id, tid, grupo, preciofinal)
     }
 
     updatePrecioFinal()
 }
 
 // Actualiza los campos de precio cuando se ha seleccionado otro tratamiento
-function updatePrecioTratamiento(id, tid, grupo) {
+function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
     console.log('updatePrecioTratamiento ' + id + ', ' + tid + ", " + grupo)
 
     iunidades = $('#iunidades-' + id)
@@ -248,22 +273,24 @@ function updatePrecioTratamiento(id, tid, grupo) {
         precio.text("0.00")
         preciof.val("0.00")
     } else {
-        if (tipodesc == 'P') {
+        if (preciofinal === undefined) {
+            if (tipodesc == 'P') {
 
-            if (iunidades.length) {
-                descuento = desc * tratamientos[grupo][tid].precio * iunidades.val() / 100
-                preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - descuento
+                if (iunidades.length) {
+                    descuento = desc * tratamientos[grupo][tid].precio * iunidades.val() / 100
+                    preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - descuento
+                } else {
+                    descuento = desc * tratamientos[grupo][tid].precio / 100
+                    preciofinal = tratamientos[grupo][tid].precio - descuento
+                }
+
             } else {
-                descuento = desc * tratamientos[grupo][tid].precio / 100
-                preciofinal = tratamientos[grupo][tid].precio - descuento
-            }
 
-        } else {
-
-            if (iunidades.length) {
-                preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - desc
-            } else {
-                preciofinal = tratamientos[grupo][tid].precio - desc
+                if (iunidades.length) {
+                    preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - desc
+                } else {
+                    preciofinal = tratamientos[grupo][tid].precio - desc
+                }
             }
         }
 

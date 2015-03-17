@@ -172,7 +172,7 @@ class PresupuestosController extends \BaseController {
 		$atratamientos = $this->getTratamientosArray($grupos, $companias);
 
 		$tratamientos = $presupuesto->tratamientos()
-									->get(array('tratamiento_id', 'grupostratamientos_id'));
+									->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final', 'piezas', 'unidades'));
 
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
