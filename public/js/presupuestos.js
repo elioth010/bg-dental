@@ -260,6 +260,7 @@ function updatePrecios(id, tratamiento) {
         updatePrecioTratamiento(id, tid, grupo, preciofinal)
     }
 
+    updatePrecioManual(id)
     updatePrecioFinal()
 }
 
@@ -309,7 +310,7 @@ function updatePrecioManual(id) {
     lpreciof = $('#preciof-' + id).val()
 
     if (lpreciof > precio * unidades) {
-        $('#notaprecio-' + id).text('El precio es más alto de lo normal')
+        $('#notaprecio-' + id).text('El precio es más alto de lo normal (' + precio * unidades + '€)')
     } else {
         $('#notaprecio-' + id).text('')
     }
