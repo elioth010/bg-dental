@@ -345,11 +345,17 @@ function updatePrecioFinal() {
     $('#p_total').text(total)
 }
 
-function onOdontogramaClick(id, area) {
-    console.log('pinchado '+  id + ' ' + area.id)
+function odontogramaTogglePieza(id, num) {
+    console.log('odontogramaTogglePieza', id, num)
+    if (odontograma[id][num] === undefined) {
+        odontograma[id][num] = true
+    } else {
+        odontograma[id][num] = !odontograma[id][num]
+    }
+
+    var area = '#odontograma-' + id + ' area#p' + num
     var data = $(area).mouseout().data('maphilight') || {};
     data.alwaysOn = !data.alwaysOn;
-    odontograma[id][area.id.substr(1)] = data.alwaysOn
     $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
 }
 
@@ -360,10 +366,10 @@ function odontogramaHighlight(id) {
         onOdontogramaClose(id, $(this).parent(), ipiezas, iunidades);
     });
 
-    areas = $('#odontograma-' + id + ' area')
+    var areas = $('#odontograma-' + id + ' area')
     areas.click(function(e) {
         e.preventDefault();
-        onOdontogramaClick(id, this)
+        odontogramaTogglePieza(id, this.id.substr(1))
     });
 }
 
