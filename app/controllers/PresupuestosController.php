@@ -14,6 +14,8 @@ class PresupuestosController extends \BaseController {
 		$total = 0;
 
 		foreach($tratamientos as $t) {
+			$t->precio_unidad = $t->precio_final / $t->unidades;
+
 			if ($t->tipodescuento == 'P') {
 				$descuento = $t->descuento * $t->precio_final / 100;
 				$descuentotext = $t->descuento . '%';
@@ -265,7 +267,7 @@ class PresupuestosController extends \BaseController {
 				$pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $t_id,
 							'unidades' => $t_unidades, 'piezas' => $t_piezas,
 							'descuento' => $t_desc, 'tipodescuento' => $t_tdesc,
-							'compania_id' => $t_compania, 'precio_unidad' => $t_precio,
+							'compania_id' => $t_compania,
 							'precio_final' => $t_preciof);
 
 				$presupuesto->tratamientos()->attach($presupuesto->id, $pt);
