@@ -50,7 +50,7 @@
     <li>{{ Form::select('compania2', $companias, null) }} </li>
         <br>    
     <li>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}</li>
-    <li>{{HTML::link('previous', 'volver')}}</li>
+    <li>{{--{{HTML::link('previous', 'volver')}}--}}</li>
 
 </ul>
 
