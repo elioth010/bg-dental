@@ -209,21 +209,6 @@ class PresupuestosController extends \BaseController {
 		$numero_historia = Input::get('numerohistoria');
 		$num = Input::get('num_tratamientos');
 
-		$ok = TRUE;
-		for ($i=1; $i<=$num; $i++) {
-			if (!(Input::has('grupo-' . $i)  && Input::has('tratamiento-' . $i))) {
-				$ok = FALSE;
-				echo 'no hay ' . $i;
-				break;
-			}
-		}
-
-		if (!$ok) {
-			return Redirect::action('PresupuestosController@editarPresupuesto', array($numero_historia))->with('message', 'Error en los parametros');
-		}
-
-		//var_dump(Input::all());
-
 		$validator = Validator::make(Input::all(), Presupuestos::$p_rules);
 
 		if ($validator->passes()) {
@@ -251,7 +236,7 @@ class PresupuestosController extends \BaseController {
 			$precios = Precios::paciente($numero_historia);
 
 			for ($i=1; $i<=$num; $i++) {
-				$grupo = Input::get('grupo-' . $i);
+				$grupo = Input::get('grupo-' . $i, 0);
 				if ($grupo == 0) {
 					continue;
 				}
@@ -328,7 +313,7 @@ class PresupuestosController extends \BaseController {
 			$tratamientos = $p->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 
 			foreach ($tratamientos as $t) {
-				$total += $precios[$t->tratamiento_id][$t->compania_id];
+				$total += $t->precio_final;
 			}
 
 			if ($p->tipodescuento == 'P') {
