@@ -22,11 +22,11 @@
 @include('presupuestos.odontograma')
 @yield('odontograma')
 
-<button type="button" class="closeOdontograma">Cerrar</button>
+<button type="button" class="botonl" style="margin:5px;">Cerrar</button>
 
 </div>
 
-
+	
 	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
     <h1>Nuevo presupuesto</h1>
 	<ul class="labelreg6">
@@ -78,8 +78,8 @@
 
     <?php } else { ?>
         @foreach($tratamientos as $key => $t)
-            addTratamiento({{ $t["grupostratamientos_id"] }}, {{ $t["tratamiento_id"] }})
-            updatePrecios(lastIndex, {{ $t["tratamiento_id"] }})
+            addTratamiento({{ $t }})
+            updatePrecios(lastIndex, {{ $t }})
         @endforeach
     <?php } ?>
 

@@ -111,6 +111,9 @@ body {
 	color:#66a3e5;
 	font-weight: bold;
 }
+.container li{
+	display: inherit;
+}
 .top{
 	padding-top: 30px;}
 
@@ -177,7 +180,7 @@ header{
 /* search */
 
 .search{
-	width: 150px;
+	width: 160px;
 	height: 25px;
 	position:fixed;
 	z-index:10;
@@ -319,49 +322,6 @@ th {
 	color:#ffffff;
 }
 
-/*table.scroll {
-    background-color: #fff;
-}
-table.scroll tbody {
-    height: 400px;
-    overflow: auto;
-}
-table.scroll td {
-    padding: 3px 10px;
-}
-
-table.scroll thead > table.scroll tr, table.scroll tbody{
-    display:block;}*/
-    
-table.scroll {
-    width: 100%;  /* Optional */
-    /* border-collapse: collapse; */
-    border-spacing: 0;
-}
-
-table.scroll tbody,
-table.scroll thead { display: block; }
-
-thead tr th { 
-    height: 30px;
-    /* text-align: left; */
-}
-
-table.scroll tbody {
-    height: 350px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-
-tbody td, thead th {
-    /* width: 20%; */ /* Optional */
-    /* white-space: nowrap; */
-}
-
-tbody td:last-child, thead th:last-child {
-    border-right: none;
-}
     
 /* tablero division */
 .tbl_izq{
@@ -499,7 +459,6 @@ tbody td:last-child, thead th:last-child {
 	color:#ffffff;
 }
 .table_cal .date{
-	height: 64px;
 	width: 100%;
 	margin: 0;
 }
@@ -509,9 +468,14 @@ tbody td:last-child, thead th:last-child {
 }
 .table_cal p{
 	text-align: center;
-	padding-top: 5px;
+	padding-top: 1px;
 	overflow: auto;}
-
+.table_cal tbody tr:nth-child(odd){
+	height: 45px;
+}
+.table_cal tbody tr:nth-child(even){
+	min-height: 100px;
+}
 /* select */
 .select_prof{
     font-size: 10px;
@@ -519,8 +483,40 @@ tbody td:last-child, thead th:last-child {
 }
 
 /* odontograma */
-.odontograma{
-    margin: 10px 0 0 40px;    
+
+/* tratamientos */
+#tratamientos {
+	padding-left: 5px;
+}
+div[id*='tratamiento-'] {
+	line-height: 20px;
+}
+div[id*='dpiezas-']{
+	padding: 5px 0 5px 0;
+}
+*[id^='descuento-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='s_tipodescuento-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='preciof-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='compania-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='precio-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='grupo-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='s_tratamiento-']{
+	margin: 0 10px 0 10px;
+}
+*[id^='piezas-']{
+	margin: 0 10px 0 10px;
 }
 /* exit */
 .exit{
