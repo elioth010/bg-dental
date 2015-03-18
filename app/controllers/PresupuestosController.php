@@ -262,7 +262,9 @@ class PresupuestosController extends \BaseController {
 			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Existen los siguientes errores:')->withErrors($validator->messages())->withInput();
 		}
 
-		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
+
+		return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
+		//return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
 	}
 
 
