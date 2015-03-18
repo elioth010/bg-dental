@@ -133,8 +133,15 @@ class TratamientosController extends \BaseController {
 			->where('tratamientos.id' , $id)
 			->get();
 
-		foreach($precios as $p) {
-			$p->disabled = is_null($p->precio) ? TRUE: FALSE;
+		if ($precios->isEmpty()) {
+			$precios = array();
+			foreach($companias as $cid => $nombre) {
+				$precios[] = array('cid' => $cid, 'precio' => '', 'disabled' => TRUE);
+			}
+		} else {
+			foreach($precios as $p) {
+				$p->disabled = is_null($p->precio);
+			}
 		}
 
 		return View::make('tratamientos.editar')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
