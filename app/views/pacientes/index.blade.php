@@ -6,24 +6,21 @@
   {{ HTML::linkAction('PacientesController@buscar', 'Buscar pacientes') }}
   </div>
   <div class="top">
-  <h3>
-  Últimos pacientes creados:
-  </h3>
+  <h3>Últimos pacientes creados:</h3>
   	<div class="labelreg6">
     <table border = "1">
-      <tr>
-      <th>NHC
-      </th><th>Nombre
-      </th><th>Apellidos
-      </th>
-      </tr>
-      @foreach($pacientes as $paciente)
         <tr>
-        <td>{{ HTML::linkAction('PacientesController@edit',  $paciente->numerohistoria, $paciente->id) }}</td>
-        <td>{{$paciente->nombre}}</td>
-        <td>{{$paciente->apellido1." ".$paciente->apellido2}}</td>
+            <th>NHC</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
         </tr>
-      @endforeach
+        @foreach($pacientes as $paciente)
+        <tr>
+            <td>{{ HTML::linkAction('PacientesController@edit',  $paciente->numerohistoria, $paciente->id) }}</td>
+            <td>{{ $paciente->nombre }}</td>
+            <td>{{ $paciente->apellido1." ".$paciente->apellido2 }}</td>
+        </tr>
+        @endforeach
     </table>
 	</div>
 </div>
