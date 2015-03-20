@@ -68,9 +68,9 @@ class PacientesController extends BaseController {
 		  return Redirect::to('paciente/buscar');
 		}
 		//var_dump($paciente);
-		
-		
-		return View::make('pacientes.ficha')->with('paciente',$paciente);
+
+
+		return View::make('pacientes.busqueda')->with('paciente', $paciente);
 	 }
 	 
 	 

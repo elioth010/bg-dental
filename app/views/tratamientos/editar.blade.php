@@ -20,12 +20,12 @@
            </tr>
            <tr>
             @foreach($precios as $tcp)
-                <td>{{Form::hidden('cid-'.$tcp->cid, $tcp->cid) }}
-                    {{ Form::checkbox('activado-'.$tcp->cid, '1', !$tcp->disabled, array('onclick' => 'document.getElementsByName("precio-'. $tcp->cid . '")[0].disabled = !this.checked;')) }}
-                    <?php if ($tcp->disabled) { ?>
-                        {{ Form::text('precio-'.$tcp->cid, $tcp->precio, array('size' => 5, 'disabled' => 1)) }}
+                <td>{{ Form::hidden('cid-'.$tcp['cid'], $tcp['cid']) }}
+                    {{ Form::checkbox('activado-'.$tcp['cid'], '1', !$tcp['disabled'], array('onclick' => 'document.getElementsByName("precio-'. $tcp['cid'] . '")[0].disabled = !this.checked;')) }}
+                    <?php if ($tcp['disabled']) { ?>
+                        {{ Form::text('precio-'.$tcp['cid'], $tcp['precio'], array('size' => 5, 'disabled' => 1)) }}
                     <?php } else { ?>
-                        {{ Form::text('precio-'.$tcp->cid, $tcp->precio, array('size' => 5)) }}
+                        {{ Form::text('precio-'.$tcp['cid'], $tcp['precio'], array('size' => 5)) }}
                     <?php } ?>
                 </td>
             @endforeach
@@ -40,7 +40,7 @@
             @if($tratamiento->tipostratamientos_id === $tipo->id)
             {{ Form::radio('tipotratamiento', $tipo->id, true)}}{{$tipo->tipo}}
             @else
-            {{ Form::radio('tipotratamiento', $tipo->id)}}{{$tipo->tipo}}
+            {{ Form::radio('tipotratamiento', $tipo->id) }}{{$tipo->tipo}}
             @endif
         @endforeach
 
