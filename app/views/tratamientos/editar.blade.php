@@ -5,9 +5,12 @@
 
     {{ Form::open(array('url'=>'tratamientos/guardartratamiento/'.$tratamiento->id)) }}
 
-	<ul class="labelreg6">
+	<ul class="labelreg6" style="margin-bottom:10px;">
        <li> {{Form::label('Código:')}} {{ Form::text('codigo', $tratamiento->codigo ) }}
         {{Form::label('Nombre:')}} {{ Form::text('nombre', $tratamiento->nombre) }}</li>
+    </ul>
+    <div style="margin-left:100px;">
+    <br>
        <table>
            <tr>
 
@@ -30,7 +33,7 @@
        </table>
        <br/>
         {{Form::label('Grupo:')}} {{ Form::select('grupostratamientos_id', $grupos, $tratamiento->grupostratamientos_id) }}
-        <br/>
+        <br/><br>
 
         {{Form::label('Tipo:')}}
         @foreach($tipos as $tipo)
@@ -41,9 +44,9 @@
             @endif
         @endforeach
 
-        <li>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}</li><br>
-        <li>{{ Form::button('Atrás')}} {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}</li>
+        <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br><br>
+        {{ Form::button('Atrás')}} {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}<br>
 
     {{ Form::close() }}
-	</ul>
+    </div>
 @stop
