@@ -96,7 +96,7 @@ body {
 .container{
 	max-height: 500px;
 	min-height: 450px;
-	overflow: auto;
+
 	padding-bottom: 15px;
 	border-top: 2px solid #1271b3;
 }
@@ -331,7 +331,7 @@ th {
 .tbl_drc{
 	float: left;
 	display: block;
-	max-height: 470px;
+	max-height: 450px;
 	overflow: scroll;
 	margin-left: 50px;
 }
@@ -383,6 +383,7 @@ th {
 }
 .labelreg3 li{
 	line-height: 24px;
+	padding-bottom: 4px;
 }
 
 .labelreg3 a{
@@ -428,6 +429,9 @@ th {
 	display: block;
 	margin: 0 auto;
 }
+.roll {
+	height: 450px;
+	overflow: auto;}
 
 /* Calendario */
 .table_cal{

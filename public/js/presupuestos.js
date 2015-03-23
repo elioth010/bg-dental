@@ -177,15 +177,16 @@ function creaDivPiezas(id) {
 // Cuando se cambia de tratamiento en el selector
 function updatePrecios(id, tratamiento) {
 
-    if (updatePrecios !== undefined) {
-        tid = tratamiento["tratamiento_id"]
-        preciofinal = tratamiento["precio_final"]
+    if (tratamiento !== undefined) {
+        var tid = tratamiento["tratamiento_id"]
+        var preciofinal = tratamiento["precio_final"]
+        var piezas = tratamiento["piezas"]
     }
 
     grupo = $('#grupo-' + id).val()
-    console.log('updatePrecios ' + id + ', ' + tid + ", " + grupo + ", " + preciofinal)
+    console.log('updatePrecios ' + id + ', ' + tratamiento)
 
-    if (id != null) {
+    if (id !== undefined) {
         precio = $('#precio-' + id)
         preciof = $('#preciof-' + id)
         desc = $('#descuento-' + id).val()
@@ -194,7 +195,7 @@ function updatePrecios(id, tratamiento) {
         divprecio = $("#dprecio-" + id)
         dpiezas = $('#dpiezas-' + id)
 
-        if (tid != null) {
+        if (tid !== undefined) {
 
             if (tid == 0) {
                 $('input[name="compania-' + id + '"]').val(0)
@@ -231,9 +232,9 @@ function updatePrecios(id, tratamiento) {
                         dpiezas = creaDivPiezas(id)
                         divprecio.append(dpiezas)
 
-                        if (tratamiento["piezas"] !== undefined) {
+                        if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
-                            piezas = tratamiento["piezas"].split(',')
+                            var piezas = tratamiento["piezas"].split(',')
                             for (var i = 0; i < piezas.length; i++) {
                                 odontogramaTogglePieza(id, piezas[i])
                             }
@@ -306,9 +307,13 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
 function updatePrecioManual(id) {
     console.log('updatePrecioManual ' + id)
 
-    precio = $('#precio-' + id).text()
-    unidades = $('#iunidades-' + id).val()
-    lpreciof = $('#preciof-' + id).val()
+    var precio = $('#precio-' + id).text()
+    var lpreciof = $('#preciof-' + id).val()
+    if ($('#iunidades-' + id).length) {
+        var unidades = $('#iunidades-' + id).val()
+    } else {
+        var unidades = 1
+    }
 
     if (lpreciof > precio * unidades) {
         $('#notaprecio-' + id).text('El precio es más alto de lo normal (' + precio * unidades + '€)')

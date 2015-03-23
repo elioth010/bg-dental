@@ -39,6 +39,7 @@ Route::get('tratamientos/crear', 'TratamientosController@create');
 Route::get('tratamientos/editar/{id}', 'TratamientosController@edit');
 Route::post('tratamientos/guardar', 'TratamientosController@store');
 Route::post('tratamientos/guardartratamiento/{id}', 'TratamientosController@update');
+Route::post('tratamientos/index_tpg', 'TratamientosController@index_tpg');
 
 
 //Rutas compañías:

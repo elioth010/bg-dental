@@ -7,19 +7,39 @@ class TratamientosController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		$companias = Companias::lists('nombre', 'id');
+        public function index(){
+            $grupos = Grupos::lists('nombre', 'id');
+            return View::make('tratamientos.elegir_grupo')->with(array('grupos' => $grupos));
+        }
+        
+        public function index_tpg(){
+            $grupo = Input::get('grupos');
+            
+            $tgp = Tratamientos::where('grupostratamientos_id', $grupo);
+            $companias = Companias::lists('nombre', 'id');
 
-		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
-							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
-							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
-							->groupBy('tratamientos.id')
-							->orderBy('precios.companias_id')
-							->get();
+            $tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')->where('tratamientos.grupostratamientos_id' ,'=', $grupo)
+                                                    ->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
+                                                    ->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
+                                                    ->groupBy('tratamientos.id')
+                                                    ->orderBy('precios.companias_id')
+                                                    ->get();
 
-		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
-	}
+            return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
+        }
+//	public function index()
+//	{
+//		$companias = Companias::lists('nombre', 'id');
+//
+//		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
+//							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
+//							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
+//							->groupBy('tratamientos.id')
+//							->orderBy('precios.companias_id')
+//							->get();
+//
+//		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
+//	}
 
 
 	/**
@@ -97,21 +117,21 @@ class TratamientosController extends \BaseController {
 		}
 
 		if($nombre || $codigo) {
-			$tratamientos = Tratamientos::where('nombre','LIKE', $nombre)->orWhere('codigo','LIKE', $codigo)->get();
-			foreach($tratamientos as $tratamiento){
-				$tratamiento_id = $tratamiento->id;
-			}
-			$tcp = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
-				->leftJoin('companias', 'companias.id','=','companias_id')
-				->select('tratamientos.nombre as nombre_trat', 'companias.nombre as nombre_comp', 'precio', 'tratamientos.id')
-				->where('tratamientos.id' , $tratamiento->id)
-				->get();
+
+			$companias = Companias::lists('nombre', 'id');
+
+			$tratamientos = Tratamientos::where('nombre','LIKE', $nombre)->orWhere('codigo','LIKE', $codigo)
+								->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
+								->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
+								->groupBy('tratamientos.id')
+								->orderBy('precios.companias_id')
+								->get();
 
 		} else {
 			return Redirect::action('TratamientosController@busqueda');
 		}
 
-		return View::make('tratamientos.vertratamiento')->with(array('tratamientos' => $tratamientos, 'tcp' => $tcp));
+		return View::make('tratamientos.busqueda')->with(array('tratamientos' => $tratamientos, 'companias' => $companias));
 	}
 
 	/**
@@ -133,8 +153,15 @@ class TratamientosController extends \BaseController {
 			->where('tratamientos.id' , $id)
 			->get();
 
-		foreach($precios as $p) {
-			$p->disabled = is_null($p->precio) ? TRUE: FALSE;
+		if ($precios->isEmpty()) {
+			$precios = array();
+			foreach($companias as $cid => $nombre) {
+				$precios[] = array('cid' => $cid, 'precio' => '', 'disabled' => TRUE);
+			}
+		} else {
+			foreach($precios as $p) {
+				$p->disabled = is_null($p->precio);
+			}
 		}
 
 		return View::make('tratamientos.editar')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
