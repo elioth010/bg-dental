@@ -96,7 +96,6 @@ body {
 .container{
 	max-height: 500px;
 	min-height: 450px;
-
 	padding-bottom: 15px;
 	border-top: 2px solid #1271b3;
 }
@@ -115,7 +114,12 @@ body {
 	display: inherit;
 }
 .top{
-	padding-top: 30px;}
+	padding-top: 30px;
+	}
+.overflow{
+	overflow: auto;
+	height: 500px;
+}
 
 /* header */
 
@@ -431,7 +435,8 @@ th {
 }
 .roll {
 	height: 450px;
-	overflow: auto;}
+	overflow: auto;
+}
 
 /* Calendario */
 .table_cal{
