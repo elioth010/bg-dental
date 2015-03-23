@@ -7,19 +7,39 @@ class TratamientosController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		$companias = Companias::lists('nombre', 'id');
+        public function index(){
+            $grupos = Grupos::lists('nombre', 'id');
+            return View::make('tratamientos.elegir_grupo')->with(array('grupos' => $grupos));
+        }
+        
+        public function index_tpg(){
+            $grupo = Input::get('grupos');
+            
+            $tgp = Tratamientos::where('grupostratamientos_id', $grupo);
+            $companias = Companias::lists('nombre', 'id');
 
-		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
-							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
-							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
-							->groupBy('tratamientos.id')
-							->orderBy('precios.companias_id')
-							->get();
+            $tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')->where('tratamientos.grupostratamientos_id' ,'=', $grupo)
+                                                    ->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
+                                                    ->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
+                                                    ->groupBy('tratamientos.id')
+                                                    ->orderBy('precios.companias_id')
+                                                    ->get();
 
-		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
-	}
+            return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
+        }
+//	public function index()
+//	{
+//		$companias = Companias::lists('nombre', 'id');
+//
+//		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
+//							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
+//							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
+//							->groupBy('tratamientos.id')
+//							->orderBy('precios.companias_id')
+//							->get();
+//
+//		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
+//	}
 
 
 	/**
