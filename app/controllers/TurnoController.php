@@ -79,6 +79,8 @@ class TurnoController extends \BaseController {
                 $date_in_t2 = $ano."-".$mes."-".$i." 13:01";
                 $input_t2 = '<input  type = "hidden" name="dia-t2-'.$i.'" value= "'.$date_in_t2.'">';
                 
+                
+                
                 $events1[$date_in_m] = array($input_m, $select_prof_m);
                 $events2[$date_in_m2] = array($input_m2, $select_prof_m2);
                 $events3[$date_in_t] = array($input_t, $select_prof_t);
@@ -97,7 +99,7 @@ class TurnoController extends \BaseController {
              $cal->setEvents($events); // Receives the events array
              $cal->setTableClass('table_cal'); //Set the table's class name
              $calendario = $cal->generate();
-             return View::make('agenda.crear_turnos')->with(array('calendario' => $calendario, 'numero_dias' => $numero));
+             return View::make('agenda.crear_turnos')->with(array('calendario' => $calendario, 'numero_dias' => $numero, 'sede_id'=> $sede_id));
 
 	}
 
@@ -110,6 +112,7 @@ class TurnoController extends \BaseController {
             $evento = new Turnos;
             $evento->fecha_turno = $turnos["dia-m-".$i];
             $evento->profesional_id = $turnos['profesional_id-m-'.$i] ;
+            $evento->sede_id = $turnos['sede_id'];
             // TODO: mañana
             $evento->save();
             $i++;
@@ -120,6 +123,7 @@ class TurnoController extends \BaseController {
             $evento->fecha_turno = $turnos["dia-m2-".$i2];
             $evento->profesional_id = $turnos['profesional_id-m2-'.$i2] ;
             // TODO: mañana
+            $evento->sede_id = $turnos['sede_id'];
             $evento->save();
             $i2++;
         }
@@ -130,6 +134,7 @@ class TurnoController extends \BaseController {
             $evento->fecha_turno = $turnos["dia-t-".$ii];
             $evento->profesional_id = $turnos['profesional_id-t-'.$ii] ;
             // TODO: tarde
+            $evento->sede_id = $turnos['sede_id'];
             $evento->save();
             $ii++;
         }
@@ -139,6 +144,7 @@ class TurnoController extends \BaseController {
             $evento->fecha_turno = $turnos["dia-t2-".$ii2];
             $evento->profesional_id = $turnos['profesional_id-t2-'.$ii2] ;
             // TODO: tarde
+            $evento->sede_id = $turnos['sede_id'];
             $evento->save();
             $ii2++;
         }
