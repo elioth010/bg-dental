@@ -28,8 +28,8 @@ Route::resource('paciente', 'PacientesController');
 
 
 //Rutas tratamientos y grupos:
-
 Route::get('tratamientos', 'TratamientosController@index');
+Route::post('tratamientos/index_tpg', 'TratamientosController@index_tpg');
 Route::get('tratamientos/buscar', 'TratamientosController@show');
 Route::post('tratamientos/busqueda', 'TratamientosController@busqueda');
 Route::get('tratamientos/grupos', 'GruposController@index');
@@ -39,7 +39,7 @@ Route::get('tratamientos/crear', 'TratamientosController@create');
 Route::get('tratamientos/editar/{id}', 'TratamientosController@edit');
 Route::post('tratamientos/guardar', 'TratamientosController@store');
 Route::post('tratamientos/guardartratamiento/{id}', 'TratamientosController@update');
-Route::post('tratamientos/index_tpg', 'TratamientosController@index_tpg');
+
 
 
 //Rutas compañías:
