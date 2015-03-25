@@ -4,6 +4,7 @@ class TurnoController extends \BaseController {
     
     	public function index()
 	{
+            $sede_id = Auth::user()->sede_id;
             if(null !== Input::get('cdate')){
             $cdate = explode("-", Input::get('cdate'));
             $mes = $cdate[1];
@@ -12,7 +13,7 @@ class TurnoController extends \BaseController {
                 $mes = date("m");
                 $ano = date("Y");
             }
-            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
+            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
 //             $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</stong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
             $events = array();
                 foreach($eventos as $evento){
@@ -38,7 +39,9 @@ class TurnoController extends \BaseController {
         
         public function create()
 	{
-            $profesionales = Profesional::where('especialidades_id', 2)->get();
+            $sede_id = Auth::user()->sede_id;
+            $profesionales = Profesional::where('sede_id', $sede_id)->get();
+            //$sede_nombre = Sedes::lists('nombre')->where('sede_id', $sede_id);
             $option_prof="";
             foreach($profesionales as $i=>$profesionales){
                     $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1." ".$profesionales->apellido1."</option>";
