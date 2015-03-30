@@ -3,7 +3,7 @@
 @section('ceeseeses')
 <style>
 	tbody {
-		height: 330px;
+		height: 450px;
 		overflow: auto;
 	}
 
@@ -50,7 +50,7 @@
 			@endforeach
 	    </tbody>
 	</table>
-		<table>
+	<!-- 	<table>
 	    <thead>
 	        <tr>
 	            <th style="width: 96px">Código</th>
@@ -60,5 +60,5 @@
 				@endforeach
 	        </tr>
 		</thead>
-		</table>
+		</table> -->
 @stop

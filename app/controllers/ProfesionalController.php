@@ -23,7 +23,8 @@ class ProfesionalController extends \BaseController {
 	 */
 	public function create()
 	{
-		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')->get();
+		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
+                        ->leftJoin('sedes', 'sedes.id','=','profesionales.sede_id')->get();
                 $sedes = Sedes::lists('nombre','id');
                 $especialidades = Especialidad::lists('especialidad','id');
                 return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes));

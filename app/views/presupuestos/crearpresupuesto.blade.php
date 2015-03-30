@@ -7,6 +7,7 @@
 
 
 @section('contenido')
+<div class="overflow"> 
 <div class="top_reg">
     <h1>Datos del paciente</h1>
 	<ul class="labelreg6">
@@ -58,6 +59,7 @@
             <?php } ?>
                 </li>
         	</ul>
+        </div>
         </div>
 
 <script type="text/javascript">

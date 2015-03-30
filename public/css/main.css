@@ -96,7 +96,6 @@ body {
 .container{
 	max-height: 500px;
 	min-height: 450px;
-
 	padding-bottom: 15px;
 	border-top: 2px solid #1271b3;
 }
@@ -104,18 +103,21 @@ body {
 .container a{
 	text-decoration: none;
 	color:#1271b3;
-	font-weight: bold;
 }
 .container a:hover{
 	text-decoration: none;
 	color:#66a3e5;
-	font-weight: bold;
 }
 .container li{
 	display: inherit;
 }
 .top{
-	padding-top: 30px;}
+	padding-top: 30px;
+	}
+.overflow{
+	overflow: auto;
+	height: 500px;
+}
 
 /* header */
 
@@ -198,7 +200,7 @@ header{
 
 .search a:hover{
 	text-decoration: none;
-	color: #666;}
+	color: #1271b3;}
 	
 /* registro */
 
@@ -431,7 +433,8 @@ th {
 }
 .roll {
 	height: 450px;
-	overflow: auto;}
+	overflow: auto;
+}
 
 /* Calendario */
 .table_cal{
