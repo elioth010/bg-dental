@@ -82,7 +82,14 @@ Route::resource ('turno', 'TurnoController');
 
 Route::resource ('tipos', 'TiposTratamientosController');
 //rutas para llenar db de datos:
-
+//importando pacientes:
+Route::get('import_pacientes', function(){
+    $archivo = fopen(storage_path().'/pacientes_2015', 'r');
+     while (( $paciente = fgetcsv($archivo, 2500, ',')) !== FALSE) {
+         $pacs = new Pacientes;
+         $compania = $paciente[6];
+     }
+});
 //creando compañías:
 Route::get('crearcompanias', function() {
     $archivo = fopen(storage_path().'/companias.csv', 'r');

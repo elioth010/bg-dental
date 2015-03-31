@@ -5,6 +5,17 @@ class TurnoController extends \BaseController {
     	public function index()
 	{
             $sede_id = Auth::user()->sede_id;
+            if($sede_id != 4){
+            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
+            
+//             $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</strong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
+            } else {
+            //$eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id', 'sede_id'));
+            //Elegir la sede de la que se quieren ver los turnos.
+                $sedes = Sedes::lists('nombre', 'id');
+                return View::make('agenda.turnos_elegir_sede')->with('sedes' , $sedes);
+                
+            }
             if(null !== Input::get('cdate')){
             $cdate = explode("-", Input::get('cdate'));
             $mes = $cdate[1];
@@ -13,8 +24,7 @@ class TurnoController extends \BaseController {
                 $mes = date("m");
                 $ano = date("Y");
             }
-            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
-//             $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</stong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
+            
             $events = array();
                 foreach($eventos as $evento){
                     $profesionales = Profesional::find($evento->profesional_id);
@@ -32,8 +42,11 @@ class TurnoController extends \BaseController {
              $cal->setEvents($events); // Receives the events array
              $cal->setTableClass('table_cal'); //Set the table's class name
              $calendario = $cal->generate();
-             return View::make('agenda.turnos')->with('calendario' , $calendario);
-             
+              if($sede_id != 4){
+                    return View::make('agenda.turnos')->with('calendario' , $calendario);
+              } else {
+                    return View::make('agenda.turnos_sedes')->with('calendario' , $calendario);
+              }
             
     }
         
@@ -44,7 +57,7 @@ class TurnoController extends \BaseController {
             //$sede_nombre = Sedes::lists('nombre')->where('sede_id', $sede_id);
             $option_prof="";
             foreach($profesionales as $i=>$profesionales){
-                    $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1." ".$profesionales->apellido1."</option>";
+                    $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1."</option>";
             }
             
             if(null !== Input::get('cdate')){
