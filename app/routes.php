@@ -54,6 +54,7 @@ Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
 Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@verpresupuestos');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/borrar',  'PresupuestosController@borrarPresupuesto');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/imprimir',  'PresupuestosController@imprimirPresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto}/aceptar', 'PresupuestosController@aceptarPresupuesto');
