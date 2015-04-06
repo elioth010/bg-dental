@@ -31,6 +31,7 @@ function removeTratamiento(id) {
 
     trat = "#tratamiento-" + id
     $(trat).remove()
+    odontograma.splice(id, 1)
     updatePrecioFinal()
 }
 
@@ -220,18 +221,33 @@ function updatePrecios(id, tratamiento) {
                         dpiezas.remove()
                     }
                 } else {
-                    odontograma[id] = new Array
+
 
                     if (tipo == 3) {
+                        odontograma[id] = ""
                         piezastext = "Elegir puente"
-                    } else {
+                    } else if (tipo == 1) {
+                        odontograma[id] = new Array
                         piezastext = "Elegir piezas"
                     }
 
-                    if (!dpiezas.length) {
-                        dpiezas = creaDivPiezas(id)
-                        divprecio.append(dpiezas)
+                    if (dpiezas.length) {
+                        dpiezas.remove()
+                    }
 
+                    dpiezas = creaDivPiezas(id)
+                    divprecio.append(dpiezas)
+
+                    if (tipo == 3) {
+                        if (piezas !== undefined) {
+                            $('#ipiezas-' + id).val(tratamiento["piezas"])
+                            var piezas = tratamiento["piezas"].split('-')
+                            for (var i = 0; i < piezas.length; i++) {
+                                //odontogramaTogglePieza(id, piezas[i])
+                                console.log('TODO: toggle puente:' + piezas[i])
+                            }
+                        }
+                    } else if (tipo == 1) {
                         if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
                             var piezas = tratamiento["piezas"].split(',')
@@ -239,16 +255,11 @@ function updatePrecios(id, tratamiento) {
                                 odontogramaTogglePieza(id, piezas[i])
                             }
                         }
-                        odontogramaHighlight(id)
+                    }
+                    odontogramaHighlight(id, tipo)
 
-                        if (tratamiento["unidades"] !== undefined) {
-                            $('#iunidades-' + id).val(tratamiento["unidades"])
-                        }
-
-                    } else {
-                        lpiezas = $('#piezas-' + id)[0]
-                        lpiezas.text = piezastext
-                        ipiezas.val("")
+                    if (tratamiento["unidades"] !== undefined) {
+                        $('#iunidades-' + id).val(tratamiento["unidades"])
                     }
 
                 }
@@ -368,40 +379,220 @@ function odontogramaTogglePieza(id, num) {
     $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
 }
 
-function odontogramaHighlight(id) {
+// TODO: premarcar puente cuando se edita presu
+
+function odontogramaTogglePuente(id, num) {
+    console.log('odontogramaTogglePuente', id, num)
+
+
+    if (!odontograma[id]) {
+        console.log('principio del puente')
+        var area = '#odontograma-' + id + ' area#p' + num
+        var data = $(area).mouseout().data('maphilight') || {};
+        odontograma[id] = num
+
+        data.alwaysOn = !data.alwaysOn;
+        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+    } else if (odontograma[id].indexOf('-') > -1) {
+        console.log('nuevo puente')
+
+        var piezas = odontograma[id].split('-')
+
+        var cuadrantes = []
+        cuadrantes.push(odontogramaCuadrante(piezas[0]))
+        if (odontogramaCuadrante(piezas[0]) != odontogramaCuadrante(piezas[1])) {
+            cuadrantes.push(odontogramaCuadrante(piezas[1]))
+        }
+
+        cuadrantes.forEach(function(cuadrante) {
+
+            for (var i = cuadrante + '1'; i <= cuadrante + '8'; i++) {
+                console.log('desactivo ' + i)
+                var area = '#odontograma-' + id + ' area#p' + i
+                var data = $(area).mouseout().data('maphilight') || {};
+                data.alwaysOn = false;
+                $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+            }
+        });
+
+        odontograma[id] = ""
+    } else {
+
+        console.log('fin del puente')
+        var area = '#odontograma-' + id + ' area#p' + num
+        var data = $(area).mouseout().data('maphilight') || {};
+
+        if (num == odontograma[id]) {
+
+            data.alwaysOn = !data.alwaysOn;
+            $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+            odontograma[id] = ""
+        } else {
+
+            // No dejar marcar distinta arcada
+            if (odontogramaArcada(num) != odontogramaArcada(odontograma[id])) {
+                console.log('Distinta arcada: ' + odontogramaArcada(num) + ' vs ' + odontogramaArcada(odontograma[id]))
+                return
+            }
+
+            var cuadrante1 = odontogramaCuadrante(num)
+            var cuadrante2 = odontogramaCuadrante(odontograma[id])
+
+            if (num > odontograma[id]) {
+                console.log('new > old')
+
+                if (cuadrante1 == cuadrante2) {
+                    for (var i=parseInt(odontograma[id])+1; i<= num; i++) {
+                        console.log(i)
+                        var area = '#odontograma-' + id + ' area#p' + i
+                        var data = $(area).mouseout().data('maphilight') || {};
+                        data.alwaysOn = !data.alwaysOn;
+                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    }
+                } else {
+
+                    for (var i= parseInt(odontograma[id])-1; i>= parseInt(cuadrante2 + '1'); i--) {
+                        console.log(i)
+                        var area = '#odontograma-' + id + ' area#p' + i
+                        var data = $(area).mouseout().data('maphilight') || {};
+                        data.alwaysOn = !data.alwaysOn;
+                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    }
+                    for (var i=parseInt(cuadrante1 + '1'); i<= num; i++) {
+                        console.log(i)
+                        var area = '#odontograma-' + id + ' area#p' + i
+                        var data = $(area).mouseout().data('maphilight') || {};
+                        data.alwaysOn = !data.alwaysOn;
+                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    }
+                }
+            } else {
+                console.log('new < old') // num < odontograma[id]
+
+                if (cuadrante1 == cuadrante2) {
+                    for (var i=num; i<= parseInt(odontograma[id])-1; i++) {
+                        console.log(i)
+                        var area = '#odontograma-' + id + ' area#p' + i
+                        var data = $(area).mouseout().data('maphilight') || {};
+                        data.alwaysOn = !data.alwaysOn;
+                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    }
+                } else {
+
+                    for (var i= parseInt(odontograma[id])-1; i>= parseInt(cuadrante2 + '1'); i--) {
+                        console.log(i)
+                        var area = '#odontograma-' + id + ' area#p' + i
+                        var data = $(area).mouseout().data('maphilight') || {};
+                        data.alwaysOn = !data.alwaysOn;
+                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    }
+                    for (var i=parseInt(cuadrante1 + '1'); i<= num; i++) {
+                        console.log(i)
+                        var area = '#odontograma-' + id + ' area#p' + i
+                        var data = $(area).mouseout().data('maphilight') || {};
+                        data.alwaysOn = !data.alwaysOn;
+                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+                    }
+                }
+            }
+
+            odontograma[id] += "-" + num
+
+            // swap
+            var piezas = odontograma[id].split('-')
+            if (piezas[0] > piezas[1]) {
+                odontograma[id] = piezas[1] + "-" + piezas[0]
+            }
+        }
+
+    }
+}
+
+function odontogramaCuadrante(num) {
+    if (num >= 11 && num <= 18) {
+        return 1;
+    } else if (num >= 21 && num <= 28) {
+        return 2;
+    } else if (num >= 31 && num <= 38) {
+        return 3;
+    } else if (num >= 41 && num <= 48) {
+        return 4;
+    } else {
+        return undefined;
+    }
+}
+
+function odontogramaArcada(num) {
+    if (num >= 11 && num <= 28) {
+        return 1;
+    } else if (num >= 31 && num <= 48) {
+        return 2;
+    } else {
+        return undefined;
+    }
+}
+
+function odontogramaHighlight(id, tipo) {
     $("#iodontograma-" + id).maphilight();
 
     $('#dodontograma-' + id + ' > button').click(function(e) {
-        onOdontogramaClose(id, $(this).parent(), ipiezas, iunidades);
+        onOdontogramaClose(id, tipo, $(this).parent());
     });
 
     var areas = $('#odontograma-' + id + ' area')
     areas.click(function(e) {
         e.preventDefault();
-        odontogramaTogglePieza(id, this.id.substr(1))
+
+        // 1 = pieza, 2 = general, 3 = puente
+        if (tipo == 1) {
+            odontogramaTogglePieza(id, this.id.substr(1))
+        } else if(tipo == 3) {
+            odontogramaTogglePuente(id, this.id.substr(1))
+        }
+
     });
 }
 
-function onOdontogramaClose(id, parent, ipiezas, iunidades) {
+function onOdontogramaClose(id, tipo, parent) {
     parent.attr("style", "display:none")
-    active = ""
-    unidades = 0
+    var active = ""
+    var unidades = 0
 
-    for (i=0; i<odontograma[id].length; i++) {
-        //console.log(i, odontograma[id][i])
-        if (odontograma[id][i]) {
-            active += i + ","
-            unidades++
+    if (tipo == 1) {
+        for (i=0; i<odontograma[id].length; i++) {
+            //console.log(i, odontograma[id][i])
+            if (odontograma[id][i]) {
+                active += i + ","
+                unidades++
+            }
+        }
+        active = active.substr(0, active.length-1)
+    } else if (tipo == 3) {
+
+        active = odontograma[id]
+        var piezas = odontograma[id].split('-')
+        var cuadrante1 = odontogramaCuadrante(piezas[0])
+        var cuadrante2 = odontogramaCuadrante(piezas[1])
+
+        if (cuadrante1 == cuadrante2) {
+            for (var i = parseInt(piezas[0]); i <= parseInt(piezas[1]); i++) {
+                unidades++
+            }
+        } else {
+
+            for (var i= parseInt(piezas[0]); i>= parseInt(cuadrante1 + '1'); i--) {
+                unidades++
+            }
+            for (var i=parseInt(cuadrante2 + '1'); i<= piezas[1]; i++) {
+                unidades++
+            }
         }
     }
-    active = active.substr(0, active.length-1)
-    ipiezas.val(active)
-    iunidades.val(unidades)
 
-    precio = $('#precio-' + id)
-    preciof = $('#preciof-' + id)
-
-    preciof.val(precio.text() * unidades)
+    var precio = $('#precio-' + id).text()
+    $('#preciof-' + id).val(precio * unidades)
+    $('#iunidades-' + id).val(unidades)
+    $('#ipiezas-' + id).val(active)
 
     updatePrecioManual(id)
     updatePrecioFinal()
