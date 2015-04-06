@@ -7,6 +7,42 @@ class PresupuestosController extends \BaseController {
 		return $tratamientos;
 	}
 
+	public function imprimirPresupuesto($paciente, $id) {
+		$presupuesto = Presupuestos::find($id);
+		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+		$companias_list = Companias::lists('nombre', 'id');
+		$total = 0;
+
+		foreach($tratamientos as $t) {
+			$t->precio_unidad = $t->precio_final / $t->unidades;
+
+			if ($t->tipodescuento == 'P') {
+				$descuento = $t->descuento * $t->precio_final / 100;
+				$descuentotext = $t->descuento . '%';
+			} else {
+				$descuento = $t->descuento;
+				$descuentotext = $t->descuento . '€';
+			}
+
+			$t->precio_final -= $descuento;
+			$t->descuento_text = $descuentotext;
+			$t->compania_text = $companias_list[$t->compania_id];
+
+			if ($t->estado == 1) {
+				$t->estado_text = 'Aceptado';
+			} else {
+				$t->estado_text = 'Pendiente de aprobación';
+			}
+
+			$total += $t->precio_final;
+		}
+
+		return View::make('presupuestos.imprimirpresupuesto')->with(array('presupuesto' => $presupuesto,
+																	'tratamientos' => $tratamientos,
+																	'total' => $total,
+																	'paciente' => $paciente));
+	}
+
 	public function verPresupuesto($paciente, $id) {
 		$presupuesto = Presupuestos::find($id);
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
@@ -262,7 +298,9 @@ class PresupuestosController extends \BaseController {
 			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Existen los siguientes errores:')->withErrors($validator->messages())->withInput();
 		}
 
-		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
+
+		return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
+		//return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
 	}
 
 
