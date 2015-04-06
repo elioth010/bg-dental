@@ -30,6 +30,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
         
+    public function sedes() {
+        return $this->belongsToMany('Sedes', 'sedes_users', 'user_id', 'sede_id');
+    }
+        
     public function isAdmin()
     {
         //Admin puede todo.

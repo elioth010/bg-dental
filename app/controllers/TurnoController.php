@@ -4,6 +4,15 @@ class TurnoController extends \BaseController {
     
     	public function index()
 	{
+            
+            if(null !== Input::get('cdate')){
+            $cdate = explode("-", Input::get('cdate'));
+            $mes = $cdate[1];
+            $ano = $cdate[0];
+            } else {
+                $mes = date("m");
+                $ano = date("Y");
+            }
             $sede_id = Auth::user()->sede_id;
             if($sede_id != 4){
             $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
@@ -16,15 +25,6 @@ class TurnoController extends \BaseController {
                 return View::make('agenda.turnos_elegir_sede')->with('sedes' , $sedes);
                 
             }
-            if(null !== Input::get('cdate')){
-            $cdate = explode("-", Input::get('cdate'));
-            $mes = $cdate[1];
-            $ano = $cdate[0];
-            } else {
-                $mes = date("m");
-                $ano = date("Y");
-            }
-            
             $events = array();
                 foreach($eventos as $evento){
                     $profesionales = Profesional::find($evento->profesional_id);
