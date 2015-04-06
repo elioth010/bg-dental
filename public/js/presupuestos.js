@@ -241,19 +241,12 @@ function updatePrecios(id, tratamiento) {
                     if (tipo == 3) {
                         if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
-                            var piezas = tratamiento["piezas"].split('-')
-                            for (var i = 0; i < piezas.length; i++) {
-                                //odontogramaTogglePieza(id, piezas[i])
-                                console.log('TODO: toggle puente:' + piezas[i])
-                            }
+                            odontogramaHighlightPuente(id, tratamiento["piezas"], true)
                         }
                     } else if (tipo == 1) {
                         if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
-                            var piezas = tratamiento["piezas"].split(',')
-                            for (var i = 0; i < piezas.length; i++) {
-                                odontogramaTogglePieza(id, piezas[i])
-                            }
+                            odontogramaHighlightPiezas(id, tratamiento["piezas"], true)
                         }
                     }
                     odontogramaHighlight(id, tipo)
@@ -365,6 +358,7 @@ function updatePrecioFinal() {
     $('#p_total').text(total)
 }
 
+// Sombrea una pieza o la desactiva si ya está sombreada
 function odontogramaTogglePieza(id, num) {
     console.log('odontogramaTogglePieza', id, num)
     if (odontograma[id][num] === undefined) {
@@ -373,31 +367,69 @@ function odontogramaTogglePieza(id, num) {
         odontograma[id][num] = !odontograma[id][num]
     }
 
+    odontogramaHighlightPieza(id, num, odontograma[id][num])
+}
+
+// Sombrea en el mapa del odontograma un puente completo
+function odontogramaHighlightPuente(id, puente, active) {
+    console.log('odontogramaHighlightPuente', id, puente)
+
+    var piezas = puente.split('-')
+    var cuadrante1 = odontogramaCuadrante(piezas[0])
+    var cuadrante2 = odontogramaCuadrante(piezas[1])
+
+    if (cuadrante1 == cuadrante2) {
+        for (var i=parseInt(piezas[0]); i<= piezas[1]; i++) {
+            console.log(i)
+            odontogramaHighlightPieza(id, i, active)
+        }
+    } else {
+
+        for (var i= parseInt(piezas[0]); i>= parseInt(cuadrante1 + '1'); i--) {
+            console.log(i)
+            odontogramaHighlightPieza(id, i, active)
+        }
+        for (var i=parseInt(cuadrante2 + '1'); i<= piezas[1]; i++) {
+            console.log(i)
+            odontogramaHighlightPieza(id, i, active)
+        }
+    }
+
+}
+
+// Sombrea en el mapa del odontograma una serie de piezas separadas por comas
+function odontogramaHighlightPiezas(id, piezas, active) {
+    var laspiezas = piezas.split(',')
+    for (var i = 0; i < laspiezas.length; i++) {
+        odontogramaHighlightPieza(id, laspiezas[i], active)
+    }
+}
+
+// Sombrea en el mapa del odontograma una pieza
+function odontogramaHighlightPieza(id, num, active) {
     var area = '#odontograma-' + id + ' area#p' + num
     var data = $(area).mouseout().data('maphilight') || {};
-    data.alwaysOn = !data.alwaysOn;
+    data.alwaysOn = active;
     $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
 }
 
-// TODO: premarcar puente cuando se edita presu
-
+// Lógica para sombrear piezas según la definición de puente indicadas con un guión por inicio-fin
 function odontogramaTogglePuente(id, num) {
     console.log('odontogramaTogglePuente', id, num)
 
 
     if (!odontograma[id]) {
         console.log('principio del puente')
-        var area = '#odontograma-' + id + ' area#p' + num
-        var data = $(area).mouseout().data('maphilight') || {};
         odontograma[id] = num
-
-        data.alwaysOn = !data.alwaysOn;
-        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+        odontogramaHighlightPieza(id, num, true)
     } else if (odontograma[id].indexOf('-') > -1) {
-        console.log('nuevo puente')
+        console.log('nuevo puente', odontograma[id])
 
+
+        odontogramaHighlightPuente(id, odontograma[id], false)
+        odontograma[id] = ""
+        /*
         var piezas = odontograma[id].split('-')
-
         var cuadrantes = []
         cuadrantes.push(odontogramaCuadrante(piezas[0]))
         if (odontogramaCuadrante(piezas[0]) != odontogramaCuadrante(piezas[1])) {
@@ -408,24 +440,17 @@ function odontogramaTogglePuente(id, num) {
 
             for (var i = cuadrante + '1'; i <= cuadrante + '8'; i++) {
                 console.log('desactivo ' + i)
-                var area = '#odontograma-' + id + ' area#p' + i
-                var data = $(area).mouseout().data('maphilight') || {};
-                data.alwaysOn = false;
-                $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+                odontogramaHighlightPieza(id, i, false)
             }
         });
+        */
 
-        odontograma[id] = ""
     } else {
 
         console.log('fin del puente')
-        var area = '#odontograma-' + id + ' area#p' + num
-        var data = $(area).mouseout().data('maphilight') || {};
 
         if (num == odontograma[id]) {
-
-            data.alwaysOn = !data.alwaysOn;
-            $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
+            odontogramaHighlightPieza(id, num, false)
             odontograma[id] = ""
         } else {
 
@@ -435,74 +460,14 @@ function odontogramaTogglePuente(id, num) {
                 return
             }
 
-            var cuadrante1 = odontogramaCuadrante(num)
-            var cuadrante2 = odontogramaCuadrante(odontograma[id])
-
-            if (num > odontograma[id]) {
-                console.log('new > old')
-
-                if (cuadrante1 == cuadrante2) {
-                    for (var i=parseInt(odontograma[id])+1; i<= num; i++) {
-                        console.log(i)
-                        var area = '#odontograma-' + id + ' area#p' + i
-                        var data = $(area).mouseout().data('maphilight') || {};
-                        data.alwaysOn = !data.alwaysOn;
-                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
-                    }
-                } else {
-
-                    for (var i= parseInt(odontograma[id])-1; i>= parseInt(cuadrante2 + '1'); i--) {
-                        console.log(i)
-                        var area = '#odontograma-' + id + ' area#p' + i
-                        var data = $(area).mouseout().data('maphilight') || {};
-                        data.alwaysOn = !data.alwaysOn;
-                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
-                    }
-                    for (var i=parseInt(cuadrante1 + '1'); i<= num; i++) {
-                        console.log(i)
-                        var area = '#odontograma-' + id + ' area#p' + i
-                        var data = $(area).mouseout().data('maphilight') || {};
-                        data.alwaysOn = !data.alwaysOn;
-                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
-                    }
-                }
-            } else {
-                console.log('new < old') // num < odontograma[id]
-
-                if (cuadrante1 == cuadrante2) {
-                    for (var i=num; i<= parseInt(odontograma[id])-1; i++) {
-                        console.log(i)
-                        var area = '#odontograma-' + id + ' area#p' + i
-                        var data = $(area).mouseout().data('maphilight') || {};
-                        data.alwaysOn = !data.alwaysOn;
-                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
-                    }
-                } else {
-
-                    for (var i= parseInt(odontograma[id])-1; i>= parseInt(cuadrante2 + '1'); i--) {
-                        console.log(i)
-                        var area = '#odontograma-' + id + ' area#p' + i
-                        var data = $(area).mouseout().data('maphilight') || {};
-                        data.alwaysOn = !data.alwaysOn;
-                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
-                    }
-                    for (var i=parseInt(cuadrante1 + '1'); i<= num; i++) {
-                        console.log(i)
-                        var area = '#odontograma-' + id + ' area#p' + i
-                        var data = $(area).mouseout().data('maphilight') || {};
-                        data.alwaysOn = !data.alwaysOn;
-                        $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
-                    }
-                }
-            }
-
             odontograma[id] += "-" + num
-
-            // swap
+            // posible swap
             var piezas = odontograma[id].split('-')
             if (piezas[0] > piezas[1]) {
                 odontograma[id] = piezas[1] + "-" + piezas[0]
             }
+
+            odontogramaHighlightPuente(id, odontograma[id], true)
         }
 
     }
