@@ -16,7 +16,16 @@
      <li>{{ Form::label('email', 'Correo electrónico') }}</li>
      <li>{{ Form::label('password', 'Contraseña') }}</li>
      <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
-     <li>{{Form::select('group_id', $usergroups)}}  {{Form::select('sede_id', $sedes)}}
+     <li>{{Form::select('group_id', $usergroups)}}  
+         
+  <?php $i = 1; ?>       
+  @foreach($sedes as $sede)
+  <input type="Checkbox" name="sede-{{$i}}" value="{{$sede->id}}" >{{$sede->nombre}}</br>
+  <?php $i++; ?>
+  @endforeach
+</select>
+         
+         
   	</ul>
 	 
 	<ul class="labelreg2"> 

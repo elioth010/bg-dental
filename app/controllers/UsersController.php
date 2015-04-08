@@ -12,7 +12,7 @@ class UsersController extends BaseController {
     
     public function getRegister() {
     $usergroups = Usergroups::lists('nombre', 'id');
-    $sedes = Sedes::lists('nombre', 'id');
+    $sedes = Sedes::get();
     $this->layout->content = View::make('users.register')->with(array('usergroups'=>$usergroups, 'sedes' => $sedes));
     }
     
@@ -28,10 +28,19 @@ class UsersController extends BaseController {
     $user->email = Input::get('email');
     $user->password = Hash::make(Input::get('password'));
     $user->group_id = Input::get('group_id');
-    $user->sede_id = Input::get('sede_id');
+    $sedes = Sedes::count();
+    
     $user->save();
-
-    return Redirect::to('users/dashboard')->with('message', '¡Usuario registrado!');
+$i = 1;
+    while($i<=$sedes){
+         if(Input::has('sede-'.$i)){
+        $sede_usuario = Input::get('sede-'.$i);
+    //    var_dump($sede_usuario);
+    $user->sedes()->attach($sede_usuario);
+         }
+    $i++;
+    }
+    //return Redirect::to('users/dashboard')->with('message', '¡Usuario registrado!');
     } else {
         // validation has failed, display error messages
         return Redirect::to('users/register')->with('message', 'The following errors occurred')->withErrors($validator)->withInput();
