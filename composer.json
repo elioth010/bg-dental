@@ -4,6 +4,7 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
+        "thujohn/pdf": "dev-master",
 		"laravel/framework": "4.2.*",
 		"twitter/bootstrap": "*",
 		"fzaninotto/faker": "1.5.*@dev",

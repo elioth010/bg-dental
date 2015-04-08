@@ -7,7 +7,28 @@ class PresupuestosController extends \BaseController {
 		return $tratamientos;
 	}
 
+	public function imprimirPDF($paciente, $id) {
+		$data = $this->_imprimirPresupuesto($paciente, $id);
+		$data['showpdf'] = false;
+		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
+		return PDF::load($html, 'A4', 'portrait')->download($paciente);
+	}
+
+	public function verPDF($paciente, $id) {
+		$data = $this->_imprimirPresupuesto($paciente, $id);
+		$data['showpdf'] = false;
+		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
+		return PDF::load($html, 'A4', 'portrait')->show();
+	}
+
 	public function imprimirPresupuesto($paciente, $id) {
+		$data = $this->_imprimirPresupuesto($paciente, $id);
+		$data['showpdf'] = true;
+		return View::make('presupuestos.imprimirpresupuesto')->with($data);
+	}
+
+
+	private function _imprimirPresupuesto($paciente, $id) {
 		$presupuesto = Presupuestos::find($id);
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 		$companias_list = Companias::lists('nombre', 'id');
@@ -37,10 +58,7 @@ class PresupuestosController extends \BaseController {
 			$total += $t->precio_final;
 		}
 
-		return View::make('presupuestos.imprimirpresupuesto')->with(array('presupuesto' => $presupuesto,
-																	'tratamientos' => $tratamientos,
-																	'total' => $total,
-																	'paciente' => $paciente));
+		return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente);
 	}
 
 	public function verPresupuesto($paciente, $id) {

@@ -55,6 +55,8 @@ Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@ve
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/borrar',  'PresupuestosController@borrarPresupuesto');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/imprimir',  'PresupuestosController@imprimirPresupuesto');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/imprimirpdf',  'PresupuestosController@imprimirPDF');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/verpdf',  'PresupuestosController@verPDF');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto}/aceptar', 'PresupuestosController@aceptarPresupuesto');

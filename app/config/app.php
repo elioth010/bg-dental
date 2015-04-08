@@ -122,8 +122,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'mnshankar\CSV\CSVServiceProvider',
-                'Makzumi\Calendar\CalendarServiceProvider',
-
+        'Makzumi\Calendar\CalendarServiceProvider',
+        'Thujohn\Pdf\PdfServiceProvider',
 	),
 
 	/*
@@ -175,6 +175,7 @@ return array(
 		'Mail'            => 'Illuminate\Support\Facades\Mail',
 		'Paginator'       => 'Illuminate\Support\Facades\Paginator',
 		'Password'        => 'Illuminate\Support\Facades\Password',
+        'PDF'             => 'Thujohn\Pdf\PdfFacade',
 		'Queue'           => 'Illuminate\Support\Facades\Queue',
 		'Redirect'        => 'Illuminate\Support\Facades\Redirect',
 		'Redis'           => 'Illuminate\Support\Facades\Redis',
