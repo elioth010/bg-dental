@@ -17,7 +17,9 @@
         <th>Piezas</th>
         <th>Estado</th>
         <th>Precio final</th>
+        <?php if ($presupuesto->aceptado) { ?>
         <th>Acciones</th>
+        <?php } ?>
       </tr>
       <?php $i=1 ?>
       @foreach($tratamientos as $t)
@@ -31,19 +33,25 @@
         <td>{{ $t->piezas }}</td>
 
         <td>
-        <?php if (!$t->estado) { ?>
-            <span style="color: red">No realizado</span>
+        <?php if ($presupuesto->aceptado) { ?>
+            <?php if (!$t->estado) { ?>
+                <span style="color: red">No realizado</span>
+            <?php } else { ?>
+                Realizado
+            <?php } ?>
         <?php } else { ?>
-            Realizado
+            <span style="color: red">No aceptado aún</span>
         <?php } ?>
         </td>
         <td>{{ $t->precio_final }}€</td>
+        <?php if ($presupuesto->aceptado) { ?>
         <td>
         <?php if (!$t->estado) { ?>
         {{ HTML::linkAction('PresupuestosController@aceptarTratamientoPresupuesto', 'Marcar como realizado',
                 array($paciente, $presupuesto->id, $t->id)) }}
         <?php } ?>
         </td>
+        <?php } ?>
       </tr>
       <?php $i++ ?>
       @endforeach

@@ -264,7 +264,8 @@ class PresupuestosController extends \BaseController {
 	}
 
 	public function aceptarTratamientoPresupuesto($numerohistoria, $presupuesto_id, $tratamiento_id) {
-		$presupuesto = Presupuestos::where('id', $presupuesto_id)->where('numerohistoria', $numerohistoria)->firstOrFail();
+		$presupuesto = Presupuestos::where('id', $presupuesto_id)->where('numerohistoria', $numerohistoria)
+									->where('aceptado', 1)->firstOrFail();
 		$presupuesto->tratamientos2()->updateExistingPivot($tratamiento_id, array('estado' => 1));
 
 		return Redirect::action('PresupuestosController@verPresupuesto', array($numerohistoria, $presupuesto_id))
