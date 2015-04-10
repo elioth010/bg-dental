@@ -167,7 +167,7 @@ Route::get('crearpresu', function() {
 	$presupuesto->nombre = "primer presupuesto";
 	$presupuesto->numerohistoria = "7947";
 	$presupuesto->save();
-	$presupuesto->tratamientos()->attach(61,array('unidades'=> '1', 'desc_euros' => '10', 'pieza1' => '12'));
+	$presupuesto->tratamientos()->attach(61,array('unidades'=> '1', 'descuento' => '10', 'piezas' => '12'));
 
 
 });
