@@ -18,8 +18,7 @@ Pacientes:
     Al buscar, si no se encuentra proponer uno nuevo
         
 Presupuestos:
-    
-    Poder editar el progreso del presupuesto/plan terapéutico. Ir marcando los tratamientos que se vayan haciendo al pàciente.
+
     Seleccionar presupuestos de un doctor y poder seleccionar un intervalo de tiempo
     Añadir campo de observaciones
     Añadir opción de forzar compañía para un presupuesto y usar sus precios.

@@ -4,7 +4,7 @@
 
     <h2>Presupuesto: {{ $presupuesto->nombre}}</h2>
 
-    <p>Tratamientos incluidos:</p>
+    <h2>Tratamientos incluidos:</h2>
 
     <table>
       <tr>
@@ -17,6 +17,7 @@
         <th>Piezas</th>
         <th>Estado</th>
         <th>Precio final</th>
+        <th>Acciones</th>
       </tr>
       <?php $i=1 ?>
       @foreach($tratamientos as $t)
@@ -28,8 +29,21 @@
         <td>{{ $t->descuento_text }}</td>
         <td>{{ $t->compania_text }}</td>
         <td>{{ $t->piezas }}</td>
-        <td>{{ $t->estado_text }}</td>
+
+        <td>
+        <?php if (!$t->estado) { ?>
+            <span style="color: red">No realizado</span>
+        <?php } else { ?>
+            Realizado
+        <?php } ?>
+        </td>
         <td>{{ $t->precio_final }}€</td>
+        <td>
+        <?php if (!$t->estado) { ?>
+        {{ HTML::linkAction('PresupuestosController@aceptarTratamientoPresupuesto', 'Marcar como realizado',
+                array($paciente, $presupuesto->id, $t->id)) }}
+        <?php } ?>
+        </td>
       </tr>
       <?php $i++ ?>
       @endforeach
@@ -47,6 +61,11 @@
     </table>
 
     <hr/>
+    Acciones:
+
     {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Volver a los presupuestos de este paciente', $paciente) }}
+    | {{ HTML::linkAction('PresupuestosController@imprimirPresupuesto', 'Imprimible', array($paciente, $presupuesto->id)) }}
+    | {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar PDF', array($paciente, $presupuesto->id)) }}
+    | {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver PDF', array($paciente, $presupuesto->id)) }}
 
 @stop

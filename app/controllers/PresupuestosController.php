@@ -250,7 +250,15 @@ class PresupuestosController extends \BaseController {
 		$presupuesto->aceptado = 1;
 		$presupuesto->save();
 		return Redirect::action('PresupuestosController@verpresupuestos', array($numerohistoria))
-						->with('message', '¡Presupuesto aceptado!');;
+						->with('message', '¡Presupuesto aceptado!');
+	}
+
+	public function aceptarTratamientoPresupuesto($numerohistoria, $presupuesto_id, $tratamiento_id) {
+		$presupuesto = Presupuestos::where('id', $presupuesto_id)->where('numerohistoria', $numerohistoria)->firstOrFail();
+		$presupuesto->tratamientos2()->updateExistingPivot($tratamiento_id, array('estado' => 1));
+
+		return Redirect::action('PresupuestosController@verPresupuesto', array($numerohistoria, $presupuesto_id))
+						->with('message', '¡Tratamiento realizado!');
 	}
 
 	/**
@@ -317,8 +325,8 @@ class PresupuestosController extends \BaseController {
 		}
 
 
-		return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
-		//return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
+		//return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
+		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
 	}
 
 

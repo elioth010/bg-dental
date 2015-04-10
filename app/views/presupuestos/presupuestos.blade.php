@@ -58,7 +58,7 @@
         | {{ HTML::linkAction('PresupuestosController@aceptarPresupuesto', 'Aceptar',
                 array($paciente->numerohistoria, $presupuesto->id)) }}
         <?php } ?>
-                </td>
+    </td>
   </tr>
   @endforeach
 </table>

@@ -60,6 +60,7 @@ Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/verpdf',  'P
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto}/aceptar', 'PresupuestosController@aceptarPresupuesto');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto}/aceptar/{tratamiento}', 'PresupuestosController@aceptarTratamientoPresupuesto');
 Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');

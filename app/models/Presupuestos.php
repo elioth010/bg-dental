@@ -9,6 +9,10 @@ class Presupuestos extends Eloquent {
         return $this->belongsToMany('Tratamientos', 'presupuestos_tratamientos', 'presupuesto_id', 'tratamiento_id');
     }
 
+    public function tratamientos2() {
+        return $this->belongsToMany('Tratamientos', 'presupuestos_tratamientos', 'presupuesto_id', 'id');
+    }
+
     public function paciente() {
         return $this->belongsTo('Pacientes', 'numerohistoria', 'numerohistoria');
     }
