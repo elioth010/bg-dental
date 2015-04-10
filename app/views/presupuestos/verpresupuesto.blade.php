@@ -60,6 +60,15 @@
       </tr>
     </table>
 
+    <h2>Observaciones:</h2>
+
+
+    {{ Form::open(array('action' => array('PresupuestosController@verPresupuesto', $presupuesto->numerohistoria, $presupuesto->id))) }}
+        {{ Form::textarea('observaciones', $presupuesto->observaciones) }}
+        {{ Form::submit('Modificar', array('class'=>'botonl'))}}
+    {{ Form::close() }}
+    <br>
+
     <hr/>
     Acciones:
 

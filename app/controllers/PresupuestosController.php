@@ -97,6 +97,16 @@ class PresupuestosController extends \BaseController {
 																	 'paciente' => $paciente));
 	}
 
+	public function guardarObservaciones($paciente, $id) {
+
+		$presupuesto = Presupuestos::where('id', $id)->firstOrFail();
+		$presupuesto->observaciones = Input::get('observaciones');
+		$presupuesto->save();
+
+		return Redirect::action('PresupuestosController@verPresupuesto', array($paciente, $id))
+						->with('message', 'Observaciones guardadas!');
+	}
+
 	public function borrarPresupuesto($paciente, $id) {
 		$presupuesto = Presupuestos::where('id', $id)->where('aceptado', 0)->firstOrFail();
 		$presupuesto->tratamientos()->detach();
