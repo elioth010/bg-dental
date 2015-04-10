@@ -20,7 +20,6 @@ Pacientes:
 Presupuestos:
     
     Poder editar el progreso del presupuesto/plan terapéutico. Ir marcando los tratamientos que se vayan haciendo al pàciente.
-    Ordenar listados de presupuestos por fecha de actualización
     Seleccionar presupuestos de un doctor y poder seleccionar un intervalo de tiempo
     Añadir campo de observaciones
     Añadir opción de forzar compañía para un presupuesto y usar sus precios.

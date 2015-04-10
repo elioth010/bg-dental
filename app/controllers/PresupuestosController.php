@@ -359,7 +359,7 @@ class PresupuestosController extends \BaseController {
 			$users[$u->id] = $u->nombre;
 		}
 
-		$presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)->get();
+		$presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)->orderBy('updated_at', 'desc')->get();
 
 		$precios = Precios::paciente($numerohistoria);
 
