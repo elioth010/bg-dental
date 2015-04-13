@@ -23,8 +23,8 @@
     </div>
 
     @if ($showpdf)
-    PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente, $presupuesto->id)) }}
-         {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente, $presupuesto->id)) }}
+    PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id)) }}
+         {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id)) }}
     @endif
 
     <table border=1>
