@@ -13,7 +13,14 @@
  <body>
 
     <h2>Presupuesto: {{ $presupuesto->nombre}}</h2>
-    <h3>Paciente: {{ $paciente }}</h3>
+    <h3>Paciente: {{ $paciente->numerohistoria }}</h3>
+
+    <div id="datos1">
+        Nombre: {{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }} </br>
+        Dirección: {{ $paciente->Direccion }}
+        {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </br>
+        Teléfono: {{ $paciente->addrtel1 }}, {{ $paciente->addrtel2 }}
+    </div>
 
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente, $presupuesto->id)) }}
