@@ -23,7 +23,7 @@
   <input type="Checkbox" name="sede-{{$i}}" value="{{$sede->id}}" >{{$sede->nombre}}</br>
   <?php $i++; ?>
   @endforeach
-</select>
+
          
          
   	</ul>

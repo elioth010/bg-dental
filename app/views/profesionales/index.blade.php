@@ -11,7 +11,7 @@
       </th><th>Nombre
       </th><th>Apellidos
       </th><th>Especialidad
-      </th><th>Sede
+      </th><th>Sede(s)
       </th>
       </tr>
       
@@ -21,7 +21,7 @@
         <td>{{$profesional->nombre}}</td>
         <td>{{$profesional->apellido1}}, {{$profesional->apellido2}}</td>
         <td>{{$profesional->especialidad}}</td>
-        <td>{{$profesional->sede}}</td>
+        <td>{{$profesional->sedes_p}}</td>
         </tr>
       @endforeach
       

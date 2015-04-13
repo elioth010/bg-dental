@@ -35,7 +35,6 @@ $i = 1;
     while($i<=$sedes){
          if(Input::has('sede-'.$i)){
         $sede_usuario = Input::get('sede-'.$i);
-    //    var_dump($sede_usuario);
     $user->sedes()->attach($sede_usuario);
          }
     $i++;
