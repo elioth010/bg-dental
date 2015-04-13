@@ -166,9 +166,8 @@ class PresupuestosController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function crearpresupuesto($numerohistoria)
-	{
-		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+	private function _crearpresupuesto($paciente) {
+
 		$companias_list = Companias::lists('nombre', 'id');
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
@@ -183,15 +182,28 @@ class PresupuestosController extends \BaseController {
 
 		$atratamientos = $this->getTratamientosArray($grupos, $companias);
 
-		$presupuesto = new Presupuestos;
-		$presupuesto->descuento = 0; // valor por defecto
-
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
-
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
 		}
+
+		return array('grupos' => $grupos,
+					'paciente' => $paciente,
+					'atratamientos' => $atratamientos,
+					'companias' => $companias,
+					'profesionales' => $profesionales);
+	}
+
+	/* */
+	public function crearpresupuesto($numerohistoria)
+	{
+		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+
+		$data = $this->_crearpresupuesto($paciente);
+
+		$presupuesto = new Presupuestos;
+		$presupuesto->descuento = 0; // valor por defecto
 
 		$tratamientos = array();
 		if (!is_null(Input::old('num_tratamientos'))) {
@@ -201,13 +213,8 @@ class PresupuestosController extends \BaseController {
 		}
 
 		return View::make('presupuestos.crearpresupuesto')
-							->with(array('grupos' => $grupos,
-										'paciente' => $paciente,
-										'atratamientos' => $atratamientos,
-										'tratamientos' => $tratamientos,
-										'presupuesto' => $presupuesto,
-										'companias' => $companias,
-										'profesionales' => $profesionales));
+							->with($data)
+							->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
 	}
 
 
@@ -220,38 +227,16 @@ class PresupuestosController extends \BaseController {
 	{
 		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
 									->where('aceptado', 0)->firstOrFail();
-		$paciente = $presupuesto->paciente;
-		$companias_list = Companias::lists('nombre', 'id');
 
-		$paciente->companias_text = $companias_list[$paciente->compania];
-		$companias = array();
-		$companias[$paciente->compania] = $companias_list[$paciente->compania];
-		if ($paciente->compania2 != 0) {
-			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
-		}
-
-		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
-
-		$atratamientos = $this->getTratamientosArray($grupos, $companias);
+		$data = $this->_crearpresupuesto($presupuesto->paciente);
 
 		$tratamientos = $presupuesto->tratamientos()
 									->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final', 'piezas', 'unidades'));
 
-		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
-		$profesionales = array();
-		foreach ($profesionales1 as $p){
-			$profesionales[$p->id] = $p->nombre;
-		}
 
 		return View::make('presupuestos.crearpresupuesto')
-							->with(array('grupos' => $grupos,
-										'paciente' => $paciente,
-										'atratamientos' => $atratamientos,
-										'tratamientos' => $tratamientos,
-										'presupuesto' => $presupuesto,
-										'companias' => $companias,
-										'profesionales' => $profesionales));
+							->with($data)
+							->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
 	}
 
 	public function aceptarPresupuesto($numerohistoria, $presupuesto) {
