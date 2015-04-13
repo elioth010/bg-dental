@@ -18,10 +18,16 @@
 		font-family: arial, sans-serif;
 		font-size: 1em;
 		color: #333333;
-		line-height: 1.5em;
+		line-height: 1.2em;
 		}
 		.layout{
 		margin: auto;
+		}
+		table{
+		text-align: center;}
+		table td, table th{
+		border-right: solid 1px #888;
+		border-bottom: 1px solid #888;
 		}
 	 </style>
 
@@ -34,19 +40,20 @@
     <h3>Paciente: {{ $paciente->numerohistoria }}</h3>
 
     <div id="datos1">
-        Nombre: {{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }} </br>
-        Dirección: {{ $paciente->Direccion }}
-        {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </br>
-        Teléfono: {{ $paciente->addrtel1 }}, {{ $paciente->addrtel2 }}
+        <p>Nombre: {{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</p>
+        <p>Dirección: {{ $paciente->Direccion }}
+        {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </p>
+        <p>Teléfono: {{ $paciente->addrtel1 }}, {{ $paciente->addrtel2 }}</p>
     </div>
-
+	<p>
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id)) }}
          {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id)) }}
     @endif
-
-    <table border=1>
-      <tr>
+	</p>
+    <div class="tabla">
+    <table>
+      <tr style="background-color:#ededed;">
         <th></th>
         <th>Nombre</th>
         <th>Unidades</th>
@@ -70,7 +77,7 @@
       </tr>
       <?php $i++ ?>
       @endforeach
-      <tr>
+      <tr style="background-color:#ededed;">
         <td><strong>TOTAL:</strong></td>
         <td></td>
         <td></td>
@@ -81,7 +88,7 @@
         <td><strong>{{ $total }}€</strong></td>
       </tr>
     </table>
-
+	</div>
     </br>
 
     <div id="dodontograma" style="width: 60%; margin: 0 auto;">
