@@ -166,9 +166,8 @@ class PresupuestosController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function crearpresupuesto($numerohistoria)
-	{
-		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+	private function _crearpresupuesto($paciente) {
+
 		$companias_list = Companias::lists('nombre', 'id');
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
@@ -183,15 +182,28 @@ class PresupuestosController extends \BaseController {
 
 		$atratamientos = $this->getTratamientosArray($grupos, $companias);
 
-		$presupuesto = new Presupuestos;
-		$presupuesto->descuento = 0; // valor por defecto
-
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
-
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
 		}
+
+		return array('grupos' => $grupos,
+					'paciente' => $paciente,
+					'atratamientos' => $atratamientos,
+					'companias' => $companias,
+					'profesionales' => $profesionales);
+	}
+
+	/* */
+	public function crearpresupuesto($numerohistoria)
+	{
+		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+
+		$data = $this->_crearpresupuesto($paciente);
+
+		$presupuesto = new Presupuestos;
+		$presupuesto->descuento = 0; // valor por defecto
 
 		$tratamientos = array();
 		if (!is_null(Input::old('num_tratamientos'))) {
@@ -201,13 +213,8 @@ class PresupuestosController extends \BaseController {
 		}
 
 		return View::make('presupuestos.crearpresupuesto')
-							->with(array('grupos' => $grupos,
-										'paciente' => $paciente,
-										'atratamientos' => $atratamientos,
-										'tratamientos' => $tratamientos,
-										'presupuesto' => $presupuesto,
-										'companias' => $companias,
-										'profesionales' => $profesionales));
+							->with($data)
+							->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
 	}
 
 
@@ -220,38 +227,16 @@ class PresupuestosController extends \BaseController {
 	{
 		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
 									->where('aceptado', 0)->firstOrFail();
-		$paciente = $presupuesto->paciente;
-		$companias_list = Companias::lists('nombre', 'id');
 
-		$paciente->companias_text = $companias_list[$paciente->compania];
-		$companias = array();
-		$companias[$paciente->compania] = $companias_list[$paciente->compania];
-		if ($paciente->compania2 != 0) {
-			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
-		}
-
-		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
-
-		$atratamientos = $this->getTratamientosArray($grupos, $companias);
+		$data = $this->_crearpresupuesto($presupuesto->paciente);
 
 		$tratamientos = $presupuesto->tratamientos()
 									->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final', 'piezas', 'unidades'));
 
-		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
-		$profesionales = array();
-		foreach ($profesionales1 as $p){
-			$profesionales[$p->id] = $p->nombre;
-		}
 
 		return View::make('presupuestos.crearpresupuesto')
-							->with(array('grupos' => $grupos,
-										'paciente' => $paciente,
-										'atratamientos' => $atratamientos,
-										'tratamientos' => $tratamientos,
-										'presupuesto' => $presupuesto,
-										'companias' => $companias,
-										'profesionales' => $profesionales));
+							->with($data)
+							->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
 	}
 
 	public function aceptarPresupuesto($numerohistoria, $presupuesto) {
@@ -349,16 +334,6 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function verpresupuestos($numerohistoria)
 	{
-		/*
-		$paciente_q = Pacientes::on('quiron')->where('numerohistoria',$numerohistoria)->first()->toArray();
-		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
-		if(!$paciente_b) {
-		Pacientes::create($paciente_q);
-		echo "Paciente creado!";
-		} else {
-		echo "Paciente ya existe";
-		}
-		*/
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
 		$companias_list = Companias::lists('nombre', 'id');
 		$paciente_b->companias_text = $companias_list[$paciente_b->compania];
@@ -407,49 +382,6 @@ class PresupuestosController extends \BaseController {
 
 		return View::make('presupuestos.presupuestos')->with('paciente',$paciente_b)
 										->with(array('presupuestos' => $presupuestos));
-// 		    $paciente_b = new Pacientes;
-// 		    $paciente_b->numerohistoria = $paciente_q->numerohistoria;
-// 		    $paciente_b->nombre = $paciente_q->nombre;
-// 		    $paciente_b->apellido1 = $paciente_q->apellido1;
-// 		    $paciente_b->apellido2 = $paciente_q->apellido2;
-// 		    $paciente_b->NIF = $paciente_q->NIF;
-// 		    $paciente_b->fechanacimiento = $paciente_q->fechanacimiento;
-// 		    $paciente_b->sexo = $paciente_q->sexo;
-// 		    $paciente_b->Direccion = $paciente_q->Direccion;
-// 		    $paciente_b->addrnamestre = $paciente_q->addrnamestre;
-// 		    $paciente_b->addrtel1 = $paciente_q->addrtel1;
-// 		    $paciente_b->addrtel2 = $paciente_q->addrtel2;
-// 		    $paciente_b->terrdesc = $paciente_q->terrdesc;
-// 		    $paciente_b->addrpostcode = $paciente_q->addrpostcode;
-// 		    $paciente_b->save();
-// 		    var_dump($paciente_b);
-
-
-
-// 		Pacientes::create(array($paciente_q));
-
-// 		$paciente_b = Pacientes::find($id);
-// 		var_dump($paciente_b);
-//
-		//echo $paciente_q->numerohistoria;
-// 		$paciente_b = new Pacientes;
-// 		$paciente_b = $paciente_q;
-		//$paciente_b = $paciente_q;
-// 		Pacientes::create($paciente_b);
-// 		var_dump($paciente_b);
-//
-		//$paciente_b = new Pacientes;
-		//Paciente_b->numerohistoria = $paciente_q('numerohistoria');
-		//var_dump($paciente_q->toArray());
-		//Pacientes::create($paciente_b);
-
-		//$paciente_b = Pacientes::where('id', $id)->get();
-
-		//print_r($paciente_q);
-		//Pacientes::firstOrCreate($paciente_b);
-
-		//$presupuesto = Presupuestos::where(get();
-		//return View::make('pacientes.verficha')->with('paciente',$paciente);
 	}
 
 
