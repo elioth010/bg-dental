@@ -11,7 +11,7 @@ class PresupuestosController extends \BaseController {
 		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
 		$data['showpdf'] = false;
 		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
-		return PDF::load($html, 'A4', 'portrait')->download($paciente);
+		return PDF::load($html, 'A4', 'portrait')->download($numerohistoria);
 	}
 
 	public function verPDF($numerohistoria, $id) {
