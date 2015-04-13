@@ -7,8 +7,7 @@
   
     <table border = "1">
       <tr>
-      <th>Id
-      </th><th>Nombre
+      <th>Nombre
       </th><th>Apellidos
       </th><th>Especialidad
       </th><th>Sede(s)
@@ -17,7 +16,7 @@
       
       @foreach($profesionales as $profesional)
         <tr>
-        <td>{{$profesional->id}}</td>
+        
         <td>{{$profesional->nombre}}</td>
         <td>{{$profesional->apellido1}}, {{$profesional->apellido2}}</td>
         <td>{{$profesional->especialidad}}</td>
