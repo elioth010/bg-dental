@@ -334,16 +334,6 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function verpresupuestos($numerohistoria)
 	{
-		/*
-		$paciente_q = Pacientes::on('quiron')->where('numerohistoria',$numerohistoria)->first()->toArray();
-		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
-		if(!$paciente_b) {
-		Pacientes::create($paciente_q);
-		echo "Paciente creado!";
-		} else {
-		echo "Paciente ya existe";
-		}
-		*/
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
 		$companias_list = Companias::lists('nombre', 'id');
 		$paciente_b->companias_text = $companias_list[$paciente_b->compania];
@@ -392,49 +382,6 @@ class PresupuestosController extends \BaseController {
 
 		return View::make('presupuestos.presupuestos')->with('paciente',$paciente_b)
 										->with(array('presupuestos' => $presupuestos));
-// 		    $paciente_b = new Pacientes;
-// 		    $paciente_b->numerohistoria = $paciente_q->numerohistoria;
-// 		    $paciente_b->nombre = $paciente_q->nombre;
-// 		    $paciente_b->apellido1 = $paciente_q->apellido1;
-// 		    $paciente_b->apellido2 = $paciente_q->apellido2;
-// 		    $paciente_b->NIF = $paciente_q->NIF;
-// 		    $paciente_b->fechanacimiento = $paciente_q->fechanacimiento;
-// 		    $paciente_b->sexo = $paciente_q->sexo;
-// 		    $paciente_b->Direccion = $paciente_q->Direccion;
-// 		    $paciente_b->addrnamestre = $paciente_q->addrnamestre;
-// 		    $paciente_b->addrtel1 = $paciente_q->addrtel1;
-// 		    $paciente_b->addrtel2 = $paciente_q->addrtel2;
-// 		    $paciente_b->terrdesc = $paciente_q->terrdesc;
-// 		    $paciente_b->addrpostcode = $paciente_q->addrpostcode;
-// 		    $paciente_b->save();
-// 		    var_dump($paciente_b);
-
-
-
-// 		Pacientes::create(array($paciente_q));
-
-// 		$paciente_b = Pacientes::find($id);
-// 		var_dump($paciente_b);
-//
-		//echo $paciente_q->numerohistoria;
-// 		$paciente_b = new Pacientes;
-// 		$paciente_b = $paciente_q;
-		//$paciente_b = $paciente_q;
-// 		Pacientes::create($paciente_b);
-// 		var_dump($paciente_b);
-//
-		//$paciente_b = new Pacientes;
-		//Paciente_b->numerohistoria = $paciente_q('numerohistoria');
-		//var_dump($paciente_q->toArray());
-		//Pacientes::create($paciente_b);
-
-		//$paciente_b = Pacientes::where('id', $id)->get();
-
-		//print_r($paciente_q);
-		//Pacientes::firstOrCreate($paciente_b);
-
-		//$presupuesto = Presupuestos::where(get();
-		//return View::make('pacientes.verficha')->with('paciente',$paciente);
 	}
 
 
