@@ -50,12 +50,6 @@ class PresupuestosController extends \BaseController {
 			$t->descuento_text = $descuentotext;
 			$t->compania_text = $companias_list[$t->compania_id];
 
-			if ($t->estado == 1) {
-				$t->estado_text = 'Aceptado';
-			} else {
-				$t->estado_text = 'Pendiente de aprobación';
-			}
-
 			$total += $t->precio_final;
 		}
 

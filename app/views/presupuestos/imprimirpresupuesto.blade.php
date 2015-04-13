@@ -36,7 +36,6 @@
         <th>Descuento €</th>
         <th>Compañía</th>
         <th>Piezas</th>
-        <th>Estado</th>
         <th>Precio final</th>
       </tr>
       <?php $i=1 ?>
@@ -49,14 +48,12 @@
         <td>{{ $t->descuento_text }}</td>
         <td>{{ $t->compania_text }}</td>
         <td>{{ $t->piezas }}</td>
-        <td>{{ $t->estado_text }}</td>
         <td>{{ $t->precio_final }}€</td>
       </tr>
       <?php $i++ ?>
       @endforeach
       <tr>
         <td><strong>TOTAL:</strong></td>
-        <td></td>
         <td></td>
         <td></td>
         <td></td>
