@@ -8,10 +8,28 @@
       <script src="/js/jquery.maphilight.min.js"></script>
       <script src="/js/presupuestos.js"></script>
       <link rel="icon" type="image/png" sizes="16x16" href="/imagenes/favicon.png" />
+      
+      <style type="text/css">
+      @page {
+	  size: auto;/* es el valor por defecto */
+	  margin: 10%;
+		}
+		body {
+		font-family: arial, sans-serif;
+		font-size: 1em;
+		color: #333333;
+		line-height: 1.5em;
+		}
+		.layout{
+		margin: auto;
+		}
+	 </style>
+
   </head>
 
  <body>
 
+	<div class="layout">
     <h2>Presupuesto: {{ $presupuesto->nombre}}</h2>
     <h3>Paciente: {{ $paciente->numerohistoria }}</h3>
 
@@ -87,5 +105,6 @@
             odontogramaDisableHighlightPuente(0, "{{ $t->piezas }}", true)
         });
     </script>
+    </div>
 </body>
 </html>
