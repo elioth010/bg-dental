@@ -83,6 +83,9 @@ Route::resource('guardia', 'GuardiaController');
 
 Route::resource ('turno', 'TurnoController');
 
+//Rutas sedes
+
+Route::resource ('sede', 'SedesController');
 //Rutas tipos de tratamientos
 
 Route::resource ('tipos', 'TiposTratamientosController');
