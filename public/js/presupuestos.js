@@ -52,19 +52,18 @@ function addTratamiento(tratamiento) {
 
     lastIndex++
 
-    grupo = "grupo-" + lastIndex
-    trat = "tratamiento-" + lastIndex
-    strat = "s_tratamiento-" + lastIndex
-    lcompania = "compania-" + lastIndex
-    lprecio = "precio-" + lastIndex
-    lpreciof = "preciof-" + lastIndex
-    ldescu = "descuento-" + lastIndex
-    tdescu = "tipodescuento-" + lastIndex
-    lpiezas = "piezas-" + lastIndex;
+    var grupo = "grupo-" + lastIndex
+    var trat = "tratamiento-" + lastIndex
+    var strat = "s_tratamiento-" + lastIndex
+    var lprecio = "precio-" + lastIndex
+    var lpreciof = "preciof-" + lastIndex
+    var ldescu = "descuento-" + lastIndex
+    var tdescu = "tipodescuento-" + lastIndex
+    var lpiezas = "piezas-" + lastIndex;
 
     // Select: Grupos de tratamientos
-    label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
-    select1 = $('<select>').attr({onchange: "updateSelectTratamientos(" + lastIndex + ", this.value)", id: grupo, name: grupo})
+    var label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
+    var select1 = $('<select>').attr({onchange: "updateSelectTratamientos(" + lastIndex + ", this.value)", id: grupo, name: grupo})
 
     select1.append(new Option('-- Elija un grupo --', 0));
     for(var i = 0; i < grupos.length; i++) {
@@ -72,8 +71,8 @@ function addTratamiento(tratamiento) {
     }
 
     // Select: Tratamiento
-    label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
-    select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", {tratamiento_id: this.value})", id: strat, name: trat})
+    var label2 = $("<label>").attr({for: trat}).text('Tratamiento:')
+    var select2 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ", {tratamiento_id: this.value})", id: strat, name: trat})
 
     if (tid == null) {
         select2.append(new Option('-- Elija primero un grupo de tratamientos --', 0))
@@ -92,16 +91,16 @@ function addTratamiento(tratamiento) {
     }
 
     // Descuento
-    label3 = $("<label>").attr({for: ldescu}).text('Descuento:')
-    input3 = $('<input>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: ldescu, name: ldescu,
+    var label3 = $("<label>").attr({for: ldescu}).text('Descuento:')
+    var input3 = $('<input>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: ldescu, name: ldescu,
                                 type: "text", size: 3})
     input3.val(0)
-    select3 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: "s_" + tdescu, name: tdescu})
+    var select3 = $('<select>').attr({onchange: "updatePrecios(" + lastIndex + ")", id: "s_" + tdescu, name: tdescu})
     select3.append(new Option('EUR', 'E'))
     select3.append(new Option('%', 'P'))
 
-    label4 = $("<label>").attr({for: lpreciof}).text('Precio final del tratamiento:')
-    input4 = $('<input>').attr({onchange: "updatePrecioManual(" + lastIndex + ")", id: lpreciof, name: lpreciof,
+    var label4 = $("<label>").attr({for: lpreciof}).text('Precio final del tratamiento:')
+    var input4 = $('<input>').attr({onchange: "updatePrecioManual(" + lastIndex + ")", id: lpreciof, name: lpreciof,
                             type: "text", size: 3})
     input4.val(preciof)
 
@@ -117,7 +116,7 @@ function addTratamiento(tratamiento) {
     compania = $("<input>").attr({name: "compania-" + lastIndex, type: "hidden", value: 0})
     eliminarButton = $("<input>").attr({type: "button", onclick: "removeTratamiento(" + lastIndex + ")", value: 'Eliminar'})
 
-    nuevodiv = $("<div>").attr({id: trat})
+    var nuevodiv = $("<div>").attr({id: trat})
     nuevodiv.append(label1)
     nuevodiv.append(select1)
     nuevodiv.append(label2)
@@ -127,7 +126,7 @@ function addTratamiento(tratamiento) {
     nuevodiv.append(eliminarButton)
     nuevodiv.append('<hr/>')
 
-    div = $("#tratamientos")
+    var div = $("#tratamientos")
     div.append(nuevodiv)
 
     $('input[name="num_tratamientos"]').val(lastIndex)
@@ -138,13 +137,13 @@ function addTratamiento(tratamiento) {
     return false
 }
 
-function creaDivPiezas(id) {
-    dpiezas = $("<div>").attr("id", "dpiezas-" + id)
+function creaDivPiezas(id, piezastext) {
+    var dpiezas = $("<div>").attr("id", "dpiezas-" + id)
 
-    ipiezas = $('<input readonly>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: 'Ninguna pieza seleccionada'})
+    var ipiezas = $('<input readonly>').attr({id: 'ipiezas-' + id, name: 'ipiezas-' + id, type: "text", placeholder: 'Ninguna pieza seleccionada'})
     dpiezas.append(ipiezas)
 
-    newLink = $("<a />", {id: 'piezas-' + id, href : "#", text : piezastext});
+    var newLink = $("<a />", {id: 'piezas-' + id, href : "#", text : piezastext});
     newLink.click(function(e) {
         e.preventDefault();
         $("#dodontograma-" + id).attr("style", "position:absolute;left:25%;top:10%;border:5px solid #1271b3;background-color:#FFF;");
@@ -160,13 +159,13 @@ function creaDivPiezas(id) {
     });
     dpiezas.append(newLink)
 
-    label = $("<label>").attr({for: 'iunidades-' + id}).text('Unidades:')
-    iunidades = $('<input readonly>').attr({id: 'iunidades-' + id, name: 'iunidades-' + id, type: "text", size: 2})
+    var label = $("<label>").attr({for: 'iunidades-' + id}).text('Unidades:')
+    var iunidades = $('<input readonly>').attr({id: 'iunidades-' + id, name: 'iunidades-' + id, type: "text", size: 2})
     iunidades.val(0)
     dpiezas.append(label)
     dpiezas.append(iunidades)
 
-    od = $('#dodontograma').clone()
+    var od = $('#dodontograma').clone()
     od.attr({id: "dodontograma-" + id, style: "display:none"})
     od.find('map').attr({name: "odontograma-" + id, id: "odontograma-" + id})
     od.find('img').attr({usemap: "#odontograma-" + id, id: "iodontograma-" + id})
@@ -184,17 +183,17 @@ function updatePrecios(id, tratamiento) {
         var piezas = tratamiento["piezas"]
     }
 
-    grupo = $('#grupo-' + id).val()
+    var grupo = $('#grupo-' + id).val()
     console.log('updatePrecios ' + id + ', ' + tratamiento)
 
     if (id !== undefined) {
-        precio = $('#precio-' + id)
-        preciof = $('#preciof-' + id)
-        desc = $('#descuento-' + id).val()
-        tipodesc = $('#s_tipodescuento-' + id).val()
-        ipiezas = $('#ipiezas-' + id)
-        divprecio = $("#dprecio-" + id)
-        dpiezas = $('#dpiezas-' + id)
+        var precio = $('#precio-' + id)
+        var preciof = $('#preciof-' + id)
+        var desc = $('#descuento-' + id).val()
+        var tipodesc = $('#s_tipodescuento-' + id).val()
+        var ipiezas = $('#ipiezas-' + id)
+        var divprecio = $("#dprecio-" + id)
+        var dpiezas = $('#dpiezas-' + id)
 
         if (tid !== undefined) {
 
@@ -225,17 +224,17 @@ function updatePrecios(id, tratamiento) {
 
                     if (tipo == 3) {
                         odontograma[id] = ""
-                        piezastext = "Elegir puente"
+                        var piezastext = "Elegir puente"
                     } else if (tipo == 1) {
                         odontograma[id] = new Array
-                        piezastext = "Elegir piezas"
+                        var piezastext = "Elegir piezas"
                     }
 
                     if (dpiezas.length) {
                         dpiezas.remove()
                     }
 
-                    dpiezas = creaDivPiezas(id)
+                    dpiezas = creaDivPiezas(id, piezastext)
                     divprecio.append(dpiezas)
 
                     if (tipo == 3) {
@@ -260,7 +259,7 @@ function updatePrecios(id, tratamiento) {
 
         } else {
             console.log('algo ' + id)
-            tid = $('#s_tratamiento-' + id)[0].value
+            tid = $('#s_tratamiento-' + id).val()
         }
 
         updatePrecioTratamiento(id, tid, grupo, preciofinal)
@@ -274,7 +273,12 @@ function updatePrecios(id, tratamiento) {
 function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
     console.log('updatePrecioTratamiento ' + id + ', ' + tid + ", " + grupo)
 
-    iunidades = $('#iunidades-' + id)
+    var iunidades = $('#iunidades-' + id)
+    var precio = $('#precio-' + id)
+    var preciof = $('#preciof-' + id)
+    var tipodesc = $('#s_tipodescuento-' + id).val()
+    var desc = $('#descuento').val()
+    var compania_id = $('#compania-' + id).val()
 
     if (tid == 0) {
         precio.text("0.00")
@@ -343,8 +347,8 @@ function updatePrecioFinal() {
         }
     }
 
-    desc = $('#descuento').val()
-    tdesc = $('#tipodescuento').val()
+    var desc = $('#descuento').val()
+    var tdesc = $('#tipodescuento').val()
     if (tdesc == 'P') {
         descuento = desc * subtotal / 100
         descuentotext = descuento + ' (' + desc + '%)'
@@ -352,7 +356,7 @@ function updatePrecioFinal() {
         descuento = desc
         descuentotext = desc
     }
-    total = subtotal - descuento
+    var total = subtotal - descuento
     $('#p_subtotal').text(subtotal)
     $('#p_descuento').text(descuentotext)
     $('#p_total').text(total)
