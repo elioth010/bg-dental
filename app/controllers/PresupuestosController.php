@@ -11,7 +11,7 @@ class PresupuestosController extends \BaseController {
 		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
 		$data['showpdf'] = false;
 		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
-		return PDF::load($html, 'A4', 'portrait')->download($paciente);
+		return PDF::load($html, 'A4', 'portrait')->download($numerohistoria);
 	}
 
 	public function verPDF($numerohistoria, $id) {
@@ -49,12 +49,6 @@ class PresupuestosController extends \BaseController {
 			$t->precio_final -= $descuento;
 			$t->descuento_text = $descuentotext;
 			$t->compania_text = $companias_list[$t->compania_id];
-
-			if ($t->estado == 1) {
-				$t->estado_text = 'Aceptado';
-			} else {
-				$t->estado_text = 'Pendiente de aprobación';
-			}
 
 			$total += $t->precio_final;
 		}
