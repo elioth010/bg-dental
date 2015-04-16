@@ -18,7 +18,12 @@ class PresupuestosController extends \BaseController {
 		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
 		$data['showpdf'] = false;
 		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
-		return PDF::load($html, 'A4', 'portrait')->show();
+		//return PDF::load($html, 'A4', 'portrait')->show();
+		//return PDF::html('hello',array('name' => 'Nithin'));
+		$pdf = PDF::make();
+	$pdf->addPage($html->render());
+
+		$pdf->send();
 	}
 
 	public function imprimirPresupuesto($numerohistoria, $id) {
@@ -53,7 +58,8 @@ class PresupuestosController extends \BaseController {
 			$total += $t->precio_final;
 		}
 
-		return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente);
+		return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente,
+						'HTTP_HOST' => Request::server ("HTTP_HOST"));
 	}
 
 	public function verPresupuesto($paciente, $id) {

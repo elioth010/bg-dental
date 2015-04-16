@@ -4,11 +4,6 @@
   <head>
       <title>Imprimir presupuesto</title>
       <meta charset="utf-8">
-      <script src="/js/jquery-1.11.0.min.js"></script>
-      <script src="/js/jquery.maphilight.min.js"></script>
-      <script src="/js/presupuestos.js"></script>
-      <link rel="icon" type="image/png" sizes="16x16" href="/imagenes/favicon.png" />
-      
       <style type="text/css">
       @page {
 	  size: auto;/* es el valor por defecto */
@@ -29,11 +24,12 @@
 		border-right: solid 1px #888;
 		border-bottom: 1px solid #888;
 		}
+
 	 </style>
 
   </head>
 
- <body>
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 
 	<div class="layout">
     <h2>Presupuesto: {{ $presupuesto->nombre}}</h2>
@@ -91,24 +87,75 @@
 	</div>
     </br>
 
-    <div id="dodontograma" style="width: 60%; margin: 0 auto;">
-    @include('presupuestos.odontograma')
-    @yield('odontograma')
-    </div>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            od = $('#dodontograma')
-            od.attr({id: "dodontograma-0"})
-            od.find('map').attr({name: "odontograma-0", id: "odontograma-0"})
-            od.find('img').attr({usemap: "#odontograma-0", id: "iodontograma-0"})
-
-            odontogramaHighlight(0, 0, false)
-            odontogramaHighlightPuente(0, "{{ $t->piezas }}", true)
-            odontogramaDisableHighlightPuente(0, "{{ $t->piezas }}", true)
-        });
-    </script>
-    </div>
+    <table id="Tabla_01" width="750" height="577" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_01.jpg" width="55" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_02.jpg" width="57" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_03.jpg" width="55" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_04.jpg" width="42" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_05.jpg" width="41" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_06.jpg" width="42" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_07.jpg" width="42" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_08.jpg" width="41" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_09.jpg" width="41" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_10.jpg" width="43" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_11.jpg" width="41" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_12.jpg" width="42" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_13.jpg" width="42" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_14.jpg" width="55" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_15.jpg" width="56" height="294" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_16.jpg" width="55" height="294" alt=""></td>
+        </tr>
+        <tr>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_17.jpg" width="55" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_18.jpg" width="57" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_19.jpg" width="55" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_20.jpg" width="42" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_21.jpg" width="41" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_22.jpg" width="42" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_23.jpg" width="42" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_24.jpg" width="41" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_25.jpg" width="41" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_26.jpg" width="43" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_27.jpg" width="41" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_28.jpg" width="42" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_29.jpg" width="42" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_30.jpg" width="55" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_31.jpg" width="56" height="283" alt=""></td>
+            <td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_32.jpg" width="55" height="283" alt=""></td>
+        </tr>
+    </table>
 </body>
 </html>

@@ -4,7 +4,8 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-        "thujohn/pdf": "dev-master",
+        "ignited/laravel-pdf": "1.*",
+        "h4cc/wkhtmltopdf-amd64": "*",
 		"laravel/framework": "4.2.*",
 		"twitter/bootstrap": "*",
 		"fzaninotto/faker": "1.5.*@dev",
