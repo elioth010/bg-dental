@@ -331,7 +331,7 @@ th {
 	min-width: 300px;
 }
 .tbl_drc{
-	float: left;
+	/*float: left;*/
 	display: block;
 	max-height: 450px;
 	overflow: scroll;

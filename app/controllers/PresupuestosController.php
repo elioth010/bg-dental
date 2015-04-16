@@ -7,6 +7,68 @@ class PresupuestosController extends \BaseController {
 		return $tratamientos;
 	}
 
+	public function imprimirPDF($numerohistoria, $id) {
+		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
+		$data['showpdf'] = false;
+		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
+
+		$pdf = PDF::make();
+		$pdf->addPage($html->render());
+		$pdf->send($numerohistoria . '_' . $id . '.pdf');
+
+		// Thujohn\Pdf\PdfServiceProvide
+		//return PDF::load($html, 'A4', 'portrait')->download($numerohistoria);
+	}
+
+	public function verPDF($numerohistoria, $id) {
+		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
+		$data['showpdf'] = false;
+		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
+
+		$pdf = PDF::make();
+		$pdf->addPage($html->render());
+		$pdf->send();
+
+		// Thujohn\Pdf\PdfServiceProvide
+		//return PDF::load($html, 'A4', 'portrait')->show();
+	}
+
+	public function imprimirPresupuesto($numerohistoria, $id) {
+		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
+		$data['showpdf'] = true;
+		return View::make('presupuestos.imprimirpresupuesto')->with($data);
+	}
+
+
+	private function _imprimirPresupuesto($numerohistoria, $id) {
+		$presupuesto = Presupuestos::find($id);
+		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
+		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+		$companias_list = Companias::lists('nombre', 'id');
+		$total = 0;
+
+		foreach($tratamientos as $t) {
+			$t->precio_unidad = $t->precio_final / $t->unidades;
+
+			if ($t->tipodescuento == 'P') {
+				$descuento = $t->descuento * $t->precio_final / 100;
+				$descuentotext = $t->descuento . '%';
+			} else {
+				$descuento = $t->descuento;
+				$descuentotext = $t->descuento . '€';
+			}
+
+			$t->precio_final -= $descuento;
+			$t->descuento_text = $descuentotext;
+			$t->compania_text = $companias_list[$t->compania_id];
+
+			$total += $t->precio_final;
+		}
+
+		return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente,
+						'HTTP_HOST' => Request::server ("HTTP_HOST"));
+	}
+
 	public function verPresupuesto($paciente, $id) {
 		$presupuesto = Presupuestos::find($id);
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
@@ -43,6 +105,16 @@ class PresupuestosController extends \BaseController {
 																	 'paciente' => $paciente));
 	}
 
+	public function guardarObservaciones($paciente, $id) {
+
+		$presupuesto = Presupuestos::where('id', $id)->firstOrFail();
+		$presupuesto->observaciones = Input::get('observaciones');
+		$presupuesto->save();
+
+		return Redirect::action('PresupuestosController@verPresupuesto', array($paciente, $id))
+						->with('message', 'Observaciones guardadas!');
+	}
+
 	public function borrarPresupuesto($paciente, $id) {
 		$presupuesto = Presupuestos::where('id', $id)->where('aceptado', 0)->firstOrFail();
 		$presupuesto->tratamientos()->detach();
@@ -76,7 +148,7 @@ class PresupuestosController extends \BaseController {
 			if (!(array_key_exists($p->tratamientos_id, $precios)) ||
 				((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
 
-				$precios[$p->tratamientos_id] = $p->precio;
+				$precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
 				$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
 			}
 		}
@@ -87,8 +159,8 @@ class PresupuestosController extends \BaseController {
 		foreach ($tratamientosAll as $t) {
 			// No mostrar el tratamiento si no tiene precio asignado en las compañías del paciente
 			if (array_key_exists($t->id, $precios)) {
-				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
-							'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
+				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania_economica' => $companiaEconomica[$t->id],
+							'precios' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
 				$atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
 			}
 		}
@@ -102,32 +174,46 @@ class PresupuestosController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function crearpresupuesto($numerohistoria)
-	{
-		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+	private function _crearpresupuesto($paciente) {
+
 		$companias_list = Companias::lists('nombre', 'id');
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
-		$companias = array();
-		$companias[$paciente->compania] = $companias_list[$paciente->compania];
 		if ($paciente->compania2 != 0) {
 			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
 		}
+
+		$companias_select = $companias_list;
+		$companias_select[0] = '-- La más económica --';
+		asort($companias_select);
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$atratamientos = $this->getTratamientosArray($grupos, $companias);
-
-		$presupuesto = new Presupuestos;
-		$presupuesto->descuento = 0; // valor por defecto
+		$atratamientos = $this->getTratamientosArray($grupos, $companias_list);
 
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
-
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
 		}
+
+		return array('grupos' => $grupos,
+					'paciente' => $paciente,
+					'atratamientos' => $atratamientos,
+					'companias' => $companias_list,
+					'companias_select' => $companias_select,
+					'profesionales' => $profesionales);
+	}
+
+	/* */
+	public function crearpresupuesto($numerohistoria)
+	{
+		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+
+		$data = $this->_crearpresupuesto($paciente);
+
+		$presupuesto = new Presupuestos;
+		$presupuesto->descuento = 0; // valor por defecto
 
 		$tratamientos = array();
 		if (!is_null(Input::old('num_tratamientos'))) {
@@ -137,13 +223,8 @@ class PresupuestosController extends \BaseController {
 		}
 
 		return View::make('presupuestos.crearpresupuesto')
-							->with(array('grupos' => $grupos,
-										'paciente' => $paciente,
-										'atratamientos' => $atratamientos,
-										'tratamientos' => $tratamientos,
-										'presupuesto' => $presupuesto,
-										'companias' => $companias,
-										'profesionales' => $profesionales));
+							->with($data)
+							->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
 	}
 
 
@@ -156,38 +237,16 @@ class PresupuestosController extends \BaseController {
 	{
 		$presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
 									->where('aceptado', 0)->firstOrFail();
-		$paciente = $presupuesto->paciente;
-		$companias_list = Companias::lists('nombre', 'id');
 
-		$paciente->companias_text = $companias_list[$paciente->compania];
-		$companias = array();
-		$companias[$paciente->compania] = $companias_list[$paciente->compania];
-		if ($paciente->compania2 != 0) {
-			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
-		}
-
-		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
-
-		$atratamientos = $this->getTratamientosArray($grupos, $companias);
+		$data = $this->_crearpresupuesto($presupuesto->paciente);
 
 		$tratamientos = $presupuesto->tratamientos()
 									->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final', 'piezas', 'unidades'));
 
-		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
-		$profesionales = array();
-		foreach ($profesionales1 as $p){
-			$profesionales[$p->id] = $p->nombre;
-		}
 
 		return View::make('presupuestos.crearpresupuesto')
-							->with(array('grupos' => $grupos,
-										'paciente' => $paciente,
-										'atratamientos' => $atratamientos,
-										'tratamientos' => $tratamientos,
-										'presupuesto' => $presupuesto,
-										'companias' => $companias,
-										'profesionales' => $profesionales));
+							->with($data)
+							->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
 	}
 
 	public function aceptarPresupuesto($numerohistoria, $presupuesto) {
@@ -196,7 +255,16 @@ class PresupuestosController extends \BaseController {
 		$presupuesto->aceptado = 1;
 		$presupuesto->save();
 		return Redirect::action('PresupuestosController@verpresupuestos', array($numerohistoria))
-						->with('message', '¡Presupuesto aceptado!');;
+						->with('message', '¡Presupuesto aceptado!');
+	}
+
+	public function aceptarTratamientoPresupuesto($numerohistoria, $presupuesto_id, $tratamiento_id) {
+		$presupuesto = Presupuestos::where('id', $presupuesto_id)->where('numerohistoria', $numerohistoria)
+									->where('aceptado', 1)->firstOrFail();
+		$presupuesto->tratamientos2()->updateExistingPivot($tratamiento_id, array('estado' => 1));
+
+		return Redirect::action('PresupuestosController@verPresupuesto', array($numerohistoria, $presupuesto_id))
+						->with('message', '¡Tratamiento realizado!');
 	}
 
 	/**
@@ -233,7 +301,8 @@ class PresupuestosController extends \BaseController {
 
 			$presupuesto->tratamientos()->detach();
 
-			$precios = Precios::paciente($numero_historia);
+			//$precios = Precios::paciente($numero_historia);
+			$precios = Precios::all();
 
 			for ($i=1; $i<=$num; $i++) {
 				$grupo = Input::get('grupo-' . $i, 0);
@@ -262,6 +331,8 @@ class PresupuestosController extends \BaseController {
 			return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Existen los siguientes errores:')->withErrors($validator->messages())->withInput();
 		}
 
+
+		//return Redirect::action('PresupuestosController@editarPresupuesto', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
 		return Redirect::action('PresupuestosController@verpresupuestos', array('numerohistoria' => $numero_historia))->with('message', 'Presupuesto creado con éxito.');
 	}
 
@@ -274,16 +345,6 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function verpresupuestos($numerohistoria)
 	{
-		/*
-		$paciente_q = Pacientes::on('quiron')->where('numerohistoria',$numerohistoria)->first()->toArray();
-		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
-		if(!$paciente_b) {
-		Pacientes::create($paciente_q);
-		echo "Paciente creado!";
-		} else {
-		echo "Paciente ya existe";
-		}
-		*/
 		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
 		$companias_list = Companias::lists('nombre', 'id');
 		$paciente_b->companias_text = $companias_list[$paciente_b->compania];
@@ -303,7 +364,7 @@ class PresupuestosController extends \BaseController {
 			$users[$u->id] = $u->nombre;
 		}
 
-		$presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)->get();
+		$presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)->orderBy('updated_at', 'desc')->get();
 
 		$precios = Precios::paciente($numerohistoria);
 
@@ -332,49 +393,6 @@ class PresupuestosController extends \BaseController {
 
 		return View::make('presupuestos.presupuestos')->with('paciente',$paciente_b)
 										->with(array('presupuestos' => $presupuestos));
-// 		    $paciente_b = new Pacientes;
-// 		    $paciente_b->numerohistoria = $paciente_q->numerohistoria;
-// 		    $paciente_b->nombre = $paciente_q->nombre;
-// 		    $paciente_b->apellido1 = $paciente_q->apellido1;
-// 		    $paciente_b->apellido2 = $paciente_q->apellido2;
-// 		    $paciente_b->NIF = $paciente_q->NIF;
-// 		    $paciente_b->fechanacimiento = $paciente_q->fechanacimiento;
-// 		    $paciente_b->sexo = $paciente_q->sexo;
-// 		    $paciente_b->Direccion = $paciente_q->Direccion;
-// 		    $paciente_b->addrnamestre = $paciente_q->addrnamestre;
-// 		    $paciente_b->addrtel1 = $paciente_q->addrtel1;
-// 		    $paciente_b->addrtel2 = $paciente_q->addrtel2;
-// 		    $paciente_b->terrdesc = $paciente_q->terrdesc;
-// 		    $paciente_b->addrpostcode = $paciente_q->addrpostcode;
-// 		    $paciente_b->save();
-// 		    var_dump($paciente_b);
-
-
-
-// 		Pacientes::create(array($paciente_q));
-
-// 		$paciente_b = Pacientes::find($id);
-// 		var_dump($paciente_b);
-//
-		//echo $paciente_q->numerohistoria;
-// 		$paciente_b = new Pacientes;
-// 		$paciente_b = $paciente_q;
-		//$paciente_b = $paciente_q;
-// 		Pacientes::create($paciente_b);
-// 		var_dump($paciente_b);
-//
-		//$paciente_b = new Pacientes;
-		//Paciente_b->numerohistoria = $paciente_q('numerohistoria');
-		//var_dump($paciente_q->toArray());
-		//Pacientes::create($paciente_b);
-
-		//$paciente_b = Pacientes::where('id', $id)->get();
-
-		//print_r($paciente_q);
-		//Pacientes::firstOrCreate($paciente_b);
-
-		//$presupuesto = Presupuestos::where(get();
-		//return View::make('pacientes.verficha')->with('paciente',$paciente);
 	}
 
 

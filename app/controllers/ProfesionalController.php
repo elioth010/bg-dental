@@ -24,8 +24,13 @@ class ProfesionalController extends \BaseController {
 	public function create()
 	{
 		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
-                        ->leftJoin('sedes', 'sedes.id','=','profesionales.sede_id')->get();
-                $sedes = Sedes::lists('nombre','id');
+                        ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
+                        ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')
+                                ->groupBy('profesionales.id')
+                        ->select('sedes.nombre','profesionales.*','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))->get();
+//        var_dump($profesionales);
+//                return;
+                $sedes = Sedes::get();
                 $especialidades = Especialidad::lists('especialidad','id');
                 return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes));
 	}
@@ -38,7 +43,22 @@ class ProfesionalController extends \BaseController {
 	 */
 	public function store()
 	{
-		Profesional::create(Input::all());
+		$profesional = new Profesional;
+    $profesional->nombre = Input::get('nombre');
+    $profesional->apellido1 = Input::get('apellido1');
+    $profesional->apellido2 = Input::get('apellido2');
+    $profesional->especialidades_id = Input::get('especialidades_id');
+    $profesional->save();
+                $sedes = Sedes::count();
+                $i = 1;
+                while($i<=$sedes){
+                    if(Input::has('sede-'.$i)){
+                    $sede_profesional = Input::get('sede-'.$i);
+                    $profesional->sedes()->attach($sede_profesional);
+                    }
+                    $i++;
+                    }
+                
 		echo "Profesional guardado";
 		return Redirect::to('profesional');
 	}

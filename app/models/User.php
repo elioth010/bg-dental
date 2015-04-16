@@ -22,13 +22,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'users';
-
+        protected $fillable = array('firstname', 'lastname', 'email', 'group_id', 'sede_id');
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
 	protected $hidden = array('password', 'remember_token');
+        
+    public function sedes() {
+        return $this->belongsToMany('Sedes', 'sedes_users', 'user_id', 'sede_id');
+    }
         
     public function isAdmin()
     {

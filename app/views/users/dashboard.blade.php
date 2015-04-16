@@ -2,17 +2,30 @@
 
 @section('contenido')
 <h1>Gestión de usuarios:</h1>
- 
-<p>{{ HTML::link('users/register', 'Nuevo usuario.') }}</p>
-Grupos: Administrador: 1, Usuario: 2, Viewer: 3</p>
------------------------------------------------------<p>
-@foreach($users as $user)
-    Nombre: {{$user->firstname}}, {{$user->lastname}}<p>
-    Mail: {{$user->email}}<p>
-    Grupo: {{$user->group_id}}<p>
-    
------------------------------------------------------<p><p>
-
-@endforeach
-
+{{ HTML::link('users/register', 'Nuevo usuario.') }}
+<h3>
+  Usuarios:
+  </h2>
+  
+    <table border = "1">
+      <tr>
+      <th>Nombre
+      </th><th>Apellidos
+      </th><th>Mail
+      </th><th>Permisos
+      </th><th>Sede(s)
+      </th>
+      </tr>
+      
+      @foreach($users as $user)
+        <tr>
+        <td>{{ HTML::linkAction('UsersController@getEdit',  $user->firstname, $user->id) }}</td>
+        <td> {{$user->lastname}}</td>
+        <td>{{$user->email}}</td>
+        <td>{{$user->group_id}}</td>
+        <td>{{$user->nombre}}</td>
+        </tr>
+      @endforeach
+      
+    </table>
 @stop

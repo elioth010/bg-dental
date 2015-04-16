@@ -4,13 +4,15 @@
 // 	return View::make('hello');
 // });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
-Event::listen('illuminate.query', function($query)
-{
+ Event::listen('illuminate.query', function($query)
+ {
     var_dump($query);
-});
+ });
 
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
+//Route::get('users/editar/{id}', 'UsersController@edit');
+
 
 Route::group(array('before' => 'auth'), function(){
 
@@ -53,10 +55,15 @@ Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
 
 Route::get('pacientes/{numerohistoria}/presupuestos', 'PresupuestosController@verpresupuestos');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@verPresupuesto');
+Route::post('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}',  'PresupuestosController@guardarObservaciones');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/borrar',  'PresupuestosController@borrarPresupuesto');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/imprimir',  'PresupuestosController@imprimirPresupuesto');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/imprimirpdf',  'PresupuestosController@imprimirPDF');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto_id}/verpdf',  'PresupuestosController@verPDF');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto', 'PresupuestosController@crearpresupuesto');
 Route::get('pacientes/{numerohistoria}/crearpresupuesto/{presupuesto}', 'PresupuestosController@editarPresupuesto');
 Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto}/aceptar', 'PresupuestosController@aceptarPresupuesto');
+Route::get('pacientes/{numerohistoria}/presupuesto/{presupuesto}/aceptar/{tratamiento}', 'PresupuestosController@aceptarTratamientoPresupuesto');
 Route::post('pacientes/{numerohistoria}/guardarpresupuesto', 'PresupuestosController@store');
 
 Route::post('pacientes/{numerohistoria}/ver_grupos', 'PresupuestosController@vergrupos');
@@ -78,11 +85,21 @@ Route::resource('guardia', 'GuardiaController');
 
 Route::resource ('turno', 'TurnoController');
 
+//Rutas sedes
+
+Route::resource ('sede', 'SedesController');
 //Rutas tipos de tratamientos
 
 Route::resource ('tipos', 'TiposTratamientosController');
 //rutas para llenar db de datos:
-
+//importando pacientes:
+Route::get('import_pacientes', function(){
+    $archivo = fopen(storage_path().'/pacientes_2015', 'r');
+     while (( $paciente = fgetcsv($archivo, 2500, ',')) !== FALSE) {
+         $pacs = new Pacientes;
+         $compania = $paciente[6];
+     }
+});
 //creando compañías:
 Route::get('crearcompanias', function() {
     $archivo = fopen(storage_path().'/companias.csv', 'r');
@@ -155,7 +172,7 @@ Route::get('crearpresu', function() {
 	$presupuesto->nombre = "primer presupuesto";
 	$presupuesto->numerohistoria = "7947";
 	$presupuesto->save();
-	$presupuesto->tratamientos()->attach(61,array('unidades'=> '1', 'desc_euros' => '10', 'pieza1' => '12'));
+	$presupuesto->tratamientos()->attach(61,array('unidades'=> '1', 'descuento' => '10', 'piezas' => '12'));
 
 
 });

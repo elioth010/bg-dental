@@ -1,7 +1,7 @@
 @section('odontograma')
-	{{ HTML::image('/imagenes/odontograma_750.jpg', 'Odontograma', array('usemap' => '#odontograma', 'class' => 'odontograma', 'id' => 'iodontograma')) }}
+	{{ HTML::image('/imagenes/odontograma_750.png', 'Odontograma', array('usemap' => '#odontograma', 'class' => 'odontograma', 'id' => 'iodontograma')) }}
 	<map id="odontograma" name="odontograma">
-		<area id="p18" shape="rect" alt="pieza 18" title="Pieza 18" coords="2,27,59,287" href="#" />
+            <area id="p18" shape="rect" alt="pieza 18" title="Pieza 18" coords="2,27,59,287" href="#" bgcolor="#E6E6FA"/>
 		<area id="p17" shape="rect" alt="pieza 17" title="Pieza 17" coords="59,27,106,287" href="#" />
 		<area id="p16" shape="rect" alt="pieza 16" title="Pieza 16" coords="106,27,164,287" href="#" />
 		<area id="p15" shape="rect" alt="pieza 15" title="Pieza 15" coords="168,27,207,287" href="#" />

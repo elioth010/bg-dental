@@ -3,8 +3,8 @@
 @section('listado_especs')
  <h3>
   Especialidades:
-  </h2>
-  
+  </h3>
+
     <table border = "1">
       <tr>
       <th>Código
