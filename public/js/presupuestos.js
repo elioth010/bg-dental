@@ -104,8 +104,17 @@ function addTratamiento(tratamiento) {
                             type: "text", size: 3})
     input4.val(preciof)
 
-    divPrecio = $("<div>").attr({id: "dprecio-" + lastIndex})
-    divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span> <span id="' + lcompania + '"></span><br>')
+    var select4 = $('<select disabled>').attr({onchange: "updatePreciosCompanias(" + lastIndex + ", this.value)", id: "compania-" + lastIndex, name: "compania-" + lastIndex})
+
+    for(cid in companias) {
+        var texto = companias[cid] + " (--€)"
+        select4.append(new Option(texto, cid))
+    }
+
+    var divPrecio = $("<div>").attr({id: "dprecio-" + lastIndex})
+    divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span> ')
+    divPrecio.append(select4)
+    divPrecio.append('</br>')
     divPrecio.append(label3)
     divPrecio.append(input3)
     divPrecio.append(select3)
@@ -113,8 +122,7 @@ function addTratamiento(tratamiento) {
     divPrecio.append(input4)
     divPrecio.append(' <span id="notaprecio-' + lastIndex + '" style="color: red"></span>')
 
-    compania = $("<input>").attr({name: "compania-" + lastIndex, type: "hidden", value: 0})
-    eliminarButton = $("<input>").attr({type: "button", onclick: "removeTratamiento(" + lastIndex + ")", value: 'Eliminar'})
+    var eliminarButton = $("<input>").attr({type: "button", onclick: "removeTratamiento(" + lastIndex + ")", value: 'Eliminar'})
 
     var nuevodiv = $("<div>").attr({id: trat})
     nuevodiv.append(label1)
@@ -122,7 +130,6 @@ function addTratamiento(tratamiento) {
     nuevodiv.append(label2)
     nuevodiv.append(select2)
     nuevodiv.append(divPrecio)
-    nuevodiv.append(compania)
     nuevodiv.append(eliminarButton)
     nuevodiv.append('<hr/>')
 
@@ -174,17 +181,75 @@ function creaDivPiezas(id, piezastext) {
     return dpiezas;
 }
 
+// Cambia las compañías de todos los tratamientos a la aquí seleccionada
+function updatePreciosCompanias(id, compania_id) {
+    console.log("updatePreciosCompanias", id, compania_id)
+
+    if ($('#iunidades-' + id).length) {
+        var unidades = $('#iunidades-' + id).val()
+    } else {
+        var unidades = 1
+    }
+
+    // Compañia por defecto (general)
+    if (id == 0) {
+
+        for (i=1; i<=lastIndex; i++) {
+            var comp = $('#compania-' + i)
+            var tid = $('#s_tratamiento-' + i).val()
+            var grupo = $('#grupo-' + i).val();
+
+            if ((tid == 0) || (grupo == 0)) {
+                console.log('aun no hay un tratamiento elegido')
+            }
+
+            if (comp.length != 0) {
+                if (compania_id == 0) { // Seleccionar la más económica
+                    var economica = tratamientos[grupo][tid]['compania_economica']
+                    comp.val(economica)
+                } else {
+                    comp.val(compania_id)
+                }
+            }
+        }
+    } else {
+        var comp = $('#compania-' + id).val()
+        var tipodesc = $('#s_tipodescuento-' + id).val()
+        var desc = $('#descuento-' + id).val()
+        var tid = $('#s_tratamiento-' + id).val()
+        var grupo = $('#grupo-' + id).val();
+
+        // Compañía por tratamiento específico
+        var precio = $('#precio-' + id)
+        precio.text(tratamientos[grupo][tid]['precios'][comp])
+
+        if (tipodesc == 'P') {
+            descuento = desc * precio.text() * unidades / 100
+            preciofinal = precio.text() * unidades - descuento
+        } else {
+            preciofinal = precio.text() * unidades - desc
+        }
+
+        $('#preciof-' + id).val(preciofinal)
+        $('#iunidades-' + id).val(unidades)
+
+        updatePrecioManual(id)
+        updatePrecioFinal()
+    }
+}
+
 // Cuando se cambia de tratamiento en el selector
 function updatePrecios(id, tratamiento) {
+    console.log('updatePrecios ' + id + ', ' + tratamiento)
 
     if (tratamiento !== undefined) {
         var tid = tratamiento["tratamiento_id"]
         var preciofinal = tratamiento["precio_final"]
         var piezas = tratamiento["piezas"]
+        console.log(tid, preciofinal, piezas)
     }
 
     var grupo = $('#grupo-' + id).val()
-    console.log('updatePrecios ' + id + ', ' + tratamiento)
 
     if (id !== undefined) {
         var precio = $('#precio-' + id)
@@ -198,8 +263,7 @@ function updatePrecios(id, tratamiento) {
         if (tid !== undefined) {
 
             if (tid == 0) {
-                $('input[name="compania-' + id + '"]').val(0)
-                $('#compania-' + id).text('')
+                $('#compania-' + id).val(0)
 
                 precio.text("0.00")
                 preciof.val("0.00")
@@ -207,12 +271,24 @@ function updatePrecios(id, tratamiento) {
                 if (dpiezas.length) {
                     dpiezas.remove()
                 }
-            } else {
-                $('input[name="compania-' + id + '"]').val(tratamientos[grupo][tid]['compania'])
-                text = '(' + companias[tratamientos[grupo][tid]['compania']] + ')'
-                $('#compania-' + id).text(text.toUpperCase())
 
-                tipo = tratamientos[grupo][tid]['tipo']
+                $('#compania-' + id).attr({disabled: 'disabled'});
+            } else {
+                var compania_default = $('#companiadefecto').val()
+                if (compania_default == 0) {
+                    $('#compania-' + id).val(tratamientos[grupo][tid]['compania_economica'])
+                } else {
+                    $('#compania-' + id).val(compania_default)
+                }
+
+                $('#compania-' + id).removeAttr('disabled');
+
+                var tipo = tratamientos[grupo][tid]['tipo']
+                var options = $('#compania-' + id + ' option')
+                for (var i=0; i<options.length; i++) {
+                    var cid = options[i].value
+                    options[i].text = companias[cid] + ' (' + tratamientos[grupo][tid]['precios'][cid] + '€)'
+                }
 
                 // 1 = pieza, 2 = general, 3 = puente
                 if (tipo == 2) {
@@ -277,7 +353,7 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
     var precio = $('#precio-' + id)
     var preciof = $('#preciof-' + id)
     var tipodesc = $('#s_tipodescuento-' + id).val()
-    var desc = $('#descuento').val()
+    var desc = $('#descuento-' + id).val()
     var compania_id = $('#compania-' + id).val()
 
     if (tid == 0) {
@@ -288,24 +364,24 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
             if (tipodesc == 'P') {
 
                 if (iunidades.length) {
-                    descuento = desc * tratamientos[grupo][tid].precio * iunidades.val() / 100
-                    preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - descuento
+                    descuento = desc * tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() / 100
+                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() - descuento
                 } else {
-                    descuento = desc * tratamientos[grupo][tid].precio / 100
-                    preciofinal = tratamientos[grupo][tid].precio - descuento
+                    descuento = desc * tratamientos[grupo][tid]['precios'][compania_id] / 100
+                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] - descuento
                 }
 
             } else {
 
                 if (iunidades.length) {
-                    preciofinal = tratamientos[grupo][tid].precio * iunidades.val() - desc
+                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() - desc
                 } else {
-                    preciofinal = tratamientos[grupo][tid].precio - desc
+                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] - desc
                 }
             }
         }
 
-        precio.text(tratamientos[grupo][tid].precio)
+        precio.text(tratamientos[grupo][tid]['precios'][compania_id])
         preciof.val(preciofinal)
     }
 
@@ -338,7 +414,7 @@ function updatePrecioFinal() {
     // bucle 1
     //g = $('#grupo-' + i)[0].value
     //t = $('#s_tratamiento-' + i)[0].selectedIndex
-    //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precio'])
+    //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precios'])
 
     var subtotal = 0
     for (i=1; i<=lastIndex; i++) {

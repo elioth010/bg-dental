@@ -7,7 +7,7 @@
 
 
 @section('contenido')
-<div class="overflow"> 
+<div class="overflow">
 <div class="top_reg">
     <h1>Datos del paciente</h1>
 	<ul class="labelreg6">
@@ -27,7 +27,7 @@
 
 </div>
 
-	
+
 	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
     <h1>Nuevo presupuesto</h1>
 	<ul class="labelreg6">
@@ -39,6 +39,8 @@
                     $presupuesto->tipodescuento, array('id' => 'tipodescuento', 'onchange' => 'updatePrecios()')) }}</li>
 
     	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
+        <li>{{ Form::label('compania_preferida', 'Compañía de seguro a usar por defecto:') }}
+            {{ Form::select('companiadefecto', $companias_select, null, array('id' => 'companiadefecto', 'onchange' => 'updatePreciosCompanias(0, this.value)')) }}</li>
     </ul>
 
 

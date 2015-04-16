@@ -43,14 +43,19 @@
                         <ul>
                             <li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
                             <li>{{ HTML::linkAction('GruposController@index', 'Grupos de tratamientos') }}</li>
+                            @if(Auth::user()->isAdmin())
                             <li>{{ HTML::linkAction('GruposController@create', 'Crear grupo de tratamientos') }}</li>
+                            <li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
+                            @endif
                         </ul>
                     </li>
                     <li>{{ HTML::link('#', 'Otros datos') }}
-                        <ul>
+                        <ul>@if(Auth::user()->isAdmin())
                             <li>{{ HTML::linkAction('CompaniasController@index', 'Compañías') }}</li>
                             <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
                             <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
+                            <li>{{ HTML::link('sede', 'Sedes') }}</li>
+                            @endif
                         </ul>
                     </li>
                     <li>{{ HTML::link('#', 'Agenda') }}

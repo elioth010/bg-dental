@@ -20,8 +20,6 @@ Pacientes:
 Presupuestos:
 
     Seleccionar presupuestos de un doctor y poder seleccionar un intervalo de tiempo
-    Añadir opción de forzar compañía para un presupuesto y usar sus precios.
-    Añadir campo de compañía que se ha aplicado en el presupuesto (esto en la vista del detalle y en la vista de impresión)
     Crear plantillas de presupuestos determinados. Creo que aquí se puede coger un paciente ficticio al que se le creen presupuestos
         y que estos se puedan copiar de uno a otro
     Opción de copiar presupuestos de un paciente a otro. Poder copiar tratamientos y editar después profesional, paciente y compañía

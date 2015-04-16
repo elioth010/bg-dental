@@ -11,19 +11,26 @@ class PresupuestosController extends \BaseController {
 		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
 		$data['showpdf'] = false;
 		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
-		return PDF::load($html, 'A4', 'portrait')->download($numerohistoria);
+
+		$pdf = PDF::make();
+		$pdf->addPage($html->render());
+		$pdf->send($numerohistoria . '_' . $id . '.pdf');
+
+		// Thujohn\Pdf\PdfServiceProvide
+		//return PDF::load($html, 'A4', 'portrait')->download($numerohistoria);
 	}
 
 	public function verPDF($numerohistoria, $id) {
 		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
 		$data['showpdf'] = false;
 		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
-		//return PDF::load($html, 'A4', 'portrait')->show();
-		//return PDF::html('hello',array('name' => 'Nithin'));
-		$pdf = PDF::make();
-	$pdf->addPage($html->render());
 
+		$pdf = PDF::make();
+		$pdf->addPage($html->render());
 		$pdf->send();
+
+		// Thujohn\Pdf\PdfServiceProvide
+		//return PDF::load($html, 'A4', 'portrait')->show();
 	}
 
 	public function imprimirPresupuesto($numerohistoria, $id) {
@@ -141,7 +148,7 @@ class PresupuestosController extends \BaseController {
 			if (!(array_key_exists($p->tratamientos_id, $precios)) ||
 				((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
 
-				$precios[$p->tratamientos_id] = $p->precio;
+				$precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
 				$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
 			}
 		}
@@ -152,8 +159,8 @@ class PresupuestosController extends \BaseController {
 		foreach ($tratamientosAll as $t) {
 			// No mostrar el tratamiento si no tiene precio asignado en las compañías del paciente
 			if (array_key_exists($t->id, $precios)) {
-				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
-							'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
+				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania_economica' => $companiaEconomica[$t->id],
+							'precios' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
 				$atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
 			}
 		}
@@ -172,16 +179,17 @@ class PresupuestosController extends \BaseController {
 		$companias_list = Companias::lists('nombre', 'id');
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
-		$companias = array();
-		$companias[$paciente->compania] = $companias_list[$paciente->compania];
 		if ($paciente->compania2 != 0) {
 			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
 		}
+
+		$companias_select = $companias_list;
+		$companias_select[0] = '-- La más económica --';
+		asort($companias_select);
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$atratamientos = $this->getTratamientosArray($grupos, $companias);
+		$atratamientos = $this->getTratamientosArray($grupos, $companias_list);
 
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
@@ -192,7 +200,8 @@ class PresupuestosController extends \BaseController {
 		return array('grupos' => $grupos,
 					'paciente' => $paciente,
 					'atratamientos' => $atratamientos,
-					'companias' => $companias,
+					'companias' => $companias_list,
+					'companias_select' => $companias_select,
 					'profesionales' => $profesionales);
 	}
 
@@ -292,7 +301,8 @@ class PresupuestosController extends \BaseController {
 
 			$presupuesto->tratamientos()->detach();
 
-			$precios = Precios::paciente($numero_historia);
+			//$precios = Precios::paciente($numero_historia);
+			$precios = Precios::all();
 
 			for ($i=1; $i<=$num; $i++) {
 				$grupo = Input::get('grupo-' . $i, 0);
