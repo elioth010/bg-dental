@@ -39,6 +39,57 @@ class PresupuestosController extends \BaseController {
 		return View::make('presupuestos.imprimirpresupuesto')->with($data);
 	}
 
+	private function _odontogramaCuadrante($num) {
+		if ($num >= 11 && $num <= 18) {
+			return 1;
+		} else if ($num >= 21 && $num <= 28) {
+			return 2;
+		} else if ($num >= 31 && $num <= 38) {
+			return 3;
+		} else if ($num >= 41 && $num <= 48) {
+			return 4;
+		} else {
+			return 0;
+		}
+	}
+
+	// Devuelve un array con la lista de piezas contenidas en un puente o las piezas separadas por comas
+	private function _marcaPiezas($piezas, &$todaslaspiezas) {
+
+		if ((strpos($piezas, ',')) !== false) { // piezas sueltas
+			$laspiezas = explode(',', $piezas);
+
+		} elseif ((strpos($piezas, '-')) !== false) { // puente
+
+			$dospiezas = explode('-', $piezas);
+			$cuadrante1 = $this->_odontogramaCuadrante($dospiezas[0]);
+			$cuadrante2 = $this->_odontogramaCuadrante($dospiezas[1]);
+
+			$laspiezas = array();
+			if ($cuadrante1 == $cuadrante2) {
+				for ($i = intval($dospiezas[0]); $i <= intval($dospiezas[1]); $i++) {
+					$laspiezas[] = $i;
+				}
+			} else {
+
+				for ($i = intval($dospiezas[0]); $i >= intval(strval($cuadrante1) . '1'); $i--) {
+					$laspiezas[] = $i;
+				}
+				for ($i = intval(strval($cuadrante2) . '1'); $i<= $dospiezas[1]; $i++) {
+					$laspiezas[] = $i;
+				}
+			}
+
+		} else { // pieza única
+
+			$laspiezas = array($piezas);
+		}
+
+		foreach ($laspiezas as $k => $v) {
+			$todaslaspiezas[$v] = 'b';
+		}
+
+	}
 
 	private function _imprimirPresupuesto($numerohistoria, $id) {
 		$presupuesto = Presupuestos::find($id);
@@ -46,6 +97,12 @@ class PresupuestosController extends \BaseController {
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 		$companias_list = Companias::lists('nombre', 'id');
 		$total = 0;
+
+		$todaslaspiezas = array( 11 => '', 12 => '', 13 => '', 14 => '', 15 => '', 16 => '', 17 => '', 18 => '',
+								 21 => '', 22 => '', 23 => '', 24 => '', 25 => '', 26 => '', 27 => '', 28 => '',
+								 31 => '', 32 => '', 33 => '', 34 => '', 35 => '', 36 => '', 37 => '', 38 => '',
+								 41 => '', 42 => '', 43 => '', 44 => '', 45 => '', 46 => '', 47 => '', 48 => '');
+		// $todaslaspiezas = array( 11 => '', 12 => 'b', 13 => 'b', 14 => '', 15 => '', 16 => '', 17 => '', 18 => 'b');
 
 		foreach($tratamientos as $t) {
 			$t->precio_unidad = $t->precio_final / $t->unidades;
@@ -62,11 +119,12 @@ class PresupuestosController extends \BaseController {
 			$t->descuento_text = $descuentotext;
 			$t->compania_text = $companias_list[$t->compania_id];
 
+			$this->_marcaPiezas($t->piezas, $todaslaspiezas);
 			$total += $t->precio_final;
 		}
 
 		return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente,
-						'HTTP_HOST' => Request::server ("HTTP_HOST"));
+						'HTTP_HOST' => Request::server("HTTP_HOST"), 'todaslaspiezas' => $todaslaspiezas);
 	}
 
 	public function verPresupuesto($paciente, $id) {
