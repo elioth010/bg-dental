@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('contenido')
+<div class="overflow">
 <h1>Paciente:</h1>
 
 <table border = "1">
@@ -19,4 +20,5 @@
     @endforeach
 
 </table>
+</div>
 @stop

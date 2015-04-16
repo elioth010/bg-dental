@@ -5,8 +5,45 @@
       <title>Imprimir presupuesto</title>
       <meta charset="utf-8">
       <style type="text/css">
+      html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
       @page {
-	  size: auto;/* es el valor por defecto */
+	  size: A4;/* es el valor por defecto */
 	  margin: 10%;
 		}
 		body {
@@ -18,13 +55,22 @@
 		.layout{
 		margin: auto;
 		}
-		table{
+		table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+		table.tabla{
 		text-align: center;}
-		table td, table th{
+		table.tabla td, table th{
 		border-right: solid 1px #888;
 		border-bottom: 1px solid #888;
 		}
-
+		.odontogram{
+		margin-left: 10%;
+		}
+		table.tabla_01{
+		width: 449px;
+		}
 	 </style>
 
   </head>
@@ -35,20 +81,20 @@
     <h2>Presupuesto: {{ $presupuesto->nombre}}</h2>
     <h3>Paciente: {{ $paciente->numerohistoria }}</h3>
 
-    <div id="datos1">
-        <p>Nombre: {{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</p>
-        <p>Dirección: {{ $paciente->Direccion }}
-        {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </p>
-        <p>Teléfono: {{ $paciente->addrtel1 }}, {{ $paciente->addrtel2 }}</p>
-    </div>
-	<p>
+    <ul class="datos1">
+        <li>Nombre: {{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</li>
+        <li>Dirección: {{ $paciente->Direccion }}
+        {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
+        <li>Teléfono: {{ $paciente->addrtel1 }}, {{ $paciente->addrtel2 }}</li>
+	<li>
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id)) }}
          {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id)) }}
     @endif
-	</p>
-    <div class="tabla">
-    <table>
+	</li>
+	</ul>
+    <div>
+    <table class="tabla">
       <tr style="background-color:#ededed;">
         <th></th>
         <th>Nombre</th>
@@ -86,76 +132,77 @@
     </table>
 	</div>
     </br>
-
-    <table id="Tabla_01" width="750" height="577" border="0" cellpadding="0" cellspacing="0">
+	<div class="odontogram">
+    <table class="tabla_01">
         <tr>
+            <td style="width:33; height:176;">
+                <img src="http://{{ $HTTP_HOST }}/imagenes/18.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_01.jpg" width="55" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/17.jpg" width="34" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_02.jpg" width="57" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/16.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_03.jpg" width="55" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/15.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_04.jpg" width="42" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/14.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_05.jpg" width="41" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/13.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_06.jpg" width="42" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/12.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_07.jpg" width="42" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/11.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_08.jpg" width="41" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/21.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_09.jpg" width="41" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/22.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_10.jpg" width="43" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/23.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_11.jpg" width="41" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/24.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_12.jpg" width="42" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/25.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_13.jpg" width="42" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/26.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_14.jpg" width="55" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/27.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_15.jpg" width="56" height="294" alt=""></td>
-            <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_16.jpg" width="55" height="294" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/28.jpg" width="33" height="176" alt=""></td>
         </tr>
         <tr>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_17.jpg" width="55" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/48.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_18.jpg" width="57" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/47.jpg" width="34" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_19.jpg" width="55" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/46.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_20.jpg" width="42" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/45.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_21.jpg" width="41" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/44.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_22.jpg" width="42" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/43.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_23.jpg" width="42" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/42.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_24.jpg" width="41" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/41.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_25.jpg" width="41" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/31.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_26.jpg" width="43" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/32.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_27.jpg" width="41" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/33.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_28.jpg" width="42" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/34.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_29.jpg" width="42" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/35.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_30.jpg" width="55" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/36.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_31.jpg" width="56" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/37.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/odontogramab_32.jpg" width="55" height="283" alt=""></td>
+                <img src="http://{{ $HTTP_HOST }}/imagenes/38.jpg" width="33" height="170" alt=""></td>
         </tr>
     </table>
+    </div>
 </body>
 </html>
