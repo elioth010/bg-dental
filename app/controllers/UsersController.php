@@ -61,15 +61,15 @@ class UsersController extends BaseController {
     }
 
     public function getDashboard() {
-        $users = User::get();
+        $users = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->leftJoin('sedes','users.sede_id','=','sedes.id')->get();
         $usergroups = Usergroups::lists('nombre', 'id');
         $this->layout->content = View::make('users.dashboard')->with('users', $users)->with('usergroups', $usergroups);
     }
 
     public function getEdit($id) {
         $user = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->find($id);
-        
-        return View::make('users.editar')->with('user',$user);
+        $usergroups = Usergroups::lists('nombre', 'id');
+        return View::make('users.editar')->with('user',$user)->with('usergroups', $usergroups);
         
     }
     

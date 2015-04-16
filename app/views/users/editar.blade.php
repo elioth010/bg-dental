@@ -15,7 +15,7 @@
  	<li>{{ Form::text('firstname', $user->firstname) }}</li>
         <li>{{ Form::text('lastname', $user->lastname) }}</li>
         <li>{{ Form::text('email', $user->email) }}</li>
-        <li>{{ Form::select('group_id', $user->group_nombre) }}</li>
+        <li>{{Form::select('group_id', $usergroups)}}  
         
     <br>
     <li>{{ Form::submit('Guardar cambios')}}</li>

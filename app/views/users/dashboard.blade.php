@@ -19,10 +19,11 @@
       
       @foreach($users as $user)
         <tr>
-        <td>{{ HTML::linkAction('UsersController@getEdit',  $user->nombre, $user->id) }}</td>
-        <td>{{$user->firstname}}, {{$user->lastname}}</td>
+        <td>{{ HTML::linkAction('UsersController@getEdit',  $user->firstname, $user->id) }}</td>
+        <td> {{$user->lastname}}</td>
         <td>{{$user->email}}</td>
         <td>{{$user->group_id}}</td>
+        <td>{{$user->nombre}}</td>
         </tr>
       @endforeach
       
