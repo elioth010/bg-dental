@@ -148,7 +148,7 @@ class PresupuestosController extends \BaseController {
 			if (!(array_key_exists($p->tratamientos_id, $precios)) ||
 				((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
 
-				$precios[$p->tratamientos_id] = $p->precio;
+				$precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
 				$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
 			}
 		}
@@ -159,8 +159,8 @@ class PresupuestosController extends \BaseController {
 		foreach ($tratamientosAll as $t) {
 			// No mostrar el tratamiento si no tiene precio asignado en las compañías del paciente
 			if (array_key_exists($t->id, $precios)) {
-				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania' => $companiaEconomica[$t->id],
-							'precio' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
+				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania_economica' => $companiaEconomica[$t->id],
+							'precios' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
 				$atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
 			}
 		}
@@ -186,6 +186,10 @@ class PresupuestosController extends \BaseController {
 			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
 		}
 
+		$companias_select = $companias;
+		$companias_select[0] = '-- La más económica';
+		asort($companias_select);
+
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
 		$atratamientos = $this->getTratamientosArray($grupos, $companias);
@@ -200,6 +204,7 @@ class PresupuestosController extends \BaseController {
 					'paciente' => $paciente,
 					'atratamientos' => $atratamientos,
 					'companias' => $companias,
+					'companias_select' => $companias_select,
 					'profesionales' => $profesionales);
 	}
 
