@@ -11,19 +11,26 @@ class PresupuestosController extends \BaseController {
 		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
 		$data['showpdf'] = false;
 		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
-		return PDF::load($html, 'A4', 'portrait')->download($numerohistoria);
+
+		$pdf = PDF::make();
+		$pdf->addPage($html->render());
+		$pdf->send($numerohistoria . '_' . $id . '.pdf');
+
+		// Thujohn\Pdf\PdfServiceProvide
+		//return PDF::load($html, 'A4', 'portrait')->download($numerohistoria);
 	}
 
 	public function verPDF($numerohistoria, $id) {
 		$data = $this->_imprimirPresupuesto($numerohistoria, $id);
 		$data['showpdf'] = false;
 		$html = View::make('presupuestos.imprimirpresupuesto')->with($data);
-		//return PDF::load($html, 'A4', 'portrait')->show();
-		//return PDF::html('hello',array('name' => 'Nithin'));
-		$pdf = PDF::make();
-	$pdf->addPage($html->render());
 
+		$pdf = PDF::make();
+		$pdf->addPage($html->render());
 		$pdf->send();
+
+		// Thujohn\Pdf\PdfServiceProvide
+		//return PDF::load($html, 'A4', 'portrait')->show();
 	}
 
 	public function imprimirPresupuesto($numerohistoria, $id) {
