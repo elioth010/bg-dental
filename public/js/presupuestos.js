@@ -214,8 +214,6 @@ function updatePreciosCompanias(id, compania_id) {
         }
     } else {
         var comp = $('#compania-' + id).val()
-        var tipodesc = $('#s_tipodescuento-' + id).val()
-        var desc = $('#descuento-' + id).val()
         var tid = $('#s_tratamiento-' + id).val()
         var grupo = $('#grupo-' + id).val();
 
@@ -223,13 +221,7 @@ function updatePreciosCompanias(id, compania_id) {
         var precio = $('#precio-' + id)
         precio.text(tratamientos[grupo][tid]['precios'][comp])
 
-        if (tipodesc == 'P') {
-            descuento = desc * precio.text() * unidades / 100
-            preciofinal = precio.text() * unidades - descuento
-        } else {
-            preciofinal = precio.text() * unidades - desc
-        }
-
+        var preciofinal = obtenerPrecioFinal(id, precio.text())
         $('#preciof-' + id).val(preciofinal)
         $('#iunidades-' + id).val(unidades)
 
@@ -345,15 +337,37 @@ function updatePrecios(id, tratamiento) {
     updatePrecioFinal()
 }
 
+// Calcula precio teniendo en cuenta unidades (piezas) y descuento
+function obtenerPrecioFinal(id, precio) {
+    var iunidades = $('#iunidades-' + id)
+    var desc = $('#descuento-' + id).val()
+    var tipodesc = $('#s_tipodescuento-' + id).val()
+    var descuento;
+    var preciofinal;
+    var unidades;
+
+    if (iunidades.length) {
+        unidades = iunidades.val()
+    } else {
+        unidades = 1
+    }
+
+    if (tipodesc == 'P') {
+        descuento = desc * precio * unidades / 100
+        preciofinal = precio * unidades - descuento
+    } else {
+        preciofinal = precio * unidades - desc
+    }
+
+    return preciofinal
+}
+
 // Actualiza los campos de precio cuando se ha seleccionado otro tratamiento
 function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
     console.log('updatePrecioTratamiento ' + id + ', ' + tid + ", " + grupo)
 
-    var iunidades = $('#iunidades-' + id)
     var precio = $('#precio-' + id)
     var preciof = $('#preciof-' + id)
-    var tipodesc = $('#s_tipodescuento-' + id).val()
-    var desc = $('#descuento-' + id).val()
     var compania_id = $('#compania-' + id).val()
 
     if (tid == 0) {
@@ -361,24 +375,7 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
         preciof.val("0.00")
     } else {
         if (preciofinal === undefined) {
-            if (tipodesc == 'P') {
-
-                if (iunidades.length) {
-                    descuento = desc * tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() / 100
-                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() - descuento
-                } else {
-                    descuento = desc * tratamientos[grupo][tid]['precios'][compania_id] / 100
-                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] - descuento
-                }
-
-            } else {
-
-                if (iunidades.length) {
-                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() - desc
-                } else {
-                    preciofinal = tratamientos[grupo][tid]['precios'][compania_id] - desc
-                }
-            }
+            var preciofinal = obtenerPrecioFinal(id, tratamientos[grupo][tid]['precios'][compania_id])
         }
 
         precio.text(tratamientos[grupo][tid]['precios'][compania_id])
