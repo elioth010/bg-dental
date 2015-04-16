@@ -97,6 +97,7 @@ class PresupuestosController extends \BaseController {
 		$tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
 		$companias_list = Companias::lists('nombre', 'id');
 		$total = 0;
+		$sede = Sedes::find($presupuesto->sede_id);
 
 		$todaslaspiezas = array( 11 => '', 12 => '', 13 => '', 14 => '', 15 => '', 16 => '', 17 => '', 18 => '',
 								 21 => '', 22 => '', 23 => '', 24 => '', 25 => '', 26 => '', 27 => '', 28 => '',
@@ -124,7 +125,7 @@ class PresupuestosController extends \BaseController {
 		}
 
 		return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente,
-						'HTTP_HOST' => Request::server("HTTP_HOST"), 'todaslaspiezas' => $todaslaspiezas);
+						'HTTP_HOST' => Request::server("HTTP_HOST"), 'todaslaspiezas' => $todaslaspiezas, 'sede' => $sede);
 	}
 
 	public function verPresupuesto($paciente, $id) {

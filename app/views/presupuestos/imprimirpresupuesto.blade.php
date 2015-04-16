@@ -101,6 +101,15 @@ q:before, q:after {
 
 <body>
 
+    <div class="layout">
+        {{ HTML::image('/imagenes/quiron-logo.jpg', 'Logo', array('class' => 'logo', 'id' => 'logo')) }}
+
+        {{ $sede->calleynum }} {{ $sede->cp }}</br>
+        {{ $sede->ciudad }} ({{ $sede->provincia }})</br>
+        {{ $sede->tel }}</br>
+        {{ $sede->mail }}</br>
+    </div>
+
 	<div class="layout">
     <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
     <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
