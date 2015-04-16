@@ -155,13 +155,8 @@ q:before, q:after {
 	<div class="odontogram">
     <table class="tabla_01">
         <tr>
-<<<<<<< HEAD
             <td>
-                <img src="http://{{ $HTTP_HOST }}/imagenes/18.jpg" width="33" height="176" alt=""></td>
-=======
-            <td style="width:33; height:176;">
                 <img src="http://{{ $HTTP_HOST }}/imagenes/18{{ $todaslaspiezas[18] }}.jpg" width="33" height="176" alt=""></td>
->>>>>>> 22958346ad5027ad7452d9419e1763da594db25c
             <td>
                 <img src="http://{{ $HTTP_HOST }}/imagenes/17{{ $todaslaspiezas[17] }}.jpg" width="34" height="176" alt=""></td>
             <td>
