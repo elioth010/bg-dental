@@ -57,11 +57,11 @@ q:before, q:after {
 		}
 		table {
 	border-collapse: collapse;
-	border-spacing: 0;
-}
+	border-spacing: 0;}
 		table.tabla{
 		text-align: center;}
-		table.tabla td, table th{
+		table.tabla td, table.tabla th{
+		padding:0 3px 0 3px;
 		border-right: solid 1px #888;
 		border-bottom: 1px solid #888;
 		}
@@ -86,10 +86,14 @@ q:before, q:after {
 		}
 		.negrita{
 		font-weight: bold;}
+		.grey{
+		background-color: #ededed;}
 		@media print{
 		.vista{
 		display: none;
 		}
+		table.tabla{
+		font-size: 9pt;}
 		}
 	 </style>
 
@@ -115,7 +119,7 @@ q:before, q:after {
 	</ul>
     <div>
     <table class="tabla">
-      <tr style="background-color:#ededed;">
+      <tr class="grey">
         <th></th>
         <th>Nombre</th>
         <th>Unidades</th>
@@ -139,7 +143,7 @@ q:before, q:after {
       </tr>
       <?php $i++ ?>
       @endforeach
-      <tr style="background-color:#ededed;">
+      <tr class="grey">
         <td><strong>TOTAL:</strong></td>
         <td></td>
         <td></td>
