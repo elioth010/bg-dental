@@ -214,13 +214,23 @@ function updatePreciosCompanias(id, compania_id) {
         }
     } else {
         var comp = $('#compania-' + id).val()
+        var tipodesc = $('#s_tipodescuento-' + id).val()
+        var desc = $('#descuento-' + id).val()
         var tid = $('#s_tratamiento-' + id).val()
         var grupo = $('#grupo-' + id).val();
 
         // Compañía por tratamiento específico
         var precio = $('#precio-' + id)
         precio.text(tratamientos[grupo][tid]['precios'][comp])
-        $('#preciof-' + id).val(precio.text() * unidades)
+
+        if (tipodesc == 'P') {
+            descuento = desc * precio.text() * unidades / 100
+            preciofinal = precio.text() * unidades - descuento
+        } else {
+            preciofinal = precio.text() * unidades - desc
+        }
+
+        $('#preciof-' + id).val(preciofinal)
         $('#iunidades-' + id).val(unidades)
 
         updatePrecioManual(id)
@@ -230,15 +240,16 @@ function updatePreciosCompanias(id, compania_id) {
 
 // Cuando se cambia de tratamiento en el selector
 function updatePrecios(id, tratamiento) {
+    console.log('updatePrecios ' + id + ', ' + tratamiento)
 
     if (tratamiento !== undefined) {
         var tid = tratamiento["tratamiento_id"]
         var preciofinal = tratamiento["precio_final"]
         var piezas = tratamiento["piezas"]
+        console.log(tid, preciofinal, piezas)
     }
 
     var grupo = $('#grupo-' + id).val()
-    console.log('updatePrecios ' + id + ', ' + tratamiento)
 
     if (id !== undefined) {
         var precio = $('#precio-' + id)
@@ -342,7 +353,7 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
     var precio = $('#precio-' + id)
     var preciof = $('#preciof-' + id)
     var tipodesc = $('#s_tipodescuento-' + id).val()
-    var desc = $('#descuento').val()
+    var desc = $('#descuento-' + id).val()
     var compania_id = $('#compania-' + id).val()
 
     if (tid == 0) {
@@ -352,7 +363,6 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
         if (preciofinal === undefined) {
             if (tipodesc == 'P') {
 
-                // TODO: ajusta a precio[compania] (ahora NaN)
                 if (iunidades.length) {
                     descuento = desc * tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() / 100
                     preciofinal = tratamientos[grupo][tid]['precios'][compania_id] * iunidades.val() - descuento

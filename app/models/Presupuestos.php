@@ -27,7 +27,7 @@ class Presupuestos extends Eloquent {
 
     public static $p_rules = array(
 //        'nombre'=>'required|min:2',
-        'descuento'=>'required|numeric',
+        'descuento'=>'required|numeric|min:0',
 //        'grupo'=>'required|numeric|valor de grupo existente',
 //        'tratamiento'=>'required|numeric|valor de tratamiento existente',
 //        'piezas'=>'...',
