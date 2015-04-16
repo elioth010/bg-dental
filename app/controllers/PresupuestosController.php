@@ -301,7 +301,8 @@ class PresupuestosController extends \BaseController {
 
 			$presupuesto->tratamientos()->detach();
 
-			$precios = Precios::paciente($numero_historia);
+			//$precios = Precios::paciente($numero_historia);
+			$precios = Precios::all();
 
 			for ($i=1; $i<=$num; $i++) {
 				$grupo = Input::get('grupo-' . $i, 0);
