@@ -71,22 +71,42 @@ q:before, q:after {
 		table.tabla_01{
 		width: 449px;
 		}
+		h2{
+		font-size: 1.3em;
+		padding-bottom: 0.3em;
+		color: #1271b3;
+		}
+		h3{
+		font-size: 1.1em;
+		padding-bottom: 0.3em;
+		color: #66a3e5;}
+		ul{
+		line-height: 1.5em;
+		padding-bottom: 1.3em;
+		}
+		.negrita{
+		font-weight: bold;}
+		@media print{
+		.vista{
+		display: none;
+		}
+		}
 	 </style>
 
   </head>
 
-<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body>
 
 	<div class="layout">
-    <h2>Presupuesto: {{ $presupuesto->nombre}}</h2>
-    <h3>Paciente: {{ $paciente->numerohistoria }}</h3>
+    <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
+    <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
 
     <ul class="datos1">
-        <li>Nombre: {{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</li>
+        <li>Nombre: <span class="negrita">{{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</span></li>
         <li>Dirección: {{ $paciente->Direccion }}
         {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
         <li>Teléfono: {{ $paciente->addrtel1 }}, {{ $paciente->addrtel2 }}</li>
-	<li>
+	<li class="vista">
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id)) }}
          {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id)) }}
@@ -135,7 +155,7 @@ q:before, q:after {
 	<div class="odontogram">
     <table class="tabla_01">
         <tr>
-            <td style="width:33; height:176;">
+            <td>
                 <img src="http://{{ $HTTP_HOST }}/imagenes/18.jpg" width="33" height="176" alt=""></td>
             <td>
                 <img src="http://{{ $HTTP_HOST }}/imagenes/17.jpg" width="34" height="176" alt=""></td>
