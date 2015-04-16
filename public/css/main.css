@@ -425,6 +425,17 @@ th {
 .labelreg6 li{
 	line-height: 24px;
 }
+.labelreg7{
+	width: 100px;
+	height: 100%;
+	display: block;
+	float: left;
+}
+.labelreg7 li{
+	line-height: 24px;
+	padding-bottom: 4px;
+}
+
 .top_reg {
 	width: 1024px;
 	height: 120px;

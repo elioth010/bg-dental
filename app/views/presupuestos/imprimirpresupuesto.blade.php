@@ -67,19 +67,20 @@ q:before, q:after {
 		}
 		.odontogram{
 		margin-left: 10%;
+		display: block;
 		}
 		table.tabla_01{
 		width: 449px;
 		}
 		h2{
-		font-size: 1.3em;
+		font-size: 12;
 		padding-bottom: 0.3em;
 		color: #1271b3;
 		}
 		h3{
-		font-size: 1.1em;
+		font-size: 11pt;
 		padding-bottom: 0.3em;
-		color: #66a3e5;}
+		color: #025494;}
 		ul{
 		line-height: 1.5em;
 		padding-bottom: 1.3em;
@@ -95,21 +96,44 @@ q:before, q:after {
 		table.tabla{
 		font-size: 9pt;}
 		}
+		.logo{
+		width: 8cm;}
+		.tbl_izq{
+		float: left;
+		margin-right: 100px;
+		}
+		.datos{
+		line-height: 1.2em;
+		font-size: 0.8em;
+		color: #025494;
+		margin-top: 0.8cm;
+		float: left;
+		}
+		.header{
+		width: 100%;
+		height: 3cm;}
+		.layout{
+		margin-top: 1cm;}
+		.datos1{
+		font-size: 10pt;}
+		}
 	 </style>
 
   </head>
 
 <body>
-
-    <div class="layout">
+	<div class="header">
+    <div class="tbl_izq">
         {{ HTML::image('/imagenes/quiron-logo.jpg', 'Logo', array('class' => 'logo', 'id' => 'logo')) }}
-
-        {{ $sede->calleynum }} {{ $sede->cp }}</br>
-        {{ $sede->ciudad }} ({{ $sede->provincia }})</br>
-        {{ $sede->tel }}</br>
-        {{ $sede->mail }}</br>
     </div>
-
+    <ul class="datos">
+        <li>{{ $sede->calleynum }}</li>
+        <li>{{ $sede->cp }} {{ $sede->ciudad }}</li>
+        <li>{{ $sede->provincia }}</li>
+        <li>{{ $sede->tel }}</li>
+        <li>{{ $sede->mail }}</li>
+	</ul>
+	</div>
 	<div class="layout">
     <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
     <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
