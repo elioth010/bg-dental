@@ -255,11 +255,15 @@ class PresupuestosController extends \BaseController {
 			$profesionales[$p->id] = $p->nombre;
 		}
 
+		$sedes = Sedes::lists('nombre', 'id');
+		unset($sedes[4]); // Todas
+
 		return array('grupos' => $grupos,
 					'paciente' => $paciente,
 					'atratamientos' => $atratamientos,
 					'companias' => $companias_list,
 					'companias_select' => $companias_select,
+					'sedes' => $sedes,
 					'profesionales' => $profesionales);
 	}
 
@@ -351,6 +355,7 @@ class PresupuestosController extends \BaseController {
 			$presupuesto->numerohistoria = $numero_historia;
 			$presupuesto->descuento = Input::get('descuento');
 			$presupuesto->tipodescuento = Input::get('tipodescuento');
+			$presupuesto->sede_id = Input::get('sede');
 
 			//var_dump($presupuesto);return;
 			if ($presupuesto->save()) {
