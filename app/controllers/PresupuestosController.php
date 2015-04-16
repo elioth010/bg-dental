@@ -179,20 +179,17 @@ class PresupuestosController extends \BaseController {
 		$companias_list = Companias::lists('nombre', 'id');
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
-		$companias = array();
-		$companias[$paciente->compania] = $companias_list[$paciente->compania];
 		if ($paciente->compania2 != 0) {
 			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
-			$companias[$paciente->compania2] = $companias_list[$paciente->compania2];
 		}
 
-		$companias_select = $companias;
-		$companias_select[0] = '-- La más económica';
+		$companias_select = $companias_list;
+		$companias_select[0] = '-- La más económica --';
 		asort($companias_select);
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$atratamientos = $this->getTratamientosArray($grupos, $companias);
+		$atratamientos = $this->getTratamientosArray($grupos, $companias_list);
 
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
@@ -203,7 +200,7 @@ class PresupuestosController extends \BaseController {
 		return array('grupos' => $grupos,
 					'paciente' => $paciente,
 					'atratamientos' => $atratamientos,
-					'companias' => $companias,
+					'companias' => $companias_list,
 					'companias_select' => $companias_select,
 					'profesionales' => $profesionales);
 	}

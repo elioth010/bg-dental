@@ -105,6 +105,7 @@ function addTratamiento(tratamiento) {
     input4.val(preciof)
 
     var select4 = $('<select disabled>').attr({onchange: "updatePreciosCompanias(" + lastIndex + ", this.value)", id: "compania-" + lastIndex, name: "compania-" + lastIndex})
+
     for(cid in companias) {
         var texto = companias[cid] + " (--€)"
         select4.append(new Option(texto, cid))
@@ -205,7 +206,7 @@ function updatePreciosCompanias(id, compania_id) {
             if (comp.length != 0) {
                 if (compania_id == 0) { // Seleccionar la más económica
                     var economica = tratamientos[grupo][tid]['compania_economica']
-                    comp.val(tratamientos[grupo][tid]['precios'][economica])
+                    comp.val(economica)
                 } else {
                     comp.val(compania_id)
                 }
@@ -259,6 +260,8 @@ function updatePrecios(id, tratamiento) {
                 if (dpiezas.length) {
                     dpiezas.remove()
                 }
+
+                $('#compania-' + id).attr({disabled: 'disabled'});
             } else {
                 var compania_default = $('#companiadefecto').val()
                 if (compania_default == 0) {
