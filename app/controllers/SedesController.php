@@ -35,7 +35,7 @@ class SedesController extends BaseController {
 	{
 		Sedes::create(Input::all());
 		echo "Sede guardada";
-		//return Redirect::to('sede');
+		return Redirect::to('sede');
 	}
 
 
