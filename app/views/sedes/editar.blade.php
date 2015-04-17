@@ -2,9 +2,8 @@
  
 @section('contenido')
 {{ Form::open(array('url'=>'sede/'.$sede->id, 'method' => 'put')) }}
-<div class="tbl_izq">
     <h1>Editar sede</h1>
-    <ul class="labelreg4">
+    <ul class="labelreg7">
         <li>Nombre:</li>
         <li>Direción:</li>
         <li>C.P.</li>
@@ -26,12 +25,10 @@
         
     <br>
     <li>{{ Form::submit('Guardar cambios')}}</li>
-    <li>{{--{{ Form::button('Atrás', array('class'=>'botonl'))}}--}}
+    <li>{{--{{ Form::button('Atrás', array('class'=>'botonl'))}}--}}</li>
 </ul>
     
 {{ Form::close() }}
-
-<div class="tbl_drc">
 @yield('listado_sedes')
-</div>
+
 @stop

@@ -2,10 +2,10 @@
 
 @section('contenido')
 
+   	<div class="overflow">
     <h2>Presupuesto: {{ $presupuesto->nombre}}</h2>
 
     <h2>Tratamientos incluidos:</h2>
-
     <table>
       <tr>
         <th></th>
@@ -85,4 +85,5 @@
     | {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar PDF', array($paciente, $presupuesto->id)) }}
     | {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver PDF', array($paciente, $presupuesto->id)) }}
 
+	</div>
 @stop
