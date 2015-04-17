@@ -19,7 +19,7 @@
       
       @foreach($sedes as $sede)
         <tr>
-        <td>{{ HTML::linkAction('SedesController@edit', $sede->firstname,$sede->id) }}</td>
+        <td>{{ HTML::linkAction('SedesController@edit', $sede->nombre,$sede->id) }}</td>
         <td>{{$sede->calleynum}}</td>
         <td>{{$sede->cp}}</td>
         <td>{{$sede->ciudad}}</td>
