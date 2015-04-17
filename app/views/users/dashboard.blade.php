@@ -23,7 +23,7 @@
         <td> {{$user->lastname}}</td>
         <td>{{$user->email}}</td>
         <td>{{$user->group_id}}</td>
-        <td>{{$user->nombre}}</td>
+        <td>{{$user->sedes_p}}</td>
         </tr>
       @endforeach
       
