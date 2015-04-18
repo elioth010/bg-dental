@@ -14,8 +14,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -26,7 +26,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -193,71 +193,71 @@ q:before, q:after {
     <table class="tabla_01">
         <tr>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/18{{ $todaslaspiezas[18] }}.jpg" width="33" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/18{{ $todaslaspiezas[18] }}.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/17{{ $todaslaspiezas[17] }}.jpg" width="34" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/17{{ $todaslaspiezas[17] }}.jpg" width="34" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/16{{ $todaslaspiezas[16] }}.jpg" width="33" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/16{{ $todaslaspiezas[16] }}.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/15{{ $todaslaspiezas[15] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/15{{ $todaslaspiezas[15] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/14{{ $todaslaspiezas[14] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/14{{ $todaslaspiezas[14] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/13{{ $todaslaspiezas[13] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/13{{ $todaslaspiezas[13] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/12{{ $todaslaspiezas[12] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/12{{ $todaslaspiezas[12] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/11{{ $todaslaspiezas[11] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/11{{ $todaslaspiezas[11] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/21{{ $todaslaspiezas[21] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/21{{ $todaslaspiezas[21] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/22{{ $todaslaspiezas[22] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/22{{ $todaslaspiezas[22] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/23{{ $todaslaspiezas[23] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/23{{ $todaslaspiezas[23] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/24{{ $todaslaspiezas[24] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/24{{ $todaslaspiezas[24] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/25{{ $todaslaspiezas[25] }}.jpg" width="25" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/25{{ $todaslaspiezas[25] }}.jpg" width="25" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/26{{ $todaslaspiezas[26] }}.jpg" width="33" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/26{{ $todaslaspiezas[26] }}.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/27{{ $todaslaspiezas[27] }}.jpg" width="33" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/27{{ $todaslaspiezas[27] }}.jpg" width="33" height="176" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/28{{ $todaslaspiezas[28] }}.jpg" width="33" height="176" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/28{{ $todaslaspiezas[28] }}.jpg" width="33" height="176" alt=""></td>
         </tr>
         <tr>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/48{{ $todaslaspiezas[48] }}.jpg" width="33" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/48{{ $todaslaspiezas[48] }}.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/47{{ $todaslaspiezas[47] }}.jpg" width="34" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/47{{ $todaslaspiezas[47] }}.jpg" width="34" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/46{{ $todaslaspiezas[46] }}.jpg" width="33" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/46{{ $todaslaspiezas[46] }}.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/45{{ $todaslaspiezas[45] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/45{{ $todaslaspiezas[45] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/44{{ $todaslaspiezas[44] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/44{{ $todaslaspiezas[44] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/43{{ $todaslaspiezas[43] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/43{{ $todaslaspiezas[43] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/42{{ $todaslaspiezas[42] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/42{{ $todaslaspiezas[42] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/41{{ $todaslaspiezas[41] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/41{{ $todaslaspiezas[41] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/31{{ $todaslaspiezas[31] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/31{{ $todaslaspiezas[31] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/32{{ $todaslaspiezas[32] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/32{{ $todaslaspiezas[32] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/33{{ $todaslaspiezas[33] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/33{{ $todaslaspiezas[33] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/34{{ $todaslaspiezas[34] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/34{{ $todaslaspiezas[34] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/35{{ $todaslaspiezas[35] }}.jpg" width="25" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/35{{ $todaslaspiezas[35] }}.jpg" width="25" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/36{{ $todaslaspiezas[36] }}.jpg" width="33" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/36{{ $todaslaspiezas[36] }}.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/37{{ $todaslaspiezas[37] }}.jpg" width="33" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/37{{ $todaslaspiezas[37] }}.jpg" width="33" height="170" alt=""></td>
             <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/38{{ $todaslaspiezas[38] }}.jpg" width="33" height="170" alt=""></td>
+                <img src="//{{ $HTTP_HOST }}/imagenes/38{{ $todaslaspiezas[38] }}.jpg" width="33" height="170" alt=""></td>
         </tr>
     </table>
     </div>
