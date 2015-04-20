@@ -169,16 +169,16 @@ q:before, q:after {
       <tr class="grey">
         <th></th>
         <th>Nombre</th>
-        <th>Unidades</th>
-        <th>Precio unidad</th>
-        <th>Descuento €</th>
+        <th>Ud.</th>
+        <th>€ ud.</th>
+        <th>Desc.</th>
         <th>Compañía</th>
         <th>Piezas</th>
         <th>Precio final</th>
       </tr>
       <?php $i=1 ?>
       @foreach($tratamientos as $t)
-      <tr>
+      <tr style="font-size:9pt;">
         <td>{{ $i }}</td>
         <td>{{ $t->nombre }}</td>
         <td>{{ $t->unidades }}</td>
