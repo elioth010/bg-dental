@@ -83,6 +83,7 @@ Route::resource('guardia', 'GuardiaController');
 
 //Rutas turnos
 Route::post('turno/index_tps', 'TurnoController@index_tps');
+Route::post('turno/create_tps', 'TurnoController@create_tps');
 Route::resource ('turno', 'TurnoController');
 
 //Rutas sedes
