@@ -18,7 +18,7 @@
     
 {{ Form::close() }}
 
-
+<div class="overflow" style="margin-left:200px;">
 @yield('listado_sedes')
-
+</div>
 @stop
