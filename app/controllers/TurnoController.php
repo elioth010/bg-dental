@@ -14,6 +14,7 @@ class TurnoController extends \BaseController {
                 $ano = date("Y");
             }
             $sede_id = Auth::user()->sede_id;
+            var_dump($sede_id);
             if($sede_id != 4){
             $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
             
@@ -30,7 +31,7 @@ class TurnoController extends \BaseController {
                     $profesionales = Profesional::find($evento->profesional_id);
                     $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
                 }
-            var_dump($events);
+            //var_dump($events);
             $cal = Calendar::make();
             //$cal->setEvents($events);
              $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));

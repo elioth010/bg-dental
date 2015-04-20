@@ -12,6 +12,7 @@
         <li>{{ Form::text('provincia', null, array('placeholder'=>'provincia')) }}</li>
         <li>{{ Form::text('tel', null, array('placeholder'=>'teléfono')) }}</li>
         <li>{{ Form::text('mail', null, array('placeholder'=>'mail')) }}</li>
+        <li>{{ Form::text('cuenta', null, array('placeholder'=>'cuenta bancaria')) }}</li>
         <li>{{ Form::submit('Guardar sede')}}</li>
     </ul>
     
