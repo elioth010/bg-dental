@@ -78,7 +78,8 @@ Route::resource('profesional', 'ProfesionalController');
 Route::resource('especialidad', 'EspecialidadController');
 
 //Rutas guardias
-
+Route::post('guardia/index_gps', 'GuardiaController@index_gps');
+Route::post('guardia/create_gps', 'GuardiaController@create_gps');
 Route::resource('guardia', 'GuardiaController');
 
 //Rutas turnos

@@ -4,7 +4,7 @@
 <div class="search">
 	
 
-    {{ Form::open(array('url'=>'turno/index_tps')) }}
+    {{ Form::open(array('url'=>'guardia/index_gps')) }}
     <h1 style="margin-top:40px;">Eliga una sede:</h1>
     <div class="labelreg6">
     {{Form::select('sede', $sedes)}}
