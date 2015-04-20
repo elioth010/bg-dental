@@ -1,9 +1,8 @@
 @extends('sedes.crearsede')
  
 @section('listado_sedes')
- <h3>
-  Sedes:
-  </h2>
+
+ <h3>Sedes:</h3>
   
     <table border = "1">
       <tr>
