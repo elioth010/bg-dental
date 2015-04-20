@@ -261,5 +261,23 @@ q:before, q:after {
         </tr>
     </table>
     </div>
+    <p>
+        Condiciones de pago:
+    <p>El día citado para el ingreso en el Hospital, se abonará o se presentará el justificante de pago del total del presupuesto en el servicio de Admisión en concepto de depósito.</p>
+    <p>El pago puede ser en efectivo, mediante talón, tarjeta de crédito o ingresando la totalidad del importe señalado en nuestra cuenta bancaria a nombre de Grupo Hospitalaria Quirón, S.A. (Indicar en concepto el nombre del paciente):
+        <br>Nº CUENTA BANCARIA:   ES7120131240150200036468</p>
+    <p>Al alta, el Hospital emitirá la factura por los gastos ocasionados durante su estancia, que se abonará en ese mismo momento.</p>
+    
+        <p>Condiciones de financiación:
+            En caso de que desee financiar este presupuesto rogamos se ponga en contacto previamente a la intervención con nosotros para tramitar la financiación.
+        </p>
+        
+        <p>
+            El importe del presupuesto es meramente orientativo, ya que ha sido elaborado teniendo en cuenta los servicios habituales que se producen en este tipo de tratamiento. Por tanto, atendiendo a las características propias y al estado de salud del paciente, al curso del tratamiento y/o a las decisiones que puedan tomar los facultativos que atiendan al paciente, es probable que la cantidad final a facturar sufra cambios. Estas modificaciones vendrán determinadas en función de, entre otros conceptos, los días de estancia, la prescripción de terapéuticas y pruebas diagnósticas y los consumos de fármacos y materiales que efectivamente se hayan devengado durante el tratamiento.
+Sus datos personales serán incorporados a un fichero responsabilidad de Grupo Hospitalario Quirón, S.A. (en adelante, GHQ) con la finalidad de gestionar los servicios sanitarios y de administración del hospital. En el caso de que los servicios recibidos deban ser abonados por una mutua, aseguradora, Administración Pública u otra persona física o jurídica, sus datos podrán ser cedidos a dichos terceros con la finalidad de gestionar la facturación de nuestros servicios; si se opone a la cesión, estas entidades podrían rehusar el pago de los servicios recibidos, correspondiéndole a usted su abono. Podrá ejercer los derechos de acceso, rectificación, cancelación y oposición ante GHQ, a través de correo postal dirigido a: Grupo Hospitalario Quirón, S.A. “Derechos ARCO” - Paseo Mariano Renovales s/n, 50006 Zaragoza, aportando fotocopia de su DNI o documento equivalente, y concretando el derecho que desea ejercer.
+
+        </p>
+
+    
 </body>
 </html>
