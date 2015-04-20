@@ -103,26 +103,20 @@ q:before, q:after {
 		}
 		.red{color:red;}
 		ul.b {list-style-type: disc;}
-@media print{
-
-		.vista{
-		display: none;
-		}
 		table.tabla{
 		font-size: 9pt;}
 		}
-		.logo{
-		width: 8cm;}
 		.tbl_izq{
 		float: left;
 		margin-right: 100px;
 		}
 		.datos{
 		line-height: 1.2em;
-		font-size: 0.8em;
+		font-size: 10pt;
 		color: #025494;
 		margin-top: 0.8cm;
 		float: left;
+		margin-left: 100px;
 		}
 		.header{
 		width: 100%;
@@ -132,6 +126,13 @@ q:before, q:after {
 		.datos1{
 		font-size: 10pt;
 		}
+		.logo{
+		width: 8cm;
+		float: left;}
+		@media print{
+		.vista{
+		display: none;
+		}}
 	 </style>
 
   </head>
@@ -140,7 +141,6 @@ q:before, q:after {
 	<div class="header">
     <div class="tbl_izq">
         {{ HTML::image('/imagenes/quiron-logo.jpg', 'Logo', array('class' => 'logo', 'id' => 'logo')) }}
-    </div>
     <ul class="datos">
         <li>{{ $sede->calleynum }}</li>
         <li>{{ $sede->cp }} {{ $sede->ciudad }}</li>
@@ -148,6 +148,7 @@ q:before, q:after {
         <li>{{ $sede->tel }}</li>
         <li>{{ $sede->mail }}</li>
 	</ul>
+	    </div>
 	</div>
 	<div class="layout">
     <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
@@ -207,73 +208,41 @@ q:before, q:after {
 	<div class="odontogram">
     <table class="tabla_01">
         <tr>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/18{{ $todaslaspiezas[18] }}.jpg" width="33" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/17{{ $todaslaspiezas[17] }}.jpg" width="34" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/16{{ $todaslaspiezas[16] }}.jpg" width="33" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/15{{ $todaslaspiezas[15] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/14{{ $todaslaspiezas[14] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/13{{ $todaslaspiezas[13] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/12{{ $todaslaspiezas[12] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/11{{ $todaslaspiezas[11] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/21{{ $todaslaspiezas[21] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/22{{ $todaslaspiezas[22] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/23{{ $todaslaspiezas[23] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/24{{ $todaslaspiezas[24] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/25{{ $todaslaspiezas[25] }}.jpg" width="25" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/26{{ $todaslaspiezas[26] }}.jpg" width="33" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/27{{ $todaslaspiezas[27] }}.jpg" width="33" height="176" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/28{{ $todaslaspiezas[28] }}.jpg" width="33" height="176" alt=""></td>
+		<td>{{ HTML::image($todaslaspiezas[18], null, array('width' => 33, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[17], null, array('width' => 34, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[16], null, array('width' => 33, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[15], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[14], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[13], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[12], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[11], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[21], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[22], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[23], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[24], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[25], null, array('width' => 25, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[26], null, array('width' => 33, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[27], null, array('width' => 33, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[28], null, array('width' => 33, 'height' => 176)) }}</td>
         </tr>
         <tr>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/48{{ $todaslaspiezas[48] }}.jpg" width="33" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/47{{ $todaslaspiezas[47] }}.jpg" width="34" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/46{{ $todaslaspiezas[46] }}.jpg" width="33" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/45{{ $todaslaspiezas[45] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/44{{ $todaslaspiezas[44] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/43{{ $todaslaspiezas[43] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/42{{ $todaslaspiezas[42] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/41{{ $todaslaspiezas[41] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/31{{ $todaslaspiezas[31] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/32{{ $todaslaspiezas[32] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/33{{ $todaslaspiezas[33] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/34{{ $todaslaspiezas[34] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/35{{ $todaslaspiezas[35] }}.jpg" width="25" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/36{{ $todaslaspiezas[36] }}.jpg" width="33" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/37{{ $todaslaspiezas[37] }}.jpg" width="33" height="170" alt=""></td>
-            <td>
-                <img src="https://{{ $HTTP_HOST }}/imagenes/38{{ $todaslaspiezas[38] }}.jpg" width="33" height="170" alt=""></td>
-        </tr>
+		<td>{{ HTML::image($todaslaspiezas[48], null, array('width' => 33, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[47], null, array('width' => 34, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[46], null, array('width' => 33, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[45], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[44], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[43], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[42], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[41], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[31], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[32], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[33], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[34], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[35], null, array('width' => 25, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[36], null, array('width' => 33, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[37], null, array('width' => 33, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 33, 'height' => 170)) }}</td>        
+		</tr>
     </table>
     </div>
   	</br>
