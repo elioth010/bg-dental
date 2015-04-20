@@ -45,7 +45,7 @@
         @endforeach
 
         <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br><br>
-        {{ Form::button('Atrás')}} {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}<br>
+        {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}<br>
 
     {{ Form::close() }}
     </div>
