@@ -51,7 +51,7 @@ class TurnoController extends \BaseController {
             
     }
     
-    public function index_tps()
+    public function index_tps() //Turno por sede...
 	{
             
             if(null !== Input::get('cdate')){
