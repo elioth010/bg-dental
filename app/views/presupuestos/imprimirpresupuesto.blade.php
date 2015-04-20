@@ -104,7 +104,7 @@ q:before, q:after {
 		.red{color:red;}
 		ul.b {list-style-type: disc;}
 		table.tabla{
-		font-size: 9pt;}
+		font-size: 9pt;
 		}
 		.tbl_izq{
 		float: left;
@@ -158,7 +158,7 @@ q:before, q:after {
         <li>Nombre: <span class="negrita">{{ $paciente->nombre }} {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</span></li>
         <li>Dirección: {{ $paciente->Direccion }}
         {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
-        <li>Teléfono: {{ $paciente->addrtel1 }}, {{ $paciente->addrtel2 }}</li>
+        <li>Teléfono: {{ $paciente->addrtel1 }} {{ $paciente->addrtel2 }}</li>
 	<li class="vista">
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id)) }}
