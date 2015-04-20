@@ -50,6 +50,49 @@ class TurnoController extends \BaseController {
               }
             
     }
+    
+    public function index_tps()
+	{
+            
+            if(null !== Input::get('cdate')){
+            $cdate = explode("-", Input::get('cdate'));
+            $mes = $cdate[1];
+            $ano = $cdate[0];
+            } else {
+                $mes = date("m");
+                $ano = date("Y");
+            }
+            $sede_id = Input::get('sede');
+            $sede = Sedes::find($sede_id);
+            echo $sede->nombre;
+            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
+            
+//             $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</strong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
+            
+            $events = array();
+                foreach($eventos as $evento){
+                    $profesionales = Profesional::find($evento->profesional_id);
+                    $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
+                }
+            //var_dump($events);
+            $cal = Calendar::make();
+            //$cal->setEvents($events);
+             $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
+            //$cal->setStartWeek('L');
+             $cal->setBasePath('/turno'); // Base path for navigation URLs
+             $cal->setDate(Input::get('cdate')); //Set starting date
+             $cal->showNav(true); // Show or hide navigation
+             $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+             $cal->setEvents($events); // Receives the events array
+             $cal->setTableClass('table_cal'); //Set the table's class name
+             $calendario = $cal->generate();
+              if($sede_id != 4){
+                    return View::make('agenda.turnos')->with('calendario' , $calendario);
+              } else {
+                    return View::make('agenda.turnos_sedes')->with('calendario' , $calendario);
+              }
+            
+    }
         
         public function create()
 	{
