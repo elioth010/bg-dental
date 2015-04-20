@@ -22,7 +22,7 @@
         <td>{{ HTML::linkAction('UsersController@getEdit',  $user->firstname, $user->id) }}</td>
         <td> {{$user->lastname}}</td>
         <td>{{$user->email}}</td>
-        <td>{{$user->group_id}}</td>
+        <td>{{$user->nombre_g}}</td>
         <td>{{$user->sedes_p}}</td>
         </tr>
       @endforeach

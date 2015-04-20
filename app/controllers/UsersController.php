@@ -61,11 +61,11 @@ class UsersController extends BaseController {
     }
 
     public function getDashboard() {
-        $users = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->leftJoin('sedes','users.sede_id','=','sedes.id')->select('users.*','usergroups.*','sedes.*',DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))->get();
-        $usergroups = Usergroups::lists('nombre', 'id');
-        var_dump($users);
+        $users = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->leftJoin('sedes','users.sede_id','=','sedes.id')->select('users.*','usergroups.nombre as nombre_g','sedes.*', 'sedes.nombre as sedes_p')->get();
+        //$usergroups = Usergroups::lists('nombre', 'id');
+        //var_dump($users);
         //die;
-        $this->layout->content = View::make('users.dashboard')->with('users', $users)->with('usergroups', $usergroups);
+        $this->layout->content = View::make('users.dashboard')->with('users', $users);
     }
 
     public function getEdit($id) {
