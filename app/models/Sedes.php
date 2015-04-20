@@ -1,7 +1,7 @@
 <?php
 class Sedes extends Eloquent {
 protected $table = 'sedes';
-protected $fillable = array('nombre', 'calleynum', 'cp', 'ciudad', 'provincia', 'mail', 'tel');
+protected $fillable = array('nombre', 'calleynum', 'cp', 'ciudad', 'provincia', 'mail', 'tel', 'cuenta');
 
 public function users() {
         return $this->belongsToMany('Users', 'sedes_users', 'sede_id', 'user_id');
