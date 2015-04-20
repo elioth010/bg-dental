@@ -11,6 +11,7 @@
         <li>Provincia:</li>
         <li>Teléfono:</li>
         <li>Mail:</li>
+        <li>Cuenta bancaria:</li>
 
 </ul>
 
@@ -22,6 +23,7 @@
         <li>{{ Form::text('provincia', $sede->provincia) }}</li>
         <li>{{ Form::text('tel', $sede->tel) }}</li>
         <li>{{ Form::text('mail', $sede->mail) }}</li>
+        <li>{{ Form::text('cuenta', $sede->cuenta) }}</li>
         
     <br>
     <li>{{ Form::submit('Guardar cambios')}}</li>

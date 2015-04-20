@@ -13,6 +13,7 @@
       </th><th>Provincia
       </th><th>Tel.
       </th><th>Mail
+      </th><th>Cuenta bancaria
       </th>
       </tr>
       
@@ -25,6 +26,7 @@
         <td>{{$sede->provincia}}</td>
         <td>{{$sede->tel}}</td>
         <td>{{$sede->mail}}</td>
+        <td>{{$sede->cuenta}}</td>
         </tr>
       @endforeach
       
