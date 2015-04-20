@@ -281,7 +281,7 @@ q:before, q:after {
      <ul class="b">
     <li>• El día citado para el ingreso en el Hospital, se abonará o se presentará el justificante de pago del total del presupuesto en el servicio de Admisión en concepto de depósito.</li>
     <li>• El pago puede ser en efectivo, mediante talón, tarjeta de crédito o ingresando la totalidad del importe señalado en nuestra cuenta bancaria a nombre de Grupo Hospitalaria Quirón, S.A. (Indicar en concepto el nombre del paciente):</li>
-        <li style="padding-left:60px; font-weight:bold;">Nº CUENTA BANCARIA:   <span class="red"> {{ $sede->mail }}</span></li>
+        <li style="padding-left:60px; font-weight:bold;">Nº CUENTA BANCARIA:   <span class="red"> {{ $sede->cuenta }}</span></li>
     <li>• Al alta, el Hospital emitirá la factura por los gastos ocasionados durante su estancia, que se abonará en ese mismo momento.</li></br>
     </ul>
         <h4>Condiciones de financiación:</h4>
