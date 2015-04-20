@@ -115,7 +115,7 @@ q:before, q:after {
 		.layout{
 		margin-top: 1cm;}
 		.datos1{
-		font-size: 10pt;}
+		font-size: 10pt;
 		}
 	 </style>
 
