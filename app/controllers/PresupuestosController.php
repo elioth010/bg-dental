@@ -86,7 +86,7 @@ class PresupuestosController extends \BaseController {
 		}
 
 		foreach ($laspiezas as $k => $v) {
-			$todaslaspiezas[$v] = 'b';
+			$todaslaspiezas[$v] = "/imagenes/$v" . "b.jpg";
 		}
 
 	}
@@ -99,11 +99,19 @@ class PresupuestosController extends \BaseController {
 		$total = 0;
 		$sede = Sedes::find($presupuesto->sede_id);
 
-		$todaslaspiezas = array( 11 => '', 12 => '', 13 => '', 14 => '', 15 => '', 16 => '', 17 => '', 18 => '',
-								 21 => '', 22 => '', 23 => '', 24 => '', 25 => '', 26 => '', 27 => '', 28 => '',
-								 31 => '', 32 => '', 33 => '', 34 => '', 35 => '', 36 => '', 37 => '', 38 => '',
-								 41 => '', 42 => '', 43 => '', 44 => '', 45 => '', 46 => '', 47 => '', 48 => '');
-		// $todaslaspiezas = array( 11 => '', 12 => 'b', 13 => 'b', 14 => '', 15 => '', 16 => '', 17 => '', 18 => 'b');
+		$todaslaspiezas = array();
+		for($i=11; $i <= 18; $i++) {
+			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+		}
+		for($i=21; $i <= 28; $i++) {
+			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+		}
+		for($i=31; $i <= 38; $i++) {
+			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+		}
+		for($i=41; $i <= 48; $i++) {
+			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+		}
 
 		foreach($tratamientos as $t) {
 			$t->precio_unidad = $t->precio_final / $t->unidades;
