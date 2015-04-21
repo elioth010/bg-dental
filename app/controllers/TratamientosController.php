@@ -178,14 +178,14 @@ class TratamientosController extends \BaseController {
 	public function update($id)
 	{
 		$tratamiento = Tratamientos::find($id);
-		$tratamiento->nombre                = Input::get('nombre');
-        $tratamiento->codigo 				= Input::get('codigo');
-		$tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
-		$tratamiento->tipostratamientos_id 	= Input::get('tipotratamiento');
-        $tratamiento->activo 				= Input::get('activo', 1);
-		$tratamiento->save();
+		$tratamiento->nombre = Input::get('nombre');
+                $tratamiento->codigo = Input::get('codigo');
+                $tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
+                $tratamiento->tipostratamientos_id = Input::get('tipotratamiento');
+                $tratamiento->activo = Input::get('activo', 1);
+                $tratamiento->save();
 
-		$tratamiento->precios()->detach();
+        $tratamiento->precios()->detach();
 
 		$num_companias = Companias::count();
 		$i = 1;

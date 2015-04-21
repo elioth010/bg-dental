@@ -16,8 +16,7 @@
       
       @foreach($profesionales as $profesional)
         <tr>
-        
-        <td>{{$profesional->nombre}}</td>
+        <td>{{HTML::linkAction('ProfesionalController@edit', $profesional->nombre, $profesional->p_id)}}</td>
         <td>{{$profesional->apellido1}} {{$profesional->apellido2}}</td>
         <td>{{$profesional->especialidad}}</td>
         <td>{{$profesional->sedes_p}}</td>

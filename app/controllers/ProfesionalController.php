@@ -27,7 +27,7 @@ class ProfesionalController extends \BaseController {
                         ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
                         ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')
                                 ->groupBy('profesionales.id')
-                        ->select('sedes.nombre','profesionales.*','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))->get();
+                        ->select('sedes.nombre','profesionales.id as p_id', 'profesionales.*', 'especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))->get();
 //        var_dump($profesionales);
 //                return;
                 $sedes = Sedes::get();
@@ -84,7 +84,17 @@ class ProfesionalController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		
+                $profesional = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
+                        ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
+                        ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')
+                                ->groupBy('profesionales.id')
+                        ->select('sedes.nombre','profesionales.*','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'), DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))->find($id);
+                $sedes_pid = explode(',', $profesional->sedes_pid);
+//                var_dump($sede_p);
+                $especialidades = Especialidad::lists('especialidad','id');
+                $sedes = Sedes::get();
+                return View::make('profesionales.editar')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid));
 	}
 
 
@@ -95,8 +105,28 @@ class ProfesionalController extends \BaseController {
 	 * @return Response
 	 */
 	public function update($id)
-	{
-		//
+	{       
+                
+		$profesional = Profesional::find($id);
+                $profesional->nombre = Input::get('nombre');
+                $profesional->apellido1 = Input::get('apellido1');
+                $profesional->apellido2 = Input::get('apellido2');
+                $profesional->especialidades_id = Input::get('especialidades_id');
+                $profesional->save();
+//                $profesional->update(Input::all());                
+//                $profesional->sedes()->detach();
+//                $num_sedes = Sedes::count();
+//		$i = 1;
+//		while($i <= $num_sedes){
+//			
+//			if (Input::has('sede-'.$i)) {
+//				$sede_id = Input::get('sede-'.$i);
+//				$profesional->sedes()->attach($sede_id);
+//			}
+//			$i++;
+//		}
+                return;
+//                return Redirect::to('profesional')->with('message', 'Profesional modificado con éxito.');
 	}
 
 
