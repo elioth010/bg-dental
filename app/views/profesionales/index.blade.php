@@ -18,7 +18,7 @@
         <tr>
         
         <td>{{$profesional->nombre}}</td>
-        <td>{{$profesional->apellido1}}, {{$profesional->apellido2}}</td>
+        <td>{{$profesional->apellido1}} {{$profesional->apellido2}}</td>
         <td>{{$profesional->especialidad}}</td>
         <td>{{$profesional->sedes_p}}</td>
         </tr>
