@@ -167,7 +167,7 @@ class TurnoController extends \BaseController {
 	{
             $sede_id = Input::get('sede');
             $sede = Sedes::find($sede_id);
-            $profesionales = Profesional::where('sede_id', $sede_id)->get();
+            $profesionales = Profesional::leftJoin('sedes_profesionales' , 'sedes_profesionales.profesional_id', '=' , 'profesionales.id')->where('sedes_profesionales.sede_id', $sede_id)->get();
             //$sede_nombre = Sedes::lists('nombre')->where('sede_id', $sede_id);
             $option_prof="";
             foreach($profesionales as $i=>$profesionales){
