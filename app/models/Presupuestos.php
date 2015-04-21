@@ -3,7 +3,7 @@
 class Presupuestos extends Eloquent {
 
     protected $table = 'presupuestos';
-    protected $fillable = array('nombre','aceptado','numerohistoria', 'user_id', 'profesional_id', 'descuento', 'tipodescuento', 'observaciones', 'sede_id');
+    protected $fillable = array('nombre','aceptado','numerohistoria', 'user_id', 'profesional_id', 'descuento', 'tipodescuento', 'observaciones', 'sede_id', 'coste_lab');
 
     public function tratamientos() {
         return $this->belongsToMany('Tratamientos', 'presupuestos_tratamientos', 'presupuesto_id', 'tratamiento_id');
