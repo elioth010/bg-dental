@@ -69,26 +69,30 @@
     </table>
 
     <h2>Observaciones:</h2>
-
-
+	<div style="width:100%;">
+	<div class="tbl_izq">
     {{ Form::open(array('action' => array('PresupuestosController@verPresupuesto', $presupuesto->numerohistoria, $presupuesto->id))) }}
         {{ Form::textarea('observaciones', $presupuesto->observaciones) }}
+        </br></br>
         {{ Form::submit('Modificar', array('class'=>'botonl'))}}
     {{ Form::close() }}
-    <br>
+    </div>
+    <div style="padding-top:90px; margin-left:400px;">
     <h2>Coste total de laboratorio:</h2>
     {{ Form::open(array('url'=>'pacientes/'.$presupuesto->numerohistoria.'/presupuesto/'.$presupuesto->id.'/coste_lab')) }}
-        {{ Form::text('coste_lab', $presupuesto->coste_lab) }}
+        {{ Form::text('coste_lab', $presupuesto->coste_lab) }}</br></br>
         {{ Form::submit('Añadir costes', array('class'=>'botonl'))}}
     {{ Form::close() }}
-
-    <hr/>
+	</div>
+	</div>
+    <div style="margin-top:30px;">
+       <hr/>
     Acciones:
 
     {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Volver a los presupuestos de este paciente', $paciente) }}
     | {{ HTML::linkAction('PresupuestosController@imprimirPresupuesto', 'Imprimible', array($paciente, $presupuesto->id)) }}
     | {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar PDF', array($paciente, $presupuesto->id)) }}
     | {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver PDF', array($paciente, $presupuesto->id)) }}
-
+	</div>
 	</div>
 @stop

@@ -41,7 +41,7 @@
     	<li>{{ Form::label('profesional', 'Profesional:') }} {{ Form::select('tprofesional', $profesionales) }}</li>
         <li>{{ Form::label('compania_preferida', 'Compañía de seguro a usar por defecto:') }}
                 {{ Form::select('companiadefecto', $companias_select, null, array('id' => 'companiadefecto', 'onchange' => 'updatePreciosCompanias(0, this.value)')) }}</li>
-        <li>{{ Form::label('sede', 'Sede:') }} {{ Form::select('sede', $sedes, null, array('id' => 'sede')) }}</li>
+        <li>{{ Form::label('sede', 'Sede:') }} {{ Form::select('sede', $sedes, $presupuesto->sede_id, array('id' => 'sede')) }}</li>
     </ul>
 
 
