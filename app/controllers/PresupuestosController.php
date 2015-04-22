@@ -213,7 +213,7 @@ class PresupuestosController extends \BaseController {
 	}
 
 	// Construye un array para javascript de crear/editar presupuesto
-	private function getTratamientosArray($grupos, $companias) {
+	private function getTratamientosArray($grupos, $companias, $companias_paciente) {
 
 		$preciosObj = Precios::whereIn('companias_id', array_keys($companias))->get(array('tratamientos_id', 'precio', 'companias_id'));
 		$precios = array();
@@ -226,7 +226,14 @@ class PresupuestosController extends \BaseController {
 				((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
 
 				$precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
-				$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
+			}
+
+			if (in_array($p->companias_id, $companias_paciente)) {
+				if (!(array_key_exists($p->tratamientos_id, $companiaEconomica)) ||
+					((array_key_exists($p->tratamientos_id, $companiaEconomica)) && ($p->precio < $companiaEconomica[$p->tratamientos_id]))) {
+
+					$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
+				}
 			}
 		}
 
@@ -254,9 +261,12 @@ class PresupuestosController extends \BaseController {
 	private function _crearpresupuesto($paciente) {
 
 		$companias_list = Companias::lists('nombre', 'id');
+		$companias_paciente = array();
+		$companias_paciente[] = $paciente->compania;
 
 		$paciente->companias_text = $companias_list[$paciente->compania];
 		if ($paciente->compania2 != 0) {
+			$companias_paciente[] = $paciente->compania2;
 			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
 		}
 
@@ -266,7 +276,7 @@ class PresupuestosController extends \BaseController {
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
 
-		$atratamientos = $this->getTratamientosArray($grupos, $companias_list);
+		$atratamientos = $this->getTratamientosArray($grupos, $companias_list, $companias_paciente);
 
 		$profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
 		$profesionales = array();
@@ -299,7 +309,12 @@ class PresupuestosController extends \BaseController {
 		$tratamientos = array();
 		if (!is_null(Input::old('num_tratamientos'))) {
 			for ($i=1; $i <= Input::old('num_tratamientos'); $i++) {
-				$tratamientos[] = array('grupo' => Input::old('grupo-' . $i), 'tratamiento_id' => Input::old('tratamiento-' . $i));
+				$tratamientos[] = array('tratamiento_id' => Input::old('tratamiento-' . $i),
+										'grupostratamientos_id' => Input::old('grupo-' . $i),
+										'piezas' => Input::old('ipiezas-' . $i),
+										'unidades' => Input::old('iunidades-' . $i),
+										'compania_id' => Input::old('compania-' . $i),
+										);
 			}
 		}
 
@@ -322,7 +337,8 @@ class PresupuestosController extends \BaseController {
 		$data = $this->_crearpresupuesto($presupuesto->paciente);
 
 		$tratamientos = $presupuesto->tratamientos()
-									->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final', 'piezas', 'unidades'));
+							->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final',
+										'piezas', 'unidades', 'compania_id'));
 
 
 		return View::make('presupuestos.crearpresupuesto')
