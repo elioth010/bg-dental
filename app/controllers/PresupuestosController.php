@@ -455,7 +455,9 @@ class PresupuestosController extends \BaseController {
 		$profesionales = array();
 		foreach ($profesionales1 as $p){
 			$profesionales[$p->id] = $p->nombre;
+                       
 		}
+               
 		$users1 = User::get(array(DB::raw("CONCAT_WS(' ', firstname, lastname) AS nombre"), 'id'));
 		$users = array();
 		foreach ($users1 as $u){
@@ -482,7 +484,7 @@ class PresupuestosController extends \BaseController {
 				$descuento = $p->descuento;
 				$descuentotext = $p->descuento . '€';
 			}
-
+                        
 			$p->importe_total = $total - $descuento;
 			$p->descuentototal = $descuentotext;
 			$p->profesional_n = $profesionales[$p->profesional_id];

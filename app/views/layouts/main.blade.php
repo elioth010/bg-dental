@@ -41,8 +41,8 @@
                     </li>
                     <li>{{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}
                         <ul>
-                            <li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
-                            <li>{{ HTML::linkAction('GruposController@index', 'Grupos de tratamientos') }}</li>
+                            {{--<li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
+                            <li>{{ HTML::linkAction('GruposController@index', 'Grupos de tratamientos') }}</li>--}}
                             @if(Auth::user()->isAdmin())
                             <li>{{ HTML::linkAction('GruposController@create', 'Crear grupo de tratamientos') }}</li>
                             <li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
