@@ -230,7 +230,7 @@ class PresupuestosController extends \BaseController {
 
 			if (in_array($p->companias_id, $companias_paciente)) {
 				if (!(array_key_exists($p->tratamientos_id, $companiaEconomica)) ||
-					((array_key_exists($p->tratamientos_id, $companiaEconomica)) && ($p->precio < $companiaEconomica[$p->tratamientos_id]))) {
+					((array_key_exists($p->tratamientos_id, $companiaEconomica)) && ($p->precio < $precios[$p->tratamientos_id][$companiaEconomica[$p->tratamientos_id]]))) {
 
 					$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
 				}
@@ -271,7 +271,7 @@ class PresupuestosController extends \BaseController {
 		}
 
 		$companias_select = $companias_list;
-		$companias_select[0] = '-- La más económica --';
+		$companias_select[0] = '-- La más económica del paciente --';
 		asort($companias_select);
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
