@@ -61,7 +61,7 @@ class UsersController extends BaseController {
     }
 
     public function getDashboard() {
-        $users = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->leftJoin('sedes','users.sede_id','=','sedes.id')->select('users.*','usergroups.nombre as nombre_g','sedes.*', 'sedes.nombre as sedes_p')->get();
+        $users = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->leftJoin('sedes','users.sede_id','=','sedes.id')->select('users.*', 'users.id as user_id','usergroups.nombre as nombre_g','sedes.*', 'sedes.nombre as sedes_p')->get();
         //$usergroups = Usergroups::lists('nombre', 'id');
         //var_dump($users);
         //die;
@@ -69,17 +69,38 @@ class UsersController extends BaseController {
     }
 
     public function getEdit($id) {
-        $user = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->find($id);
+        $user = User::leftJoin('usergroups','users.group_id','=','usergroups.id')
+                ->leftJoin('sedes_users', 'users.id', '=', 'sedes_users.user_id')
+                ->leftJoin('sedes', 'sedes.id', '=', 'sedes_users.sede_id')
+                ->groupBy('users.id')
+                ->select('sedes.nombre','users.id as u_id','users.*','usergroups.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'), DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))
+                ->find($id);
+        $sedes_pid = explode(',',$user->sedes_pid);
         $usergroups = Usergroups::lists('nombre', 'id');
         $sedes = Sedes::get();
-        return View::make('users.editar')->with('user',$user)->with('usergroups', $usergroups)->with('sedes', $sedes);
+        return View::make('users.editar')->with('user',$user)->with('usergroups', $usergroups)->with('sedes', $sedes)->with(array('sedes_pid'=>$sedes_pid));
         
     }
     
    public function putUpdate($id)
 	{
 		$user = User::find($id);
-                var_dump(Input::all());
+                $user->firstname = Input::get('firstname');
+                $user->lastname = Input::get('lastname');
+                $user->email = Input::get('email');
+                $user->group_id = Input::get('group_id');
+                $user->update();
+                $user->sedes()->detach();
+                $num_sedes = Sedes::count();
+		$i = 1;
+		while($i <= $num_sedes){
+			
+			if (Input::has('sede-'.$i)) {
+				$sede_id = Input::get('sede-'.$i);
+				$user->sedes()->attach($sede_id);
+			}
+			$i++;
+		}
 //                $user->update(Input::all());
                 //return Redirect::to('users/dashboard')->with('message', 'Usuario modificado con éxito.');
 	}

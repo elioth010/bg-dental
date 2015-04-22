@@ -161,50 +161,13 @@ q:before, q:after {
         <li>Teléfono: {{ $paciente->addrtel1 }} {{ $paciente->addrtel2 }}</li>
 	<li class="vista">
     @if ($showpdf)
-    PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id)) }}
-         {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id)) }}
+    PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
+         {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
     @endif
 	</li>
 	</ul>
-    <div>
-    <table class="tabla">
-      <tr class="grey">
-        <th></th>
-        <th>Nombre</th>
-        <th>Ud.</th>
-        <th>€ ud.</th>
-        <th>Desc.</th>
-        <th>Compañía</th>
-        <th>Piezas</th>
-        <th>Precio final</th>
-      </tr>
-      <?php $i=1 ?>
-      @foreach($tratamientos as $t)
-      <tr style="font-size:9pt;">
-        <td>{{ $i }}</td>
-        <td>{{ $t->nombre }}</td>
-        <td>{{ $t->unidades }}</td>
-        <td>{{ $t->precio_unidad }}€</td>
-        <td>{{ $t->descuento_text }}</td>
-        <td>{{ $t->compania_text }}</td>
-        <td>{{ $t->piezas }}</td>
-        <td>{{ $t->precio_final }}€</td>
-      </tr>
-      <?php $i++ ?>
-      @endforeach
-      <tr class="grey">
-        <td><strong>TOTAL:</strong></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><strong>{{ $total }}€</strong></td>
-      </tr>
-    </table>
-	</div>
-    </br>
+    
+    
 	<div class="odontogram">
     <table class="tabla_01">
         <tr>
@@ -246,6 +209,46 @@ q:before, q:after {
     </table>
     </div>
   	</br>
+    
+    <div>
+    <table class="tabla">
+      <tr class="grey">
+        <th></th>
+        <th>Nombre</th>
+        <th>Ud.</th>
+        <th>€ ud.</th>
+        <th>Desc.</th>
+        <th>Compañía</th>
+        <th>Piezas</th>
+        <th>Precio final</th>
+      </tr>
+      <?php $i=1 ?>
+      @foreach($tratamientos as $t)
+      <tr style="font-size:9pt;">
+        <td>{{ $i }}</td>
+        <td>{{ $t->nombre }}</td>
+        <td>{{ $t->unidades }}</td>
+        <td>{{ $t->precio_unidad }}€</td>
+        <td>{{ $t->descuento_text }}</td>
+        <td>{{ $t->compania_text }}</td>
+        <td>{{ $t->piezas }}</td>
+        <td>{{ $t->precio_final }}€</td>
+      </tr>
+      <?php $i++ ?>
+      @endforeach
+      <tr class="grey">
+        <td><strong>TOTAL:</strong></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><strong>{{ $total }}€</strong></td>
+      </tr>
+    </table>
+	</div>
+    </br>
   	<div id="textos">
      <h4>Condiciones de pago:</h4>
      <ul class="b">

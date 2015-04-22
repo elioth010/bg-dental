@@ -48,6 +48,7 @@ class ProfesionalController extends \BaseController {
                 $profesional->apellido1 = Input::get('apellido1');
                 $profesional->apellido2 = Input::get('apellido2');
                 $profesional->especialidades_id = Input::get('especialidades_id');
+                $profesional-> activo = 1;
                 $profesional->save();
                 $sedes = Sedes::count();
                 $i = 1;
