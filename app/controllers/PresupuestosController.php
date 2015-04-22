@@ -271,7 +271,7 @@ class PresupuestosController extends \BaseController {
 		}
 
 		$companias_select = $companias_list;
-		$companias_select[0] = '-- La más económica --';
+		$companias_select[0] = '-- La más económica del paciente --';
 		asort($companias_select);
 
 		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
