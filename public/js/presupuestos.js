@@ -42,6 +42,7 @@ function addTratamiento(tratamiento) {
         var gid = tratamiento["grupostratamientos_id"]
         var tid = tratamiento["tratamiento_id"]
         var preciof = tratamiento["precio_final"]
+        var compania = tratamiento["compania_id"]
     }
 
     console.log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ',' + preciof + ')')
@@ -140,6 +141,7 @@ function addTratamiento(tratamiento) {
 
     if (gid) select1.val(gid)
     if (tid) select2.val(tid)
+    if (compania) select4.val(compania)
 
     return false
 }
@@ -238,7 +240,8 @@ function updatePrecios(id, tratamiento) {
         var tid = tratamiento["tratamiento_id"]
         var preciofinal = tratamiento["precio_final"]
         var piezas = tratamiento["piezas"]
-        console.log(tid, preciofinal, piezas)
+        var compania = tratamiento["compania_id"]
+        console.log(tid, preciofinal, piezas, compania)
     }
 
     var grupo = $('#grupo-' + id).val()
@@ -266,11 +269,15 @@ function updatePrecios(id, tratamiento) {
 
                 $('#compania-' + id).attr({disabled: 'disabled'});
             } else {
-                var compania_default = $('#companiadefecto').val()
-                if (compania_default == 0) {
-                    $('#compania-' + id).val(tratamientos[grupo][tid]['compania_economica'])
+                if (compania === undefined) {
+                    var compania_default = $('#companiadefecto').val()
+                    if (compania_default == 0) {
+                        $('#compania-' + id).val(tratamientos[grupo][tid]['compania_economica'])
+                    } else {
+                        $('#compania-' + id).val(compania_default)
+                    }
                 } else {
-                    $('#compania-' + id).val(compania_default)
+                    $('#compania-' + id).val(compania)
                 }
 
                 $('#compania-' + id).removeAttr('disabled');

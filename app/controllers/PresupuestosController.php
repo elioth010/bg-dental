@@ -299,7 +299,12 @@ class PresupuestosController extends \BaseController {
 		$tratamientos = array();
 		if (!is_null(Input::old('num_tratamientos'))) {
 			for ($i=1; $i <= Input::old('num_tratamientos'); $i++) {
-				$tratamientos[] = array('grupo' => Input::old('grupo-' . $i), 'tratamiento_id' => Input::old('tratamiento-' . $i));
+				$tratamientos[] = array('tratamiento_id' => Input::old('tratamiento-' . $i),
+										'grupostratamientos_id' => Input::old('grupo-' . $i),
+										'piezas' => Input::old('ipiezas-' . $i),
+										'unidades' => Input::old('iunidades-' . $i),
+										'compania_id' => Input::old('compania-' . $i),
+										);
 			}
 		}
 
@@ -322,7 +327,8 @@ class PresupuestosController extends \BaseController {
 		$data = $this->_crearpresupuesto($presupuesto->paciente);
 
 		$tratamientos = $presupuesto->tratamientos()
-									->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final', 'piezas', 'unidades'));
+							->get(array('tratamiento_id', 'grupostratamientos_id', 'precio_final',
+										'piezas', 'unidades', 'compania_id'));
 
 
 		return View::make('presupuestos.crearpresupuesto')
