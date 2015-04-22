@@ -11,6 +11,7 @@
       </th><th>Apellidos
       </th><th>Especialidad
       </th><th>Sede(s)
+      </th><th>Eliminar
       </th>
       </tr>
       
@@ -20,6 +21,13 @@
         <td>{{$profesional->apellido1}} {{$profesional->apellido2}}</td>
         <td>{{$profesional->especialidad}}</td>
         <td>{{$profesional->sedes_p}}</td>
+        <td>
+            {{ Form::open(array('url'=>'profesional/'.$profesional->p_id, 'method' => 'delete')) }}
+            
+            <li>{{ Form::submit('Eliminar', array('class'=>'botonl'))}}</li>
+            {{Form::close()}}
+    </td>
+        
         </tr>
       @endforeach
       

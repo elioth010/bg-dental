@@ -1,7 +1,7 @@
 <?php
 class Profesional extends Eloquent {
 protected $table = 'profesionales';
-protected $fillable = array('nombre','apellido1','apellido2','especialidades_id', 'sede_id');
+protected $fillable = array('nombre','apellido1','apellido2','especialidades_id', 'activo');
 
 public function especialidad(){
         return $this->hasOne('Especialidad');
