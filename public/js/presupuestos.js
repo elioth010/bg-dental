@@ -328,6 +328,10 @@ function updatePrecios(id, tratamiento) {
         } else {
             console.log('algo ' + id)
             tid = $('#s_tratamiento-' + id).val()
+
+            if (dpiezas.length) {
+                dpiezas.remove()
+            }
         }
 
         updatePrecioTratamiento(id, tid, grupo, preciofinal)
