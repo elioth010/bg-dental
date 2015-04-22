@@ -32,7 +32,7 @@ class TratamientosController extends \BaseController {
 //
 //		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
 //							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
-//							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
+//							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
 //							->groupBy('tratamientos.id')
 //							->orderBy('precios.companias_id')
 //							->get();
@@ -121,9 +121,8 @@ class TratamientosController extends \BaseController {
 
 			$tratamientos = Tratamientos::where('nombre','LIKE', $nombre)->orWhere('codigo','LIKE', $codigo)
 								->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
-								->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL")) as precios'))
+								->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
 								->groupBy('tratamientos.id')
-								->orderBy('precios.companias_id')
 								->get();
 
 		} else {
