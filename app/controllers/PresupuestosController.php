@@ -86,7 +86,7 @@ class PresupuestosController extends \BaseController {
 		}
 
 		foreach ($laspiezas as $k => $v) {
-			$todaslaspiezas[$v] = "/imagenes/$v" . "b.jpg";
+			$todaslaspiezas[$v] = "/imagenes/piezas/$v" . "b.jpg";
 		}
 
 	}
@@ -102,16 +102,16 @@ class PresupuestosController extends \BaseController {
 		$todaslaspiezas = array();
 		$todaslaspiezas['muestraOdontograma'] = false;
 		for($i=11; $i <= 18; $i++) {
-			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+			$todaslaspiezas[$i] = "/imagenes/piezas/$i.jpg";
 		}
 		for($i=21; $i <= 28; $i++) {
-			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+			$todaslaspiezas[$i] = "/imagenes/piezas/$i.jpg";
 		}
 		for($i=31; $i <= 38; $i++) {
-			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+			$todaslaspiezas[$i] = "/imagenes/piezas/$i.jpg";
 		}
 		for($i=41; $i <= 48; $i++) {
-			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
+			$todaslaspiezas[$i] = "/imagenes/piezas/$i.jpg";
 		}
 
 		foreach($tratamientos as $t) {

@@ -32,7 +32,8 @@ class ProfesionalController extends \BaseController {
 //                return;
                 $sedes = Sedes::get();
                 $especialidades = Especialidad::lists('especialidad','id');
-                return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes));
+                $usuarios = User::get()->lists('fullname', 'id');
+                return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes, 'usuarios' => $usuarios));
 	}
 
 
@@ -49,6 +50,7 @@ class ProfesionalController extends \BaseController {
                 $profesional->apellido2 = Input::get('apellido2');
                 $profesional->especialidades_id = Input::get('especialidades_id');
                 $profesional-> activo = 1;
+                $profesional->user_id = Input::get('user_id');
                 $profesional->save();
                 $sedes = Sedes::count();
                 $i = 1;
@@ -98,7 +100,8 @@ class ProfesionalController extends \BaseController {
                 var_dump($sedes_pid);
                 $especialidades = Especialidad::lists('especialidad','id');
                 $sedes = Sedes::get();
-                return View::make('profesionales.editar')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid));
+                $usuarios = User::get()->lists('fullname', 'id');
+                return View::make('profesionales.editar')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid, 'usuarios' => $usuarios));
 	}
 
 

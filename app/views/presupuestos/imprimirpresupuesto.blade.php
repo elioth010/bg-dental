@@ -67,7 +67,7 @@ q:before, q:after {
 		border-bottom: 1px solid #888;
 		}
 		.odontogram{
-		margin-left: 10%;
+		margin-left: 0%;
 		display: block;
 		}
 		table.tabla_01{
@@ -81,7 +81,7 @@ q:before, q:after {
 		h3{
 		font-size: 11pt;
 		padding-bottom: 0.3em;
-		color: #025494;}
+		color: #044494;}
 		h4{
 		font-size: 10pt;
 		padding-bottom: 0.3em;
@@ -113,7 +113,7 @@ q:before, q:after {
 		.datos{
 		line-height: 1.2em;
 		font-size: 10pt;
-		color: #025494;
+		color: #044494;
 		margin-top: 0.8cm;
 		float: left;
 		margin-left: 100px;
@@ -171,40 +171,40 @@ q:before, q:after {
 	<div class="odontogram">
     <table class="tabla_01">
         <tr>
-		<td>{{ HTML::image($todaslaspiezas[18], null, array('width' => 33, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[17], null, array('width' => 34, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[16], null, array('width' => 33, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[15], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[14], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[13], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[12], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[11], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[21], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[22], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[23], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[24], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[25], null, array('width' => 25, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[26], null, array('width' => 33, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[27], null, array('width' => 33, 'height' => 176)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[28], null, array('width' => 33, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[18], null, array('width' => 42, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[17], null, array('width' => 47, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[16], null, array('width' => 48, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[15], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[14], null, array('width' => 48, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[13], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[12], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[11], null, array('width' => 46, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[21], null, array('width' => 47, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[22], null, array('width' => 45, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[23], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[24], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[25], null, array('width' => 45, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[26], null, array('width' => 51, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[27], null, array('width' => 46, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[28], null, array('width' => 38, 'height' => 129)) }}</td>
         </tr>
         <tr>
-		<td>{{ HTML::image($todaslaspiezas[48], null, array('width' => 33, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[47], null, array('width' => 34, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[46], null, array('width' => 33, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[45], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[44], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[43], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[42], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[41], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[31], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[32], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[33], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[34], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[35], null, array('width' => 25, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[36], null, array('width' => 33, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[37], null, array('width' => 33, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 33, 'height' => 170)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[48], null, array('width' => 42, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[47], null, array('width' => 47, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[46], null, array('width' => 48, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[45], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[44], null, array('width' => 48, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[43], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[42], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[41], null, array('width' => 46, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[31], null, array('width' => 47, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[32], null, array('width' => 45, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[33], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[34], null, array('width' => 44, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[35], null, array('width' => 45, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[36], null, array('width' => 51, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[37], null, array('width' => 46, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 38, 'height' => 129)) }}</td>
 		</tr>
     </table>
     </div>
