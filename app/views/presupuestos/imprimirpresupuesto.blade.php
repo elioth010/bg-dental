@@ -14,8 +14,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -26,7 +26,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -166,8 +166,8 @@ q:before, q:after {
     @endif
 	</li>
 	</ul>
-    
-    
+
+    @if ($todaslaspiezas['muestraOdontograma'])
 	<div class="odontogram">
     <table class="tabla_01">
         <tr>
@@ -204,12 +204,14 @@ q:before, q:after {
 		<td>{{ HTML::image($todaslaspiezas[35], null, array('width' => 25, 'height' => 170)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[36], null, array('width' => 33, 'height' => 170)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[37], null, array('width' => 33, 'height' => 170)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 33, 'height' => 170)) }}</td>        
+		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 33, 'height' => 170)) }}</td>
 		</tr>
     </table>
     </div>
+    @endif
+
   	</br>
-    
+
     <div>
     <table class="tabla">
       <tr class="grey">
@@ -262,13 +264,13 @@ q:before, q:after {
             <li>• En caso de que desee financiar este presupuesto rogamos se ponga en contacto previamente a la intervención con nosotros para tramitar la financiación. </li>
  		</ul>
  	</div>
- 	</br>       
+ 	</br>
         <p style="font-size:7pt;text-align: justify;line-height: 9pt;">
             El importe del presupuesto es meramente orientativo, ya que ha sido elaborado teniendo en cuenta los servicios habituales que se producen en este tipo de tratamiento. Por tanto, atendiendo a las características propias y al estado de salud del paciente, al curso del tratamiento y/o a las decisiones que puedan tomar los facultativos que atiendan al paciente, es probable que la cantidad final a facturar sufra cambios. Estas modificaciones vendrán determinadas en función de, entre otros conceptos, los días de estancia, la prescripción de terapéuticas y pruebas diagnósticas y los consumos de fármacos y materiales que efectivamente se hayan devengado durante el tratamiento.
 Sus datos personales serán incorporados a un fichero responsabilidad de Grupo Hospitalario Quirón, S.A. (en adelante, GHQ) con la finalidad de gestionar los servicios sanitarios y de administración del hospital. En el caso de que los servicios recibidos deban ser abonados por una mutua, aseguradora, Administración Pública u otra persona física o jurídica, sus datos podrán ser cedidos a dichos terceros con la finalidad de gestionar la facturación de nuestros servicios; si se opone a la cesión, estas entidades podrían rehusar el pago de los servicios recibidos, correspondiéndole a usted su abono. Podrá ejercer los derechos de acceso, rectificación, cancelación y oposición ante GHQ, a través de correo postal dirigido a: Grupo Hospitalario Quirón, S.A. “Derechos ARCO” - Paseo Mariano Renovales s/n, 50006 Zaragoza, aportando fotocopia de su DNI o documento equivalente, y concretando el derecho que desea ejercer.
 
         </p>
 
-    
+
 </body>
 </html>

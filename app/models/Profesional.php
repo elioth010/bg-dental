@@ -6,6 +6,9 @@ protected $fillable = array('nombre','apellido1','apellido2','especialidades_id'
 public function especialidad(){
         return $this->hasOne('Especialidad');
 }
+public function user(){
+        return $this->hasOne('User');
+}
 
 public function sedes() {
         return $this->belongsToMany('Sedes', 'sedes_profesionales', 'profesional_id', 'sede_id');

@@ -100,6 +100,7 @@ class PresupuestosController extends \BaseController {
 		$sede = Sedes::find($presupuesto->sede_id);
 
 		$todaslaspiezas = array();
+		$todaslaspiezas['muestraOdontograma'] = false;
 		for($i=11; $i <= 18; $i++) {
 			$todaslaspiezas[$i] = "/imagenes/$i.jpg";
 		}
@@ -128,7 +129,11 @@ class PresupuestosController extends \BaseController {
 			$t->descuento_text = $descuentotext;
 			$t->compania_text = $companias_list[$t->compania_id];
 
-			$this->_marcaPiezas($t->piezas, $todaslaspiezas);
+			if ($t->piezas !== null) {
+				$this->_marcaPiezas($t->piezas, $todaslaspiezas);
+				$todaslaspiezas['muestraOdontograma'] = true;
+			}
+
 			$total += $t->precio_final;
 		}
 
