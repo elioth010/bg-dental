@@ -67,7 +67,7 @@ q:before, q:after {
 		border-bottom: 1px solid #888;
 		}
 		.odontogram{
-		margin-left: 10%;
+		margin-left: 0%;
 		display: block;
 		}
 		table.tabla_01{
@@ -175,7 +175,7 @@ q:before, q:after {
 		<td>{{ HTML::image($todaslaspiezas[17], null, array('width' => 47, 'height' => 129)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[16], null, array('width' => 48, 'height' => 129)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[15], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[14], null, array('width' => 48, 'height' => 176)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[14], null, array('width' => 48, 'height' => 129)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[13], null, array('width' => 44, 'height' => 129)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[12], null, array('width' => 44, 'height' => 129)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[11], null, array('width' => 46, 'height' => 129)) }}</td>
