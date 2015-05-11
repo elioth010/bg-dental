@@ -7,7 +7,7 @@
   </div>
   <div class="top">
   <h3>Historial de {{$paciente->nombre}}, {{$paciente->apellido1}} {{$paciente->apellido2}} con NHC:  {{$paciente->numerohistoria}} y Compañía: {{$compania->nombre}}</h3>
-  	<div class="labelreg6">
+  	<div class="overflow">
     <table border = "1">
         <tr>
             
