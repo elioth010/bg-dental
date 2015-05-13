@@ -19,8 +19,8 @@ class CreateHistorialClinicoTable extends Migration {
                         $table->integer('paciente_id');
 			$table->integer('profesional_id');
                         $table->integer('tratamiento_id');
-                        $table->datetime('fecha_realizacion');
-                        $table->integer('cobrado_paciente');
+                        $table->date('fecha_realizacion');
+                        $table->double('cobrado_paciente');
                         $table->integer('abonado_quiron');// abonado por Quirón
                         $table->integer('cobrado_profesional');//cobrado por profesional
                         
