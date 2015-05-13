@@ -566,3 +566,11 @@ footer a:hover{
 .bold {
 	font-weight: bold;
 }
+
+.euros {
+    width: 75px;
+}
+
+.td_centrado {
+    text-align: center !important;
+}

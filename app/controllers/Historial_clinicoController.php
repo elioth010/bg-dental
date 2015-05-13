@@ -9,10 +9,10 @@ class Historial_clinicoController extends \BaseController {
 	 */
 	public function index()
 	{
-	    $sede_id = Input::get('sede');
-            $sede = Sedes::find($sede_id);
-            $profesionales = Profesional::lists('apellido1', 'id');	
-            return View::make('historial.buscar')->with(array('profesionales' => $profesionales))->with('sede', $sede);
+//	    $sede_id = Input::get('sede');
+//            $sede = Sedes::find($sede_id);
+//            $profesionales = Profesional::lists('apellido1', 'id');	
+            return View::make('historial.buscar')/*->with(array('profesionales' => $profesionales))->with('sede', $sede)*/;
 	}
 
 
@@ -34,11 +34,25 @@ class Historial_clinicoController extends \BaseController {
 	 */
 	public function store()
 	{
-                Historial_clinico::create(Input::all());
-                $paciente_id = Input::get('paciente_id');
-//                $historial = Input::all();
-//                var_dump($historial);
-                return Redirect::to('historial_clinico/'.$paciente_id);
+            // [tratamiento_id] => 2 [profesional_id] => 3 [paciente_id] => 1 [fecha_realizacion] => 05/31/2015 [cobrado_paciente] => 3 [abonado_quiron] => 1 [cobrado_profesional] => 1 )
+            //print_r($_POST);
+            $historial = new Historial_clinico;
+            $historial->tratamiento_id = Input::get('tratamiento_id');
+            $historial->profesional_id = Input::get('profesional_id');
+            $historial->paciente_id = Input::get('paciente_id');
+            $fecha_r = Input::get('fecha_realizacion');
+            $fecha_r_f = explode('/', $fecha_r);
+            $historial->fecha_realizacion = $fecha_r_f[2]."-".$fecha_r_f[0]."-".$fecha_r_f[1];
+            $historial->cobrado_paciente = Input::get('cobrado_paciente');
+            $historial->abonado_quiron = Input::get('abonado_quiron');
+            $historial->cobrado_profesional = Input::get('cobrado_profesional');
+            $historial->save();
+            
+//                Historial_clinico::create(Input::all());
+//                $paciente_id = Input::get('paciente_id');
+////                $historial = Input::all();
+////                var_dump($historial);
+//                return Redirect::to('historial_clinico/'.$paciente_id);
         }
 
 

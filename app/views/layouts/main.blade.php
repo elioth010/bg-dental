@@ -26,9 +26,14 @@
                 <ul class="nav">
                     
                     @if(Auth::user()->isAdmin())
-                    <li>{{ HTML::link('users/dashboard', 'Panel usuarios') }}
+                    <li>{{ HTML::link('#', 'Administración') }}
                         <ul>
+                            <li>{{ HTML::link('users/dashboard', 'Panel usuarios') }}</li>
                             <li>{{ HTML::link('users/register', 'Registrar') }}</li>
+                            <li>{{ HTML::linkAction('CompaniasController@index', 'Compañías') }}</li>
+                            <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
+                            <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
+                            <li>{{ HTML::link('sede', 'Sedes') }}</li>
                         </ul>
                     </li>
                     @endif
@@ -49,15 +54,15 @@
                             @endif
                         </ul>
                     </li>
-                    <li>{{ HTML::link('#', 'Otros datos') }}
-                        <ul>@if(Auth::user()->isAdmin())
-                            <li>{{ HTML::linkAction('CompaniasController@index', 'Compañías') }}</li>
-                            <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
-                            <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
-                            <li>{{ HTML::link('sede', 'Sedes') }}</li>
-                            @endif
+                    @if(Auth::user()->isProfesional())
+                    <li>{{ HTML::link('#', 'Profesionales') }}
+                        <ul>
+                            <li>{{ HTML::link('historial_clinico', 'Historial Clínico') }}</li>
+                            <li>{{ HTML::link('facturacion', 'Facturación') }}</li>
+                            <li>{{ HTML::link('estadisticas', 'Estadísticas') }}</li>
+                            
                         </ul>
-                    </li>
+                    </li>@endif
                     <li>{{ HTML::link('#', 'Agenda') }}
                         <ul>
                             <li>{{ HTML::link('turno', 'Turnos') }}</li>

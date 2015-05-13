@@ -3,7 +3,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Historial_clinico extends Eloquent {
 
-    public $timestamps = false;
+    public $timestamps = true;
     protected $table = 'historial_clinico';
     protected $fillable = array('paciente_id', 'profesional_id', 'tratamiento_id', 'fecha_realizacion', 'cobrado_paciente', 'abonado_quiron', 'cobrado_profesional');
 
