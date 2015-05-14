@@ -14,7 +14,7 @@
     <li>{{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}</li>
 	<li>{{ Form::text('apellido1', null, array('placeholder'=>'apellido1')) }}{{ Form::text('apellido2', null, array('placeholder'=>'apellido2')) }}</li>
 	<li>{{ Form::select('especialidades_id', $especialidades, null) }}</li> 
-        <li>{{ Form::select('user_id', $usuarios }}</li>
+        <li>{{ Form::select('user_id', $usuarios) }}</li>
         
         <?php $i = 1; ?>       
   @foreach($sedes as $sede)
