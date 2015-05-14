@@ -101,6 +101,8 @@ Route::get('historial_clinico/buscar', 'Historial_clinicoController@buscar');
 Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda');
 Route::resource('historial_clinico', 'Historial_clinicoController');
 
+//Rutas para facturación
+Route::resource('facturacion', 'FacturacionController');
 
 //rutas para llenar db de datos:
 //importando pacientes:
