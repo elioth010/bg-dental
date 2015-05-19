@@ -20,7 +20,7 @@ class FacturacionController extends \BaseController {
                             'tratamientos.nombre as t_n',
                             'fecha_realizacion',
                             'abonado_quiron',
-                            'cobrado_profesional', 'historial_clinico.*')
+                            'cobrado_profesional', 'historial_clinico.id as h_id', 'historial_clinico.*')
                     ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
                     ->orderBy('fecha_realizacion', 'DESC')->get();
             //var_dump($historial);
@@ -82,11 +82,16 @@ class FacturacionController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$historial = Historial_clinico::find($id);
-                $historial->abonado_quiron = Input::get('abonado_quiron');
-                $historial->cobrado_profesional = Input::get('cobrado_profesional');
-                $historial->update();
-                return Redirect::to('facturacion')->with('message', 'Historial modificado con éxito.');
+            var_dump($_POST);
+//            $input = Input::except('_token');
+//             foreach ($input as $key => $value) {
+//            
+//                $historial = Historial_clinico::find($id);
+//                $historial->abonado_quiron = Input::get('abonado_quiron');
+//                $historial->cobrado_profesional = Input::get('cobrado_profesional');
+//                $historial->update();
+//             }
+//                return Redirect::to('facturacion')->with('message', 'Historial modificado con éxito.');
 	}
 
 

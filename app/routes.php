@@ -104,6 +104,9 @@ Route::resource('historial_clinico', 'Historial_clinicoController');
 //Rutas para facturación
 Route::resource('facturacion', 'FacturacionController');
 
+//Rutas de estadisticas
+Route::resource('estadisticas', 'EstadisticasController');
+
 //rutas para llenar db de datos:
 //importando pacientes:
 Route::get('import_pacientes', function(){
