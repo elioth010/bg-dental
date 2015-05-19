@@ -9,4 +9,9 @@ public function tratamientos()
     public function pacientes(){
         return $this->belongsToMany('Pacientes', 'pacientes', 'companias', 'companias_id');
     }
+
+    public static $p_rules = array(
+        'nombre' => 'required|unique:companias',
+        'codigo' => 'required|unique:companias',
+    );
 }

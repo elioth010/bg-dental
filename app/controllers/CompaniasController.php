@@ -33,8 +33,20 @@ class CompaniasController extends BaseController {
 	 */
 	public function store()
 	{
-		Companias::create(Input::all());
-		echo "Compañía guardada";
+		$validator = Validator::make(Input::all(), Companias::$p_rules);
+
+        if ($validator->passes()) {
+
+			$compania = Companias::create(Input::all());
+			echo "Compañía guardada";
+			$tratamientos = Tratamientos::all();
+			foreach ($tratamientos as $tratamiento) {
+				$tratamiento->precios()->attach($compania->id, array('precio' => NULL));
+			}
+		} else {
+            return Redirect::action('CompaniasController@create')->with('message', 'Existen los siguientes errores:')->withErrors($validator->messages())->withInput();
+        }
+
 		return Redirect::to('tratamientos/crearcompania');
 	}
 
