@@ -33,8 +33,13 @@ class CompaniasController extends BaseController {
 	 */
 	public function store()
 	{
-		Companias::create(Input::all());
+		$compania = Companias::create(Input::all());
 		echo "Compañía guardada";
+		$tratamientos = Tratamientos::all();
+		foreach ($tratamientos as $tratamiento) {
+			$tratamiento->precios()->attach($compania->id, array('precio' => NULL));
+		}
+
 		return Redirect::to('tratamientos/crearcompania');
 	}
 
