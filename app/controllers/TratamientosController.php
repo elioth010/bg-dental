@@ -73,18 +73,18 @@ class TratamientosController extends \BaseController {
         $tratamiento->activo 				= Input::get('activo', 1);
         $tratamiento->save();
 
-        $num_companias = Companias::count();
-        $i = 1;
-        while($i <= $num_companias){
-            if(Input::has('cid-'.$i)){
-	            $compania = Input::get('cid-'.$i);
-	            $precio = Input::get('precio-'.$i);
-				if ($precio == '') $precio = NULL;
+		$companias = Companias::all();
+		foreach ($companias as $compania) {
+			if (Input::has('cid-' . $compania->id)) {
+				$input_compania = Input::get('cid-' . $compania->id);
+				$input_precio = Input::get('precio-' . $compania->id);
 
-				$pt = array('precio' => $precio);
-	            $tratamiento->precios()->attach($compania, $pt);
-            }
-			$i++;
+				if ($input_precio == '') $input_precio = NULL;
+
+				$pt = array('precio' => $input_precio);
+				$tratamiento->precios()->attach($input_compania, $pt);
+
+			}
 		}
 
 		return Redirect::action('TratamientosController@index');
@@ -177,31 +177,27 @@ class TratamientosController extends \BaseController {
 	{
 		$tratamiento = Tratamientos::find($id);
 		$tratamiento->nombre = Input::get('nombre');
-                $tratamiento->codigo = Input::get('codigo');
-                $tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
-                $tratamiento->tipostratamientos_id = Input::get('tipotratamiento');
-                $tratamiento->activo = Input::get('activo', 1);
-                $tratamiento->save();
+        $tratamiento->codigo = Input::get('codigo');
+        $tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
+        $tratamiento->tipostratamientos_id = Input::get('tipotratamiento');
+        $tratamiento->activo = Input::get('activo', 1);
+        $tratamiento->save();
 
         $tratamiento->precios()->detach();
 
-		$num_companias = Companias::count();
-		$i = 1;
-		while($i <= $num_companias){
-			echo $i;
-			if (Input::has('cid-'.$i)) {
-				echo $i;
-				$compania = Input::get('cid-'.$i);
-				$precio = Input::get('precio-'.$i);
+		$companias = Companias::all();
+		foreach ($companias as $compania) {
+			if (Input::has('cid-' . $compania->id)) {
+				$input_compania = Input::get('cid-' . $compania->id);
+				$input_precio = Input::get('precio-' . $compania->id);
 
-				$activado = Input::get('activado-'.$i);
-				if ($precio == '' || !$activado) $precio = NULL;
+				$input_activado = Input::get('activado-' . $compania->id);
+				if ($input_precio == '' || !$input_activado) $input_precio = NULL;
 
-				$pt = array('precio' => $precio);
-				$tratamiento->precios()->attach($compania, $pt);
+				$pt = array('precio' => $input_precio);
+				$tratamiento->precios()->attach($input_compania, $pt);
 
 			}
-			$i++;
 		}
 
 		//return Redirect::to('tratamientos');
