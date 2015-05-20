@@ -90,9 +90,9 @@
     Acciones:
 
     {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Volver a los presupuestos de este paciente', $paciente) }}
-    | {{ HTML::linkAction('PresupuestosController@imprimirPresupuesto', 'Imprimible', array($paciente, $presupuesto->id), ['target'=>'_blank']) }}
-    | {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar PDF', array($paciente, $presupuesto->id), ['target'=>'_blank']) }}
-    | {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver PDF', array($paciente, $presupuesto->id), ['target'=>'_blank']) }}
+  | {{ HTML::linkAction('PresupuestosController@imprimirPresupuesto', 'Imprimible', array($paciente, $presupuesto->id), ['target'=>'_blank']) }}
+<!--      | {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar PDF', array($paciente, $presupuesto->id), ['target'=>'_blank']) }}
+    | {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver PDF', array($paciente, $presupuesto->id), ['target'=>'_blank']) }}-->
 	</div>
 	</div>
 @stop
