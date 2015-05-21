@@ -4,6 +4,7 @@
 
 <div>
     <h1>Presupuestos del paciente:</h1>
+    <p>{{$paciente->nombre}}, {{$paciente->apellido1}} {{$paciente->apellido2}}. NHC: {{$paciente->numerohistoria}}</p>
     <table border = "1">
 	<tr>
 	    <td>NHC:</td>

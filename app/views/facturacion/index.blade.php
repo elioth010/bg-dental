@@ -4,14 +4,20 @@
 
  
   <div class="top">
-  <h3>Este mes:</h3>
+  
+  Elegir intervalo de tiempo:
+ {{ Form::open(array('url'=>'estadisticas')) }}
+ {{ Form::text('fecha_inicio', '', array('id' => 'datepicker', 'class' => 'euros')) }} - {{ Form::text('fecha_fin', '', array('id' => 'datepicker', 'class' => 'euros')) }}
+ {{ Form::submit('OK', array('class'=>'botonl'))}}
+ {{ Form::close() }}
+ <h3>Este mes:</h3>
   	<div class="labelreg6">
     <table border = "1">
         <tr>
             <th>Paciente</th>
             <th>Tratamiento</th>
             <th>Fecha de realización</th>
-            <th>Abonado por Quirón</th>
+            <th>Producción s. Quirón</th>
             <th>Cobrado por profesional</th>
             <th>Guardar</th>
         </tr>
@@ -25,23 +31,38 @@
                 {{ Form::open(array('url'=>'facturacion/'.$historial->h_id, 'method' => 'put')) }}
                 {{Form::hidden('id', $historial->h_id)}}
                     <td class = "td_centrado">
-                        @if($historial->abonado_quiron != 1)
-                        {{Form::checkbox('abonado_quiron-'.$i)  }}
+                        @if(Auth::user()->isAsesor())
+                            @if($historial->abonado_quiron != 1)
+                                {{Form::checkbox('abonado_quiron-'.$i)  }}
+                            @else
+                                {{Form::checkbox('abonado_quiron-'.$i,1, true)  }}
+                            @endif
                         @else
-                        {{Form::checkbox('abonado_quiron-'.$i,1, true)  }}
+                            @if($historial->abonado_quiron != 1)
+                                {{Form::checkbox('abonado_quiron-'.$i, 0,null,array('disabled'))  }}
+                            @else
+                                {{Form::checkbox('abonado_quiron-'.$i,1, true, array('disabled'))  }}
+                            @endif
                         @endif
                     </td>
 
                     <td class = "td_centrado">
-                        @if($historial->cobrado_profesional != 1)
-                        {{Form::checkbox('cobrado_profesional-'.$i)  }}
+                        @if(Auth::user()->isAsesor())
+                            @if($historial->cobrado_profesional != 1)
+                                {{Form::checkbox('cobrado_profesional-'.$i, 0,null,array('disabled'))  }}
+                            @else
+                                {{Form::checkbox('cobrado_profesional-'.$i,1, true, array('disabled'))  }}
+                            @endif
                         @else
-                        {{Form::checkbox('cobrado_profesional-'.$i,1, true)  }}
-                        <?php $i++;?>
+                            @if($historial->cobrado_profesional != 1)
+                                {{Form::checkbox('cobrado_profesional-'.$i)  }}
+                            @else
+                                {{Form::checkbox('cobrado_profesional-'.$i,1, true)  }}
+                            @endif
                         @endif
                     </td>
                     <td> 
-            </tr>
+            </tr><?php $i++;?>
         @endforeach
         {{ Form::submit('OK', array('class'=>'botonl'))}}</td>
                 {{Form::close()}}

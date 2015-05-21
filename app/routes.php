@@ -107,6 +107,10 @@ Route::resource('facturacion', 'FacturacionController');
 //Rutas de estadisticas
 Route::resource('estadisticas', 'EstadisticasController');
 
+//Rutas sala de espera
+
+Route::resource('espera', 'EsperaController');
+
 //rutas para llenar db de datos:
 //importando pacientes:
 Route::get('import_pacientes', function(){

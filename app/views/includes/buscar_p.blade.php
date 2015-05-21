@@ -1,6 +1,4 @@
-@extends('layouts.main')
-
-@section('contenido')
+@section('buscar_p')
 {{ Form::open(array('url'=>'paciente/busqueda')) }}     
     <h1>Búsqueda de pacientes:</h1>
     
