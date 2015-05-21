@@ -10,7 +10,13 @@ class PacientesController extends BaseController {
 	public function index()
 	{
 		//$pacientes = Pacientes::on('quiron')->where('created_at', '>=', 'DATE_SUB(NOW(), INTERVAL 1 DAY)')->orderBy('created_at')->get();
-		$pacientes = Pacientes::whereRaw('created_at >= DATE_SUB(NOW(), INTERVAL 100 DAY)')->orderBy('created_at')->get();
+		$pacientes = Pacientes::whereRaw('pacientes.created_at >= DATE_SUB(NOW(), INTERVAL 100 DAY)')
+                                ->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
+                                ->select('pacientes.*','espera.admitido')
+                                ->groupBy('pacientes.id')
+                                ->orderBy('pacientes.created_at')
+                                ->get();
+                
 		//$pacientes = Pacientes::all();
 		return View::make('pacientes.index', array('pacientes' => $pacientes));
 	}
@@ -60,7 +66,9 @@ class PacientesController extends BaseController {
 		$busca = Input::get('nombre');
 		if($busca) {
 		  //$paciente = Pacientes::on('quiron')->whereRaw('nombre LIKE "%'.$busca.'%" or apellido1 LIKE "%'.$busca.'%"  or apellido2 LIKE "%'.$busca.'%"  or numerohistoria LIKE "%'.$busca.'%" ')->get();
-		  $paciente = Pacientes::whereRaw('nombre LIKE "%'.$busca.'%" or apellido1 LIKE "%'.$busca.'%"  or apellido2 LIKE "%'.$busca.'%"  or numerohistoria LIKE "%'.$busca.'%" ')->get();
+		  $paciente = Pacientes::whereRaw('nombre LIKE "%'.$busca.'%" or apellido1 LIKE "%'.$busca.'%"  or apellido2 LIKE "%'.$busca.'%"  or numerohistoria LIKE "%'.$busca.'%" ')
+                          ->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
+                          ->get();
 		  
 
 		  
