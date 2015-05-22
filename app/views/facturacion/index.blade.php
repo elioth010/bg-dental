@@ -6,8 +6,8 @@
   <div class="top">
   
   Elegir intervalo de tiempo:
- {{ Form::open(array('url'=>'estadisticas')) }}
- {{ Form::text('fecha_inicio', '', array('id' => 'datepicker', 'class' => 'euros')) }} - {{ Form::text('fecha_fin', '', array('id' => 'datepicker', 'class' => 'euros')) }}
+ {{ Form::open(array('url'=>'facturacion/cf')) }}
+ {{ Form::text('fecha_inicio', '', array('id' => 'fecha_inicio', 'class' => 'euros')) }} - {{ Form::text('fecha_fin', '', array('id' => 'fecha_fin', 'class' => 'euros')) }}
  {{ Form::submit('OK', array('class'=>'botonl'))}}
  {{ Form::close() }}
  <h3>Este mes:</h3>

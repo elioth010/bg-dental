@@ -102,6 +102,7 @@ Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda'
 Route::resource('historial_clinico', 'Historial_clinicoController');
 
 //Rutas para facturación
+Route::post('facturacion/cf', 'FacturacionController@index_cf');
 Route::resource('facturacion', 'FacturacionController');
 
 //Rutas de estadisticas
