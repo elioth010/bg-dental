@@ -62,27 +62,27 @@ class Historial_clinicoController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$user =  Auth::id();
-                $paciente = Pacientes::find($id);
-                $compania = Companias::find($paciente->compania);
-                $historial = Historial_clinico::where('paciente_id', $paciente->id)
-                        ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
-                        ->leftJoin('precios','historial_clinico.tratamiento_id', '=', 'precios.tratamientos_id')->where('precios.companias_id','=', $paciente->compania)
-                                    
-                        ->leftJoin('profesionales', 'historial_clinico.profesional_id', '=', 'profesionales.id' )
-                        ->select('historial_clinico.*', 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1', 'profesionales.apellido2 as pr_a2', 'precios.precio',
-                        'tratamientos.nombre as t_n')
-                        ->where('precios.companias_id', $paciente->compania)
-                        ->orderBy('fecha_realizacion', 'DESC')
-                        ->get();
-                $grupos = Grupos::orderBy('id')->lists('nombre', 'id');
-                $tratamientos = Tratamientos::lists('nombre','id');
-                $profesional = Profesional::where('user_id', $user)->firstOrFail();
-                return View::make('historial.historial')->with('paciente', $paciente)->with('historial', $historial)
-                        ->with('grupos', $grupos)->with('tratamientos', $tratamientos)->with('profesional', $profesional)
-                        ->with('compania', $compania);
+		$user = Auth::id();
+        $paciente = Pacientes::where('id', $id)->firstOrFail();
+        $compania = Companias::where('id', $paciente->compania)->firstOrFail();
+        $historiales = Historial_clinico::where('paciente_id', $paciente->id)
+                ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
+                ->leftJoin('precios','historial_clinico.tratamiento_id', '=', 'precios.tratamientos_id')->where('precios.companias_id','=', $paciente->compania)
+                ->leftJoin('profesionales', 'historial_clinico.profesional_id', '=', 'profesionales.id' )
+                ->select('historial_clinico.*', 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1', 'profesionales.apellido2 as pr_a2', 'precios.precio',
+                'tratamientos.nombre as t_n')
+                ->where('precios.companias_id', $paciente->compania)
+                ->orderBy('fecha_realizacion', 'DESC')
+                ->get();
 
-        //var_dump($historial);
+        $grupos = Grupos::orderBy('id')->lists('nombre', 'id');
+        $tratamientos = Tratamientos::lists('nombre','id');
+        $profesional = Profesional::where('user_id', $user)->firstOrFail();
+
+        return View::make('historial.historial')->with(array('paciente' => $paciente, 'historiales' => $historiales,
+															 'grupos' => $grupos, 'tratamientos' => $tratamientos,
+															 'profesional' => $profesional, 'compania' => $compania));
+
 	}
 
 
