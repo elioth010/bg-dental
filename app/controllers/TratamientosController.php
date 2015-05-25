@@ -140,7 +140,7 @@ class TratamientosController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$tratamiento = Tratamientos::where('id', $id)->first();
+		$tratamiento = Tratamientos::where('id', $id)->firstOrFail();
         $grupos = Grupos::lists('nombre','id');
 		$companias = Companias::lists('nombre', 'id');
 		$tipos = TiposTratamientos::get();

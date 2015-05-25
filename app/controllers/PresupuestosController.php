@@ -304,7 +304,7 @@ class PresupuestosController extends \BaseController {
 	/* */
 	public function crearpresupuesto($numerohistoria)
 	{
-		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->first();
+		$paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
 
 		$data = $this->_crearpresupuesto($paciente);
 
@@ -448,7 +448,7 @@ class PresupuestosController extends \BaseController {
 	 */
 	public function verpresupuestos($numerohistoria)
 	{
-		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->first();
+		$paciente_b = Pacientes::where('numerohistoria',$numerohistoria)->firstOrFail();
 		$companias_list = Companias::lists('nombre', 'id');
 		$paciente_b->companias_text = $companias_list[$paciente_b->compania];
 

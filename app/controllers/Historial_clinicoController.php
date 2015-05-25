@@ -77,11 +77,11 @@ class Historial_clinicoController extends \BaseController {
                         ->get();
                 $grupos = Grupos::orderBy('id')->lists('nombre', 'id');
                 $tratamientos = Tratamientos::lists('nombre','id');
-                $profesional = Profesional::where('user_id', $user)->first();
+                $profesional = Profesional::where('user_id', $user)->firstOrFail();
                 return View::make('historial.historial')->with('paciente', $paciente)->with('historial', $historial)
                         ->with('grupos', $grupos)->with('tratamientos', $tratamientos)->with('profesional', $profesional)
                         ->with('compania', $compania);
-                
+
         //var_dump($historial);
 	}
 
