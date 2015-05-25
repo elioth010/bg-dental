@@ -65,20 +65,21 @@ class PacientesController extends BaseController {
 	 {
 		$busca = Input::get('nombre');
 		if($busca) {
-		  //$paciente = Pacientes::on('quiron')->whereRaw('nombre LIKE "%'.$busca.'%" or apellido1 LIKE "%'.$busca.'%"  or apellido2 LIKE "%'.$busca.'%"  or numerohistoria LIKE "%'.$busca.'%" ')->get();
-		  $paciente = Pacientes::whereRaw('nombre LIKE "%'.$busca.'%" or apellido1 LIKE "%'.$busca.'%"  or apellido2 LIKE "%'.$busca.'%"  or numerohistoria LIKE "%'.$busca.'%" ')
-                          ->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
-                          ->get();
-		  
 
-		  
+			$busca = '%'.$busca.'%';
+			$pacientes = Pacientes::select('pacientes.id', 'numerohistoria', 'nombre', 'apellido1', 'apellido2', 'admitido')
+									->where('nombre', 'LIKE', $busca)
+									->orWhere('apellido1', 'LIKE', $busca)
+									->orWhere('apellido2', 'LIKE', $busca)
+									->orWhere('numerohistoria', 'LIKE', $busca)
+									->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
+									->get();
+
 		} else {
 		  return Redirect::to('paciente/buscar');
 		}
-		//var_dump($paciente);
 
-
-		return View::make('pacientes.busqueda')->with('paciente', $paciente);
+		return View::make('pacientes.busqueda')->with('pacientes', $pacientes);
 	 }
 	 
 	 

@@ -5,7 +5,8 @@
    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script>
   $(function() {
-        $( "#datepicker" ).datepicker();
+        $( "#fecha_inicio" ).datepicker();
+        $( "#fecha_fin" ).datepicker();
         
   });
   </script>

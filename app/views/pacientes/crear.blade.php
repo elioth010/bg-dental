@@ -28,6 +28,7 @@
     <li>Correo electrónico</li>
     <li>Género</li>
     <li>Compañía:</li>
+    <li>2ª Compañía opc.:</li>
  
 </ul>
 

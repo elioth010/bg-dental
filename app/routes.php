@@ -41,6 +41,7 @@ Route::get('tratamientos/crear', 'TratamientosController@create');
 Route::get('tratamientos/editar/{id}', 'TratamientosController@edit');
 Route::post('tratamientos/guardar', 'TratamientosController@store');
 Route::post('tratamientos/guardartratamiento/{id}', 'TratamientosController@update');
+Route::get('tratamientos/borrartratamiento/{id}', 'TratamientosController@destroy');
 
 
 
@@ -49,6 +50,9 @@ Route::post('tratamientos/guardartratamiento/{id}', 'TratamientosController@upda
 Route::get('tratamientos/companias', 'CompaniasController@index');
 Route::get('tratamientos/crearcompania', 'CompaniasController@create');
 Route::post('tratamientos/guardarcompania', 'CompaniasController@store');
+Route::get('tratamientos/editarcompania/{id}', 'CompaniasController@edit');
+Route::post('tratamientos/modificarcompania/{id}', 'CompaniasController@update');
+Route::get('tratamientos/borrarcompania/{id}', 'CompaniasController@destroy');
 
 
 //Rutas presupuestos:
@@ -102,6 +106,8 @@ Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda'
 Route::resource('historial_clinico', 'Historial_clinicoController');
 
 //Rutas para facturación
+Route::post('facturacion/cf', 'FacturacionController@index_cf');
+Route::post('facturacion/nocobrado', 'FacturacionController@index_nocobrado');
 Route::resource('facturacion', 'FacturacionController');
 
 //Rutas de estadisticas

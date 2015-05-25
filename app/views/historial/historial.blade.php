@@ -15,7 +15,9 @@
             <th>Profesional</th>
             <th>Fecha realización</th>
             <th>Precio</th>
+            @if(Auth::user()->isAdmin())
             <th>Cobrado paciente</th>
+            @endif
 <!--            <th>Abonado por Quirón</th>
             <th>Cobrado por profesional</th>-->
             <th>Guardar</th>
@@ -26,7 +28,9 @@
             <td>{{$profesional->nombre}}, {{$profesional->apellido1}}{{Form::hidden('profesional_id', $profesional->id)}}{{Form::hidden('paciente_id', $paciente->id)}}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('id' => 'datepicker', 'class' => 'euros')) }}</td>
             <td>Precio...</td>
+            @if(Auth::user()->isAdmin())
             <td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
+            @endif
 <!--             <td class = "td_centrado">{{ Form::checkbox('abonado_quiron',0,0) }}</td>
              <td class = "td_centrado">{{Form::checkbox('cobrado_profesional',0,0)}}</td>-->
             <td> {{ Form::submit('OK', array('class'=>'botonl'))}}</td>
@@ -40,7 +44,9 @@
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
             <td>{{ $historial->fecha_realizacion }}</td>
             <td>{{$historial->precio}}</td>
+            @if(Auth::user()->isAdmin())
             <td>{{ $historial->cobrado_paciente }}</td>
+            @endif
 <!--            <td class = "td_centrado">
                 @if($historial->abonado_quiron != 1)
                 {{Form::checkbox('vacio',0,null, array('disabled'))  }}
