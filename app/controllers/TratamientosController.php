@@ -216,7 +216,7 @@ class TratamientosController extends \BaseController {
 		$tratamiento = Tratamientos::find($id);
                 $tratamiento->activo = 0;
                 $tratamiento->update();
-                return Redirect::action('TratamientosController@edit', $tratamiento->id);
+                return Redirect::action('TratamientosController@index');
 	}
 
 
