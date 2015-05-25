@@ -74,12 +74,13 @@ class PacientesController extends BaseController {
 									->orWhere('numerohistoria', 'LIKE', $busca)
 									->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
 									->get();
+                        $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 
 		} else {
 		  return Redirect::to('paciente/buscar');
 		}
 
-		return View::make('pacientes.busqueda')->with('pacientes', $pacientes);
+		return View::make('pacientes.busqueda')->with('pacientes', $pacientes)->with('profesionales', $profesionales);
 	 }
 	 
 	 

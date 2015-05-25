@@ -68,6 +68,7 @@ class EsperaController extends \BaseController {
 	 */
 	public function update($id)
 	{
+
 		$paciente = Input::get('admitido', 0);
                 $prof = Input::get('profesional_id');
 //                var_dump($prof);
