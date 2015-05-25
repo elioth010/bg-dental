@@ -16,9 +16,9 @@ class PacientesController extends BaseController {
                                 ->groupBy('pacientes.id')
                                 ->orderBy('pacientes.created_at')
                                 ->get();
-                
+                $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 		//$pacientes = Pacientes::all();
-		return View::make('pacientes.index', array('pacientes' => $pacientes));
+		return View::make('pacientes.index', array('pacientes' => $pacientes))->with('profesionales',$profesionales);
 	}
 
 
