@@ -102,7 +102,7 @@ class UsersController extends BaseController {
 			$i++;
 		}
 //                $user->update(Input::all());
-                //return Redirect::to('users/dashboard')->with('message', 'Usuario modificado con éxito.');
+                return Redirect::to('users/dashboard')->with('message', 'Usuario modificado con éxito.');
 	}
     public function getLogout() {
         Auth::logout();
