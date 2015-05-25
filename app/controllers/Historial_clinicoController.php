@@ -52,6 +52,69 @@ class Historial_clinicoController extends \BaseController {
     }
 
 
+	// Construye un array para javascript de crear/editar presupuesto
+	private function getTratamientosArray($grupos, $companias, $companias_paciente) {
+
+		$preciosObj = Precios::whereIn('companias_id', array_keys($companias))->get(array('tratamientos_id', 'precio', 'companias_id'));
+		$precios = array();
+		$companiaEconomica = array();
+
+		// Escoge el precio más barato de las dos compañías
+		foreach ($preciosObj as $p)
+		{
+			if (!(array_key_exists($p->tratamientos_id, $precios)) ||
+				((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
+
+				$precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+			}
+
+			if (in_array($p->companias_id, $companias_paciente)) {
+				if (!(array_key_exists($p->tratamientos_id, $companiaEconomica)) ||
+					((array_key_exists($p->tratamientos_id, $companiaEconomica)) && ($p->precio < $precios[$p->tratamientos_id][$companiaEconomica[$p->tratamientos_id]]))) {
+
+					$companiaEconomica[$p->tratamientos_id] = $p->companias_id;
+				}
+			}
+		}
+
+		$tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
+
+		$atratamientos = array();
+		foreach ($tratamientosAll as $t) {
+			// No mostrar el tratamiento si no tiene precio asignado en las compañías del paciente
+			if (array_key_exists($t->id, $precios)) {
+				$ta = array('id' => $t->id, 'nombre' => $t->nombre, 'compania_economica' => $companiaEconomica[$t->id],
+							'precios' => $precios[$t->id], 'tipo' => $t->tipostratamientos_id);
+				$atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
+			}
+		}
+
+		return $atratamientos;
+	}
+
+	/* */
+	private function _data_aux_historial($paciente) {
+
+		$companias_list = Companias::lists('nombre', 'id');
+		$companias_paciente = array();
+		$companias_paciente[] = $paciente->compania;
+
+		$paciente->companias_text = $companias_list[$paciente->compania];
+		if ($paciente->compania2 != 0) {
+			$companias_paciente[] = $paciente->compania2;
+			$paciente->companias_text .= ' y ' . $companias_list[$paciente->compania2];
+		}
+
+		$grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
+
+		$atratamientos = $this->getTratamientosArray($grupos, $companias_list, $companias_paciente);
+
+		return array('grupos' => $grupos,
+					'paciente' => $paciente,
+					'atratamientos' => $atratamientos,
+					'companias' => $companias_list);
+	}
+
 	/**
 	 * Display the specified resource.
 	 *
@@ -60,9 +123,9 @@ class Historial_clinicoController extends \BaseController {
 	 */
 	public function show($id)
 	{
+		$paciente = Pacientes::where('id', $id)->firstOrFail();
 		$user = Auth::id();
-        $paciente = Pacientes::where('id', $id)->firstOrFail();
-        $compania = Companias::where('id', $paciente->compania)->firstOrFail();
+		$profesional = Profesional::where('user_id', $user)->firstOrFail();
         $historiales = Historial_clinico::where('paciente_id', $paciente->id)
                 ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
                 ->leftJoin('precios','historial_clinico.tratamiento_id', '=', 'precios.tratamientos_id')->where('precios.companias_id','=', $paciente->compania)
@@ -73,13 +136,11 @@ class Historial_clinicoController extends \BaseController {
                 ->orderBy('fecha_realizacion', 'DESC')
                 ->get();
 
-        $grupos = Grupos::orderBy('id')->lists('nombre', 'id');
-        $tratamientos = Tratamientos::lists('nombre','id');
-        $profesional = Profesional::where('user_id', $user)->firstOrFail();
 
-        return View::make('historial.historial')->with(array('paciente' => $paciente, 'historiales' => $historiales,
-															 'grupos' => $grupos, 'tratamientos' => $tratamientos,
-															 'profesional' => $profesional, 'compania' => $compania));
+		$data = $this->_data_aux_historial($paciente);
+
+        return View::make('historial.historial')->with($data)
+												->with(array('historiales' => $historiales, 'profesional' => $profesional));
 
 	}
 
