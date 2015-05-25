@@ -137,7 +137,7 @@ q:before, q:after {
 		display: none;
 		}
 		.odontogram{
-		width: 10cm;
+		margin: auto;
 		}
 }
 	 </style>
