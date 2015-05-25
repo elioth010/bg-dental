@@ -1,7 +1,7 @@
 <?php
 class Companias extends Eloquent {
 protected $table = 'companias';
-protected $fillable = array('nombre','codigo','comentarios');
+protected $fillable = array('nombre','codigo','comentarios','activo');
 public function tratamientos()
     {
         return $this->belogsToMany('Tratamientos', 'precios',   'companias_id', 'tratamientos_id')->withPivot('precios');

@@ -213,7 +213,10 @@ class TratamientosController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$tratamiento = Tratamientos::find($id);
+                $tratamiento->activo = 0;
+                $tratamiento->update();
+                return Redirect::action('TratamientosController@edit', $tratamiento->id);
 	}
 
 

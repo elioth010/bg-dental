@@ -44,8 +44,9 @@
             @endif
         @endforeach
 
-        <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br><br>
-        {{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}<br>
+        <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br>
+        <br>{{ HTML::link('tratamientos/borrartratamiento/'.$tratamiento->id, 'Eliminar este tratamiento') }}<br>
+        {{ HTML::linkAction('TratamientosController@index', 'Volver a tratamientos') }}<br>
 
     {{ Form::close() }}
     </div>

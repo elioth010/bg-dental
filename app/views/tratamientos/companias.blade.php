@@ -17,7 +17,7 @@
       @foreach($companias as $companias)
         <tr>
         <td>{{$companias->id}}</td>
-        <td>{{$companias->nombre}}</td>
+        <td>{{ HTML::linkAction('CompaniasController@edit', $companias->nombre, $companias->id) }}</td>
         <td>{{$companias->codigo}}</td>
         <td>{{$companias->comentarios}}</td>
         </tr>

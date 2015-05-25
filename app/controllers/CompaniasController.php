@@ -9,7 +9,7 @@ class CompaniasController extends BaseController {
 	 */
 	public function index()
 	{
-		$companias = Companias::all();
+		$companias = Companias::where('activo', 1)->get();
 		return View::make('tratamientos.companias', array('companias' => $companias));
 	}
 
@@ -21,7 +21,7 @@ class CompaniasController extends BaseController {
 	 */
 	public function create()
 	{
-		$companias = Companias::all();
+		$companias = Companias::where('activo', 1)->get();
 		return View::make('tratamientos.companias')->with('companias',$companias);
 	}
 
@@ -71,7 +71,8 @@ class CompaniasController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$compania = Companias::find($id);
+                return View::make('tratamientos.editarcompania')->with('compania',$compania);
 	}
 
 
@@ -83,7 +84,13 @@ class CompaniasController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$compania = Companias::find($id);
+                $compania->nombre = Input::get('nombre');
+                $compania->codigo = Input::get('codigo');
+                $compania->activo = 1;
+                $compania->update();
+                return Redirect::to('tratamientos/companias');
+                
 	}
 
 
@@ -95,7 +102,10 @@ class CompaniasController extends BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$compania = Companias:: find($id);
+                $compania->activo = 0;
+                $compania->update();
+                return Redirect::to('tratamientos/companias');
 	}
 
 
