@@ -14,7 +14,7 @@
         <th>Admitidos</th>
     </tr>
 
-    @foreach($paciente as $paciente)
+    @foreach($pacientes as $paciente)
     <tr>
         <td>{{ HTML::linkAction('PacientesController@edit',  $paciente->numerohistoria, $paciente->id) }}</td>
         <td> {{ $paciente->nombre }}</td>

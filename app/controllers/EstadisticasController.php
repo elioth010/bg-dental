@@ -12,7 +12,7 @@ class EstadisticasController extends \BaseController {
             $grupousuario = Auth::user()->group_id;
             if($grupousuario != 1){
             $usuario = Auth::user()->id;
-            $profesional_para_facturacion = Profesional::where('user_id', $usuario)->first()->toArray();
+            $profesional_para_facturacion = Profesional::where('user_id', $usuario)->firstOrFail()->toArray();
             $facturacion = Historial_clinico::where('profesional_id', $profesional_para_facturacion['id'])
                     ->leftJoin('pacientes', 'pacientes.id', '=', 'historial_clinico.paciente_id')
                     ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')

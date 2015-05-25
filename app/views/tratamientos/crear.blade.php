@@ -10,7 +10,8 @@
     {{ Form::select('tipotratamiento', $tipostratamientos) }}
     <br><br>
 	</ul>
-    <table style="margin-left:100px;">
+	<div class="overflow">
+    <table>
         <tr>
             <th>Compañía</th>
             <th>Precio<th>
@@ -28,10 +29,11 @@
         @endforeach
     </table>
     <br>
-    <ul class="labelreg3"></ul>
+    <ul class="labelreg3">
     <li>{{Form::hidden('activo', '1')}}</li>
     <li>{{ Form::submit('Guardar', array('class'=>'botonl'))}}</li>
-
 {{ Form::close() }}
-@stop
 	</ul>
+	</div>
+@stop
+

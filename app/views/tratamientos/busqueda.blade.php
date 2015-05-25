@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('contenido')
+	<div class="overflow">
     <h1>Búsqueda de tratamientos</h1>
 
 
@@ -33,5 +34,5 @@
         </tbody>
     </table>
 
-
+	</div>
 @stop

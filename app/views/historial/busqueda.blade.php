@@ -11,7 +11,7 @@
         <th>Apellidos</th>
     </tr>
 
-    @foreach($paciente as $paciente)
+    @foreach($pacientes as $paciente)
     <tr>
         <td> {{ HTML::linkAction('Historial_clinicoController@show', $paciente->numerohistoria, $paciente->id) }}</td>
         <td> {{ $paciente->nombre }}</td>
