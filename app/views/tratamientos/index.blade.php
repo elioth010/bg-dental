@@ -20,6 +20,7 @@
 @section('contenido')
 <div class="search">
 	{{ HTML::linkAction('TratamientosController@show', 'Buscar tratamientos') }}</div>
+	<div class="overflow" style="padding-top:25px;">
 	<h1>Tratamientos</h1>
 
 	<table>
@@ -50,6 +51,7 @@
 			@endforeach
 	    </tbody>
 	</table>
+	</div>
 	<!-- 	<table>
 	    <thead>
 	        <tr>
