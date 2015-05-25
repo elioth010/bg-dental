@@ -37,7 +37,7 @@ class Historial_clinicoController extends \BaseController {
 		$paciente_id = Input::get('paciente_id');
 
             $historial = new Historial_clinico;
-            $historial->tratamiento_id = Input::get('tratamiento_id');
+            $historial->tratamiento_id = Input::get('s_tratamientos');
             $historial->profesional_id = Input::get('profesional_id');
             $historial->paciente_id = $paciente_id;
             $fecha_r = Input::get('fecha_realizacion');

@@ -48,13 +48,13 @@
 <!--             <td class = "td_centrado">{{ Form::checkbox('abonado_quiron',0,0) }}</td>
              <td class = "td_centrado">{{Form::checkbox('cobrado_profesional',0,0)}}</td>-->
 
-            <td> {{ Form::submit('OK', array('class'=>'botonl'))}}</td>
+            <td> {{ Form::submit('Añadir', array('class'=>'botonl'))}}</td>
             {{ Form::close() }}
         </tr>
 
         @foreach($historiales as $historial)
         <tr>
-            
+
             <td>{{ $historial->t_n }}</td>
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
             <td>{{ $historial->fecha_realizacion }}</td>
@@ -81,8 +81,9 @@
         @endforeach
 
     </table>
-
-
+    <br/>
+    <h2>Presupuestos abiertos</h2>
+    Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:
 	</div>
 </div>
 
