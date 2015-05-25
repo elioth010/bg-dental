@@ -15,24 +15,32 @@
             <th>Profesional</th>
             <th>Fecha realización</th>
             <th>Precio</th>
+
             @if(Auth::user()->isAdmin())
             <th>Cobrado paciente</th>
             @endif
+
 <!--            <th>Abonado por Quirón</th>
             <th>Cobrado por profesional</th>-->
             <th>Guardar</th>
         </tr>
+
         <tr>
             {{ Form::open(array('url'=>'historial_clinico')) }}
+            {{ Form::hidden('profesional_id', $profesional->id) }}
+            {{ Form::hidden('paciente_id', $paciente->id) }}
             <td>{{ Form::select('grupos', $grupos) }} {{ Form::select('tratamiento_id', $tratamientos) }}</td>
-            <td>{{$profesional->nombre}}, {{$profesional->apellido1}}{{Form::hidden('profesional_id', $profesional->id)}}{{Form::hidden('paciente_id', $paciente->id)}}</td>
+            <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('id' => 'datepicker', 'class' => 'euros')) }}</td>
             <td>Precio...</td>
+
             @if(Auth::user()->isAdmin())
             <td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
             @endif
+
 <!--             <td class = "td_centrado">{{ Form::checkbox('abonado_quiron',0,0) }}</td>
              <td class = "td_centrado">{{Form::checkbox('cobrado_profesional',0,0)}}</td>-->
+
             <td> {{ Form::submit('OK', array('class'=>'botonl'))}}</td>
             {{ Form::close() }}
         </tr>
@@ -69,5 +77,11 @@
             
 	</div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#datepicker").datepicker({dateFormat: "dd/mm/yy"}).datepicker("setDate",new Date());
+    });
+</script>
 
 @stop
