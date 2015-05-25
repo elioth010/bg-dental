@@ -15,7 +15,7 @@ class TratamientosController extends \BaseController {
         public function index_tpg(){
             $grupo = Input::get('grupos');
 
-            $companias = Companias::lists('nombre', 'id');
+            $companias = Companias::where('activo',1)->lists('nombre', 'id');
 
             $tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')->where('tratamientos.grupostratamientos_id' ,'=', $grupo)
                                                     ->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
