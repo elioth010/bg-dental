@@ -1,16 +1,20 @@
 @extends('layouts.main')
 
+@section('javascripts')
+    <script src="/js/historial.js"></script>
+@stop
+
 @section('contenido')
 
   <div class="search">
   {{ HTML::linkAction('Historial_clinicoController@buscar', 'Buscar pacientes') }}
   </div>
   <div class="top">
-  <h3>Historial de {{$paciente->nombre}}, {{$paciente->apellido1}} {{$paciente->apellido2}} con NHC:  {{$paciente->numerohistoria}} y Compañía: {{$compania->nombre}}</h3>
+  <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
   	<div class="overflow">
     <table border = "1">
         <tr>
-            
+
             <th>Tratamiento realizado</th>
             <th>Profesional</th>
             <th>Fecha realización</th>
@@ -29,7 +33,10 @@
             {{ Form::open(array('url'=>'historial_clinico')) }}
             {{ Form::hidden('profesional_id', $profesional->id) }}
             {{ Form::hidden('paciente_id', $paciente->id) }}
-            <td>{{ Form::select('grupos', $grupos) }} {{ Form::select('tratamiento_id', $tratamientos) }}</td>
+
+            <td>{{ Form::select('s_grupos', array(),  null, array('id' => 's_grupos', 'onchange' => 'updateSelectTratamientos(this.value)')) }}
+                {{ Form::select('s_tratamientos', array(), null, array('id' => 's_tratamientos')) }}
+            </td>
             <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('id' => 'datepicker', 'class' => 'euros')) }}</td>
             <td>Precio...</td>
@@ -72,16 +79,20 @@
             </td>-->
         </tr>
         @endforeach
-         
+
     </table>
-           
-            
+
+
 	</div>
 </div>
 
 <script type="text/javascript">
+    var grupos = {{ json_encode($grupos) }}
+    var tratamientos = {{ json_encode($atratamientos) }}
+
     $(document).ready(function() {
         $("#datepicker").datepicker({dateFormat: "dd/mm/yy"}).datepicker("setDate",new Date());
+        setTratamientos()
     });
 </script>
 
