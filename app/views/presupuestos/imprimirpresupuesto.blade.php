@@ -154,6 +154,7 @@ q:before, q:after {
         <li>Dirección: {{ $paciente->Direccion }}
         {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
         <li>Teléfono: {{ $paciente->addrtel1 }} {{ $paciente->addrtel2 }}</li>
+        <li>Nombre del Profesional: </li>
 	<li class="vista">
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
