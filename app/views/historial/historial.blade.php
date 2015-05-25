@@ -55,6 +55,7 @@
             @if (Auth::user()->isAdmin())
             <td>{{ $historial->cobrado_paciente }}</td>
             @endif
+            <td></td>
 <!--            <td class = "td_centrado">
                 @if($historial->abonado_quiron != 1)
                 {{Form::checkbox('vacio',0,null, array('disabled'))  }}

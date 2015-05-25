@@ -34,24 +34,22 @@ class Historial_clinicoController extends \BaseController {
 	 */
 	public function store()
 	{
-            // [tratamiento_id] => 2 [profesional_id] => 3 [paciente_id] => 1 [fecha_realizacion] => 05/31/2015 [cobrado_paciente] => 3 [abonado_quiron] => 1 [cobrado_profesional] => 1 )
-            //print_r($_POST);
+		$paciente_id = Input::get('paciente_id');
+
             $historial = new Historial_clinico;
             $historial->tratamiento_id = Input::get('tratamiento_id');
             $historial->profesional_id = Input::get('profesional_id');
-            $historial->paciente_id = Input::get('paciente_id');
+            $historial->paciente_id = $paciente_id;
             $fecha_r = Input::get('fecha_realizacion');
             $fecha_r_f = explode('/', $fecha_r);
-            $historial->fecha_realizacion = $fecha_r_f[2]."-".$fecha_r_f[0]."-".$fecha_r_f[1];
-            $historial->cobrado_paciente = Input::get('cobrado_paciente');
-            $historial->abonado_quiron = Input::get('abonado_quiron');
-            $historial->cobrado_profesional = Input::get('cobrado_profesional');
+            $historial->fecha_realizacion = $fecha_r_f[2]."-".$fecha_r_f[1]."-".$fecha_r_f[0];
+            $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
+            $historial->abonado_quiron = Input::get('abonado_quiron', 0);
+            $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
             $historial->save();
-            $paciente_id = Input::get('paciente_id');
-//                $historial = Input::all();
-//                var_dump($historial);
+
             return Redirect::to('historial_clinico/'.$paciente_id);
-        }
+    }
 
 
 	/**
