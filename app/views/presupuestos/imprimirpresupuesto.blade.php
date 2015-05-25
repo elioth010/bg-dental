@@ -130,8 +130,7 @@ q:before, q:after {
 		font-size: 10pt;
 		}
 		.logo{
-		width: 6cm;
-		float: left;}
+		width: 5cm;}
 		@media print{
 		.vista{
 		display: none;
