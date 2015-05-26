@@ -11,7 +11,7 @@ class Historial_clinicoController extends \BaseController {
 	{
 //	    $sede_id = Input::get('sede');
 //            $sede = Sedes::find($sede_id);
-//            $profesionales = Profesional::lists('apellido1', 'id');	
+//            $profesionales = Profesional::lists('apellido1', 'id');
             return View::make('historial.buscar')/*->with(array('profesionales' => $profesionales))->with('sede', $sede)*/;
 	}
 
@@ -153,7 +153,21 @@ class Historial_clinicoController extends \BaseController {
 									->orderBy('created_at', 'DESC')->get();
 
 		foreach ($presupuestos as $p) {
-			$p->tratamientos2 = $p->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+			$presu_trats = $p->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+			$include = false;
+			foreach ($presu_trats as $pt) {
+				if ($pt->estado == 0) {
+					$include = true;
+					break;
+				}
+			}
+
+			if ($include) {
+				$p->presu_tratamientos = $presu_trats;
+			} else {
+				$p->presu_tratamientos = array();
+			}
+
 		}
 		$data = $this->_data_aux_historial($paciente);
 
