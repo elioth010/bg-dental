@@ -20,9 +20,9 @@
             <th>Fecha realización</th>
             <th>Precio</th>
 
-            @if(Auth::user()->isAdmin())
+            {{--@if(Auth::user()->isAdmin())
             <th>Cobrado paciente</th>
-            @endif
+            @endif--}}
 
 <!--            <th>Abonado por Quirón</th>
             <th>Cobrado por profesional</th>-->

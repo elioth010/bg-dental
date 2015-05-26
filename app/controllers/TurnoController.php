@@ -167,10 +167,11 @@ class TurnoController extends \BaseController {
 	{
             $sede_id = Input::get('sede');
             $sede = Sedes::find($sede_id);
-            $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')->where('sedes_profesionales.sede_id', $sede_id)
-                    //->select('profesionales.id', DB::raw('concat (profesionales.nombre," ",profesionales.apellido1) as nombre_p'))
-                    ;
-            var_dump($profesionales);
+            echo "HOLA";
+//            $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
+//                    ->select('profesionales.id', DB::raw('concat (profesionales.nombre," ",profesionales.apellido1) as nombre_p'))
+//                    ;
+//            var_dump($profesionales);
             //return View::make('agenda.crear_turnos_tps')->with(array('profesionales' => $profesionales))->with('sede', $sede);
         }
         
