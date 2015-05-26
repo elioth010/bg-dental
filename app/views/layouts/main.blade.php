@@ -54,7 +54,7 @@
                             @endif
                         </ul>
                     </li>
-                    @if(Auth::user()->isProfesional())
+                    @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
                     <li>{{ HTML::link('#', 'Profesionales') }}
                         <ul>
                             <li>{{ HTML::link('historial_clinico', 'Historial Clínico') }}</li>

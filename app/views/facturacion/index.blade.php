@@ -14,7 +14,7 @@
               </td>
               <td>Facturación pendiente de cobro:
                   {{ Form::open(array('url'=>'facturacion/nocobrado')) }}
-                  {{ Form::text('fecha_inicio', '', array('id' => 'fecha_inicio', 'class' => 'euros')) }} - {{ Form::text('fecha_fin', '', array('id' => 'fecha_fin', 'class' => 'euros')) }}
+                  {{ Form::text('fecha_inicio', '', array('id' => 'fecha_inicio_nc', 'class' => 'euros')) }} - {{ Form::text('fecha_fin', '', array('id' => 'fecha_fin_nc', 'class' => 'euros')) }}
                   {{ Form::submit('OK', array('class'=>'botonl'))}}
                   {{ Form::close() }}                  
               </td>

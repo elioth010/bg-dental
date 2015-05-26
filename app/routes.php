@@ -108,7 +108,7 @@ Route::resource('historial_clinico', 'Historial_clinicoController');
 
 //Rutas para facturación
 Route::post('facturacion/cf', 'FacturacionController@index_cf');
-Route::post('facturacion/nocobrado', 'FacturacionController@index_nocobrado');
+Route::post('facturacion/nocobrado', 'FacturacionController@index_nc');
 Route::resource('facturacion', 'FacturacionController');
 
 //Rutas de estadisticas
