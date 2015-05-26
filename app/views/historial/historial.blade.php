@@ -35,11 +35,11 @@
             {{ Form::hidden('paciente_id', $paciente->id) }}
 
             <td>{{ Form::select('s_grupos', array(),  null, array('id' => 's_grupos', 'onchange' => 'updateSelectTratamientos(this.value)')) }}
-                {{ Form::select('tratamiento_id', array(), null, array('id' => 's_tratamientos')) }}
+                {{ Form::select('tratamiento_id', array(), null, array('id' => 's_tratamientos', 'onchange' => 'updatePrecios()')) }}
             </td>
             <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }} {{ $profesional->apellido2 }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
-            <td>Precio...</td>
+            <td>{{ Form::select('precio', array(), null, array('id' => 's_precios')) }}</td>
 
             {{--@if(Auth::user()->isAdmin())
             <td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
@@ -112,7 +112,7 @@
                 {{ Form::hidden('profesional_id', $profesional->id) }}
                 {{ Form::hidden('paciente_id', $paciente->id) }}
                 {{ Form::hidden('tratamiento_id', $tratamiento->tratamiento_id) }}
-                {{ Form::hidden('cobrado_paciente', $tratamiento->precio_final) }}
+                {{ Form::hidden('precio', $tratamiento->precio_final) }}
                 {{ Form::hidden('presupuesto_id', $presupuesto->id) }}
                 {{ Form::hidden('presupuestotratamiento_id', $tratamiento->id) }}
                 <td>{{ $tratamiento->nombre }}</td>
@@ -141,10 +141,11 @@
 <script type="text/javascript">
     var grupos = {{ json_encode($grupos) }}
     var tratamientos = {{ json_encode($atratamientos) }}
+    var companias = {{ json_encode($companias) }}
 
     $(document).ready(function() {
         $(".datepicker").datepicker({dateFormat: "dd/mm/yy"}).datepicker("setDate",new Date());
-        setTratamientos()
+        setTratamientos();
     });
 </script>
 
