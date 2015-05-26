@@ -5,8 +5,9 @@
    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
   <script>
   $(function() {
-        $( "#fecha_inicio" ).datepicker();
-        $( "#fecha_fin" ).datepicker();
-        
+        $( "#fecha_inicio" ).datepicker({dateFormat: "dd/mm/yy"});
+        $( "#fecha_fin" ).datepicker({dateFormat: "dd/mm/yy"});
+        $( "#fecha_inicio_nc" ).datepicker({dateFormat: "dd/mm/yy"});
+        $( "#fecha_fin_nc" ).datepicker({dateFormat: "dd/mm/yy"});
   });
   </script>
