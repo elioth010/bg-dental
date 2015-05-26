@@ -46,7 +46,20 @@ class Historial_clinicoController extends \BaseController {
             $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
             $historial->abonado_quiron = Input::get('abonado_quiron', 0);
             $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
-            $historial->save();
+
+			$presupuesto_id = Input::get('presupuesto_id', false);
+			if ($presupuesto_id) {
+				// Marcar el tratamiento como realizado en el presupuesto
+				$presupuestotratamiento_id = Input::get('presupuestotratamiento_id', 0);
+				$presupuesto = Presupuestos::where('id', $presupuesto_id)->where('aceptado', 1)->firstOrFail();
+				$presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
+			}
+
+			$historial->save();
+
+			if ($presupuesto_id) {
+				$presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
+			}
 
             return Redirect::to('historial_clinico/'.$paciente_id);
     }
