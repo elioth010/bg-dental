@@ -1,6 +1,6 @@
 <?php
 class Espera extends Eloquent {
 protected $table = 'espera';
-protected $fillable = array('paciente_id','admitido');
+protected $fillable = array('paciente_id','admitido','profesional_id');
 
 }

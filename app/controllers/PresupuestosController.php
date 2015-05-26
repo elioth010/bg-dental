@@ -181,6 +181,7 @@ class PresupuestosController extends \BaseController {
 
 		$presupuesto = Presupuestos::where('id', $id)->firstOrFail();
 		$presupuesto->observaciones = Input::get('observaciones');
+                $presupuesto->observaciones_p = Input::get('observaciones_p');
 		$presupuesto->save();
 
 		return Redirect::action('PresupuestosController@verPresupuesto', array($paciente, $id))

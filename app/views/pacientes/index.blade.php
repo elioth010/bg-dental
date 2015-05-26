@@ -21,10 +21,15 @@
             <td>{{ $paciente->nombre }}</td>
             <td>{{ $paciente->apellido1." ".$paciente->apellido2 }}</td>
             {{ Form::open(array('url'=>'espera/'.$paciente->id, 'method' => 'put')) }}
+            <td>
+                {{Form::select('profesional_id', $profesionales)}}
+                
+            </td>
             @if($paciente->admitido > 0)
             <td>{{Form::checkbox('admitido',1,1)}}{{Form::submit('OK')}}</td>
             @else
             <td>{{Form::checkbox('admitido',1,0)}}{{Form::submit('OK')}}</td>
+            
             @endif
                 {{Form::close()}}
         </tr>

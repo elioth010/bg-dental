@@ -44,7 +44,7 @@ q:before, q:after {
 
       @page {
 	  size: A4;/* es el valor por defecto */
-	  margin: 10%;
+	  margin: 3%;
 		}
 		body {
 		font-family: arial, sans-serif;
@@ -54,6 +54,7 @@ q:before, q:after {
 		}
 		.layout{
 		margin: auto;
+		padding: 15px 30px 0 30px;
 		}
 		table {
 	border-collapse: collapse;
@@ -67,11 +68,11 @@ q:before, q:after {
 		border-bottom: 1px solid #888;
 		}
 		.odontogram{
-		margin-left: 0%;
 		display: block;
 		}
 		table.tabla_01{
-		width: 449px;
+		border: 1px solid #888;
+		margin: auto;
 		}
 		h2{
 		font-size: 12;
@@ -83,7 +84,7 @@ q:before, q:after {
 		padding-bottom: 0.3em;
 		color: #044494;}
 		h4{
-		font-size: 10pt;
+		font-size: 9pt;
 		padding-bottom: 0.3em;
 		font-weight: bold;
 		text-transform: uppercase;}
@@ -96,62 +97,56 @@ q:before, q:after {
 		.grey{
 		background-color: #ededed;}
 		#textos li{
-		font-size: 10pt;
+		font-size: 9pt;
 		text-align: justify;
 		padding-left: 20px;
-		line-height: 12pt;
+		line-height: 11pt;
 		}
 		.red{color:red;}
-		ul.b {list-style-type: disc;}
 		table.tabla{
 		font-size: 9pt;
 		}
-		.tbl_izq{
+		.tbl_drc{
 		float: left;
-		margin-right: 100px;
+		margin-left: 30px;
+		text-transform: uppercase;
+		margin-top: 0.8cm;
+		}
+		.tbl_izq{
+		float: right;
+		margin-right: 70px;
 		}
 		.datos{
 		line-height: 1.2em;
-		font-size: 10pt;
+		font-size: 9pt;
 		color: #044494;
-		margin-top: 0.8cm;
-		float: left;
-		margin-left: 100px;
+		margin:auto;
+		text-transform: uppercase;
 		}
 		.header{
 		width: 100%;
-		height: 3cm;}
-		.layout{
-		margin-top: 1cm;}
+		height: 5cm;}
 		.datos1{
 		font-size: 10pt;
 		}
 		.logo{
-		width: 8cm;
-		float: left;}
+		width: 5cm;}
 		@media print{
 		.vista{
 		display: none;
-		}}
+		}
+		.odontogram{
+		margin: auto;
+		}
+}
 	 </style>
 
   </head>
 
 <body>
 	<div class="header">
-    <div class="tbl_izq">
-        {{ HTML::image('/imagenes/quiron-logo.jpg', 'Logo', array('class' => 'logo', 'id' => 'logo')) }}
-    <ul class="datos">
-        <li>{{ $sede->calleynum }}</li>
-        <li>{{ $sede->cp }} {{ $sede->ciudad }}</li>
-        <li>{{ $sede->provincia }}</li>
-        <li>{{ $sede->tel }}</li>
-        <li>{{ $sede->mail }}</li>
-	</ul>
-	    </div>
-	</div>
-	<div class="layout">
-    <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
+    <div class="tbl_drc">
+       <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
     <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
 
     <ul class="datos1">
@@ -159,6 +154,7 @@ q:before, q:after {
         <li>Dirección: {{ $paciente->Direccion }}
         {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
         <li>Teléfono: {{ $paciente->addrtel1 }} {{ $paciente->addrtel2 }}</li>
+        <li>Nombre del Profesional: </li>
 	<li class="vista">
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
@@ -166,45 +162,56 @@ q:before, q:after {
     @endif
 	</li>
 	</ul>
-
+	</div>
+	<div class="tbl_izq">
+     <ul class="datos">
+     	<li>{{ HTML::image('/imagenes/quiron-logo.jpg', 'Logo', array('class' => 'logo', 'id' => 'logo')) }}</li>
+        <li>{{ $sede->calleynum }}</li>
+        <li>{{ $sede->cp }} {{ $sede->ciudad }} ({{ $sede->provincia }})  </li>
+        <li>{{ $sede->tel }}</li>
+        <li>{{ $sede->mail }}</li>
+	</ul>
+	</div>
+	</div>
+	<div class="layout">
     @if ($todaslaspiezas['muestraOdontograma'])
 	<div class="odontogram">
     <table class="tabla_01">
         <tr>
-		<td>{{ HTML::image($todaslaspiezas[18], null, array('width' => 42, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[17], null, array('width' => 47, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[16], null, array('width' => 48, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[15], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[14], null, array('width' => 48, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[13], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[12], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[11], null, array('width' => 46, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[21], null, array('width' => 47, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[22], null, array('width' => 45, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[23], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[24], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[25], null, array('width' => 45, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[26], null, array('width' => 51, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[27], null, array('width' => 46, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[28], null, array('width' => 38, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[18], null, array('width' => 21, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[17], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[16], null, array('width' => 24, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[15], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[14], null, array('width' => 24, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[13], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[12], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[11], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[21], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[22], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[23], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[24], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[25], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[26], null, array('width' => 25, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[27], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[28], null, array('width' => 19, 'height' => 65)) }}</td>
         </tr>
         <tr>
-		<td>{{ HTML::image($todaslaspiezas[48], null, array('width' => 42, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[47], null, array('width' => 47, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[46], null, array('width' => 48, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[45], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[44], null, array('width' => 48, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[43], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[42], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[41], null, array('width' => 46, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[31], null, array('width' => 47, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[32], null, array('width' => 45, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[33], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[34], null, array('width' => 44, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[35], null, array('width' => 45, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[36], null, array('width' => 51, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[37], null, array('width' => 46, 'height' => 129)) }}</td>
-		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 38, 'height' => 129)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[48], null, array('width' => 21, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[47], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[46], null, array('width' => 24, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[45], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[44], null, array('width' => 24, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[43], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[42], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[41], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[31], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[32], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[33], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[34], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[35], null, array('width' => 22, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[36], null, array('width' => 25, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[37], null, array('width' => 23, 'height' => 65)) }}</td>
+		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 19, 'height' => 65)) }}</td>
 		</tr>
     </table>
     </div>
@@ -216,25 +223,25 @@ q:before, q:after {
     <table class="tabla">
       <tr class="grey">
         <th></th>
-        <th>Nombre</th>
+        <th>Tratamiento</th>
+        <th>Piezas</th>
         <th>Ud.</th>
         <th>€ ud.</th>
         <th>Desc.</th>
-        <th>Compañía</th>
-        <th>Piezas</th>
         <th>Precio final</th>
+        <th>Compañía</th>
       </tr>
       <?php $i=1 ?>
       @foreach($tratamientos as $t)
       <tr style="font-size:9pt;">
         <td>{{ $i }}</td>
         <td>{{ $t->nombre }}</td>
+        <td>{{ $t->piezas }}</td>
         <td>{{ $t->unidades }}</td>
         <td>{{ $t->precio_unidad }}€</td>
         <td>{{ $t->descuento_text }}</td>
-        <td>{{ $t->compania_text }}</td>
-        <td>{{ $t->piezas }}</td>
         <td>{{ $t->precio_final }}€</td>
+        <td>{{ $t->compania_text }}</td>
       </tr>
       <?php $i++ ?>
       @endforeach
@@ -253,18 +260,17 @@ q:before, q:after {
     </br>
   	<div id="textos">
      <h4>Condiciones de pago:</h4>
-     <ul class="b">
+     <ul>
     <li>• El día citado para el ingreso en el Hospital, se abonará o se presentará el justificante de pago del total del presupuesto en el servicio de Admisión en concepto de depósito.</li>
-    <li>• El pago puede ser en efectivo, mediante talón, tarjeta de crédito o ingresando la totalidad del importe señalado en nuestra cuenta bancaria a nombre de Grupo Hospitalaria Quirón, S.A. (Indicar en concepto el nombre del paciente):</li>
-        <li style="padding-left:60px; font-weight:bold;">Nº CUENTA BANCARIA:   <span class="red"> {{ $sede->cuenta }}</span></li>
-    <li>• Al alta, el Hospital emitirá la factura por los gastos ocasionados durante su estancia, que se abonará en ese mismo momento.</li></br>
+    <li>• El pago puede ser en efectivo, mediante talón, tarjeta de crédito o ingresando la totalidad del importe señalado en nuestra cuenta bancaria a nombre de Grupo Hospitalaria Quirón, S.A. (Indicar en concepto el nombre del paciente):</br>
+        <span style="padding-left:60px; font-weight:bold;">Nº CUENTA BANCARIA:   <span class="red"> {{ $sede->cuenta }}</span></li>
+    <li>• Al alta, el Hospital emitirá la factura por los gastos ocasionados durante su estancia, que se abonará en ese mismo momento.</li>
     </ul>
         <h4>Condiciones de financiación:</h4>
-        <ul class="b">
+        <ul>
             <li>• En caso de que desee financiar este presupuesto rogamos se ponga en contacto previamente a la intervención con nosotros para tramitar la financiación. </li>
  		</ul>
  	</div>
- 	</br>
         <p style="font-size:7pt;text-align: justify;line-height: 9pt;">
             El importe del presupuesto es meramente orientativo, ya que ha sido elaborado teniendo en cuenta los servicios habituales que se producen en este tipo de tratamiento. Por tanto, atendiendo a las características propias y al estado de salud del paciente, al curso del tratamiento y/o a las decisiones que puedan tomar los facultativos que atiendan al paciente, es probable que la cantidad final a facturar sufra cambios. Estas modificaciones vendrán determinadas en función de, entre otros conceptos, los días de estancia, la prescripción de terapéuticas y pruebas diagnósticas y los consumos de fármacos y materiales que efectivamente se hayan devengado durante el tratamiento.
 Sus datos personales serán incorporados a un fichero responsabilidad de Grupo Hospitalario Quirón, S.A. (en adelante, GHQ) con la finalidad de gestionar los servicios sanitarios y de administración del hospital. En el caso de que los servicios recibidos deban ser abonados por una mutua, aseguradora, Administración Pública u otra persona física o jurídica, sus datos podrán ser cedidos a dichos terceros con la finalidad de gestionar la facturación de nuestros servicios; si se opone a la cesión, estas entidades podrían rehusar el pago de los servicios recibidos, correspondiéndole a usted su abono. Podrá ejercer los derechos de acceso, rectificación, cancelación y oposición ante GHQ, a través de correo postal dirigido a: Grupo Hospitalario Quirón, S.A. “Derechos ARCO” - Paseo Mariano Renovales s/n, 50006 Zaragoza, aportando fotocopia de su DNI o documento equivalente, y concretando el derecho que desea ejercer.

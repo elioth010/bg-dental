@@ -68,12 +68,13 @@
       </tr>
     </table>
 
-    <h2>Observaciones:</h2>
+    <h2>Observaciones ocultas en el presupuesto:</h2>
 	<div style="width:100%;">
 	<div class="tbl_izq">
     {{ Form::open(array('action' => array('PresupuestosController@verPresupuesto', $presupuesto->numerohistoria, $presupuesto->id))) }}
         {{ Form::textarea('observaciones', $presupuesto->observaciones) }}
-        </br></br>
+        </br><h2>Observaciones que saldrán en el presupuesto:</h2>
+        {{ Form::textarea('observaciones_p', $presupuesto->observaciones) }}</br>
         {{ Form::submit('Modificar', array('class'=>'botonl'))}}
     {{ Form::close() }}
     </div>
