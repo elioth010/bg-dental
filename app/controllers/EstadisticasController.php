@@ -9,22 +9,23 @@ class EstadisticasController extends \BaseController {
 	 */
 	public function index()
 	{
-            $grupousuario = Auth::user()->group_id;
-            if($grupousuario != 1){
-            $usuario = Auth::user()->id;
-            $profesional_para_facturacion = Profesional::where('user_id', $usuario)->firstOrFail()->toArray();
-            $facturacion = Historial_clinico::where('profesional_id', $profesional_para_facturacion['id'])
-                    ->leftJoin('pacientes', 'pacientes.id', '=', 'historial_clinico.paciente_id')
-                    ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
-                    ->select('historial_clinico.*', 'tratamientos.nombre as t_n', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', 'tratamientos.*')
-                    ->get();
-            $profesionales = Profesional::where('user_id', $usuario)->get();
-            var_dump($facturacion);
+        $grupousuario = Auth::user()->group_id;
+		$facturacion = array();
+        if($grupousuario != 1){
+	        $usuario = Auth::user()->id;
+	        $profesional_para_facturacion = Profesional::where('user_id', $usuario)->firstOrFail()->toArray();
+	        $facturacion = Historial_clinico::where('profesional_id', $profesional_para_facturacion['id'])
+	                ->leftJoin('pacientes', 'pacientes.id', '=', 'historial_clinico.paciente_id')
+	                ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
+	                ->select('historial_clinico.*', 'tratamientos.nombre as t_n', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', 'tratamientos.*')
+	                ->get();
+	        $profesionales = Profesional::where('user_id', $usuario)->get();
+	        var_dump($facturacion);
+	        return View::make('estadisticas.index')->with('profesionales', $profesionales)->with('facturacion', $facturacion);
+        } else {
+            $profesionales = Profesional::get();
             return View::make('estadisticas.index')->with('profesionales', $profesionales)->with('facturacion', $facturacion);
-            } else {
-                $profesionales = Profesional::get();
-                return View::make('estadisticas.index')->with('profesionales', $profesionales);
-            }
+        }
 	}
 
 
