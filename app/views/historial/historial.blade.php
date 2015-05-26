@@ -35,10 +35,10 @@
             {{ Form::hidden('paciente_id', $paciente->id) }}
 
             <td>{{ Form::select('s_grupos', array(),  null, array('id' => 's_grupos', 'onchange' => 'updateSelectTratamientos(this.value)')) }}
-                {{ Form::select('s_tratamientos', array(), null, array('id' => 's_tratamientos')) }}
+                {{ Form::select('tratamiento_id', array(), null, array('id' => 's_tratamientos')) }}
             </td>
             <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
-            <td>{{ Form::text('fecha_realizacion', '', array('id' => 'datepicker', 'class' => 'euros')) }}</td>
+            <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
             <td>Precio...</td>
 
             @if(Auth::user()->isAdmin())
@@ -83,7 +83,54 @@
     </table>
     <br/>
     <h2>Presupuestos abiertos</h2>
-    Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:
+    <p>Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:</p>
+
+        <?php if (empty($presupuestos)) { ?>
+            El paciente no tiene presupuestos abiertos.
+        <?php } else { ?>
+        <div>
+
+        @foreach($presupuestos as $presupuesto)
+
+        <h3>{{ HTML::linkAction('PresupuestosController@verPresupuesto',
+                $presupuesto->nombre . ' (' . $presupuesto->created_at . ')',
+                array($paciente->numerohistoria, $presupuesto->id), array('target' => '_blank')) }}</h3>
+
+        <table border = "1">
+            <tr>
+                <th>Tratamiento</th>
+                <th>Profesional</th>
+                <th>Fecha realización</th>
+                <th>Precio</th>
+                <th>Guardar</th>
+            </tr>
+
+        @foreach($presupuesto->tratamientos2 as $tratamiento)
+            <tr>
+                {{ Form::open(array('url'=>'historial_clinico')) }}
+                {{ Form::hidden('profesional_id', $profesional->id) }}
+                {{ Form::hidden('paciente_id', $paciente->id) }}
+                {{ Form::hidden('tratamiento_id', $tratamiento->tratamiento_id) }}
+                {{ Form::hidden('cobrado_paciente', $tratamiento->precio_final) }}
+                <td>{{ $tratamiento->nombre }}</td>
+                <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
+                <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
+                <td>{{ $tratamiento->precio_final }}</td>
+                @if ($tratamiento->estado == 0)
+                <td> {{ Form::submit('Añadir', array('class'=>'botonl'))}}</td>
+                @else
+                <td></td>
+                @endif
+                {{ Form::close() }}
+            </tr>
+        @endforeach
+
+        </table>
+        @endforeach
+
+        </div>
+        <?php } ?>
+
 	</div>
 </div>
 
@@ -92,7 +139,7 @@
     var tratamientos = {{ json_encode($atratamientos) }}
 
     $(document).ready(function() {
-        $("#datepicker").datepicker({dateFormat: "dd/mm/yy"}).datepicker("setDate",new Date());
+        $(".datepicker").datepicker({dateFormat: "dd/mm/yy"}).datepicker("setDate",new Date());
         setTratamientos()
     });
 </script>

@@ -37,7 +37,7 @@ class Historial_clinicoController extends \BaseController {
 		$paciente_id = Input::get('paciente_id');
 
             $historial = new Historial_clinico;
-            $historial->tratamiento_id = Input::get('s_tratamientos');
+            $historial->tratamiento_id = Input::get('tratamiento_id');
             $historial->profesional_id = Input::get('profesional_id');
             $historial->paciente_id = $paciente_id;
             $fecha_r = Input::get('fecha_realizacion');
@@ -136,11 +136,17 @@ class Historial_clinicoController extends \BaseController {
                 ->orderBy('fecha_realizacion', 'DESC')
                 ->get();
 
+		$presupuestos = Presupuestos::where('numerohistoria', $paciente->numerohistoria)->where('aceptado', 1)
+									->orderBy('created_at', 'DESC')->get();
 
+		foreach ($presupuestos as $p) {
+			$p->tratamientos2 = $p->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+		}
 		$data = $this->_data_aux_historial($paciente);
 
         return View::make('historial.historial')->with($data)
-												->with(array('historiales' => $historiales, 'profesional' => $profesional));
+												->with(array('historiales' => $historiales, 'profesional' => $profesional,
+															 'presupuestos' => $presupuestos));
 
 	}
 
