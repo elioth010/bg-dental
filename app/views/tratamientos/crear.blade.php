@@ -4,10 +4,23 @@
 {{ Form::open(array('url'=>'tratamientos/guardar')) }}
     <h1>Creación de tratamientos:</h1>
     <ul class="labelreg3">
+    <li>Grupo: </li>
+    <li>Código: </li>
+    <li>Nombre: </li>
+    <li>Imagen: </li>
+    <li>Tipo de tratamiento: </li>
+    <br><br>
+	</ul>
+    
+    
+    
+    
+    <ul class="labelreg3">
     <li>{{ Form::select('grupostratamientos_id', $grupos) }}</li>
     <li>{{ Form::text('codigo', null, array('placeholder'=>'código')) }}</li>
     <li>{{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}</li>
-    {{ Form::select('tipotratamiento', $tipostratamientos) }}
+    <li>{{ Form::select('imagen_id', $imagenes) }}</li>
+    <li>{{ Form::select('tipotratamiento', $tipostratamientos) }}</li>
     <br><br>
 	</ul>
 	<div class="overflow">

@@ -37,7 +37,7 @@
             <td>{{ Form::select('s_grupos', array(),  null, array('id' => 's_grupos', 'onchange' => 'updateSelectTratamientos(this.value)')) }}
                 {{ Form::select('tratamiento_id', array(), null, array('id' => 's_tratamientos')) }}
             </td>
-            <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
+            <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }} {{ $profesional->apellido2 }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
             <td>Precio...</td>
 
@@ -92,6 +92,7 @@
 
         @foreach($presupuestos as $presupuesto)
 
+        <?php if (!empty($presupuesto->presu_tratamientos)) { ?>
         <h3>{{ HTML::linkAction('PresupuestosController@verPresupuesto',
                 $presupuesto->nombre . ' (' . $presupuesto->created_at . ')',
                 array($paciente->numerohistoria, $presupuesto->id), array('target' => '_blank')) }}</h3>
@@ -105,7 +106,7 @@
                 <th>Guardar</th>
             </tr>
 
-        @foreach($presupuesto->tratamientos2 as $tratamiento)
+        @foreach($presupuesto->presu_tratamientos as $tratamiento)
             <tr>
                 {{ Form::open(array('url'=>'historial_clinico')) }}
                 {{ Form::hidden('profesional_id', $profesional->id) }}
@@ -128,6 +129,7 @@
         @endforeach
 
         </table>
+        <?php } ?>
         @endforeach
 
         </div>
