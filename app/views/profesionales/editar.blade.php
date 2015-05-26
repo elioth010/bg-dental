@@ -37,7 +37,7 @@
   <?php $i++; ?>
   @endforeach
   
-        
+     <br>{{ HTML::link('profesional/borrarprofesional/'.$profesional->p_id, 'Eliminar este profesional') }}<br>   
     <li>{{ Form::submit('Guardar profesional', array('class'=>'botonl'))}}</li>
 		{{ Form::close() }}
 	</ul>
