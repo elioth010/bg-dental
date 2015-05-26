@@ -52,7 +52,14 @@ class UsersController extends BaseController {
     public function postSignin() {
         if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))) {
             Session::put('user_id', Auth::id());
-            return Redirect::to('tratamientos'); //->with('message', 'You are now logged in!');
+            if(Auth::user()->isAdmin()){
+            return Redirect::to('paciente');
+            }
+            if(Auth::user()->isProfesional()){
+            return Redirect::to('historial_clinico');
+            }
+
+//->with('message', 'You are now logged in!');
         } else {
             return Redirect::to('users/login')
                             ->with('message', 'Error en nombre de usuario y/o contraseña')

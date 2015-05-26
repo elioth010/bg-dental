@@ -43,6 +43,7 @@
             {{ Form::radio('tipotratamiento', $tipo->id) }}{{$tipo->tipo}}
             @endif
         @endforeach
+        <br/><br>Imagen: {{ Form::select('imagen_id', $imagenes) }}
 
         <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br>
         <br>{{ HTML::link('tratamientos/borrartratamiento/'.$tratamiento->id, 'Eliminar este tratamiento') }}<br>
