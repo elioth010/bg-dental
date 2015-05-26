@@ -112,6 +112,8 @@
                 {{ Form::hidden('paciente_id', $paciente->id) }}
                 {{ Form::hidden('tratamiento_id', $tratamiento->tratamiento_id) }}
                 {{ Form::hidden('cobrado_paciente', $tratamiento->precio_final) }}
+                {{ Form::hidden('presupuesto_id', $presupuesto->id) }}
+                {{ Form::hidden('presupuestotratamiento_id', $tratamiento->id) }}
                 <td>{{ $tratamiento->nombre }}</td>
                 <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
                 <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
