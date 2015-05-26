@@ -76,6 +76,7 @@ Route::get('pacientes/{grupo_id}/findTratamiento',  'PresupuestosController@find
 
 //Rutas Profesionales:
 
+Route::get('profesional/borrarprofesional/{id}', 'ProfesionalController@destroy');
 Route::resource('profesional', 'ProfesionalController');
 
 //Rutas Especialidades:

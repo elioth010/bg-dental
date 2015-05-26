@@ -97,7 +97,7 @@ class ProfesionalController extends \BaseController {
 //                if(!is_array($sedes_pid)){
 //                    $sedes_pid = array($sedes_pid);
 //                }
-                var_dump($sedes_pid);
+                //var_dump($sedes_pid);
                 $especialidades = Especialidad::lists('especialidad','id');
                 $sedes = Sedes::get();
                 $usuarios = User::get()->lists('fullname', 'id');
@@ -147,7 +147,7 @@ class ProfesionalController extends \BaseController {
 	public function destroy($id)
 	{
 		$profesional = Profesional::find($id);
-                var_dump($profesional);
+                //var_dump($profesional);
                 $profesional->activo = 0;
                 $profesional->update();
                 return Redirect::to('profesional')->with('message', 'Profesional eliminado con éxito.');
