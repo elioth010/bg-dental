@@ -74,7 +74,7 @@
     {{ Form::open(array('action' => array('PresupuestosController@verPresupuesto', $presupuesto->numerohistoria, $presupuesto->id))) }}
         {{ Form::textarea('observaciones', $presupuesto->observaciones) }}
         </br><h2>Observaciones que saldrán en el presupuesto:</h2>
-        {{ Form::textarea('observaciones_p', $presupuesto->observaciones) }}</br>
+        {{ Form::textarea('observaciones_p', $presupuesto->observaciones_p) }}</br>
         {{ Form::submit('Modificar', array('class'=>'botonl'))}}
     {{ Form::close() }}
     </div>
