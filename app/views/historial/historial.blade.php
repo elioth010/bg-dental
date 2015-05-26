@@ -41,9 +41,9 @@
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
             <td>Precio...</td>
 
-            @if(Auth::user()->isAdmin())
+            {{--@if(Auth::user()->isAdmin())
             <td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
-            @endif
+            @endif--}}
 
 <!--             <td class = "td_centrado">{{ Form::checkbox('abonado_quiron',0,0) }}</td>
              <td class = "td_centrado">{{Form::checkbox('cobrado_profesional',0,0)}}</td>-->
