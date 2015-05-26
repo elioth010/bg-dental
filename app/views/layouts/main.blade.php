@@ -15,7 +15,7 @@
 
 <!--  {{ HTML::link('users/logout', HTML::image('imagenes/exit.png', 'Salir')) }} -->
 
- {{ html_entity_decode( HTML::link("users/logout", HTML::image("imagenes/exit.png", "Salir", array('title' => 'Salir')) ) ) }}
+ {{ html_entity_decode( HTML::link("users/logout", HTML::image("imagenes/exit.png", "Salir", array('title' => 'SALIR')) ) ) }}
  </div>
  </header>
 
@@ -26,50 +26,50 @@
                 <ul class="nav">
                     
                     @if(Auth::user()->isAdmin())
-                    <li>{{ HTML::link('#', 'Administración') }}
+                    <li>{{ HTML::link('#', 'ADMINISTRACIÓN') }}
                         <ul>
-                            <li>{{ HTML::link('users/dashboard', 'Panel usuarios') }}</li>
-                            <li>{{ HTML::link('users/register', 'Registrar') }}</li>
-                            <li>{{ HTML::linkAction('CompaniasController@index', 'Compañías') }}</li>
-                            <li>{{ HTML::link('profesional', 'Profesionales') }}</li>
-                            <li>{{ HTML::link('especialidad', 'Especialidades') }}</li>
-                            <li>{{ HTML::link('sede', 'Sedes') }}</li>
+                            <li>{{ HTML::link('users/dashboard', 'PANEL USUARIOS') }}</li>
+                            <li>{{ HTML::link('users/register', 'REGISTRAR') }}</li>
+                            <li>{{ HTML::linkAction('CompaniasController@index', 'COMPAÑÍAS') }}</li>
+                            <li>{{ HTML::link('profesional', 'PROFESIONALES') }}</li>
+                            <li>{{ HTML::link('especialidad', 'ESPECIALIDADES') }}</li>
+                            <li>{{ HTML::link('sede', 'SEDES') }}</li>
                         </ul>
                     </li>
                     @endif
 
-                    <li>{{ HTML::linkAction('PacientesController@index', 'Pacientes') }}
+                    <li>{{ HTML::linkAction('PacientesController@index', 'PACIENTES') }}
                     <ul>
-                        <li>{{ HTML::linkAction('PacientesController@create', 'Crear pacientes') }}</li>
-                        <li>{{ HTML::linkAction('PacientesController@buscar', 'Buscar pacientes') }}</li>
+                        <li>{{ HTML::linkAction('PacientesController@create', 'CREAR PACIENTES') }}</li>
+                        <li>{{ HTML::linkAction('PacientesController@buscar', 'BUSCAR PACIENTES') }}</li>
                     </ul>
                     </li>
-                    <li>{{ HTML::linkAction('TratamientosController@index', 'Tratamientos') }}
+                    <li>{{ HTML::linkAction('TratamientosController@index', 'TRATAMIENTOS') }}
                         <ul>
-                            {{--<li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
-                            <li>{{ HTML::linkAction('GruposController@index', 'Grupos de tratamientos') }}</li>--}}
+                            {{--<li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
+                            <li>{{ HTML::linkAction('GruposController@index', 'GRUPOS DE TRATAMIENTOS') }}</li>--}}
                             @if(Auth::user()->isAdmin())
-                            <li>{{ HTML::linkAction('GruposController@create', 'Crear grupo de tratamientos') }}</li>
-                            <li>{{ HTML::linkAction('TratamientosController@create', 'Crear tratamientos') }}</li>
+                            <li>{{ HTML::linkAction('GruposController@create', 'CREAR GRUPO DE TRATAMIENTOS') }}</li>
+                            <li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
                             @endif
                         </ul>
                     </li>
                     @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
-                    <li>{{ HTML::link('#', 'Profesionales') }}
+                    <li>{{ HTML::link('#', 'PROFESIONALES') }}
                         <ul>
-                            <li>{{ HTML::link('historial_clinico', 'Historial Clínico') }}</li>
-                            <li>{{ HTML::link('facturacion', 'Facturación') }}</li>
-                            <li>{{ HTML::link('estadisticas', 'Estadísticas') }}</li>
+                            <li>{{ HTML::link('historial_clinico', 'HISTORIAL CLÍNICO') }}</li>
+                            <li>{{ HTML::link('facturacion', 'FACTURACIÓN') }}</li>
+                            <li>{{ HTML::link('estadisticas', 'ESTADÍSTICAS') }}</li>
                             
                         </ul>
                     </li>@endif
-                    <li>{{ HTML::link('#', 'Agenda') }}
+                    <li>{{ HTML::link('#', 'AGENDA') }}
                         <ul>
-                            <li>{{ HTML::link('turno', 'Turnos') }}</li>
-                            <li>{{ HTML::link('guardia', 'Guardias') }}</li>
+                            <li>{{ HTML::link('turno', 'TURNOS') }}</li>
+                            <li>{{ HTML::link('guardia', 'GUARDIAS') }}</li>
                             @if(Auth::user()->isAdmin())
-                            <li>{{ HTML::link('turno/create', 'Crear turnos') }}</li>
-                            <li>{{ HTML::link('guardia/create', 'Crear guardias') }}</li>
+                            <li>{{ HTML::link('turno/create', 'CREAR TURNOS') }}</li>
+                            <li>{{ HTML::link('guardia/create', 'CREAR GUARDIAS') }}</li>
                             @endif
                         </ul>
                     </li>
@@ -79,7 +79,7 @@
 
 			         @else
                      <div id="menu">
-                     <ul class="nav"><li>{{ HTML::link('users/login', 'Login') }}</li></ul>
+                     <ul class="nav"><li>{{ HTML::link('users/login', 'ENTRAR') }}</li></ul>
                      @endif
 
 
