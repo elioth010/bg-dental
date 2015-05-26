@@ -46,6 +46,7 @@ class Historial_clinicoController extends \BaseController {
             $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
             $historial->abonado_quiron = Input::get('abonado_quiron', 0);
             $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
+			$historial->precio = Input::get('precio');
 
 			$presupuesto_id = Input::get('presupuesto_id', false);
 			if ($presupuesto_id) {
@@ -75,13 +76,13 @@ class Historial_clinicoController extends \BaseController {
 		// Escoge el precio más barato de las dos compañías
 		foreach ($preciosObj as $p)
 		{
-			if (!(array_key_exists($p->tratamientos_id, $precios)) ||
-				((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
-
-				$precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
-			}
-
 			if (in_array($p->companias_id, $companias_paciente)) {
+				if (!(array_key_exists($p->tratamientos_id, $precios)) ||
+					((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
+
+					$precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+				}
+
 				if (!(array_key_exists($p->tratamientos_id, $companiaEconomica)) ||
 					((array_key_exists($p->tratamientos_id, $companiaEconomica)) && ($p->precio < $precios[$p->tratamientos_id][$companiaEconomica[$p->tratamientos_id]]))) {
 
@@ -141,11 +142,9 @@ class Historial_clinicoController extends \BaseController {
 		$profesional = Profesional::where('user_id', $user)->firstOrFail();
         $historiales = Historial_clinico::where('paciente_id', $paciente->id)
                 ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
-                ->leftJoin('precios','historial_clinico.tratamiento_id', '=', 'precios.tratamientos_id')->where('precios.companias_id','=', $paciente->compania)
                 ->leftJoin('profesionales', 'historial_clinico.profesional_id', '=', 'profesionales.id' )
-                ->select('historial_clinico.*', 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1', 'profesionales.apellido2 as pr_a2', 'precios.precio',
+                ->select('historial_clinico.*', 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1', 'profesionales.apellido2 as pr_a2',
                 'tratamientos.nombre as t_n')
-                ->where('precios.companias_id', $paciente->compania)
                 ->orderBy('fecha_realizacion', 'DESC')
                 ->get();
 

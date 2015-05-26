@@ -16,14 +16,14 @@ function updateSelectTratamientos(gid) {
         }
     }
 
-    //updatePrecios(id)
+    updatePrecios()
 }
 
 
 function setTratamientos() {
 
-    var s_grupos = $("#s_grupos")
-    var s_trats = $("#s_tratamientos")
+    var s_grupos = $('#s_grupos')
+    var s_trats = $('#s_tratamientos')
     var gid = 1; // default: preventiva
 
     for(var i = 0; i < grupos.length; i++) {
@@ -36,5 +36,27 @@ function setTratamientos() {
         s_trats.append(new Option(tratamientos[gid][t].nombre, t))
     }
 
+    updatePrecios();
+
     return false
+}
+
+function updatePrecios() {
+    var s_precios = $('#s_precios');
+    var gid = $("#s_grupos").val();
+    var tid = $("#s_tratamientos").val();
+    var precios = tratamientos[gid][tid].precios;
+    //var comp_economica = tratamientos[gid][t].compania_economica;
+
+    console.log('updatePrecios gid:' + gid + ' tid:' + tid);
+
+    s_precios.find('option').remove();
+    for(p in precios) {
+        var texto = companias[p] + " (" + precios[p] + "€)";
+        s_precios.append(new Option(texto, precios[p]));
+    }
+
+    // TODO: default val
+    //s_precios.val(comp_economica)
+    //s_precios[0].options[0].value = '00'
 }
