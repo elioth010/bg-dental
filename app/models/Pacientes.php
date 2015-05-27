@@ -11,9 +11,9 @@ protected $fillable = array('numerohistoria','apellido1','apellido2','nombre','N
     }
 
     public static $p_rules = array(
-        'numerohistoria'=>'required|alpha_dash|min:4|unique:pacientes',
-        'nombre'=>'required|alpha|min:2',
-        'apellido1'=>'required|alpha|min:2',
+        'numerohistoria'=>'required|unique:pacientes',
+        'nombre'=>'required|min:2',
+        'apellido1'=>'required|min:2',
 //        'apellido2'=>'required|alpha|min:2',
 //        'NIF'=>'required|alpha_num|min:5',
 //        'addrnamestr'=>'required|alpha|min:2',
