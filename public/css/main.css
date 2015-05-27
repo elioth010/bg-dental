@@ -145,6 +145,7 @@ header{
 			
 			.nav > li {
 				float:left;
+				text-align: center;
 			}
 			
 			.nav li a {
