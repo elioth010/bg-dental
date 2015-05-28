@@ -13,6 +13,7 @@
             <th>NHC</th>
             <th>Nombre</th>
             <th>Apellidos</th>
+            <th>Presupuestos</th>
             <th>Admitidos</th>
         </tr>
         @foreach($pacientes as $paciente)
@@ -20,6 +21,7 @@
             <td>{{ HTML::linkAction('PacientesController@edit',  $paciente->numerohistoria, $paciente->id) }}</td>
             <td>{{ $paciente->nombre }}</td>
             <td>{{ $paciente->apellido1." ".$paciente->apellido2 }}</td>
+            <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</td>
             {{ Form::open(array('url'=>'espera/'.$paciente->id, 'method' => 'put')) }}
             <td>
                 {{Form::select('profesional_id', $profesionales)}}

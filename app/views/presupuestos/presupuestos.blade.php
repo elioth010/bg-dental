@@ -52,12 +52,12 @@
     <td>{{$presupuesto->profesional_n}}</td>
     <td><?php if ($presupuesto->aceptado) echo 'Sí'; else echo 'No'; ?></td>
     <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', 'Ver',
-                array($paciente->numerohistoria, $presupuesto->id)) }}
+                array($paciente->numerohistoria, $presupuesto->id), array('class'=>'botonl')) }}
         <?php if (!$presupuesto->aceptado) { ?>
         | {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
-                array($paciente->numerohistoria, $presupuesto->id)) }}
+                array($paciente->numerohistoria, $presupuesto->id), array('class'=>'botonl')) }}
         | {{ HTML::linkAction('PresupuestosController@aceptarPresupuesto', 'Aceptar',
-                array($paciente->numerohistoria, $presupuesto->id)) }}
+                array($paciente->numerohistoria, $presupuesto->id), array('class'=>'botonl')) }}
         <?php } ?>
     </td>
   </tr>

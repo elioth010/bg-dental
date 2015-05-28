@@ -23,7 +23,7 @@ protected $fillable = array('numerohistoria','apellido1','apellido2','nombre','N
 //        'addrtel1'=>'required|alpha|min:2',
 //        'addrtel2'=>'required|alpha|min:2',
 //        'sexo'=>'required',
-//        'compania'=>'required|alpha|min:2',
+        'compania'=>'required',
 //        'mail'=>'required|email',
     );
 }

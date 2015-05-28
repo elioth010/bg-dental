@@ -146,7 +146,7 @@ q:before, q:after {
 <body>
 	<div class="header">
     <div class="tbl_drc">
-       <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
+       {{--<h3>Presupuesto: {{ $presupuesto->nombre}}</h3>--}}
     <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
 
     <ul class="datos1">
