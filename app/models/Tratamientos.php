@@ -21,8 +21,8 @@ class Tratamientos extends Eloquent {
     }
 
 // public function grupos(){
-// 	return $this->belongsTo('Grupos', 'grupostratamientos_tratamientos');
-// 	//->withPivot('tratamientos_id','grupostratamientos_id');
+//     return $this->belongsTo('Grupos', 'grupostratamientos_tratamientos');
+//     //->withPivot('tratamientos_id','grupostratamientos_id');
 // }
 // public function precios(){
 //         return $this->hasMany('Precios', 'precios', 'tratamientos_id', 'companias_id');

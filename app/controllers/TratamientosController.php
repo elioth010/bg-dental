@@ -27,19 +27,19 @@ class TratamientosController extends \BaseController {
         return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
     }
 
-//	public function index()
-//	{
-//		$companias = Companias::lists('nombre', 'id');
+//    public function index()
+//    {
+//        $companias = Companias::lists('nombre', 'id');
 //
-//		$tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
-//							->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
-//							->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
-//							->groupBy('tratamientos.id')
-//							->orderBy('precios.companias_id')
-//							->get();
+//        $tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')
+//                            ->leftJoin('precios', 'precios.tratamientos_id','=','tratamientos.id')
+//                            ->select('tratamientos.id','tratamientos.codigo', 'tratamientos.nombre',DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
+//                            ->groupBy('tratamientos.id')
+//                            ->orderBy('precios.companias_id')
+//                            ->get();
 //
-//		return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
-//	}
+//        return View::make('tratamientos.index')->with(array('companias' => $companias, 'tratamientos' => $tratamientos));
+//    }
 
     /**
      * Show the form for creating a new resource.

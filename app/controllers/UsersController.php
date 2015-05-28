@@ -86,12 +86,12 @@ class UsersController extends BaseController {
         $usergroups = Usergroups::lists('nombre', 'id');
         $sedes = Sedes::get();
         return View::make('users.editar')->with('user',$user)->with('usergroups', $usergroups)->with('sedes', $sedes)->with(array('sedes_pid'=>$sedes_pid));
-        
+
     }
-    
+
    public function putUpdate($id)
-	{
-		$user = User::find($id);
+    {
+        $user = User::find($id);
                 $user->firstname = Input::get('firstname');
                 $user->lastname = Input::get('lastname');
                 $user->email = Input::get('email');
@@ -99,18 +99,18 @@ class UsersController extends BaseController {
                 $user->update();
                 $user->sedes()->detach();
                 $num_sedes = Sedes::count();
-		$i = 1;
-		while($i <= $num_sedes){
-			
-			if (Input::has('sede-'.$i)) {
-				$sede_id = Input::get('sede-'.$i);
-				$user->sedes()->attach($sede_id);
-			}
-			$i++;
-		}
+        $i = 1;
+        while($i <= $num_sedes){
+
+            if (Input::has('sede-'.$i)) {
+                $sede_id = Input::get('sede-'.$i);
+                $user->sedes()->attach($sede_id);
+            }
+            $i++;
+        }
 //                $user->update(Input::all());
                 return Redirect::to('users/dashboard')->with('message', 'Usuario modificado con éxito.');
-	}
+    }
     public function getLogout() {
         Auth::logout();
         return Redirect::to('users/login'); //->with('message', 'Your are now logged out!');
