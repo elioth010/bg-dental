@@ -10,7 +10,7 @@ class EspecialidadController extends \BaseController {
 	public function index()
 	{
 		$especialidades = Especialidad::all();
-                return View::make('especialidades.index', array('especialidades' => $especialidades));
+        return View::make('especialidades.index')->with('especialidades', $especialidades);
 	}
 
 
@@ -33,8 +33,7 @@ class EspecialidadController extends \BaseController {
 	public function store()
 	{
 		Especialidad::create(Input::all());
-		echo "Especialidad guardada";
-		return Redirect::to('especialidad');
+		return Redirect::action('EspecialidadController@index')->with('message', 'Especialidad guardada');
 	}
 
 

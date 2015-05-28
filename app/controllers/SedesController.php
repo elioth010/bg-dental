@@ -10,7 +10,7 @@ class SedesController extends BaseController {
 	public function index()
 	{
 		$sedes = Sedes::all();
-		return Redirect::to('sede/create');
+		return Redirect::action('SedesController@create');
 	}
 
 
@@ -34,8 +34,7 @@ class SedesController extends BaseController {
 	public function store()
 	{
 		Sedes::create(Input::all());
-		echo "Sede guardada";
-		return Redirect::to('sede');
+		return Redirect::action('SedesController@index')->with('message', 'Sede guardada');
 	}
 
 
@@ -75,8 +74,8 @@ class SedesController extends BaseController {
 	public function update($id)
 	{
 		$sede = Sedes::find($id);
-                $sede->update(Input::all());
-                return Redirect::to('sede')->with('message', 'Sede modificada con éxito.');
+        $sede->update(Input::all());
+        return Redirect::action('SedesController@index')->with('message', 'Sede modificada con éxito.');
 	}
 
 

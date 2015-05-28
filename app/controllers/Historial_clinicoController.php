@@ -63,7 +63,7 @@ class Historial_clinicoController extends \BaseController {
 				$presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
 			}
 
-            return Redirect::to('historial_clinico/'.$paciente_id);
+            return Redirect::action('Historial_clinicoController@show', $paciente_id);
     }
 
 
@@ -200,14 +200,16 @@ class Historial_clinicoController extends \BaseController {
 	{
 		//
 	}
-        public function coste_lab($id)
+
+    public function coste_lab($id)
 	{
 		$historial = Historial_clinico::find($id);
-                $historial->coste_lab = Input::get('coste_lab');
-                $historial->update();
-                $user = Auth::id();
+        $historial->coste_lab = Input::get('coste_lab');
+        $historial->update();
+        $user = Auth::id();
 		$profesional = Profesional::where('user_id', $user)->firstOrFail();
-                return Redirect::to('historial_clinico/'.$profesional->id);
+
+        return Redirect::action('Historial_clinicoController@show', $profesional->id);
 	}
 
 
@@ -234,7 +236,7 @@ class Historial_clinicoController extends \BaseController {
 
 
 		} else {
-		  return Redirect::to('historial/buscar')->withMesage('Paciente no encontrado');
+		  return Redirect::action('Historial_clinicoController@buscar')->withMesage('Paciente no encontrado');
 		}
 		//var_dump($paciente);
 

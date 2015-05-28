@@ -221,8 +221,8 @@ class TurnoController extends \BaseController {
             $evento->save();
             $ii2++;
         }
-        
-        return Redirect::to('turno');
+
+        return Redirect::action('TurnoController@index');
 	}
 
 	public function show($id)

@@ -194,7 +194,7 @@ class TratamientosController extends \BaseController {
             }
         }
 
-        //return Redirect::to('tratamientos');
+        //return Redirect::action('TratamientosController@index');
         return Redirect::action('TratamientosController@edit', $tratamiento->id);
     }
 

@@ -143,19 +143,19 @@ class FacturacionController extends \BaseController {
 	 */
 	public function update($id)
 	{
-            var_dump($_POST);
-            $input = Input::except('_token');
-            $i = 1;
-             foreach ($input as $key => $value) {
-            
-                $historial = Historial_clinico::find($id);
-                $historial->abonado_quiron = Input::get('abonado_quiron-'.$i, 0);
-                $historial->cobrado_profesional = Input::get('cobrado_profesional-'.$i, 0);
-                $historial->coste_lab = Input::get('coste_lab-'.$i, 0);
-                $historial->update();
-                $i++;
-             }
-                echo "HOLA";//return Redirect::to('facturacion')->with('message', 'Facturación modificada con éxito.');
+	    var_dump($_POST);
+	    $input = Input::except('_token');
+	    $i = 1;
+	    foreach ($input as $key => $value) {
+	        $historial = Historial_clinico::find($id);
+	        $historial->abonado_quiron = Input::get('abonado_quiron-'.$i, 0);
+	        $historial->cobrado_profesional = Input::get('cobrado_profesional-'.$i, 0);
+	        $historial->coste_lab = Input::get('coste_lab-'.$i, 0);
+	        $historial->update();
+	        $i++;
+		}
+		echo "HOLA";
+		//return Redirect::action('FacturacionController@index')->with('message', 'Facturación modificada con éxito.');
 	}
 
 

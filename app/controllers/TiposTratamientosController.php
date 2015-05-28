@@ -35,9 +35,8 @@ class TiposTratamientosController extends BaseController {
 	public function store()
 	{
 		TiposTratamientos::findOrCreate(Input::all('id'));
-                
-		echo "Tipos de tratamientos guardados";
-		return Redirect::to('tipos');
+
+		return Redirect::action('TiposTratamientosController@index')->with('message', 'Tipos de tratamientos guardados');
 	}
 
 

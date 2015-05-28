@@ -12,7 +12,7 @@ class ProfesionalController extends \BaseController {
 //		$profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')->get();
 //                $especialidades = Especialidad::lists('especialidad','id');
 //                return View::make('profesionales.index', array('profesionales' => $profesionales))->with('especialidades', $especialidades);
-                return Redirect::to('profesional/create');
+        return Redirect::action('ProfesionalController@create');
 	}
 
 
@@ -61,9 +61,9 @@ class ProfesionalController extends \BaseController {
                     }
                     $i++;
                     }
-                
+
 		echo "Profesional guardado";
-		return Redirect::to('profesional');
+		return Redirect::action('ProfesionalController@index');
 	}
 
 
@@ -134,7 +134,7 @@ class ProfesionalController extends \BaseController {
 			$i++;
 		}
                 //return;
-                return Redirect::to('profesional')->with('message', 'Profesional modificado con éxito.');
+                return Redirect::action('ProfesionalController@index')->with('message', 'Profesional modificado con éxito.');
 	}
 
 
@@ -150,7 +150,7 @@ class ProfesionalController extends \BaseController {
                 //var_dump($profesional);
                 $profesional->activo = 0;
                 $profesional->update();
-                return Redirect::to('profesional')->with('message', 'Profesional eliminado con éxito.');
+                return Redirect::action('ProfesionalController@index')->with('message', 'Profesional eliminado con éxito.');
 	}
 
 

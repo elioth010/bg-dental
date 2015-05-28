@@ -35,7 +35,7 @@ class GruposController extends BaseController {
 	{
 		Grupos::create(Input::all());
 		echo "Grupo guardado";
-		return Redirect::to('tratamientos/grupos');
+		return Redirect::action('GruposController@index');
 	}
 
 

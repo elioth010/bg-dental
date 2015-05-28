@@ -68,18 +68,13 @@ class EsperaController extends \BaseController {
 	 */
 	public function update($id)
 	{
+        $espera = new Espera;
+        $espera->paciente_id = $id;
+        $espera->admitido = Input::get('admitido', 0);
+        $espera->profesional_id = Input::get('profesional_id');
+        $espera->save();
 
-		$paciente = Input::get('admitido', 0);
-                $prof = Input::get('profesional_id');
-//                var_dump($prof);
-                $admitir = new Espera;
-                $admitir->paciente_id = $id;
-                $admitir->admitido = $paciente;
-                $admitir->profesional_id = $prof;
-                $admitir->save();
-                echo "HECHO";
-                
-                
+		return Redirect::action('PacientesController@index')->with('message', 'Paciente admitido.');
 	}
 
 

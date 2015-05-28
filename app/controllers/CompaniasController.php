@@ -44,10 +44,11 @@ class CompaniasController extends BaseController {
 				$tratamiento->precios()->attach($compania->id, array('precio' => NULL));
 			}
 		} else {
-            return Redirect::action('CompaniasController@create')->with('message', 'Existen los siguientes errores:')->withErrors($validator->messages())->withInput();
+            return Redirect::action('CompaniasController@create')->with('message', 'Existen los siguientes errores:')
+																 ->withErrors($validator->messages())->withInput();
         }
 
-		return Redirect::to('tratamientos/crearcompania');
+		return Redirect::action('CompaniasController@create')
 	}
 
 
@@ -85,12 +86,12 @@ class CompaniasController extends BaseController {
 	public function update($id)
 	{
 		$compania = Companias::find($id);
-                $compania->nombre = Input::get('nombre');
-                $compania->codigo = Input::get('codigo');
-                $compania->activo = 1;
-                $compania->update();
-                return Redirect::to('tratamientos/companias');
-                
+        $compania->nombre = Input::get('nombre');
+        $compania->codigo = Input::get('codigo');
+        $compania->activo = 1;
+        $compania->update();
+
+        return Redirect::action('CompaniasController@index');
 	}
 
 
@@ -103,9 +104,10 @@ class CompaniasController extends BaseController {
 	public function destroy($id)
 	{
 		$compania = Companias:: find($id);
-                $compania->activo = 0;
-                $compania->update();
-                return Redirect::to('tratamientos/companias');
+        $compania->activo = 0;
+        $compania->update();
+
+        return Redirect::action('CompaniasController@index');
 	}
 
 
