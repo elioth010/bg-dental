@@ -46,6 +46,7 @@ class Historial_clinicoController extends \BaseController {
             $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
             $historial->abonado_quiron = Input::get('abonado_quiron', 0);
             $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
+            $historial->coste_lab = Input::get('coste_lab', 0);
 			$historial->precio = Input::get('precio');
 
 			$presupuesto_id = Input::get('presupuesto_id', false);
@@ -198,6 +199,15 @@ class Historial_clinicoController extends \BaseController {
 	public function update($id)
 	{
 		//
+	}
+        public function coste_lab($id)
+	{
+		$historial = Historial_clinico::find($id);
+                $historial->coste_lab = Input::get('coste_lab');
+                $historial->update();
+                $user = Auth::id();
+		$profesional = Profesional::where('user_id', $user)->firstOrFail();
+                return Redirect::to('historial_clinico/'.$profesional->id);
 	}
 
 

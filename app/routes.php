@@ -104,6 +104,7 @@ Route::resource ('tipos', 'TiposTratamientosController');
 //Rutas para Historiales clínicos
 Route::get('historial_clinico/buscar', 'Historial_clinicoController@buscar');
 Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda');
+Route::post('historial_clinico/coste_lab/{id}', 'Historial_clinicoController@coste_lab');
 Route::resource('historial_clinico', 'Historial_clinicoController');
 
 //Rutas para facturación

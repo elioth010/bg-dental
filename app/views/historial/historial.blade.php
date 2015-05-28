@@ -20,9 +20,10 @@
             <th>Fecha realización</th>
             <th>Precio</th>
 
-            {{--@if(Auth::user()->isAdmin())
+            @if(Auth::user()->isAdmin())
             <th>Cobrado paciente</th>
-            @endif--}}
+            <th>Costes lab.</th>
+            @endif
 
 <!--            <th>Abonado por Quirón</th>
             <th>Cobrado por profesional</th>-->
@@ -41,9 +42,10 @@
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
             <td>{{ Form::select('precio', array(), null, array('id' => 's_precios')) }}</td>
 
-            {{--@if(Auth::user()->isAdmin())
+            @if(Auth::user()->isAdmin())
             <td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
-            @endif--}}
+            <td>{{Form::number('coste_lab', null, array('class' => 'euros', 'step' => 'any'))}}</td>
+            @endif
 
 <!--             <td class = "td_centrado">{{ Form::checkbox('abonado_quiron',0,0) }}</td>
              <td class = "td_centrado">{{Form::checkbox('cobrado_profesional',0,0)}}</td>-->
@@ -62,7 +64,14 @@
             @if (Auth::user()->isAdmin())
             <td>{{ $historial->cobrado_paciente }}</td>
             @endif
-            <td></td>
+            <td>@if($historial->coste_lab > 0)
+                {{ $historial->coste_lab}} €
+                @else
+                {{ Form::open(array('url'=>'historial_clinico/coste_lab/'.$historial->id)) }}
+            {{Form::number('coste_lab', null, array('class' => 'euros', 'step' => 'any'))}}
+            {{ Form::submit('Añadir', array('class'=>'botonl'))}}{{ Form::close() }}
+                @endif
+            </td>
 <!--            <td class = "td_centrado">
                 @if($historial->abonado_quiron != 1)
                 {{Form::checkbox('vacio',0,null, array('disabled'))  }}
