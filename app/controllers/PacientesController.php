@@ -14,10 +14,10 @@ class PacientesController extends BaseController {
                                 ->get();
         //$esperas = Espera::where('admitido', 1)->get();
         $esperas = Espera::where('admitido', 1)
-                            ->select('espera.id', 'espera.paciente_id', 'espera.created_at', 'espera.profesional_id',
+                            ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
-                            ->orderBy('espera.created_at')
+                            ->orderBy('espera.begin_date')
                             ->get();
         $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 

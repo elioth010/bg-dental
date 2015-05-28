@@ -21,7 +21,7 @@
             </tr>
         @foreach($esperas as $espera)
             <tr>
-                <td>{{ $espera->created_at }}</td>
+                <td>{{ $espera->begin_date }}</td>
                 <td>{{ HTML::linkAction('PacientesController@edit', $espera->numerohistoria, $espera->paciente_id) }}</td>
                 <td>{{ $espera->nombre }} {{ $espera->apellido1." ".$espera->apellido2 }}</td>
                 <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $espera->numerohistoria) }}</td>

@@ -79,8 +79,9 @@ class EsperaController extends \BaseController {
      */
     public function update($id)
     {
-        $espera = Espera::find($id);
-        $espera->update(array('admitido' => 0));
+        $espera = Espera::where('id', $id)->firstOrFail();
+        $dt = new DateTime;
+        $espera->update(array('admitido' => 0, 'end_date' => $dt->format('y-m-d H:i:s')));
 
         return Redirect::action('PacientesController@index')->with('message', 'Paciente eliminado de la lista de espera.');
     }
