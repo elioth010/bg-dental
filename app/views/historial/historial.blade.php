@@ -95,8 +95,9 @@
     <p>Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:</p>
 
         <?php if (empty($presupuestos)) { ?>
-            El paciente no tiene presupuestos abiertos.
+            TODO: El paciente no tiene presupuestos abiertos.
         <?php } else { ?>
+        // TODO div
         <div>
 
         @foreach($presupuestos as $presupuesto)

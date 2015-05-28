@@ -9,8 +9,7 @@ class EsperaController extends \BaseController {
 	 */
 	public function index()
 	{
-		$admitidos = Espera::where('admitido',1)->get();
-                var_dump($admitidos);
+		return Redirect::action('PacientesController@index');
 	}
 
 
@@ -32,7 +31,19 @@ class EsperaController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$paciente_id = Input::get('paciente_id');
+		$espera = Espera::where(array('paciente_id' => $paciente_id, 'admitido' => 1))->get();
+		if ($espera->isEmpty()) {
+			$espera = new Espera;
+			$espera->paciente_id = $paciente_id;
+			$espera->admitido = 1;
+			$espera->profesional_id = Input::get('profesional_id');
+			$espera->save();
+			return Redirect::action('PacientesController@index')->with('message', 'Paciente admitido.');
+		} else {
+			return Redirect::action('PacientesController@index')->with('message', 'El paciente ya está en espera.');
+		}
+
 	}
 
 
@@ -68,13 +79,10 @@ class EsperaController extends \BaseController {
 	 */
 	public function update($id)
 	{
-        $espera = new Espera;
-        $espera->paciente_id = $id;
-        $espera->admitido = Input::get('admitido', 0);
-        $espera->profesional_id = Input::get('profesional_id');
-        $espera->save();
+		$espera = Espera::find($id);
+		$espera->update(array('admitido' => 0));
 
-		return Redirect::action('PacientesController@index')->with('message', 'Paciente admitido.');
+		return Redirect::action('PacientesController@index')->with('message', 'Paciente eliminado de la lista de espera.');
 	}
 
 
