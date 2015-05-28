@@ -71,7 +71,7 @@ class PacientesController extends BaseController {
 			$profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 
 		} else {
-			return Redirect::action('PacientesController@buscar')
+			return Redirect::action('PacientesController@buscar');
 		}
 
 		return View::make('pacientes.busqueda')->with('pacientes', $pacientes)->with('profesionales', $profesionales);
