@@ -185,8 +185,8 @@ header{
 .search{
 	width: 160px;
 	height: 25px;
-	position:fixed;
-	z-index:10;
+	/*position:fixed;
+	z-index:10;*/
 	background:#66a3e5 url(../imagenes/search.png) no-repeat;
 	border: 1px dotted #333;
 	line-height: 25px;
