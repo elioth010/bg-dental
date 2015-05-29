@@ -32,9 +32,9 @@
                             <li>{{ HTML::link('users/dashboard', 'PANEL USUARIOS') }}</li>
                             <li>{{ HTML::link('users/register', 'REGISTRAR') }}</li>
                             <li>{{ HTML::linkAction('CompaniasController@index', 'COMPAÑÍAS') }}</li>
-                            <li>{{ HTML::link('profesional', 'PROFESIONALES') }}</li>
-                            <li>{{ HTML::link('especialidad', 'ESPECIALIDADES') }}</li>
-                            <li>{{ HTML::link('sede', 'SEDES') }}</li>
+                            <li>{{ HTML::linkAction('ProfesionalController@index', 'PROFESIONALES') }}</li>
+                            <li>{{ HTML::linkAction('EspecialidadController@index', 'ESPECIALIDADES') }}</li>
+                            <li>{{ HTML::linkAction('SedesController@index', 'SEDES') }}</li>
                         </ul>
                     </li>
                     @endif
@@ -58,19 +58,18 @@
                     @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
                     <li>{{ HTML::link('#', 'PROFESIONALES') }}
                         <ul>
-                            <li>{{ HTML::link('historial_clinico', 'HISTORIAL CLÍNICO') }}</li>
-                            <li>{{ HTML::link('facturacion', 'FACTURACIÓN') }}</li>
-                            <li>{{ HTML::link('estadisticas', 'ESTADÍSTICAS') }}</li>
+                            <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
+                            <li>{{ HTML::linkAction('FacturacionController@index', 'FACTURACIÓN') }}</li>
+                            <li>{{ HTML::linkAction('EstadisticasController@index', 'ESTADÍSTICAS') }}</li>
 
                         </ul>
                     </li>@endif
                     <li>{{ HTML::link('#', 'AGENDA') }}
                         <ul>
-                            <li>{{ HTML::link('turno', 'TURNOS') }}</li>
-                            <li>{{ HTML::link('guardia', 'GUARDIAS') }}</li>
+                            <li>{{ HTML::linkAction('TurnoController@index', 'TURNOS') }}</li>
+                            <li>{{ HTML::linkAction('GuardiaController@index', 'GUARDIAS') }}</li>
                             @if(Auth::user()->isAdmin())
-                            <li>{{ HTML::link('turno/create', 'CREAR TURNOS') }}</li>
-                            <li>{{ HTML::link('guardia/create', 'CREAR GUARDIAS') }}</li>
+                            <li>{{ HTML::linkAction('GuardiaController@create', 'CREAR GUARDIAS') }}</li>
                             @endif
                         </ul>
                     </li>

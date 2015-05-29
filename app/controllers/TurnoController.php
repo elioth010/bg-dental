@@ -2,126 +2,135 @@
 
 class TurnoController extends \BaseController {
 
-        public function index()
+    public function index()
     {
-
-            if(null !== Input::get('cdate')){
+        if(null !== Input::get('cdate')) {
             $cdate = explode("-", Input::get('cdate'));
             $mes = $cdate[1];
             $ano = $cdate[0];
-            } else {
-                $mes = date("m");
-                $ano = date("Y");
-            }
-            $sede_id = Auth::user()->sede_id;
-            //var_dump($sede_id);
-            if($sede_id != 4){
-            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
+        } else {
+            $mes = date("m");
+            $ano = date("Y");
+        }
 
-//             $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</strong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
-            } else {
+        $user = User::where('id', Auth::id())->firstOrFail();
+        $sede_ids = array();
+        foreach($user->sedes as $sede) {
+            $sede_ids[] = $sede->id;
+        }
+
+        if (in_array(4, $sede_ids)) {
+            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')
+                                ->whereIn('sede_id', $sede_ids)
+                                ->orderBy('fecha_turno')
+                                ->get(array('fecha_turno', 'profesional_id'));
+//          $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</strong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
+        } else {
             //$eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id', 'sede_id'));
             //Elegir la sede de la que se quieren ver los turnos.
-                $sedes = Sedes::lists('nombre', 'id');
-                return View::make('agenda.turnos_elegir_sede')->with('sedes' , $sedes);
+            $sedes = Sedes::lists('nombre', 'id');
+            return View::make('agenda.turnos_elegir_sede')->with('sedes' , $sedes);
+        }
 
-            }
-            $events = array();
-                foreach($eventos as $evento){
-                    $profesionales = Profesional::find($evento->profesional_id);
-                    $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
-                }
-            //var_dump($events);
-            $cal = Calendar::make();
-            //$cal->setEvents($events);
-             $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-            //$cal->setStartWeek('L');
-             $cal->setBasePath('/turno'); // Base path for navigation URLs
-             $cal->setDate(Input::get('cdate')); //Set starting date
-             $cal->showNav(true); // Show or hide navigation
-             $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-             $cal->setEvents($events); // Receives the events array
-             $cal->setTableClass('table_cal'); //Set the table's class name
-             $calendario = $cal->generate();
-              if($sede_id != 4){
-                    return View::make('agenda.turnos')->with('calendario' , $calendario);
-              } else {
-                    return View::make('agenda.turnos_sedes')->with('calendario' , $calendario);
-              }
+        $events = array();
+        foreach($eventos as $evento){
+            $profesionales = Profesional::find($evento->profesional_id);
+            $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
+        }
 
+        $cal = Calendar::make();
+        $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
+        //$cal->setStartWeek('L');
+        $cal->setBasePath('/turno'); // Base path for navigation URLs
+        $cal->setDate(Input::get('cdate')); //Set starting date
+        $cal->showNav(true); // Show or hide navigation
+        $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+        $cal->setEvents($events); // Receives the events array
+        $cal->setTableClass('table_cal'); //Set the table's class name
+        $calendario = $cal->generate();
+
+        //if (in_array(4, $sede_ids)) {
+        $sedes = Sedes::all();
+        return View::make('turnos.index')->with(array('calendario' => $calendario, 'sedes' => $sedes));
     }
 
+    // TODO:MERGE
     public function index_tps() //Turno por sede...
     {
-
-            if(null !== Input::get('cdate')){
+        if (null !== Input::get('cdate')) {
             $cdate = explode("-", Input::get('cdate'));
             $mes = $cdate[1];
             $ano = $cdate[0];
-            } else {
-                $mes = date("m");
-                $ano = date("Y");
-            }
-            $sede_id = Input::get('sede');
-            $sede = Sedes::find($sede_id);
+        } else {
+            $mes = date("m");
+            $ano = date("Y");
+        }
 
-            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
+        $sede_id = Input::get('sede');
+        $sede = Sedes::find($sede_id);
 
-//             $events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</strong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
+        $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')->where('sede_id', $sede_id)->orderBy('fecha_turno')->get(array('fecha_turno', 'profesional_id'));
+        //$events = array("2015-03-09 10:30:00" => array("Event 1","Event 2 <strong> with html</strong>",),"2015-03-09 14:12:23" => array("Event 3",),"2015-03-14 08:00:00" => array("Event 4",),);
 
-            $events = array();
-                foreach($eventos as $evento){
-                    $profesionales = Profesional::find($evento->profesional_id);
-                    $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
-                }
-            //var_dump($events);
-            $cal = Calendar::make();
-            //$cal->setEvents($events);
-             $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-            //$cal->setStartWeek('L');
-             $cal->setBasePath('/turno'); // Base path for navigation URLs
-             $cal->setDate(Input::get('cdate')); //Set starting date
-             $cal->showNav(true); // Show or hide navigation
-             $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-             $cal->setEvents($events); // Receives the events array
-             $cal->setTableClass('table_cal'); //Set the table's class name
-             $calendario = $cal->generate();
+        $events = array();
+        foreach($eventos as $evento){
+            $profesionales = Profesional::find($evento->profesional_id);
+            $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
+        }
 
-                    return View::make('agenda.turnos')->with('calendario' , $calendario)->with('sede', $sede);
+        $cal = Calendar::make();
+        $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
+        //$cal->setStartWeek('L');
+        $cal->setBasePath('/turno'); // Base path for navigation URLs
+        $cal->setDate(Input::get('cdate')); //Set starting date
+        $cal->showNav(true); // Show or hide navigation
+        $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+        $cal->setEvents($events); // Receives the events array
+        $cal->setTableClass('table_cal'); //Set the table's class name
+        $calendario = $cal->generate();
 
-
+        return View::make('agenda.turnos')->with('calendario' , $calendario)->with('sede', $sede);
     }
 
-        public function create()
+    public function create()
     {
-            $sede_id = Auth::user()->sede_id;
-            if($sede_id = 4){
-                $sedes = Sedes::lists('nombre', 'id');
-                return View::make('agenda.turnos_elegir_sede_a_crear')->with('sedes' , $sedes);
-            } else {
+        $user = User::where('id', Auth::id())->firstOrFail();
+        $sede_ids = array();
+        foreach($user->sedes as $sede) {
+            echo $sede->id . '<br/>';
+            $sede_ids[] = $sede->id;
+        }
+
+        if (in_array(4, $sede_ids)) {
+            $sedes = Sedes::lists('nombre', 'id');
+            return View::make('agenda.turnos_elegir_sede_a_crear')->with('sedes' , $sedes);
+        } else {
+            // TODO:TEST
             $profesionales = Profesional::where('sede_id', $sede_id)->get();
             //$sede_nombre = Sedes::lists('nombre')->where('sede_id', $sede_id);
-            $option_prof="";
+            $option_prof = "";
+
             foreach($profesionales as $i=>$profesionales){
                     $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1."</option>";
             }
 
             if(null !== Input::get('cdate')){
-            $cdate = explode("-", Input::get('cdate'));
-            $mes = $cdate[1];
-            $ano = $cdate[0];
+                $cdate = explode("-", Input::get('cdate'));
+                $mes = $cdate[1];
+                $ano = $cdate[0];
             } else {
                 $mes = date("m");
                 $ano = date("Y");
             }
-//            $numero = 1;
-//        var_dump($ano);
+    //            $numero = 1;
+    //        var_dump($ano);
             $numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
             $i = 1;
             $events = array();
             $date;
 
-            while($i<=$numero){
+            // TODO: loop
+            while ($i<=$numero) {
                 $select_prof_m = "<select class = \"select_prof\" name = \"profesional_id-m-" . $i . "\">" . $option_prof . "</select>";
                 $date_in_m = $ano."-".$mes."-".$i." 10:00";
                 $input_m = '<input  type = "hidden" name="dia-m-'.$i.'" value= "'.$date_in_m.'">';
@@ -148,92 +157,176 @@ class TurnoController extends \BaseController {
                 $i++;
             }
 
-             $cal = Calendar::make();
-             $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-             //$cal->setStartWeek('L');
-             $cal->setBasePath('/turno/create'); // Base path for navigation URLs
-             $cal->setDate(Input::get('cdate')); //Set starting date
-             $cal->showNav(true); // Show or hide navigation
-             $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-             $cal->setEvents($events); // Receives the events array
-             $cal->setTableClass('table_cal'); //Set the table's class name
-             $calendario = $cal->generate();
-             return View::make('agenda.crear_turnos')->with(array('calendario' => $calendario, 'numero_dias' => $numero, 'sede_id'=> $sede_id));
+            $cal = Calendar::make();
+            $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
+            //$cal->setStartWeek('L');
+            $cal->setBasePath('/turno/create'); // Base path for navigation URLs
+            $cal->setDate(Input::get('cdate')); //Set starting date
+            $cal->showNav(true); // Show or hide navigation
+            $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+            $cal->setEvents($events); // Receives the events array
+            $cal->setTableClass('table_cal'); //Set the table's class name
+            $calendario = $cal->generate();
 
+            return View::make('agenda.crear_turnos')->with(array('calendario' => $calendario, 'numero_dias' => $numero, 'sede_id'=> $sede_id));
+        }
     }
-        }
 
-         public function create_tps()
+    // TODO:MERGE
+    public function create_tps()
     {
-            $sede_id = Input::get('sede');
-            $sede = Sedes::find($sede_id);
-            echo "HOLA";
-//            $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
-//                    ->select('profesionales.id', DB::raw('concat (profesionales.nombre," ",profesionales.apellido1) as nombre_p'))
-//                    ;
-//            var_dump($profesionales);
-            //return View::make('agenda.crear_turnos_tps')->with(array('profesionales' => $profesionales))->with('sede', $sede);
-        }
+        $sede_id = Input::get('sede');
+        $sede = Sedes::find($sede_id);
+        $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
+                        ->select('profesionales.id', DB::raw('concat (profesionales.nombre," ",profesionales.apellido1) as nombre_p'))
+                        ->lists('nombre_p', 'id');
+                        //->get();
 
+        return View::make('agenda.crear_turnos_tps')->with(array('profesionales' => $profesionales))->with('sede', $sede);
+    }
 
     public function store()
     {
+        $sede_id = Input::get('sede_id');
         $turnos = Input::all();
-        //var_dump($turnos['numero_dias']);
-        $i = 1;
-        while($i<=$turnos['numero_dias']){
-            $evento = new Turnos;
-            $evento->fecha_turno = $turnos["dia-m-".$i];
-            $evento->profesional_id = $turnos['profesional_id-m-'.$i] ;
-            $evento->sede_id = $turnos['sede_id'];
-            // TODO: mañana
-            $evento->save();
-            $i++;
-        }
-        $i2= 1;
-         while($i2<=$turnos['numero_dias']){
-            $evento = new Turnos;
-            $evento->fecha_turno = $turnos["dia-m2-".$i2];
-            $evento->profesional_id = $turnos['profesional_id-m2-'.$i2] ;
-            // TODO: mañana
-            $evento->sede_id = $turnos['sede_id'];
-            $evento->save();
-            $i2++;
-        }
-        $ii = 1;
-        while($ii<=$turnos['numero_dias']){
 
+        for ($i = 0; $i < 5; $i++) {
             $evento = new Turnos;
-            $evento->fecha_turno = $turnos["dia-t-".$ii];
-            $evento->profesional_id = $turnos['profesional_id-t-'.$ii] ;
-            // TODO: tarde
-            $evento->sede_id = $turnos['sede_id'];
+            $evento->fecha_turno = Input::get('sede_id');$turnos["dia-m-".$i];
+            $evento->profesional_id = $turnos['profesional_id-m-'.$i] ;
+            $evento->sede_id = $sede_id;
+            // TODO: mañana
             $evento->save();
-            $ii++;
         }
-        $ii2 = 1;
-        while($ii2<=$turnos['numero_dias']){
+
+        for ($i = 0; $i < 5; $i++) {
             $evento = new Turnos;
-            $evento->fecha_turno = $turnos["dia-t2-".$ii2];
-            $evento->profesional_id = $turnos['profesional_id-t2-'.$ii2] ;
-            // TODO: tarde
-            $evento->sede_id = $turnos['sede_id'];
+            $evento->fecha_turno = $turnos["dia-m2-".$i];
+            $evento->profesional_id = $turnos['profesional_id-m2-'.$i] ;
+            // TODO: mañana
+            $evento->sede_id = $sede_id;
             $evento->save();
-            $ii2++;
+        }
+
+        for ($i = 0; $i < 5; $i++) {
+            $evento = new Turnos;
+            $evento->fecha_turno = $turnos["dia-t-".$i];
+            $evento->profesional_id = $turnos['profesional_id-t-'.$i] ;
+            // TODO: tarde
+            $evento->sede_id = $sede_id;
+            $evento->save();
+        }
+
+        for ($i = 0; $i < 5; $i++) {
+            $evento = new Turnos;
+            $evento->fecha_turno = $turnos["dia-t2-".$i];
+            $evento->profesional_id = $turnos['profesional_id-t2-'.$i] ;
+            // TODO: tarde
+            $evento->sede_id = $sede_id;
+            $evento->save();
         }
 
         return Redirect::action('TurnoController@index');
     }
 
+    // $id = $sede_id
     public function show($id)
     {
-        //
+        $user = User::where('id', Auth::id())->firstOrFail();
+
+        $sede_ids = array();
+        foreach($user->sedes as $sede) {
+            $sede_ids[] = $sede->id;
+        }
+
+        $sede = Sedes::where('id', $id)->firstOrFail();
+
+        if (null !== Input::get('cdate')) {
+            $cdate = explode("-", Input::get('cdate'));
+            $mes = $cdate[1];
+            $ano = $cdate[0];
+        } else {
+            $mes = date("m");
+            $ano = date("Y");
+        }
+
+        if ((in_array($id, $sede_ids)) || (in_array(4, $sede_ids))) {
+            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')
+                                ->whereIn('sede_id', $sede_ids)
+                                ->orderBy('fecha_turno')
+                                ->get(array('fecha_turno', 'profesional_id'));
+        } else {
+            // TODO: NO TIENES PERMISOS
+        }
+
+        $events = array();
+        foreach($eventos as $evento){
+            $profesionales = Profesional::find($evento->profesional_id);
+            $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
+        }
+
+        $cal = Calendar::make();
+        $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
+        //$cal->setStartWeek('L');
+        $cal->setBasePath('/turno'); // Base path for navigation URLs
+        $cal->setDate(Input::get('cdate')); //Set starting date
+        $cal->showNav(true); // Show or hide navigation
+        $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+        $cal->setEvents($events); // Receives the events array
+        $cal->setTableClass('table_cal'); //Set the table's class name
+        $calendario = $cal->generate();
+
+        return View::make('turnos.show')->with(array('calendario' => $calendario, 'sede' => $sede));
     }
 
-
+    // $id = $sede_id
     public function edit($id)
     {
-        //
+        $user = User::where('id', Auth::id())->firstOrFail();
+
+        $sede_ids = array();
+        foreach($user->sedes as $sede) {
+            $sede_ids[] = $sede->id;
+        }
+
+        $sede = Sedes::where('id', $id)->firstOrFail();
+
+        if (null !== Input::get('cdate')) {
+            $cdate = explode("-", Input::get('cdate'));
+            $mes = $cdate[1];
+            $ano = $cdate[0];
+        } else {
+            $mes = date("m");
+            $ano = date("Y");
+        }
+
+        if ((in_array($id, $sede_ids)) || (in_array(4, $sede_ids))) {
+            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')
+                                ->whereIn('sede_id', $sede_ids)
+                                ->orderBy('fecha_turno')
+                                ->get(array('fecha_turno', 'profesional_id'));
+        } else {
+            // TODO: NO TIENES PERMISOS
+        }
+
+        $events = array();
+        foreach($eventos as $evento){
+            $profesionales = Profesional::find($evento->profesional_id);
+            $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
+        }
+
+        $cal = Calendar::make();
+        $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
+        //$cal->setStartWeek('L');
+        $cal->setBasePath('/turno'); // Base path for navigation URLs
+        $cal->setDate(Input::get('cdate')); //Set starting date
+        $cal->showNav(true); // Show or hide navigation
+        $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
+        $cal->setEvents($events); // Receives the events array
+        $cal->setTableClass('table_cal'); //Set the table's class name
+        $calendario = $cal->generate();
+
+        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede));
     }
 
 
