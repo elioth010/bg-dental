@@ -26,8 +26,8 @@
             <th>Fecha realización</th>
             <th>Precio</th>
             @if(Auth::user()->isAdmin())
-            <th>Cobrado paciente</th>
-            <th>Costes lab.</th>
+           {{-- <th>Cobrado paciente</th>
+            <th>Costes lab.</th> --}}
             @endif
 
 <!--            <th>Abonado por Quirón</th>
@@ -49,8 +49,8 @@
             
 
             @if(Auth::user()->isAdmin())
-            <td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
-            <td>{{Form::number('coste_lab', null, array('class' => 'euros', 'step' => 'any'))}}</td>
+            {{--<td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
+            <td>{{Form::number('coste_lab', null, array('class' => 'euros', 'step' => 'any'))}}</td>--}}
             @endif
 
 <!--             <td class = "td_centrado">{{ Form::checkbox('abonado_quiron',0,0) }}</td>
