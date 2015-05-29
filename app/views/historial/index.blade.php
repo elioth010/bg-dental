@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('metas')
+<meta http-equiv="refresh" content="30">
+@stop
+
 @section('contenido')
 {{ Form::open(array('url'=>'historial_clinico/busqueda')) }}
     <h1>Busque un paciente para acceder a su historial clínico:</h1>
