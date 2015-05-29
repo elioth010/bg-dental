@@ -9,10 +9,15 @@ class Historial_clinicoController extends \BaseController {
      */
     public function index()
     {
-//        $sede_id = Input::get('sede');
-//            $sede = Sedes::find($sede_id);
-//            $profesionales = Profesional::lists('apellido1', 'id');
-            return View::make('historial.buscar')/*->with(array('profesionales' => $profesionales))->with('sede', $sede)*/;
+        $esperas = Espera::where('admitido', 1)
+                            ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id',
+                                     'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
+                            ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
+                            ->orderBy('espera.begin_date')
+                            ->get();
+        $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
+
+        return View::make('historial.index')->with(array('profesionales' => $profesionales, 'esperas' => $esperas));
     }
 
 
@@ -247,9 +252,7 @@ class Historial_clinicoController extends \BaseController {
 
      public function buscar()
     {
-        //echo "HOLA";
-        return View::make('historial.buscar');
-
+        return View::make('historial.index');
     }
 
 
