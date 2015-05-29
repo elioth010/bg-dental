@@ -26,7 +26,6 @@
                 <td>{{ $espera->nombre }} {{ $espera->apellido1." ".$espera->apellido2 }}</td>
                 <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $espera->numerohistoria) }}</td>
                 <td>{{ $espera->profesional_id }}</td>
-            {{ var_dump($espera) }}
             {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
                 <td>{{ Form::submit('Finalizar') }}</td>
             {{Form::close()}}

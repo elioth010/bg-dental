@@ -48,7 +48,7 @@ class CompaniasController extends BaseController {
                                                                  ->withErrors($validator->messages())->withInput();
         }
 
-        return Redirect::action('CompaniasController@create')
+        return Redirect::action('CompaniasController@create');
     }
 
 
