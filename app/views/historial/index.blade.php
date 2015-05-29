@@ -23,8 +23,8 @@
           <tr>
               <th>Hora de llegada</th>
               <th>NHC</th>
+              <th>Historial clínico</th>
               <th>Nombre</th>
-              <th>Presupuestos</th>
               <th>Profesional asignado</th>
               <th>Acciones</th>
           </tr>
@@ -32,8 +32,8 @@
           <tr>
               <td>{{ $espera->begin_date }}</td>
               <td>{{ HTML::linkAction('PacientesController@edit', $espera->numerohistoria, $espera->paciente_id) }}</td>
+              <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Acceder al historial clínico', $espera->paciente_id) }}</td>
               <td>{{ $espera->nombre }} {{ $espera->apellido1." ".$espera->apellido2 }}</td>
-              <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $espera->numerohistoria) }}</td>
               <td>{{ $profesionales[$espera->profesional_id] }}</td>
           {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
               <td>{{ Form::submit('Finalizar') }}</td>

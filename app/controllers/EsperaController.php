@@ -83,7 +83,7 @@ class EsperaController extends \BaseController {
         $dt = new DateTime;
         $espera->update(array('admitido' => 0, 'end_date' => $dt->format('y-m-d H:i:s')));
 
-        return Redirect::action('PacientesController@index')->with('message', 'Paciente eliminado de la lista de espera.');
+        return Redirect::action('Historial_clinicoController@index')->with('message', 'Paciente eliminado de la lista de espera.');
     }
 
 

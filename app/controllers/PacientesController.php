@@ -12,9 +12,10 @@ class PacientesController extends BaseController {
         $pacientes = Pacientes::whereRaw('pacientes.created_at >= DATE_SUB(NOW(), INTERVAL 100 DAY)')
                                 ->orderBy('pacientes.created_at')
                                 ->get();
+        $esperas = Espera::where('admitido', 1)->lists('admitido', 'paciente_id');
         $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 
-        return View::make('pacientes.index')->with(array('profesionales' => $profesionales, 'pacientes' => $pacientes));
+        return View::make('pacientes.index')->with(array('profesionales' => $profesionales, 'pacientes' => $pacientes, 'esperas' => $esperas));
     }
 
 

@@ -29,7 +29,7 @@
         {{ Form::open(array('url'=>'espera/', 'method' => 'post')) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
             <td>{{ Form::select('profesional_id', $profesionales) }}</td>
-        @if ($paciente->admitido == 1)
+        @if (isset($esperas[$paciente->id]) && ($esperas[$paciente->id] == 1))
             <td>En espera</td>
         @else
             <td>{{ Form::submit('Admitir') }}</td>
