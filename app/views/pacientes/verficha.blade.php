@@ -34,6 +34,7 @@
         <br>
     <li>{{ Form::submit('Guardar cambios')}}</li>
     <li>{{--{{ Form::button('Atrás', array('class'=>'botonl'))}}--}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</li>
+    <li>{{ HTML::linkAction('CobrosController@show', 'Cobros de este paciente', $paciente->id) }}</li>
 
 </ul>
     @endforeach

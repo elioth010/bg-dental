@@ -3,7 +3,7 @@
 class Pacientes extends Eloquent {
 
 protected $table = 'pacientes';
-protected $fillable = array('numerohistoria','apellido1','apellido2','nombre','NIF','fechanacimiento','sexo','Direccion','addrnamestre','addrtel1','addrtel2','terrdesc','addrpostcode','compania','compania2');
+protected $fillable = array('numerohistoria','apellido1','apellido2','nombre','NIF','fechanacimiento','sexo','Direccion','addrnamestre','addrtel1','addrtel2','terrdesc','addrpostcode','compania','compania2', 'saldo');
 
     // ?
     public function companias(){
@@ -23,7 +23,7 @@ protected $fillable = array('numerohistoria','apellido1','apellido2','nombre','N
 //        'addrtel1'=>'required|alpha|min:2',
 //        'addrtel2'=>'required|alpha|min:2',
 //        'sexo'=>'required',
-//        'compania'=>'required|alpha|min:2',
+        'compania'=>'required',
 //        'mail'=>'required|email',
     );
 }

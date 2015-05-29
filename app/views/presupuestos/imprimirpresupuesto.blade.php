@@ -146,7 +146,7 @@ q:before, q:after {
 <body>
 	<div class="header">
     <div class="tbl_drc">
-       <h3>Presupuesto: {{ $presupuesto->nombre}}</h3>
+       {{--<h3>Presupuesto: {{ $presupuesto->nombre}}</h3>--}}
     <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
 
     <ul class="datos1">
@@ -161,6 +161,7 @@ q:before, q:after {
          {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
     @endif
 	</li>
+        <li>{{HTML::link('http://www.imiquiron.com', 'Para más información visite www.imiquiron.com.', ['target'=>'_blank'])}}</li>
 	</ul>
 	</div>
 	<div class="tbl_izq">

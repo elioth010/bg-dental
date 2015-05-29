@@ -185,8 +185,8 @@ header{
 .search{
 	width: 160px;
 	height: 25px;
-	position:fixed;
-	z-index:10;
+	/*position:fixed;
+	z-index:10;*/
 	background:#66a3e5 url(../imagenes/search.png) no-repeat;
 	border: 1px dotted #333;
 	line-height: 25px;
@@ -350,7 +350,27 @@ th {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
 	color: white;
 }
-
+.botonm{
+	padding: 3px;
+	border: 1px solid #69767e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #cedce7; /* Old browsers */
+	background: -moz-linear-gradient(top,  #cedce7 0%, #596a72 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cedce7), color-stop(100%,#596a72)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #cedce7 0%,#596a72 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #cedce7 0%,#596a72 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
+	}
+.rollwht a{
+	color: white;
+	}
+.rollwht a:hover{
+	color: black;
+	}
 /*  crear clientes */
 
 #crear p{

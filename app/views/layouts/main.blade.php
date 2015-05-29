@@ -3,6 +3,7 @@
 
   <head>
 @include('includes.head')
+@yield('metas')
 @yield('javascripts')
 @yield('ceeseeses')
   </head>
@@ -24,7 +25,7 @@
  <div id="menu">
 
                 <ul class="nav">
-                    
+
                     @if(Auth::user()->isAdmin())
                     <li>{{ HTML::link('#', 'ADMINISTRACIÓN') }}
                         <ul>
@@ -60,7 +61,7 @@
                             <li>{{ HTML::link('historial_clinico', 'HISTORIAL CLÍNICO') }}</li>
                             <li>{{ HTML::link('facturacion', 'FACTURACIÓN') }}</li>
                             <li>{{ HTML::link('estadisticas', 'ESTADÍSTICAS') }}</li>
-                            
+
                         </ul>
                     </li>@endif
                     <li>{{ HTML::link('#', 'AGENDA') }}
