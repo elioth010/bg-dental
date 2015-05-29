@@ -47,7 +47,10 @@ class PacientesController extends BaseController {
         $validator = Validator::make(Input::all(), Pacientes::$p_rules);
 
         if ($validator->passes()) {
-            $nuevo_paciente = Pacientes::create(Input::all());
+            $nuevo_paciente = new Pacientes(Input::all());
+            $nuevo_paciente->saldo = 0;
+            $nuevo_paciente->save();
+            
             return Redirect::action('PacientesController@index')->with('message', 'Paciente creado con éxito.');
         } else {
             return Redirect::action('PacientesController@create')->with('message', 'Existen los siguientes errores:')
