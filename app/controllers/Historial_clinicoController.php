@@ -63,6 +63,10 @@ class Historial_clinicoController extends \BaseController {
             }
 
             $historial->save();
+            
+            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
+            $paciente->saldo = $paciente->saldo - Input::get('precio');
+            $paciente->update();
 
             if ($presupuesto_id) {
                 $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
@@ -177,6 +181,7 @@ class Historial_clinicoController extends \BaseController {
         $data = $this->_data_aux_historial($paciente);
 
         return View::make('historial.historial')->with($data)
+                                                ->with('paciente', $paciente)
                                                 ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                                              'presupuestos' => $presupuestos));
 
@@ -217,7 +222,15 @@ class Historial_clinicoController extends \BaseController {
         return Redirect::action('Historial_clinicoController@show', $profesional->id);
     }
 
-
+    public function cobrar($id)
+    {
+        $paciente = Pacientes::where('id', $id)->firstOrFail();
+        $paciente->saldo = $paciente->saldo + Input::get('cobrar');
+        $paciente->update();
+        $user = Auth::id();
+        $profesional = Profesional::where('user_id', $user)->firstOrFail();
+        return Redirect::action('Historial_clinicoController@show', $paciente->id);
+    }
     /**
      * Remove the specified resource from storage.
      *

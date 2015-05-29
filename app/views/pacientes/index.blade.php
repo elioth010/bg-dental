@@ -17,6 +17,7 @@
             <th>Nombre</th>
             <th>Apellidos</th>
             <th>Presupuestos</th>
+            <th>Saldo</th>
             <th>Profesional a asignar</th>
             <th>Acción</th>
         </tr>
@@ -26,6 +27,7 @@
             <td>{{ $paciente->nombre }}</td>
             <td>{{ $paciente->apellido1." ".$paciente->apellido2 }}</td>
             <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</td>
+            <td>{{$paciente->saldo}} €</td>
         {{ Form::open(array('url'=>'espera/', 'method' => 'post')) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
             <td>{{ Form::select('profesional_id', $profesionales) }}</td>

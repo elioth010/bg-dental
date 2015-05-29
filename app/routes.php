@@ -4,10 +4,10 @@
 // 	return View::make('hello');
 // });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
-// Event::listen('illuminate.query', function($query)
-// {
-//    var_dump($query);
-// });
+ Event::listen('illuminate.query', function($query)
+ {
+    var_dump($query);
+ });
 
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
@@ -94,6 +94,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('historial_clinico/buscar', 'Historial_clinicoController@buscar');
     Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda');
     Route::post('historial_clinico/coste_lab/{id}', 'Historial_clinicoController@coste_lab');
+    Route::post('historial_clinico/cobrar/{id}', 'Historial_clinicoController@cobrar');
     Route::resource('historial_clinico', 'Historial_clinicoController');
 
     //Rutas para facturación
@@ -107,6 +108,10 @@ Route::group(array('before' => 'auth'), function() {
     //Rutas sala de espera
 
     Route::resource('espera', 'EsperaController');
+    
+    //Rutas cobros
+
+    Route::resource('cobros', 'CobrosController');
 
     //rutas para llenar db de datos:
     //importando pacientes:
