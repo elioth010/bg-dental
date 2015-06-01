@@ -10,8 +10,8 @@ class Historial_clinicoController extends \BaseController {
     public function index()
     {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $profesional = Profesional::where('user_id', $user)->firstOrFail();
-
+        $profesional = Profesional::where('user_id', $user->id)->firstOrFail();
+        
         $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
                             ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
