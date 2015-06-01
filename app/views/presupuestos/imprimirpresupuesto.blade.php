@@ -161,7 +161,7 @@ q:before, q:after {
          {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
     @endif
 	</li>
-        <li>{{HTML::link('http://www.imiquiron.com', 'Para más información visite www.imiquiron.com.', ['target'=>'_blank'])}}</li>
+        <li>{{HTML::link('http://www.imiquiron.com', 'Para más información www.imiquiron.com.', ['target'=>'_blank'])}}</li>
 	</ul>
 	</div>
 	<div class="tbl_izq">
