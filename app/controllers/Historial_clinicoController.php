@@ -231,6 +231,7 @@ class Historial_clinicoController extends \BaseController {
         $profesional = Profesional::where('user_id', $user)->firstOrFail();
         return Redirect::action('Historial_clinicoController@show', $paciente->id);
     }
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -241,8 +242,9 @@ class Historial_clinicoController extends \BaseController {
     {
         //
     }
-     public function busqueda()
-     {
+
+    public function busqueda()
+    {
         $busca = Input::get('nombre');
         if($busca) {
             $busca = '%'.$busca.'%';
@@ -258,8 +260,7 @@ class Historial_clinicoController extends \BaseController {
         }
         //var_dump($paciente);
 
-
         return View::make('historial.busqueda')->with('pacientes', $pacientes);
-     }
+    }
 
 }

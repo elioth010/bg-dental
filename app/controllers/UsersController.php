@@ -56,7 +56,7 @@ class UsersController extends BaseController {
             return Redirect::to('paciente');
             }
             if(Auth::user()->isProfesional()){
-            return Redirect::to('historial_clinico');
+            return Redirect::action('Historial_clinicoController@index');
             }
 
 //->with('message', 'You are now logged in!');
