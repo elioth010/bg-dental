@@ -38,16 +38,7 @@ class TurnoController extends \BaseController {
             $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
         }
 
-        $cal = Calendar::make();
-        $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-        //$cal->setStartWeek('L');
-        $cal->setBasePath('/turno'); // Base path for navigation URLs
-        $cal->setDate(Input::get('cdate')); //Set starting date
-        $cal->showNav(true); // Show or hide navigation
-        $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-        $cal->setEvents($events); // Receives the events array
-        $cal->setTableClass('table_cal'); //Set the table's class name
-        $calendario = $cal->generate();
+        $calendario = $this->getTurnoCalendar($events);
 
         //if (in_array(4, $sede_ids)) {
         $sedes = Sedes::all();
@@ -78,16 +69,7 @@ class TurnoController extends \BaseController {
             $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
         }
 
-        $cal = Calendar::make();
-        $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-        //$cal->setStartWeek('L');
-        $cal->setBasePath('/turno'); // Base path for navigation URLs
-        $cal->setDate(Input::get('cdate')); //Set starting date
-        $cal->showNav(true); // Show or hide navigation
-        $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-        $cal->setEvents($events); // Receives the events array
-        $cal->setTableClass('table_cal'); //Set the table's class name
-        $calendario = $cal->generate();
+        $calendario = $this->getTurnoCalendar($events);
 
         return View::make('agenda.turnos')->with('calendario' , $calendario)->with('sede', $sede);
     }
@@ -157,16 +139,7 @@ class TurnoController extends \BaseController {
                 $i++;
             }
 
-            $cal = Calendar::make();
-            $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-            //$cal->setStartWeek('L');
-            $cal->setBasePath('/turno/create'); // Base path for navigation URLs
-            $cal->setDate(Input::get('cdate')); //Set starting date
-            $cal->showNav(true); // Show or hide navigation
-            $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-            $cal->setEvents($events); // Receives the events array
-            $cal->setTableClass('table_cal'); //Set the table's class name
-            $calendario = $cal->generate();
+            $calendario = $this->getTurnoCalendar($events, '/turno/create');
 
             return View::make('agenda.crear_turnos')->with(array('calendario' => $calendario, 'numero_dias' => $numero, 'sede_id'=> $sede_id));
         }
@@ -279,8 +252,7 @@ class TurnoController extends \BaseController {
         return View::make('turnos.show')->with(array('calendario' => $calendario, 'sede' => $sede));
     }
 
-    // $id = $sede_id
-    public function edit($id)
+    public function edit($sede_id)
     {
         $user = User::where('id', Auth::id())->firstOrFail();
 
@@ -289,7 +261,7 @@ class TurnoController extends \BaseController {
             $sede_ids[] = $sede->id;
         }
 
-        $sede = Sedes::where('id', $id)->firstOrFail();
+        $sede = Sedes::where('id', $sede_id)->firstOrFail();
 
         if (null !== Input::get('cdate')) {
             $cdate = explode("-", Input::get('cdate'));
@@ -300,7 +272,7 @@ class TurnoController extends \BaseController {
             $ano = date("Y");
         }
 
-        if ((in_array($id, $sede_ids)) || (in_array(4, $sede_ids))) {
+        if ((in_array($sede_id, $sede_ids)) || (in_array(4, $sede_ids))) {
             $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')
                                 ->whereIn('sede_id', $sede_ids)
                                 ->orderBy('fecha_turno')
@@ -315,20 +287,24 @@ class TurnoController extends \BaseController {
             $events[$evento->fecha_turno] = array($profesionales->nombre.", ".$profesionales->apellido1);
         }
 
+        $calendario = $this->getTurnoCalendar($events);
+
+        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede));
+    }
+
+    private function getTurnoCalendar($events, $basepath = '/turno') {
         $cal = Calendar::make();
         $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
         //$cal->setStartWeek('L');
-        $cal->setBasePath('/turno'); // Base path for navigation URLs
+        $cal->setBasePath($basepath); // Base path for navigation URLs
         $cal->setDate(Input::get('cdate')); //Set starting date
         $cal->showNav(true); // Show or hide navigation
         $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
         $cal->setEvents($events); // Receives the events array
         $cal->setTableClass('table_cal'); //Set the table's class name
-        $calendario = $cal->generate();
 
-        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede));
+        return $cal->generate();
     }
-
 
     public function update($id)
     {
