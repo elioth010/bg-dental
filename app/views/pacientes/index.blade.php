@@ -7,7 +7,7 @@
   </div>
   <div class="top">
 
-  <h3>Últimos pacientes creados ({{ count($pacientes) }}):</h3>
+  <h3>Pacientes en sala de espera: ({{ count($pacientes) }})</h3>
 
     @if (count($pacientes) > 0)
   	<div class="labelreg6">
@@ -18,7 +18,7 @@
             <th>Apellidos</th>
             <th>Presupuestos</th>
             <th>Saldo</th>
-            <th>Profesional a asignar</th>
+            <th>Profesional asignado</th>
             <th>Acción</th>
         </tr>
         @foreach($pacientes as $paciente)
@@ -28,10 +28,14 @@
             <td>{{ $paciente->apellido1." ".$paciente->apellido2 }}</td>
             <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</td>
             <td>{{$paciente->saldo}} €</td>
+        @if (isset($paciente->admitido) && ($paciente->admitido == 1))
+        <td>{{$paciente->p_n}}, {{$paciente->p_a1}} {{$paciente->p_a2}}</td>
+        @else
         {{ Form::open(array('url'=>'espera/', 'method' => 'post')) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
             <td>{{ Form::select('profesional_id', $profesionales) }}</td>
-        @if (isset($esperas[$paciente->id]) && ($esperas[$paciente->id] == 1))
+        @endif
+        @if (isset($paciente->admitido) && ($paciente->admitido == 1))
             <td>En espera</td>
         @else
             <td>{{ Form::submit('Admitir') }}</td>
@@ -42,7 +46,7 @@
     </table>
 	</div>
     @else
-        No hay pacientes creados en los últimos días.
+        No hay pacientes en la sala de espera o en las consultas.
     @endif
 </div>
 @stop

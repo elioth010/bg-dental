@@ -15,7 +15,7 @@
 {{ Form::close() }}
 
 <div class="top">
-<h3>Pacientes en espera ({{ count($esperas) }}):</h3>
+<h3>Pacientes para el Profesional {{$profesional->nombre}}, {{$profesional->apellido1}} {{$profesional->apellido2}} en espera ({{ count($esperas) }}):</h3>
 
   @if (count($esperas) > 0)
   <div class="labelreg6">

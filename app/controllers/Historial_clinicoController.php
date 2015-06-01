@@ -13,13 +13,13 @@ class Historial_clinicoController extends \BaseController {
         $profesional = Profesional::where('user_id', $user->id)->firstOrFail();
         
         $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
+                            ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
-                            ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->orderBy('espera.begin_date')
                             ->get();
         $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
-        return View::make('historial.index')->with(array('profesionales' => $profesionales, 'esperas' => $esperas));
+        return View::make('historial.index')->with(array('profesionales' => $profesionales, 'esperas' => $esperas))->with('profesional', $profesional);
     }
 
 
@@ -227,9 +227,9 @@ class Historial_clinicoController extends \BaseController {
         $historial->coste_lab = Input::get('coste_lab');
         $historial->update();
         $user = Auth::id();
-        $profesional = Profesional::where('user_id', $user)->firstOrFail();
-
-        return Redirect::action('Historial_clinicoController@show', $profesional->id);
+        //$profesional = Profesional::where('user_id', $user)->firstOrFail();
+        
+        return Redirect::action('Historial_clinicoController@show', $historial->paciente_id);
     }
 
     public function cobrar($id)
