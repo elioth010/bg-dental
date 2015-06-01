@@ -11,6 +11,7 @@
   </div>
   <div class="top">
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
+  @if(Auth::user()->isAdmin())
   @if($paciente->saldo < 0)
         <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}}</span></h2>
   @else
@@ -29,7 +30,7 @@
   @else
   <h2><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
   @endif
-  
+  @endif
   	<div class="overflow">
     <table border = "1">
         <tr>
@@ -46,7 +47,9 @@
 <!--            <th>Abonado por Quirón</th>
             <th>Cobrado por profesional</th>-->
             <th>Añadir</th>
+            @if(Auth::user()->isAdmin())
             <th>Costes lab.</th>
+            @endif
         </tr>
 
         <tr>
@@ -82,7 +85,7 @@
             <td>{{ $historial->fecha_realizacion }}</td>
             <td>{{ $historial->precio }}</td>
             @if (Auth::user()->isAdmin())
-            <td>
+            <td>@if(Auth::user()->isAdmin())
                 @if($historial->pendiente_de_cobro != 1)
                     {{'Cobrado'}}
                 @else
@@ -94,9 +97,10 @@
                     {{ Form::submit('Cobrar', array('class'=>'botonl'))}}
                     {{ Form::close() }}
                 @endif
-                
+                @endif
             </td>
             @endif
+            @if(Auth::user()->isAdmin())
             <td>@if($historial->coste_lab > 0)
                 {{ $historial->coste_lab}} €
                 @else
@@ -106,6 +110,7 @@
                 {{ Form::close() }}
                 @endif
             </td>
+            @endif
 <!--            <td class = "td_centrado">
                 @if($historial->abonado_quiron != 1)
                 {{Form::checkbox('vacio',0,null, array('disabled'))  }}
