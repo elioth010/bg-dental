@@ -7,7 +7,7 @@
 @section('contenido')
 
   <div class="search">
-  {{ HTML::linkAction('Historial_clinicoController@buscar', 'Buscar pacientes') }}
+  {{ HTML::linkAction('Historial_clinicoController@index', 'Buscar pacientes') }}
   </div>
   <div class="top">
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
