@@ -15,6 +15,7 @@ class PacientesController extends BaseController {
                                       'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido1 as p_a2')
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->leftJoin('profesionales', 'espera.profesional_id', '=', 'profesionales.id')
+                            //->leftJoin('historial_clinico', 'historial_clinico.paciente_id', '=', 'pacientes.id')
                             ->orderBy('espera.begin_date')
                             ->get();
 //        $pacientes = Pacientes::whereRaw('pacientes.created_at >= DATE_SUB(NOW(), INTERVAL 100 DAY)')
