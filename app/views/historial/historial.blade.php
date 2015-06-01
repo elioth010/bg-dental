@@ -46,6 +46,7 @@
 <!--            <th>Abonado por Quirón</th>
             <th>Cobrado por profesional</th>-->
             <th>Añadir</th>
+            <th>Costes lab.</th>
         </tr>
 
         <tr>
