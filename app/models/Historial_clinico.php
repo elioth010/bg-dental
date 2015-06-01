@@ -5,7 +5,7 @@ class Historial_clinico extends Eloquent {
 
     public $timestamps = true;
     protected $table = 'historial_clinico';
-    protected $fillable = array('paciente_id', 'profesional_id', 'tratamiento_id', 'fecha_realizacion', 'cobrado_paciente', 'abonado_quiron', 'cobrado_profesional', 'precio');
+    protected $fillable = array('paciente_id', 'profesional_id', 'tratamiento_id', 'fecha_realizacion', 'cobrado_paciente', 'abonado_quiron', 'cobrado_profesional', 'precio', 'pendiente_de_cobro');
 
 
     public static $p_rules = array(
@@ -14,6 +14,9 @@ class Historial_clinico extends Eloquent {
 //        'grupo'=>'required|numeric|valor de grupo existente',
 //        'tratamiento'=>'required|numeric|valor de tratamiento existente',
     );
+    public function cobro(){
+        return $this->hasOne('Cobros');
+    }
 
 
 }

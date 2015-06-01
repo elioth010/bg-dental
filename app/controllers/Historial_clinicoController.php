@@ -9,14 +9,16 @@ class Historial_clinicoController extends \BaseController {
      */
     public function index()
     {
-        $esperas = Espera::where('admitido', 1)
+        $user = User::where('id', Auth::id())->firstOrFail();
+        $profesional = Profesional::where('user_id', $user)->firstOrFail();
+
+        $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
                             ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->orderBy('espera.begin_date')
                             ->get();
         $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
-
         return View::make('historial.index')->with(array('profesionales' => $profesionales, 'esperas' => $esperas));
     }
 
@@ -63,10 +65,10 @@ class Historial_clinicoController extends \BaseController {
             }
 
             $historial->save();
-            
-            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
-            $paciente->saldo = $paciente->saldo - Input::get('precio');
-            $paciente->update();
+//            
+//            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
+//            $paciente->saldo = $paciente->saldo - Input::get('precio');
+//            $paciente->update();
 
             if ($presupuesto_id) {
                 $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
@@ -157,7 +159,8 @@ class Historial_clinicoController extends \BaseController {
                 'tratamientos.nombre as t_n')
                 ->orderBy('fecha_realizacion', 'DESC')
                 ->get();
-
+        $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->where('paciente_id', $id)->sum('precio');
+        
         $presupuestos = Presupuestos::where('numerohistoria', $paciente->numerohistoria)->where('aceptado', 1)
                                     ->orderBy('created_at', 'DESC')->get();
 
@@ -179,11 +182,15 @@ class Historial_clinicoController extends \BaseController {
 
         }
         $data = $this->_data_aux_historial($paciente);
-
+        $tipos_de_cobro = Tipos_de_cobro::lists('nombre', 'id');
+        if($paciente->saldo <= 0){
+            unset($tipos_de_cobro[1]);
+        }
         return View::make('historial.historial')->with($data)
                                                 ->with('paciente', $paciente)
                                                 ->with(array('historiales' => $historiales, 'profesional' => $profesional,
-                                                             'presupuestos' => $presupuestos));
+                                                             'presupuestos' => $presupuestos))->with('tipos_de_cobro', $tipos_de_cobro)
+                                                ->with('p_d_c', $p_d_c);
 
     }
 
@@ -231,6 +238,7 @@ class Historial_clinicoController extends \BaseController {
         $profesional = Profesional::where('user_id', $user)->firstOrFail();
         return Redirect::action('Historial_clinicoController@show', $paciente->id);
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -241,8 +249,9 @@ class Historial_clinicoController extends \BaseController {
     {
         //
     }
-     public function busqueda()
-     {
+
+    public function busqueda()
+    {
         $busca = Input::get('nombre');
         if($busca) {
             $busca = '%'.$busca.'%';
@@ -258,15 +267,7 @@ class Historial_clinicoController extends \BaseController {
         }
         //var_dump($paciente);
 
-
         return View::make('historial.busqueda')->with('pacientes', $pacientes);
-     }
-
-
-     public function buscar()
-    {
-        return View::make('historial.index');
     }
-
 
 }

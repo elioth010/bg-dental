@@ -56,7 +56,7 @@ class UsersController extends BaseController {
             return Redirect::to('paciente');
             }
             if(Auth::user()->isProfesional()){
-            return Redirect::to('historial_clinico');
+            return Redirect::action('Historial_clinicoController@index');
             }
 
 //->with('message', 'You are now logged in!');
@@ -68,11 +68,17 @@ class UsersController extends BaseController {
     }
 
     public function getDashboard() {
-        $users = User::leftJoin('usergroups','users.group_id','=','usergroups.id')->leftJoin('sedes','users.sede_id','=','sedes.id')->select('users.*', 'users.id as user_id','usergroups.nombre as nombre_g','sedes.*', 'sedes.nombre as sedes_p')->get();
-        //$usergroups = Usergroups::lists('nombre', 'id');
-        //var_dump($users);
-        //die;
-        $this->layout->content = View::make('users.dashboard')->with('users', $users);
+
+        $users = User::leftJoin('usergroups','users.group_id','=','usergroups.id')
+                    ->select('users.*', 'users.id as user_id', 'usergroups.nombre as nombre_g')
+                    ->get();
+
+        $sedes = Sedes::leftJoin('sedes_users', 'sedes.id', '=', 'sedes_users.sede_id')
+                            ->select('user_id', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))
+                            ->groupBy('user_id')
+                            ->lists('sedes_p', 'user_id');
+
+        return View::make('users.dashboard')->with(array('users' => $users, 'sedes' => $sedes));
     }
 
     public function getEdit($id) {

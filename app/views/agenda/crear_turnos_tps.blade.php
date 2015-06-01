@@ -1,5 +1,5 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
 <div class="overflow">
 <h2>Crear Turnos {{$sede->nombre}}</h2>
@@ -17,67 +17,27 @@
     </tr>
     <tr>
         <td>Mañana 1</td>
-        <?php
-        $i = 1;
-        ?>
-        @while($i <= 5)
-        <td>
-            
-            {{Form::select('profesional', $profesionales)}}
-            
-        </td>
-        <?php
-        $i++;
-        ?>
-        @endwhile
+        @for ($i = 0; $i < 5; $i++)
+        <td>{{Form::select('profesional-m1-'.$i, $profesionales)}}</td>
+        @endfor
     </tr>
     <tr>
         <td>Mañana 2</td>
-        <?php
-        $i = 1;
-        ?>
-        @while($i <= 5)
-        <td>
-            
-            {{Form::select('profesional', $profesionales)}}
-            
-        </td>
-        <?php
-        $i++;
-        ?>
-        @endwhile
+        @for ($i = 0; $i < 5; $i++)
+        <td>{{Form::select('profesional-m2-'.$i, $profesionales)}}</td>
+        @endfor
     </tr>
     <tr>
         <td>Tarde 1</td>
-        <?php
-        $i = 1;
-        ?>
-        @while($i <= 5)
-        <td>
-            
-            {{Form::select('profesional', $profesionales)}}
-            
-        </td>
-        <?php
-        $i++;
-        ?>
-        @endwhile
+        @for ($i = 0; $i < 5; $i++)
+        <td>{{Form::select('profesional-t1-'$i, $profesionales)}}</td>
+        @endfor
     </tr>
     <tr>
         <td>Tarde 2</td>
-        <?php
-        $i = 1;
-        ?>
-        @while($i <= 5)
-        <td>
-            
-            {{Form::select('profesional', $profesionales)}}
-            
-        </td>
-        <?php
-        $i++;
-        ?>
-        @endwhile
+        @for ($i = 0; $i < 5; $i++)
+        <td>{{Form::select('profesional-t2-'$i, $profesionales)}}</td>
+        @endfor
     </tr>
 </table>
 

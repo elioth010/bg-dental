@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSaldoToPacientes extends Migration {
+class ReplanteoAtributos extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,10 @@ class AddSaldoToPacientes extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('pacientes', function(Blueprint $table)
+		Schema::table('turnos', function(Blueprint $table)
 		{
-			$table->float('saldo')->default(0);
+			$table->dropTimestamps();
+			$table->char('tipo_turno', 1)->after('fecha_turno');
 		});
 	}
 
@@ -25,7 +26,7 @@ class AddSaldoToPacientes extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('pacientes', function(Blueprint $table)
+		Schema::table('turnos', function(Blueprint $table)
 		{
 			//
 		});

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSaldoToPacientes extends Migration {
+class RemoveSedeIdAttr extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,9 +12,9 @@ class AddSaldoToPacientes extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('pacientes', function(Blueprint $table)
+		Schema::table('profesionales', function(Blueprint $table)
 		{
-			$table->float('saldo')->default(0);
+			$table->dropColumn('sede_id');
 		});
 	}
 
@@ -25,7 +25,7 @@ class AddSaldoToPacientes extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('pacientes', function(Blueprint $table)
+		Schema::table('profesionales', function(Blueprint $table)
 		{
 			//
 		});

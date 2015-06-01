@@ -45,22 +45,24 @@ class ProfesionalController extends \BaseController {
     public function store()
     {
         $profesional = new Profesional;
-                $profesional->nombre = Input::get('nombre');
-                $profesional->apellido1 = Input::get('apellido1');
-                $profesional->apellido2 = Input::get('apellido2');
-                $profesional->especialidades_id = Input::get('especialidades_id');
-                $profesional-> activo = 1;
-                $profesional->user_id = Input::get('user_id');
-                $profesional->save();
-                $sedes = Sedes::count();
-                $i = 1;
-                while($i<=$sedes){
-                    if(Input::has('sede-'.$i)){
-                    $sede_profesional = Input::get('sede-'.$i);
-                    $profesional->sedes()->attach($sede_profesional);
-                    }
-                    $i++;
-                    }
+        $profesional->nombre = Input::get('nombre');
+        $profesional->apellido1 = Input::get('apellido1');
+        $profesional->apellido2 = Input::get('apellido2');
+        $profesional->especialidades_id = Input::get('especialidades_id');
+        $profesional-> activo = 1;
+        $profesional->user_id = Input::get('user_id');
+        $profesional->save();
+        $sedes = Sedes::count();
+        $i = 1;
+
+        // TODO: no hacer bucle sino loop de sedes
+        while($i<=$sedes) {
+            if(Input::has('sede-'.$i)) {
+                $sede_profesional = Input::get('sede-'.$i);
+                $profesional->sedes()->attach($sede_profesional);
+            }
+            $i++;
+        }
 
         echo "Profesional guardado";
         return Redirect::action('ProfesionalController@index');

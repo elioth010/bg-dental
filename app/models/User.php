@@ -43,21 +43,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function isAdmin()
     {
         //Admin puede todo.
-            return $this->group_id == 1;
+        return $this->group_id == 1;
 
     }
+
     public function isProfesional()
     {
         //Admin puede todo.
-            return $this->group_id == 4;
+        return $this->group_id == 4;
 
     }
+
     public function isAsesor()
     {
         //Admin puede todo.
-            return $this->group_id == 5;
+        return $this->group_id == 5;
 
     }
+
     public function isUser()
     {
         //User puede ver presupuestos, pacientes, tratamientos, guardias.

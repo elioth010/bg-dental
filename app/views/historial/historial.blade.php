@@ -16,6 +16,19 @@
   @else
   <h2>Saldo: <span style = "color: green"> {{$paciente->saldo}}</span></h2>
   @endif
+  {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
+  {{Form::hidden('paciente_id', $paciente->id)}}
+  {{Form::number('anticipar' ,'0,00',  array('class' => 'euros', 'step' => 'any'))}}
+  {{Form::select('tipos_de_cobro_id', $tipos_de_cobro)}}
+  {{ Form::submit('Cobrar anticipo', array('class'=>'botonl'))}}
+  {{ Form::close() }}
+  
+  
+  @if($p_d_c > 0)
+        <h2>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}}</span></h2>
+  @else
+  <h2><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
+  @endif
   
   	<div class="overflow">
     <table border = "1">
@@ -25,14 +38,14 @@
             <th>Profesional</th>
             <th>Fecha realización</th>
             <th>Precio</th>
-            @if(Auth::user()->isAdmin())
-           {{-- <th>Cobrado paciente</th>
-            <th>Costes lab.</th> --}}
-            @endif
+            {{--@if(Auth::user()->isAdmin())
+            <th>Cobrado paciente</th>
+            <th>Costes lab.</th>
+            @endif --}}
 
 <!--            <th>Abonado por Quirón</th>
             <th>Cobrado por profesional</th>-->
-            <th>Guardar</th>
+            <th>Añadir</th>
         </tr>
 
         <tr>
@@ -63,15 +76,24 @@
         @foreach($historiales as $historial)
         <tr>
 
-            <td>{{ $historial->t_n }}</td>
+            <td>{{ $historial->t_n }} {{$historial->id}}</td>
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
             <td>{{ $historial->fecha_realizacion }}</td>
             <td>{{ $historial->precio }}</td>
             @if (Auth::user()->isAdmin())
-                {{ Form::open(array('url'=>'historial_clinico/cobrar/'.$paciente->id)) }}
-            <td>{{Form::number('cobrar' ,'0,00',  array('class' => 'euros', 'step' => 'any'))}}
-                {{ Form::submit('Cobrar', array('class'=>'botonl'))}}
-                {{ Form::close() }}
+            <td>
+                @if($historial->pendiente_de_cobro != 1)
+                    {{'Cobrado'}}
+                @else
+                    {{ Form::open(array('url'=>'cobros')) }}
+                    {{Form::number('cobrar' ,$historial->precio,  array('class' => 'euros', 'step' => 'any'))}}
+                    {{Form::select('tipos_de_cobro_id', $tipos_de_cobro)}}
+                    {{Form::hidden('paciente_id', $paciente->id)}}
+                    {{Form::hidden('historial_clinico_id', $historial->id)}}
+                    {{ Form::submit('Cobrar', array('class'=>'botonl'))}}
+                    {{ Form::close() }}
+                @endif
+                
             </td>
             @endif
             <td>@if($historial->coste_lab > 0)
