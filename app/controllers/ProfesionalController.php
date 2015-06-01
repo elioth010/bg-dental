@@ -122,6 +122,7 @@ class ProfesionalController extends \BaseController {
                 $profesional->apellido1 = Input::get('apellido1');
                 $profesional->apellido2 = Input::get('apellido2');
                 $profesional->especialidades_id = Input::get('especialidades_id');
+                 $profesional->user_id = Input::get('user_id');
                 $profesional->update();
 //                $profesional->update(Input::all());
                 $profesional->sedes()->detach();
