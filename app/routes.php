@@ -110,7 +110,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource('espera', 'EsperaController');
     
     //Rutas cobros
-
+    Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
     Route::resource('cobros', 'CobrosController');
 
     //rutas para llenar db de datos:
