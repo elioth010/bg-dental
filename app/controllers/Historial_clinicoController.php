@@ -55,6 +55,9 @@ class Historial_clinicoController extends \BaseController {
             $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
             $historial->coste_lab = Input::get('coste_lab', 0);
             $historial->precio = Input::get('precio');
+            if($historial->precio == 0){
+                $historial->pendiente_de_cobro = 0;
+            }
 
             $presupuesto_id = Input::get('presupuesto_id', false);
             if ($presupuesto_id) {
