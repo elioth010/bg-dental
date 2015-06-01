@@ -63,7 +63,7 @@ class Historial_clinicoController extends \BaseController {
             }
 
             $historial->save();
-            
+
             $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
             $paciente->saldo = $paciente->saldo - Input::get('precio');
             $paciente->update();
@@ -261,12 +261,5 @@ class Historial_clinicoController extends \BaseController {
 
         return View::make('historial.busqueda')->with('pacientes', $pacientes);
      }
-
-
-     public function buscar()
-    {
-        return View::make('historial.index');
-    }
-
 
 }
