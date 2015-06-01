@@ -6,7 +6,7 @@
 {{ Form::open(array('url'=>'paciente/'.$paciente->id, 'method' => 'put')) }}
     <h1>Ficha del paciente:</h1>
 
-<ul class="labelreg4">
+<ul class="labelreg5">
  	<li>NHC</li>
     <li>Nombre:</li>
     <li>Apellidos:</li>

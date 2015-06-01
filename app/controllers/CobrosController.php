@@ -17,6 +17,13 @@ class CobrosController extends \BaseController {
             
 	}
 
+        public function morosos()
+	{
+            $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->get();
+            return View::make ('estadisticas.morosos')->with('p_d_c' , $p_d_c);
+                    
+            
+	}
 
 	/**
 	 * Show the form for creating a new resource.

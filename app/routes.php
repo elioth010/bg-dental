@@ -109,6 +109,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource('espera', 'EsperaController');
     
     //Rutas cobros
+    Route::get('cobros/pdc', 'CobrosController@morosos');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
     Route::resource('cobros', 'CobrosController');
 

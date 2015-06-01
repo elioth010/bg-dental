@@ -5,9 +5,10 @@
    <script src="/js/jquery-ui.js"></script>
   <script>
   $(function() {
-        $( "#fecha_inicio" ).datepicker({dateFormat: "dd/mm/yy"});
-        $( "#fecha_fin" ).datepicker({dateFormat: "dd/mm/yy"});
-        $( "#fecha_inicio_nc" ).datepicker({dateFormat: "dd/mm/yy"});
-        $( "#fecha_fin_nc" ).datepicker({dateFormat: "dd/mm/yy"});
+        $( ".datepicker" ).datepicker({dateFormat: "dd/mm/yy"});
+//        $( "#fecha_inicio" ).datepicker({dateFormat: "dd/mm/yy"});
+//        $( "#fecha_fin" ).datepicker({dateFormat: "dd/mm/yy"});
+//        $( "#fecha_inicio_nc" ).datepicker({dateFormat: "dd/mm/yy"});
+//        $( "#fecha_fin_nc" ).datepicker({dateFormat: "dd/mm/yy"});
   });
   </script>

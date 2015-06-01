@@ -10,8 +10,8 @@ class Historial_clinicoController extends \BaseController {
     public function index()
     {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $profesional = Profesional::where('user_id', $user)->firstOrFail();
-
+        $profesional = Profesional::where('user_id', $user->id)->firstOrFail();
+        
         $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
                             ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
@@ -55,6 +55,9 @@ class Historial_clinicoController extends \BaseController {
             $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
             $historial->coste_lab = Input::get('coste_lab', 0);
             $historial->precio = Input::get('precio');
+            if($historial->precio == 0){
+                $historial->pendiente_de_cobro = 0;
+            }
 
             $presupuesto_id = Input::get('presupuesto_id', false);
             if ($presupuesto_id) {

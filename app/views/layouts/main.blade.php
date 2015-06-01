@@ -61,6 +61,7 @@
                             <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
                             <li>{{ HTML::linkAction('FacturacionController@index', 'FACTURACIÓN') }}</li>
                             <li>{{ HTML::linkAction('EstadisticasController@index', 'ESTADÍSTICAS') }}</li>
+                            <li>{{ HTML::linkAction('CobrosController@morosos', 'COBROS PENDIENTES') }}</li>
 
                         </ul>
                     </li>@endif
