@@ -317,8 +317,8 @@ class TurnoController extends \BaseController {
         while($i <= 7) {
             $date_in = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + $i, $ano));
 
+            // TODO:
             if ($date_in > $today) {
-                echo $date_in;
                 $events[$date_in] = $selects[$date_in];
             }
 
@@ -338,9 +338,7 @@ class TurnoController extends \BaseController {
         $tomorrow = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + 1, $ano));
         $calendario = $this->getTurnoSemanaCalendar($events, $tomorrow, '/turno/' . $sede_id);
 
-        $d = gregoriantojd($mes, 1, $ano);
-        $fecha = jdmonthname($d, 1) . ' de ' . $ano;
-        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede, 'today' => $today, 'fecha' => $fecha));
+        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede, 'year' => $ano, 'month' => $mes));
     }
 
     /* Genera una lista de opciones para un select con los profesionales de una sede específica */
