@@ -10,7 +10,7 @@ class Historial_clinicoController extends \BaseController {
     public function index()
     {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $profesional = Profesional::where('user_id', $user->id)->firstOrFail();
+        $profesional = Profesional::where('user_id', $user->id)->where('activo', 1)->firstOrFail();
         
         $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
@@ -72,6 +72,53 @@ class Historial_clinicoController extends \BaseController {
 //            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
 //            $paciente->saldo = $paciente->saldo - Input::get('precio');
 //            $paciente->update();
+
+            if ($presupuesto_id) {
+                $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
+            }
+
+            return Redirect::action('Historial_clinicoController@show', $paciente_id);
+    }
+    
+     public function store_ayudantia()
+    {
+            $paciente_id = Input::get('paciente_id');
+            $historial = new Historial_clinico;
+            $historial->tratamiento_id = Input::get('tratamiento_id');
+            $historial->profesional_id = Input::get('profesional_id');
+            $historial->paciente_id = $paciente_id;
+            $historial->fecha_realizacion = Input::get('fecha_realizacion');
+            $historial->ayudantia = 1;
+            $ayudantia = Opciones::find('1');
+            $ayudantia = $ayudantia->valor;
+            $historial->precio = Input::get('precio') -  ((Input::get('precio') * (100 - $ayudantia)) / 100);
+            if($historial->precio == 0){
+                $historial->pendiente_de_cobro = 0;
+            }
+            $historial->id_hist_ayudantia = Input::get('id_hist_ayudantia');
+            //var_dump($historial);
+//            $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
+//            $historial->abonado_quiron = Input::get('abonado_quiron', 0);
+//            $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
+//            $historial->coste_lab = Input::get('coste_lab', 0);
+            
+            $presupuesto_id = Input::get('presupuesto_id', false);
+            if ($presupuesto_id) {
+                // Marcar el tratamiento como realizado en el presupuesto
+                $presupuestotratamiento_id = Input::get('presupuestotratamiento_id', 0);
+                $presupuesto = Presupuestos::where('id', $presupuesto_id)->where('aceptado', 1)->firstOrFail();
+                $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
+            }
+            
+            $historial->save();
+            //Ponemos el valor de ayudantia_aplicada que es la id de la linea de historial_clinico que tiene la ayudantia
+            $poner_ayudantia_aplicada = Historial_clinico::find(Input::get('id_hist_ayudantia'));
+            $poner_ayudantia_aplicada->ayudantia_aplicada = $historial->id;
+            $poner_ayudantia_aplicada->update();
+//            
+            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
+            $paciente->saldo = $paciente->saldo - Input::get('precio');
+            $paciente->update();
 
             if ($presupuesto_id) {
                 $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
@@ -160,7 +207,7 @@ class Historial_clinicoController extends \BaseController {
                 ->leftJoin('profesionales', 'historial_clinico.profesional_id', '=', 'profesionales.id' )
                 ->select('historial_clinico.*', 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1', 'profesionales.apellido2 as pr_a2',
                 'tratamientos.nombre as t_n')
-                ->orderBy('fecha_realizacion', 'DESC')
+                ->orderBy('id', 'DESC')
                 ->get();
         $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->where('paciente_id', $id)->sum('precio');
         

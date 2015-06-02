@@ -35,6 +35,7 @@
                             <li>{{ HTML::linkAction('ProfesionalController@index', 'PROFESIONALES') }}</li>
                             <li>{{ HTML::linkAction('EspecialidadController@index', 'ESPECIALIDADES') }}</li>
                             <li>{{ HTML::linkAction('SedesController@index', 'SEDES') }}</li>
+                            <li>{{ HTML::linkAction('OpcionesController@index', 'OPCIONES de QDENTAL') }}</li>
                         </ul>
                     </li>
                     @endif

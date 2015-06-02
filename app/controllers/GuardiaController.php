@@ -183,7 +183,6 @@ class GuardiaController extends \BaseController {
     private function getGuardiaCalendar($events, $basepath = '/guardia') {
         $cal = Calendar::make();
         $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-        //$cal->setStartWeek('L');
         $cal->setBasePath($basepath); // Base path for navigation URLs
         $cal->setDate(Input::get('cdate')); //Set starting date
         $cal->showNav(true); // Show or hide navigation

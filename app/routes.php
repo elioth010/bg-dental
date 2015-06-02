@@ -80,8 +80,9 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource('guardia', 'GuardiaController');
 
     //Rutas turnos
-    Route::post('turno/index_tps', 'TurnoController@index_tps');
-    Route::post('turno/create_tps', 'TurnoController@create_tps');
+    Route::get('turno/createdummy', 'TurnoController@createdummy');
+    Route::get('turno/{sede}/{year}/{month}', array('as' => 'showMonth', 'uses' => 'TurnoController@showMonth'));
+    Route::get('turno/{sede}/{year}/{month}/edit', array('as' => 'edit', 'uses' => 'TurnoController@editMonth'));
     Route::resource ('turno', 'TurnoController');
 
     //Rutas sedes
@@ -94,6 +95,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda');
     Route::post('historial_clinico/coste_lab/{id}', 'Historial_clinicoController@coste_lab');
     Route::post('historial_clinico/cobrar/{id}', 'Historial_clinicoController@cobrar');
+    Route::post('historial_clinico/ayudantia', 'Historial_clinicoController@store_ayudantia');
     Route::resource('historial_clinico', 'Historial_clinicoController');
 
     //Rutas para facturación
@@ -107,11 +109,14 @@ Route::group(array('before' => 'auth'), function() {
     //Rutas sala de espera
 
     Route::resource('espera', 'EsperaController');
-    
+
     //Rutas cobros
     Route::get('cobros/pdc', 'CobrosController@morosos');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
     Route::resource('cobros', 'CobrosController');
+    
+    //Rutas opciones
+    Route::resource('opciones', 'OpcionesController');
 
     //rutas para llenar db de datos:
     //importando pacientes:
