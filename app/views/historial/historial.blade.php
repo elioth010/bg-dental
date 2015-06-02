@@ -83,8 +83,8 @@
         <tr>
             <td>{{$historial->id}}</td>
             <td>
-                @if($historial->ayudantia_aplicada != 0){{ $historial->t_n }} Ayudantía aplicada: {{$historial->ayudantia_aplicada}} @endif
-                @if($historial->ayudantia != 1 && $historial->ayudantia_aplicada == 0)
+                @if($historial->ayudantia_aplicada != 0){{ $historial->t_n }} Ayudantía aplicada en ID: {{$historial->ayudantia_aplicada}} 
+                @elseif($historial->ayudantia != 1 && $historial->ayudantia_aplicada == 0)
                     {{ $historial->t_n }} 
                     {{--Añadir ayudantía. Se copia la misma línea del historial con esa id pero el precio se disminuye un 100% - "opción ayudantía" en tabla opciones.--}}
                     {{ Form::open(array('url'=>'historial_clinico/ayudantia')) }}
@@ -97,7 +97,7 @@
                     {{ Form::submit('Añadir ayudantía', array('class'=>'botonl'))}}
                     {{ Form::close() }}
                @else
-                    {{ $historial->t_n }}
+                    {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
                 @endif
             </td>
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
