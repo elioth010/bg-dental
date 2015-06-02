@@ -344,7 +344,7 @@ class TurnoController extends \BaseController {
 
         $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
                             ->where('sedes_profesionales.sede_id', $sede_id)
-                            ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.apellido2')
+                            ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.nombre')
                             ->get();
 
 
@@ -357,7 +357,7 @@ class TurnoController extends \BaseController {
 
             foreach($profesionales as $profesional) {
                 $selected = $profesional->id == $turno->profesional_id ? "selected" : "";
-                $options[$turno->fecha_turno][$turno->tipo_turno] .= "<option value=\"$profesional->id\" $selected>Dr. $profesional->apellido1 $profesional->apellido2</option>";
+                $options[$turno->fecha_turno][$turno->tipo_turno] .= "<option value=\"$profesional->id\" $selected>$profesional->nombre $profesional->apellido1</option>";
             }
         }
 
