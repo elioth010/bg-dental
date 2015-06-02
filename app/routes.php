@@ -93,6 +93,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda');
     Route::post('historial_clinico/coste_lab/{id}', 'Historial_clinicoController@coste_lab');
     Route::post('historial_clinico/cobrar/{id}', 'Historial_clinicoController@cobrar');
+    Route::post('historial_clinico/ayudantia', 'Historial_clinicoController@store_ayudantia');
     Route::resource('historial_clinico', 'Historial_clinicoController');
 
     //Rutas para facturación
@@ -111,6 +112,9 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('cobros/pdc', 'CobrosController@morosos');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
     Route::resource('cobros', 'CobrosController');
+    
+    //Rutas opciones
+    Route::resource('opciones', 'OpcionesController');
 
     //rutas para llenar db de datos:
     //importando pacientes:
