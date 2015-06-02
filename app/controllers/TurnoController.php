@@ -177,8 +177,13 @@ class TurnoController extends \BaseController {
 
         $events = array();
         foreach($eventos as $evento) {
-            $profesionales = Profesional::find($evento->profesional_id);
-            $newarr = array("$evento->tipo_turno: $profesionales->nombre, $profesionales->apellido1");
+            $profesional = Profesional::find($evento->profesional_id);
+            if ($profesional !== null ){
+                $newarr = array("$evento->tipo_turno: $profesional->nombre, $profesional->apellido1");
+            } else {
+                $newarr = array("$evento->tipo_turno: Sin asignar");
+            }
+
             if (isset($events[$evento->fecha_turno])) {
                 $events[$evento->fecha_turno] = array_merge($events[$evento->fecha_turno], $newarr);
             } else {
@@ -269,13 +274,14 @@ class TurnoController extends \BaseController {
             // TODO: NO TIENES PERMISOS
         }
 
-        $option_prof = $this->getProfesionalesSedeOptions($sede_id);
+        $today = date("Y-m-d");
+        $daytoday = explode('-', $today)[2];
 
-        $i = 1;
+        $selects = $this->getProfesionalesSedeSelects($sede_id);
+
+        $i = 0;
         $events = array();
 
-        $today = date("Y-m-d");
-        $todayexp = explode('-', $today);
         /*
         foreach($eventos as $evento) {
             if ($evento->fecha_turno > $today) {
@@ -292,33 +298,16 @@ class TurnoController extends \BaseController {
         // TODO:
         //$turnos = Turnos::where('fecha_turno', '<', Carbon::now()->addWeek());
 
-        //var_dump($option_prof);die;
-        $date = strtotime("+7 day", date('U', mktime(0, 0, 0, $todayexp[1], $todayexp[2], $todayexp[0])));
-        $nextdate = date('Y-m-d', $date);
-        $turnos = Turnos::where('fecha_turno', '>=', $today)->where('fecha_turno', '<=', $nextdate)->get();
-
-        $selecteds = array();
-        foreach($turnos as $turno) {
-            $selecteds[$turno->fecha_turno][$turno->tipo_turno] = $turno->profesional_id;
-        }
-
         //var_dump($selecteds);die;
-        while($i <= cal_days_in_month(CAL_GREGORIAN, $mes, $ano)){
-            $date_in = date('Y-m-d', mktime(0, 0, 0, $mes, $i, $ano));
+        while($i <= 7) {
+            $date_in = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + $i, $ano));
 
             if ($date_in > $today) {
+                echo $date_in;
+                $events[$date_in] = $selects[$date_in];
+            }
 
-                // TODO: add selected
-                $select_prof_m1 = 'M1: <select class ="select_prof" name="profesional_id-M1-' . $i . '">' . $option_prof . "</select>";
-                $arrinput_m1 = array($select_prof_m1);
-                $select_prof_m2 = 'M2: <select class ="select_prof" name="profesional_id-M2-' . $i . '">' . $option_prof . "</select>";
-                $arrinput_m2 = array($select_prof_m2);
-                $select_prof_t1 = 'T1: <select class ="select_prof" name="profesional_id-T1-' . $i . '">' . $option_prof . "</select>";
-                $arrinput_t1 = array($select_prof_t1);
-                $select_prof_t2 = 'T2: <select class ="select_prof" name="profesional_id-T2-' . $i . '">' . $option_prof . "</select>";
-                $arrinput_t2 = array($select_prof_t2);
-                $events[$date_in] = array_merge($arrinput_m1, $arrinput_m2, $arrinput_t1, $arrinput_t2);
-            } else {
+            /*else {
                 $m1 = array('M1: ');
                 $m2 = array('M2: ');
                 $t1 = array('T1: ');
@@ -326,7 +315,7 @@ class TurnoController extends \BaseController {
                 $events[$date_in] = array_merge($m1, $m2, $t1, $t2);
                 // TODO: pintar nombres
                 //$events[$date_in] = array($profesionales->nombre.", ".$profesionales->apellido1);
-            }
+            }*/
 
             $i++;
         }
@@ -334,7 +323,9 @@ class TurnoController extends \BaseController {
         //$events = array();
         //$events['2015-06-06'] = array('old');
         //$events['2015-06-20'] = array();
-        $calendario = $this->getTurnoSemanaCalendar($events, '/turno/' . $sede_id);
+        $tomorrow = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + 1, $ano));
+
+        $calendario = $this->getTurnoSemanaCalendar($events, $tomorrow, '/turno/' . $sede_id);
 
 
         $d = gregoriantojd($mes, 1, $ano);
@@ -342,59 +333,54 @@ class TurnoController extends \BaseController {
         return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede, 'today' => $today, 'fecha' => $fecha));
     }
 
-    // TODO: add selected al <option>. Falta también saber la fecha, claro. $options['2015-06-02']
     /* Genera una lista de opciones para un select con los profesionales de una sede específica */
-    private function getProfesionalesSedeOptions($sede_id, $add_empty = TRUE) {
-        $options = "";
+    private function getProfesionalesSedeSelects($sede_id, $add_empty = TRUE) {
+        $options = array();
+        $today = date("Y-m-d");
+        $todayexp = explode('-', $today);
+        $date = strtotime("+7 day", date('U', mktime(0, 0, 0, $todayexp[1], $todayexp[2], $todayexp[0])));
+        $nextdate = date('Y-m-d', $date);
+        //$turnos = Turnos::where('fecha_turno', '>=', $today)->where('fecha_turno', '<=', $nextdate)->get();
+        $turnos = Turnos::whereBetween('fecha_turno', array($today, $nextdate))->get();
 
-        /*
-        $turnos = Turnos::leftJoin('profesionales', 'turnos.profesional_id', '=', 'profesionales.id')
-                    ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
-                    ->where('sede_id', $sede_id)
-                    ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.apellido2', 'turnos.profesional_id as currante')
-                    ->get();
-        */
-
-
-        $profesionales = Profesional::leftJoin('sedes_profesionales', 'profesional_id', '=', 'profesionales.id')
-                            //->leftJoin('users', 'users.id', '=', 'profesionales.user_id')
-                            ->where('sede_id', $sede_id)
+        $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
+                            ->where('sedes_profesionales.sede_id', $sede_id)
                             ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.apellido2')
                             ->get();
 
-        /*
-        $profesionales = Profesional::leftJoin('sedes_profesionales', 'profesional_id', '=', 'profesionales.id')
-                            ->leftJoin('turnos', 'profesionales.id', '=', 'turnos.profesional_id')
-                            ->where('sedes_profesionales.sede_id', $sede_id)
-                            ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.apellido2', 'turnos.profesional_id as currante')
-                            ->get();
-        */
+        $selecteds = array();
+        foreach($turnos as $turno) {
+            $selecteds[$turno->fecha_turno][$turno->tipo_turno] = $turno->profesional_id;
+            $options[$turno->fecha_turno][$turno->tipo_turno] = "";
 
-        if ($add_empty) {
-            $options .= '<option value="0">--</option>';
+            if ($add_empty) {
+                $options[$turno->fecha_turno][$turno->tipo_turno] .= '<option value="0">--</option>';
+            }
+
+            foreach($profesionales as $profesional) {
+                $selected = $profesional->id == $turno->profesional_id ? "selected" : "";
+                $options[$turno->fecha_turno][$turno->tipo_turno] .= "<option value=\"$profesional->id\" $selected>Dr. $profesional->apellido1 $profesional->apellido2</option>";
+            }
         }
 
-        /*
-        foreach($turnos as $turno){
-            $selected = $turno->currante == $turno->profesional_id ? "selected" : "";
-            $options .= "<option value=\"$profesional->id\" $selected>Dr. $profesional->apellido1 $profesional->apellido2</option>";
-        }
-        */
+        foreach($options as $fecha=>$opts) {
+            $date = explode('-', $fecha);
+            $day = $date[2];
 
-        foreach($profesionales as $profesional) {
-            $selected = "";
-            //$selected = $profesional->currante == $profesional->id ? "selected" : "";
-            $options .= "<option value=\"$profesional->id\" $selected>Dr. $profesional->apellido1 $profesional->apellido2</option>";
+            $select_prof_m1 = array('M1: <select class ="select_prof" name="profesional_id-M1-' . $day . '">' . $options[$turno->fecha_turno]['M1'] . "</select>");
+            $select_prof_m2 = array('M2: <select class ="select_prof" name="profesional_id-M2-' . $day . '">' . $options[$turno->fecha_turno]['M2'] . "</select>");
+            $select_prof_t1 = array('T1: <select class ="select_prof" name="profesional_id-T1-' . $day . '">' . $options[$turno->fecha_turno]['T1'] . "</select>");
+            $select_prof_t2 = array('T2: <select class ="select_prof" name="profesional_id-T2-' . $day . '">' . $options[$turno->fecha_turno]['T2'] . "</select>");
+            $selecteds[$fecha] = array_merge($select_prof_m1, $select_prof_m2, $select_prof_t1, $select_prof_t2);
         }
 
-
-        return $options;
+        return $selecteds;
     }
 
     private function getTurnoCalendar($events, $basepath = '/turno') {
         $cal = Calendar::make();
         $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-        $cal->setBasePath($basepath); // Base path for navigation URLs
+        $cal->setBasePath(Input::get('cdate')); // Base path for navigation URLs
         $cal->setDate(Input::get('cdate')); //Set starting date
         $cal->showNav(true); // Show or hide navigation
         //$cal->setView('week');
@@ -405,12 +391,11 @@ class TurnoController extends \BaseController {
         return $cal->generate();
     }
 
-    private function getTurnoSemanaCalendar($events, $basepath = '/turno') {
+    private function getTurnoSemanaCalendar($events, $startingDate, $basepath = '/turno') {
         $cal = Calendar::make();
         $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
         $cal->setBasePath($basepath); // Base path for navigation URLs
-        $cal->setDate(date("Y-m-d")); //Set starting date: today
-        // TODO: today+1
+        $cal->setDate($startingDate);
         //$cal->setDate('2015-06-23'); //Set starting date: today
         $cal->showNav(true); // Show or hide navigation
         $cal->setView('turno');
