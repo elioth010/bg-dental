@@ -192,7 +192,9 @@ class TurnoController extends \BaseController {
 
         $calendario = $this->getTurnoCalendar($events, '/turno/' . $sede_id);
 
-        return View::make('turnos.show')->with(array('calendario' => $calendario, 'sede' => $sede));
+        $d = gregoriantojd($mes, 1, $ano);
+        $fecha = jdmonthname($d, 1) . ' de ' . $ano;
+        return View::make('turnos.show')->with(array('calendario' => $calendario, 'sede' => $sede, 'fecha' => $fecha));
     }
 
     /*
@@ -300,7 +302,7 @@ class TurnoController extends \BaseController {
             $selecteds[$turno->fecha_turno][$turno->tipo_turno] = $turno->profesional_id;
         }
 
-        var_dump($selecteds);die;
+        //var_dump($selecteds);die;
         while($i <= cal_days_in_month(CAL_GREGORIAN, $mes, $ano)){
             $date_in = date('Y-m-d', mktime(0, 0, 0, $mes, $i, $ano));
 
@@ -334,7 +336,10 @@ class TurnoController extends \BaseController {
         //$events['2015-06-20'] = array();
         $calendario = $this->getTurnoSemanaCalendar($events, '/turno/' . $sede_id);
 
-        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede, 'today' => $today));
+
+        $d = gregoriantojd($mes, 1, $ano);
+        $fecha = jdmonthname($d, 1) . ' de ' . $ano;
+        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede, 'today' => $today, 'fecha' => $fecha));
     }
 
     // TODO: add selected al <option>. Falta también saber la fecha, claro. $options['2015-06-02']

@@ -1,7 +1,8 @@
 @extends('layouts.main')
 
 @section('contenido')
-<h2>Editar turnos de la sede: {{$sede->nombre}}</h2>
+<h2>Editar turnos de la sede {{ $sede->nombre }} ({{ $fecha }})</h2>
+
 
 <p>En el calendario se muestran los turnos para los próximos 7 días de este mes. Los cambios que realice se verán también reflejados en las semanas siguientes.</p>
 

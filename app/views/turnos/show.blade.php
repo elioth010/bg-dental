@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('contenido')
-<h2>Turnos {{$sede->nombre}}</h2>
+<h2>Turnos en la sede {{ $sede->nombre }} ({{ $fecha }})</h2>
 {{ $calendario }}
 
 @if(Auth::user()->isAdmin())
