@@ -81,6 +81,8 @@ Route::group(array('before' => 'auth'), function() {
 
     //Rutas turnos
     Route::get('turno/createdummy', 'TurnoController@createdummy');
+    Route::get('turno/{sede}/{year}/{month}', array('as' => 'showMonth', 'uses' => 'TurnoController@showMonth'));
+    Route::get('turno/{sede}/{year}/{month}/edit', array('as' => 'edit', 'uses' => 'TurnoController@edit'));
     Route::resource ('turno', 'TurnoController');
 
     //Rutas sedes

@@ -139,7 +139,9 @@ class TurnoController extends \BaseController {
             }
         }
 
+        //return 'Creado mes:' . Input::get('cdate');
         //return Redirect::action('TurnoController@create')->with('message', 'Se crea turno para:' . $year . '-' . $month);
+        return Redirect::action('TurnoController@showMonth', array($sede_id, $year, $month));
     }
 
     public function store()
@@ -147,8 +149,19 @@ class TurnoController extends \BaseController {
 
     }
 
-    public function show($sede_id)
+    public function show($sede_id) {
+        $mes = date("m");
+        $ano = date("Y");
+        return Redirect::action('TurnoController@showMonth', array($sede_id, $ano, $mes));
+    }
+
+    public function showMonth($sede_id, $ano, $mes)
     {
+        if (Input::has('cdate')) {
+            $cdate = explode('-', Input::get('cdate'));
+            return Redirect::action('TurnoController@showMonth', array($sede_id, $cdate[0], $cdate[1]));
+        }
+
         $user = User::where('id', Auth::id())->firstOrFail();
         $sede = Sedes::where('id', $sede_id)->firstOrFail();
 
@@ -157,17 +170,8 @@ class TurnoController extends \BaseController {
             $sede_ids[] = $s->id;
         }
 
-        if (Input::has('cdate')) {
-            $cdate = explode("-", Input::get('cdate'));
-            $mes = $cdate[1];
-            $ano = $cdate[0];
-        } else {
-            $mes = date("m");
-            $ano = date("Y");
-        }
-
         if ((in_array($sede_id, $sede_ids)) || (in_array(4, $sede_ids))) {
-            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')
+            $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
                                 ->where('sede_id', $sede_id)
                                 ->orderBy('fecha_turno')
                                 ->get(array('fecha_turno', 'profesional_id', 'tipo_turno'));
@@ -175,19 +179,26 @@ class TurnoController extends \BaseController {
             // TODO: NO TIENES PERMISOS
         }
 
+        //-----------------------------------------
+        // Si no existe turno para ese mes, crearlo a partir del anterior
+        if (count($turnos) == 0) {
+            $query = array('sede' => $sede_id, 'cdate' => $ano.'-'.$mes);
+            return Redirect::action('TurnoController@create', $query);
+        }
+
         $events = array();
-        foreach($eventos as $evento) {
-            $profesional = Profesional::find($evento->profesional_id);
+        foreach($turnos as $turno) {
+            $profesional = Profesional::find($turno->profesional_id);
             if ($profesional !== null ){
-                $newarr = array("$evento->tipo_turno: $profesional->nombre, $profesional->apellido1");
+                $newarr = array("$turno->tipo_turno: $profesional->nombre, $profesional->apellido1");
             } else {
-                $newarr = array("$evento->tipo_turno: Sin asignar");
+                $newarr = array("$turno->tipo_turno: Sin asignar");
             }
 
-            if (isset($events[$evento->fecha_turno])) {
-                $events[$evento->fecha_turno] = array_merge($events[$evento->fecha_turno], $newarr);
+            if (isset($events[$turno->fecha_turno])) {
+                $events[$turno->fecha_turno] = array_merge($events[$turno->fecha_turno], $newarr);
             } else {
-                $events[$evento->fecha_turno] = $newarr;
+                $events[$turno->fecha_turno] = $newarr;
             }
         }
 
@@ -195,7 +206,7 @@ class TurnoController extends \BaseController {
             asort($events[$key]);
         }
 
-        $calendario = $this->getTurnoCalendar($events, '/turno/' . $sede_id);
+        $calendario = $this->getTurnoCalendar($events,  $ano.'-'.$mes, '/turno/' . $sede_id);
 
         $d = gregoriantojd($mes, 1, $ano);
         $fecha = jdmonthname($d, 1) . ' de ' . $ano;
@@ -266,7 +277,7 @@ class TurnoController extends \BaseController {
 
         // permisos
         if ((in_array($sede_id, $sede_ids)) || (in_array(4, $sede_ids))) {
-            $eventos = Turnos::where('fecha_turno', 'LIKE', '%-'.$mes.'-%')
+            $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
                                 ->where('sede_id', $sede_id)
                                 ->orderBy('fecha_turno')
                                 ->get(array('fecha_turno', 'profesional_id'));
@@ -320,13 +331,8 @@ class TurnoController extends \BaseController {
             $i++;
         }
 
-        //$events = array();
-        //$events['2015-06-06'] = array('old');
-        //$events['2015-06-20'] = array();
         $tomorrow = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + 1, $ano));
-
         $calendario = $this->getTurnoSemanaCalendar($events, $tomorrow, '/turno/' . $sede_id);
-
 
         $d = gregoriantojd($mes, 1, $ano);
         $fecha = jdmonthname($d, 1) . ' de ' . $ano;
@@ -376,11 +382,11 @@ class TurnoController extends \BaseController {
         return $selecteds;
     }
 
-    private function getTurnoCalendar($events, $basepath = '/turno') {
+    private function getTurnoCalendar($events, $date, $basepath = '/turno') {
         $cal = Calendar::make();
         $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
         $cal->setBasePath(Input::get('cdate')); // Base path for navigation URLs
-        $cal->setDate(Input::get('cdate')); //Set starting date
+        $cal->setDate($date); //Set starting date
         $cal->showNav(true); // Show or hide navigation
         //$cal->setView('week');
         $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
