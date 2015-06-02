@@ -80,8 +80,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource('guardia', 'GuardiaController');
 
     //Rutas turnos
-    Route::post('turno/index_tps', 'TurnoController@index_tps');
-    Route::post('turno/create_tps', 'TurnoController@create_tps');
+    Route::get('turno/createdummy', 'TurnoController@createdummy');
     Route::resource ('turno', 'TurnoController');
 
     //Rutas sedes
@@ -107,7 +106,7 @@ Route::group(array('before' => 'auth'), function() {
     //Rutas sala de espera
 
     Route::resource('espera', 'EsperaController');
-    
+
     //Rutas cobros
     Route::get('cobros/pdc', 'CobrosController@morosos');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
