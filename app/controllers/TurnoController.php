@@ -4,7 +4,7 @@ class TurnoController extends \BaseController {
 
     public function index()
     {
-        if(null !== Input::get('cdate')) {
+        if(Input::has('cdate')) {
             $cdate = explode("-", Input::get('cdate'));
             $mes = $cdate[1];
             $ano = $cdate[0];
@@ -157,7 +157,7 @@ class TurnoController extends \BaseController {
             $sede_ids[] = $s->id;
         }
 
-        if (null !== Input::get('cdate')) {
+        if (Input::has('cdate')) {
             $cdate = explode("-", Input::get('cdate'));
             $mes = $cdate[1];
             $ano = $cdate[0];
@@ -255,7 +255,7 @@ class TurnoController extends \BaseController {
             $sede_ids[] = $s->id;
         }
 
-        if (null !== Input::get('cdate')) {
+        if (Input::has('cdate')) {
             $cdate = explode("-", Input::get('cdate'));
             $mes = $cdate[1];
             $ano = $cdate[0];
@@ -340,7 +340,6 @@ class TurnoController extends \BaseController {
         $todayexp = explode('-', $today);
         $date = strtotime("+7 day", date('U', mktime(0, 0, 0, $todayexp[1], $todayexp[2], $todayexp[0])));
         $nextdate = date('Y-m-d', $date);
-        //$turnos = Turnos::where('fecha_turno', '>=', $today)->where('fecha_turno', '<=', $nextdate)->get();
         $turnos = Turnos::whereBetween('fecha_turno', array($today, $nextdate))->get();
 
         $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
@@ -348,9 +347,8 @@ class TurnoController extends \BaseController {
                             ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.apellido2')
                             ->get();
 
-        $selecteds = array();
+
         foreach($turnos as $turno) {
-            $selecteds[$turno->fecha_turno][$turno->tipo_turno] = $turno->profesional_id;
             $options[$turno->fecha_turno][$turno->tipo_turno] = "";
 
             if ($add_empty) {
@@ -363,15 +361,16 @@ class TurnoController extends \BaseController {
             }
         }
 
+        $selecteds = array();
         foreach($options as $fecha=>$opts) {
             $date = explode('-', $fecha);
             $day = $date[2];
 
-            $select_prof_m1 = array('M1: <select class ="select_prof" name="profesional_id-M1-' . $day . '">' . $options[$turno->fecha_turno]['M1'] . "</select>");
-            $select_prof_m2 = array('M2: <select class ="select_prof" name="profesional_id-M2-' . $day . '">' . $options[$turno->fecha_turno]['M2'] . "</select>");
-            $select_prof_t1 = array('T1: <select class ="select_prof" name="profesional_id-T1-' . $day . '">' . $options[$turno->fecha_turno]['T1'] . "</select>");
-            $select_prof_t2 = array('T2: <select class ="select_prof" name="profesional_id-T2-' . $day . '">' . $options[$turno->fecha_turno]['T2'] . "</select>");
-            $selecteds[$fecha] = array_merge($select_prof_m1, $select_prof_m2, $select_prof_t1, $select_prof_t2);
+            $select_m1 = array('M1: <select class="select_prof" name="profesional_id-M1-' . $day . '">' . $options[$fecha]['M1'] . "</select>");
+            $select_m2 = array('M2: <select class="select_prof" name="profesional_id-M2-' . $day . '">' . $options[$fecha]['M2'] . "</select>");
+            $select_t1 = array('T1: <select class="select_prof" name="profesional_id-T1-' . $day . '">' . $options[$fecha]['T1'] . "</select>");
+            $select_t2 = array('T2: <select class="select_prof" name="profesional_id-T2-' . $day . '">' . $options[$fecha]['T2'] . "</select>");
+            $selecteds[$fecha] = array_merge($select_m1, $select_m2, $select_t1, $select_t2);
         }
 
         return $selecteds;
