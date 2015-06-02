@@ -50,11 +50,9 @@ class TurnoController extends \BaseController {
         $today = explode("-", date("Y-m-d"));
         $date_2 = "$today[0]-$today[1]";
 
-        /*
         if ($date_1 < $date_2) {
             return Redirect::action('TurnoController@index')->with('message', 'No se puede crear un turno para un mes anterior.');
         }
-        */
 
         $turnos = Turnos::where('fecha_turno', 'LIKE', "$date_1-%")->where('sede_id', $sede_id)->take(1)->get();
         if (count($turnos) > 0) {
@@ -68,14 +66,15 @@ class TurnoController extends \BaseController {
                 $turno = new Turnos;
                 $turno->fecha_turno = date('Y-m-d', mktime(0, 0, 0, $month, $d, $year));
                 $turno->tipo_turno = $tipo;
-                $turno->profesional_id = 1;
+                $turno->profesional_id = 0;
                 $turno->sede_id = $sede_id;
                 $turno->save();
             }
         }
 
-        $count = Turnos::where('fecha_turno', 'LIKE', "$date_1-%")->where('sede_id', $sede_id)->count();
-        return "Creados $count registros nuevos.";
+        //$count = Turnos::where('fecha_turno', 'LIKE', "$date_1-%")->where('sede_id', $sede_id)->count();
+        //return "Creados $count registros nuevos.";
+        return Redirect::action('TurnoController@showMonth', array($sede_id, $year, $month));
     }
 
     /* URL: /turno/create?cdate=2015-07 */
@@ -110,19 +109,28 @@ class TurnoController extends \BaseController {
         }
 
         // coger los ultimos para repetirlos
-        $turno = Turnos::where('sede_id', $sede_id)->orderBy('fecha_turno', 'DESC')->take(1)->firstOrFail();
-        $date = explode('-', $turno->fecha_turno);
-        $date_3 = $date[0] . '-' . $date[1] . '-' . ($date[2] - 7);
-        $turnos = Turnos::where('sede_id', $sede_id)->where('fecha_turno', '>', $date_3)->orderBy('fecha_turno', 'DESC')->get();
-        // los 7 últimos
-
+        $turno = Turnos::where('sede_id', $sede_id)->orderBy('fecha_turno', 'DESC')->take(1)->first();
         // crea array $changes
         $changes = array();
-        foreach($turnos as $turno) {
+
+        if (count($turno) > 0) {
             $date = explode('-', $turno->fecha_turno);
-            $weekdaynum = date('w', mktime(0, 0, 0, $date[1], $date[2], $date[0])); // 0 (domingo) - 6 (sábado)
-            $changes[$weekdaynum][$turno->tipo_turno] = $turno->profesional_id;
+            $date_3 = $date[0] . '-' . $date[1] . '-' . ($date[2] - 7);
+            $turnos = Turnos::where('sede_id', $sede_id)->where('fecha_turno', '>', $date_3)->orderBy('fecha_turno', 'DESC')->get();
+            // los 7 últimos
+
+            foreach($turnos as $turno) {
+                $date = explode('-', $turno->fecha_turno);
+                $weekdaynum = date('w', mktime(0, 0, 0, $date[1], $date[2], $date[0])); // 0 (domingo) - 6 (sábado)
+                $changes[$weekdaynum][$turno->tipo_turno] = $turno->profesional_id;
+            }
+
+        } else {
+            //al inicio no hay ninguno
+            $query = array('sede' => $sede_id, 'cdate' => $year.'-'.$month);
+            return Redirect::action('TurnoController@createdummy', $query);
         }
+
 
         $dias = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $tipos_turnos = array('M1', 'M2', 'T1', 'T2');
@@ -255,8 +263,13 @@ class TurnoController extends \BaseController {
         return View::make('agenda.crear_guardias')->with('calendario', $calendario)->with('numero_dias', $numero)->with('sede', $sede);
     */
 
-    // TODO: Preseleccionar. Necesitamos $selecteds[$fecha][$turno]
-    public function edit($sede_id)
+    public function edit($sede_id) {
+        $mes = date("m");
+        $ano = date("Y");
+        return Redirect::action('TurnoController@editMonth', array($sede_id, $ano, $mes));
+    }
+
+    public function editMonth($sede_id, $ano, $mes)
     {
         $sede = Sedes::where('id', $sede_id)->firstOrFail();
         $user = User::where('id', Auth::id())->firstOrFail();
@@ -264,15 +277,6 @@ class TurnoController extends \BaseController {
         $sede_ids = array();
         foreach($user->sedes as $s) {
             $sede_ids[] = $s->id;
-        }
-
-        if (Input::has('cdate')) {
-            $cdate = explode("-", Input::get('cdate'));
-            $mes = $cdate[1];
-            $ano = $cdate[0];
-        } else {
-            $mes = date("m");
-            $ano = date("Y");
         }
 
         // permisos
@@ -435,7 +439,7 @@ class TurnoController extends \BaseController {
 
                 $eventdate = date('Y-m-d', mktime(0, 0, 0, $month, $day, $year));
 
-                $evento = Turnos::where('fecha_turno', $eventdate)->where('tipo_turno', $turno)->where('sede_id', $sede_id)->firstOrFail();
+                $evento = Turnos::where(array('fecha_turno' => $eventdate, 'tipo_turno' => $turno, 'sede_id' => $sede_id))->firstOrFail();
                 $evento->profesional_id = $profesional_id;
                 $evento->update();
             }
