@@ -210,7 +210,7 @@ class TurnoController extends \BaseController {
         $events = array();
         $turnosHtmlSelect = $this->getHtmlProfesionalesSedeSelects($sede_id, $turnos);
         foreach($turnosHtml as $fecha => $value) {
-            $div = $this->getHtmlCasillaCalendario($fecha, $turnosHtml, $turnosHtmlSelect);
+            $div = $this->getHtmlCasillaCalendario($fecha, $sede_id, $turnosHtml, $turnosHtmlSelect);
             $events[$fecha] = array($div);
         }
 
@@ -221,8 +221,11 @@ class TurnoController extends \BaseController {
         return View::make('turnos.show')->with(array('calendario' => $calendario, 'sede' => $sede, 'fecha' => $fecha));
     }
 
-    private function getHtmlCasillaCalendario($fecha, $turnosHtml, $turnosHtmlSelect) {
-        $day = explode('-', $fecha)[2];
+    private function getHtmlCasillaCalendario($fecha, $sede_id, $turnosHtml, $turnosHtmlSelect) {
+        $exp = explode('-', $fecha);
+        $year = $exp[0];
+        $month = $exp[1];
+        $day = $exp[2];
 
         $div = "<div id=\"turnosdia-$day\" class=\"turnosdia\">";
         $div .= $turnosHtml[$fecha]['M1'];
@@ -230,63 +233,40 @@ class TurnoController extends \BaseController {
         $div .= $turnosHtml[$fecha]['T1'];
         $div .= $turnosHtml[$fecha]['T2'];
         $div .= "</div>";
-        $div .= "<div id=\"selectturnosdia-$day\" class=\"selectturnosdia\">";
-        $div .= $turnosHtmlSelect[$fecha];
-        $div .= "</div>";
-        $botones = $this->getHtmlBotones($day);
-        $div .= $botones;
+
+        if (Auth::user()->isAdmin()) {
+            $div .= "<form id=\"formmodif-$day\" method=\"POST\" action=\"/turno/$sede_id/$year/$month\">";
+            $div .= '<input name="_method" type="hidden" value="PUT">';
+            $div .= "<div id=\"selectturnosdia-$day\" class=\"selectturnosdia\">";
+            $div .= $turnosHtmlSelect[$fecha];
+            $div .= "</div>";
+            $div .= $this->getHtmlBotonesModificar($day);
+            $div .= "</form>";
+            $div .= $this->getHtmlBotonesIncidencias($day);
+        }
 
         return $div;
     }
 
-    public function edit($sede_id) {
-        $mes = date("m");
-        $ano = date("Y");
-        return Redirect::action('TurnoController@editMonth', array($sede_id, $ano, $mes));
-    }
+    public function edit($id) {
 
-    public function editMonth($sede_id, $ano, $mes)
-    {
-        $sede = Sedes::where('id', $sede_id)->firstOrFail();
-        $user = User::where('id', Auth::id())->firstOrFail();
-
-        $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
-                                ->where('sede_id', $sede_id)
-                                ->orderBy('fecha_turno')
-                                ->get(array('fecha_turno', 'profesional_id'));
-
-        $today = date("Y-m-d");
-        $daytoday = explode('-', $today)[2];
-
-        $selects = $this->getProfesionalesSedeSelects($sede_id);
-
-        $i = 0;
-        $events = array();
-        while($i <= 7) {
-            $date_in = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + $i, $ano));
-
-            // TODO:
-            if ($date_in > $today) {
-                $events[$date_in] = $selects[$date_in];
-            }
-
-            $i++;
-        }
-
-        $tomorrow = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + 1, $ano));
-        $calendario = $this->getTurnoSemanaCalendar($events, $tomorrow, '/turno/' . $sede_id);
-
-        return View::make('turnos.edit')->with(array('calendario' => $calendario, 'sede' => $sede, 'year' => $ano, 'month' => $mes));
     }
 
     /* */
-    private function getHtmlBotones($day) {
+    private function getHtmlBotonesModificar($day) {
         $botones = "<div>";
         $botones .= "<button id='modifbutton-$day' type='button' class='botonl' onclick='modificarTurnoClick(\"$day\")'>Modificar</button>";
-        $botones .= "<button id='modifbuttons-$day' type='button' class='botonl modifsavebutton' onclick='modificarTurnoSave(\"$day\")'>Guardar</button>";
+        $botones .= "<input id='modifbuttons-$day' form='formmodif-$day' class='botonl modifsavebutton' type='submit' value='Guardar'>";
+        //$botones .= "<button id='modifbuttons-$day' type='button' class='botonl modifsavebutton' onclick='modificarTurnoSave(\"$day\")'>Guardar</button>";
         $botones .= "<button id='modifbuttonc-$day' type='button' class='botonl modifcancelbutton' onclick='modificarTurnoCancel(\"$day\")'>Cancelar</button>";
+        $botones .= "</div>";
+        return $botones;
+    }
+
+    private function getHtmlBotonesIncidencias($day) {
+        $botones = "<div>";
         $botones .= "<button id='incidbutton-$day' type='button' class='botonl' onclick='incidenciaClick(\"$day\")'>Incidencias</button>";
-        $botones .= "<div>";
+        $botones .= "</div>";
         return $botones;
     }
 
@@ -296,7 +276,7 @@ class TurnoController extends \BaseController {
                             ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.nombre')
                             ->get();
 
-        $options = $this->getProfOptions($turnos, $add_empty, $profesionales);
+        $options = $this->getHtmlProfOptions($turnos, $add_empty, $profesionales);
 
         $selecteds = array();
         foreach($options as $fecha=>$opts) {
@@ -308,34 +288,6 @@ class TurnoController extends \BaseController {
             $div .= $this->getHtmlProfSelect('T1', $day, $options[$fecha]['T1']);
             $div .= $this->getHtmlProfSelect('T2', $day, $options[$fecha]['T2']);
             $selecteds[$fecha] = $div;
-        }
-
-        return $selecteds;
-    }
-    /* Genera una lista de opciones para un select con los profesionales de una sede específica */
-    private function getProfesionalesSedeSelects($sede_id, $add_empty = TRUE) {
-        $today = date("Y-m-d");
-        $todayexp = explode('-', $today);
-        $date = strtotime("+7 day", date('U', mktime(0, 0, 0, $todayexp[1], $todayexp[2], $todayexp[0])));
-        $nextdate = date('Y-m-d', $date);
-        $turnos = Turnos::whereBetween('fecha_turno', array($today, $nextdate))->get();
-
-        $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
-                            ->where('sedes_profesionales.sede_id', $sede_id)
-                            ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.nombre')
-                            ->get();
-
-        $options = $this->getProfOptions($turnos, $add_empty, $profesionales);
-
-        $selecteds = array();
-        foreach($options as $fecha=>$opts) {
-            $day = explode('-', $fecha)[2];
-
-            $select_m1 = $this->getProfSelect('M1', $day, $options[$fecha]['M1']);
-            $select_m2 = $this->getProfSelect('M2', $day, $options[$fecha]['M2']);
-            $select_t1 = $this->getProfSelect('T1', $day, $options[$fecha]['T1']);
-            $select_t2 = $this->getProfSelect('T2', $day, $options[$fecha]['T2']);
-            $selecteds[$fecha] = array_merge($select_m1, $select_m2, $select_t1, $select_t2);
         }
 
         return $selecteds;
@@ -356,7 +308,7 @@ class TurnoController extends \BaseController {
     }
 
     /* Crea un array con los <option> para los turnos de cada día */
-    private function getProfOptions($turnos, $add_empty, $profesionales) {
+    private function getHtmlProfOptions($turnos, $add_empty, $profesionales) {
         $options = array();
 
         foreach($turnos as $turno) {
@@ -376,17 +328,9 @@ class TurnoController extends \BaseController {
 
     private function getHtmlProfSelect($tipo, $day, $options) {
         $div = '<div class="rowturno">';
-        $div .= $tipo . ': <select class="select_prof" name="profesional_id-' . $tipo . '-' . $day . '">' . $options . "</select>";
+        $div .= $tipo . ': <select class="select_prof" name="profesional_id-' . $day . '-' . $tipo . '">' . $options . "</select>";
         $div .= '</div>';
         return $div;
-    }
-
-    /* Crea un array con el <select> para los turnos de cada día */
-    private function getProfSelect($tipo, $day, $options) {
-        $div = '<div class="rowturno">';
-        $div .= $tipo . ': <select class="select_prof" name="profesional_id-' . $tipo . '-' . $day . '">' . $options . "</select>";
-        $div .= '</div>';
-        return array($div);
     }
 
     private function getTurnoCalendar($events, $date, $basepath = '/turno') {
@@ -405,42 +349,21 @@ class TurnoController extends \BaseController {
         return $cal->generate();
     }
 
-    private function getTurnoSemanaCalendar($events, $startingDate, $basepath = '/turno') {
-        $cal = Calendar::make();
-        $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
-        $cal->setBasePath($basepath); // Base path for navigation URLs
-        $cal->setDate($startingDate);
-        //$cal->setDate('2015-06-23'); //Set starting date: today
-        $cal->showNav(true); // Show or hide navigation
-        $cal->setView('turno');
-        $cal->setStartEndHours(8, 10);
-        $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
-        $cal->setEvents($events); // Receives the events array
-        $cal->setTableClass('table_cal'); //Set the table's class name
-
-        return $cal->generate();
-    }
-
-    public function update($sede_id)
-    {
-        $today = Input::get('today');
-        $today2 = explode("-", $today);
-        $year = $today2[0];
-        $month = $today2[1];
+    public function updateMonth($sede_id, $year, $month) {
 
         $changes = array(); // changes per weekday
-
+        $daychanged = 0;
         foreach(Input::all() as $key => $profesional_id) {
 
             // TODO: $value == "0"
             if (strpos($key, 'profesional_id') === 0) {
-                $values = explode("-", $key); // profesional_id-TT-DD
-
-                $turno = $values[1];
-                $day = $values[2];
+                $values = explode("-", $key); // profesional_id-DD-TT
+                $day = $values[1];
+                $turno = $values[2];
 
                 $weekdaynum = date('w', mktime(0, 0, 0, $month, $day, $year)); // 0 (domingo) - 6 (sábado)
-                $changes[$weekdaynum][$turno] = $profesional_id;
+                $daychanged = $weekdaynum;
+                $changes[$turno] = $profesional_id;
 
                 $eventdate = date('Y-m-d', mktime(0, 0, 0, $month, $day, $year));
 
@@ -450,21 +373,26 @@ class TurnoController extends \BaseController {
             }
         }
 
-        $day = $today2[2];
-
         // Cambiar los siguientes: $today + 7
-        $date = strtotime("+7 day", date('U', mktime(0, 0, 0, $month, $day, $year)));
+        $date = strtotime("+1 day", date('U', mktime(0, 0, 0, $month, $day, $year)));
         $nextdate = date('Y-m-d', $date);
 
         $turnos = Turnos::where('fecha_turno', '>=', $nextdate)->where('sede_id', $sede_id)->get();
         foreach($turnos as $turno) {
             $date = explode('-', $turno->fecha_turno);
             $weekdaynum = date('w', mktime(0, 0, 0, $date[1], $date[2], $date[0]));
-            $turno->profesional_id = $changes[$weekdaynum][$turno->tipo_turno];
-            $turno->update();
+            if ($weekdaynum == $daychanged) {
+                $turno->profesional_id = $changes[$turno->tipo_turno];
+                $turno->update();
+            }
         }
 
-        return Redirect::action('TurnoController@show', $sede_id);
+        return Redirect::action('TurnoController@showMonth', array($sede_id, $year, $month));
+    }
+
+    public function update($id)
+    {
+
     }
 
     public function destroy($id)

@@ -7,10 +7,6 @@
 @section('contenido')
 <h2>Turnos en la sede {{ $sede->nombre }} ({{ $fecha }})</h2>
 
-@if(Auth::user()->isAdmin())
-// TODO: remove
-{{HTML::linkAction('TurnoController@edit', 'Modificar turnos', $sede->id) }}
-@endif
 {{ $calendario }}
 
 <script type="text/javascript">

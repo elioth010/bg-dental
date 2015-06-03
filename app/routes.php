@@ -82,7 +82,7 @@ Route::group(array('before' => 'auth'), function() {
     //Rutas turnos
     Route::get('turno/createdummy', 'TurnoController@createdummy');
     Route::get('turno/{sede}/{year}/{month}', array('as' => 'showMonth', 'uses' => 'TurnoController@showMonth'));
-    Route::get('turno/{sede}/{year}/{month}/edit', array('as' => 'edit', 'uses' => 'TurnoController@editMonth'));
+    Route::put('turno/{sede}/{year}/{month}', array('as' => 'updateMonth', 'uses' => 'TurnoController@updateMonth'));
     Route::resource ('turno', 'TurnoController');
 
     //Rutas sedes
@@ -114,7 +114,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('cobros/pdc', 'CobrosController@morosos');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
     Route::resource('cobros', 'CobrosController');
-    
+
     //Rutas opciones
     Route::resource('opciones', 'OpcionesController');
 
