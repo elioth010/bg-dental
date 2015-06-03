@@ -173,19 +173,10 @@ class TurnoController extends \BaseController {
         $user = User::where('id', Auth::id())->firstOrFail();
         $sede = Sedes::where('id', $sede_id)->firstOrFail();
 
-        $sede_ids = array();
-        foreach($user->sedes as $s) {
-            $sede_ids[] = $s->id;
-        }
-
-        if ((in_array($sede_id, $sede_ids)) || (in_array(4, $sede_ids))) {
-            $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
+        $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
                                 ->where('sede_id', $sede_id)
                                 ->orderBy('fecha_turno')
                                 ->get(array('fecha_turno', 'profesional_id', 'tipo_turno'));
-        } else {
-            // TODO: NO TIENES PERMISOS
-        }
 
         //-----------------------------------------
         // Si no existe turno para ese mes, crearlo a partir del anterior
@@ -221,48 +212,6 @@ class TurnoController extends \BaseController {
         return View::make('turnos.show')->with(array('calendario' => $calendario, 'sede' => $sede, 'fecha' => $fecha));
     }
 
-    /*
-        $sede = Sedes::find($sede_id);
-        //$profesionales = Profesional::where('sede_id', $sede_id)->get();
-        $profesionales = Profesional::leftJoin('sedes_profesionales' , 'sedes_profesionales.profesional_id', '=' , 'profesionales.id')->where('sedes_profesionales.sede_id', $sede_id)->get();
-        $option_prof="";
-        foreach($profesionales as $i=>$profesionales){
-                $option_prof .= "<option value =".$profesionales->id.">Dr. ".$profesionales->apellido1." ".$profesionales->apellido1."</option>";
-        }
-
-        if(null !== Input::get('cdate')){
-        $cdate = explode("-", Input::get('cdate'));
-        $mes = $cdate[1];
-        $ano = $cdate[0];
-        } else {
-            $mes = date("m");
-            $ano = date("Y");
-        }
-//            $numero = 1;
-//        var_dump($ano);
-        $numero = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
-        $i = 1;
-        $events = array();
-        $date;
-
-        while($i<=$numero){
-            $select_prof = "<select class = \"select_prof\" name = \"profesional_id-" . $i . "\">" . $option_prof . "</select>";
-            $date_in = $ano."-".$mes."-".$i;
-            $input = '<input  type = "hidden" name="dia-'.$i.'" value= "'.$date_in.'">';
-            $events[$date_in] = array($input, $select_prof);
-            $i++;
-        }
-        //            for($i;$i<=$numero;$i++){
-        //                  $date_in = $ano."-".$mes."-".$i;
-        //                  $input = "<input  type = \"hidden\" name=\"dia\" value= ".$date_in.">";
-        //                  $events[$date_in] = array($input, $select_prof);
-        //            }
-
-        $calendario = $this->getCalendar($events);
-
-        return View::make('agenda.crear_guardias')->with('calendario', $calendario)->with('numero_dias', $numero)->with('sede', $sede);
-    */
-
     public function edit($sede_id) {
         $mes = date("m");
         $ano = date("Y");
@@ -274,20 +223,10 @@ class TurnoController extends \BaseController {
         $sede = Sedes::where('id', $sede_id)->firstOrFail();
         $user = User::where('id', Auth::id())->firstOrFail();
 
-        $sede_ids = array();
-        foreach($user->sedes as $s) {
-            $sede_ids[] = $s->id;
-        }
-
-        // permisos
-        if ((in_array($sede_id, $sede_ids)) || (in_array(4, $sede_ids))) {
-            $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
+        $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
                                 ->where('sede_id', $sede_id)
                                 ->orderBy('fecha_turno')
                                 ->get(array('fecha_turno', 'profesional_id'));
-        } else {
-            // TODO: NO TIENES PERMISOS
-        }
 
         $today = date("Y-m-d");
         $daytoday = explode('-', $today)[2];
@@ -296,24 +235,6 @@ class TurnoController extends \BaseController {
 
         $i = 0;
         $events = array();
-
-        /*
-        foreach($eventos as $evento) {
-            if ($evento->fecha_turno > $today) {
-                $profesional = Profesional::where('id', $evento->profesional_id)->firstOrFail();
-                $events[$evento->fecha_turno] = array($profesional->nombre . ", " . $profesional->apellido1);
-            } else {
-                $select_prof = '<select class ="select_prof" name="profesional_id-' . $evento->profesional_id . '">' . $option_prof . "</select>";
-                $input = '<input type = "hidden" name="dia-'. $i .'" value= "'.$date_in.'">';
-                $events[$evento->fecha_turno] = array($input, $select_prof);
-            }
-        }
-        */
-
-        // TODO:
-        //$turnos = Turnos::where('fecha_turno', '<', Carbon::now()->addWeek());
-
-        //var_dump($selecteds);die;
         while($i <= 7) {
             $date_in = date('Y-m-d', mktime(0, 0, 0, $mes, $daytoday + $i, $ano));
 
@@ -321,16 +242,6 @@ class TurnoController extends \BaseController {
             if ($date_in > $today) {
                 $events[$date_in] = $selects[$date_in];
             }
-
-            /*else {
-                $m1 = array('M1: ');
-                $m2 = array('M2: ');
-                $t1 = array('T1: ');
-                $t2 = array('T2: ');
-                $events[$date_in] = array_merge($m1, $m2, $t1, $t2);
-                // TODO: pintar nombres
-                //$events[$date_in] = array($profesionales->nombre.", ".$profesionales->apellido1);
-            }*/
 
             $i++;
         }
