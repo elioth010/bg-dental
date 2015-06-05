@@ -2,7 +2,7 @@
 
 @section('contenido')
 
-<h1>Calendarios</h1>
+<h1>Elija una sede</h1>
 <ul>
 @foreach($sedes as $sede)
 

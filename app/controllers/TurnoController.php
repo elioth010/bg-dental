@@ -177,7 +177,10 @@ class TurnoController extends \BaseController {
             return Redirect::action('TurnoController@showMonth', array($sede_id, $cdate[0], $cdate[1]));
         }
 
-        $user = User::where('id', Auth::id())->firstOrFail();
+        if ($sede_id == 4) { // Todas
+            return Redirect::action('TurnoController@index');
+        }
+
         $sede = Sedes::where('id', $sede_id)->firstOrFail();
 
         $turnos = Turnos::where('fecha_turno', 'LIKE', "$ano-$mes-%")
