@@ -77,9 +77,6 @@
                         <ul>
                             <li>{{ HTML::linkAction('TurnoController@index', 'TURNOS') }}</li>
                             <li>{{ HTML::linkAction('GuardiaController@index', 'GUARDIAS') }}</li>
-                            @if(Auth::user()->isAdmin())
-                            <li>{{ HTML::linkAction('GuardiaController@create', 'CREAR GUARDIAS') }}</li>
-                            @endif
                         </ul>
                     </li>
 

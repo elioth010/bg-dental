@@ -9,11 +9,7 @@ class TurnoController extends \BaseController {
             $sede_ids[] = $sede->id;
         }
 
-        if (in_array(4, $sede_ids)) {
-            $sedes = Sedes::where('id', '!=', 4)->get();
-        } else {
-            $sedes = Sedes::whereIn('id', $sede_ids)->get();
-        }
+        $sedes = Sedes::where('id', '!=', 4)->get();
 
         return View::make('turnos.index')->with(array('sedes' => $sedes));
     }
@@ -33,6 +29,11 @@ class TurnoController extends \BaseController {
     // http://bgdental.local/turno/createdummy?cdate=2015-04&sede=2
     // DELETE FROM `turnos` WHERE fecha_turno LIKE '2015-04-%'
     public function createdummy() {
+
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('TurnoController@index');
+        }
+
         if (Input::has('sede')) {
             $sede_id = Input::get('sede');
         } else {
@@ -82,6 +83,10 @@ class TurnoController extends \BaseController {
     // http://bgdental.local/turno/create?cdate=2015-07&sede=2
     public function create()
     {
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('TurnoController@index');
+        }
+
         if (Input::has('sede')) {
             $sede_id = Input::get('sede');
         } else {
@@ -286,6 +291,10 @@ class TurnoController extends \BaseController {
 
     public function updateIncidencia($sede_id, $year, $month) {
 
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('TurnoController@showMonth', array($year, $month));
+        }
+
         foreach(Input::all() as $key => $value) {
 
             if (strpos($key, 'turno_id') === 0) {
@@ -424,6 +433,10 @@ class TurnoController extends \BaseController {
     }
 
     public function updateMonth($sede_id, $year, $month) {
+
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('TurnoController@showMonth', array($year, $month));
+        }
 
         $changes = array(); // changes per weekday
         $daychanged = 0;

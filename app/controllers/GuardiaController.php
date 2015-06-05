@@ -9,11 +9,7 @@ class GuardiaController extends \BaseController {
             $sede_ids[] = $sede->id;
         }
 
-        if (in_array(4, $sede_ids)) {
-            $sedes = Sedes::where('id', '!=', 4)->get();
-        } else {
-            $sedes = Sedes::whereIn('id', $sede_ids)->get();
-        }
+        $sedes = Sedes::whereIn('id', $sede_ids)->get();
 
         return View::make('guardias.index')->with(array('sedes' => $sedes));
     }
@@ -29,6 +25,10 @@ class GuardiaController extends \BaseController {
     }
 
     public function createMonth($sede_id, $year, $month) {
+
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('GuardiaController@index');
+        }
 
         if ($sede_id == 4){
             return Redirect::action('GuardiaController@index');
@@ -108,6 +108,10 @@ class GuardiaController extends \BaseController {
 
     public function storeMonth($sede_id, $year, $month) {
 
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('GuardiaController@showMonth', array($sede_id, $year, $month));
+        }
+
         foreach(Input::all() as $key => $profesional_id) {
             if (strpos($key, 'profesional_id-') === 0) {
                 $day = explode("-", $key)[1]; // profesional_id-DD
@@ -176,6 +180,11 @@ class GuardiaController extends \BaseController {
 
 
     public function editMonth($sede_id, $year, $month) {
+
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('GuardiaController@showMonth', array($sede_id, $year, $month));
+        }
+
         if ($sede_id == 4){
             return Redirect::action('GuardiaController@index');
         }
@@ -214,6 +223,10 @@ class GuardiaController extends \BaseController {
     }
 
     public function updateMonth($sede_id, $year, $month) {
+
+        if(!Auth::user()->isAdmin()) {
+            return Redirect::action('GuardiaController@showMonth', array($sede_id, $year, $month));
+        }
 
         foreach(Input::all() as $key => $profesional_id) {
             if (strpos($key, 'profesional_id-') === 0) {
