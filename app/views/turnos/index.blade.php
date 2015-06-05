@@ -8,6 +8,7 @@
 
 <li>{{HTML::linkAction('TurnoController@show', 'Turnos '.$sede->nombre, $sede->id) }}</li>
 @endforeach
+<li>{{HTML::linkAction('TurnoController@incidencias', 'Incidencias ') }}</li>
 </ul>
 
 @stop

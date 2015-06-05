@@ -17,6 +17,16 @@ class TurnoController extends \BaseController {
 
         return View::make('turnos.index')->with(array('sedes' => $sedes));
     }
+    
+    public function incidencias()
+    {
+        $incidencias = Turnos::where('incidencia', 1)
+                ->leftJoin('profesionales', 'profesionales.id', '=', 'turnos.profesional_id')
+                ->leftJoin('sedes', 'sedes.id', '=', 'turnos.sede_id')
+                ->select('turnos.*', 'profesionales.nombre as p_n', 'profesionales.nombre as p_a1', 'profesionales.nombre as p_a2', 'sedes.nombre as s_n')
+                ->get();
+        return View::make('turnos.incidencias')->with('incidencias', $incidencias);
+    }
 
     /* URL: /turno/create?cdate=2015-04&sede=2 */
     // http://bgdental.local/turno/createdummy?cdate=2015-04&sede=2
