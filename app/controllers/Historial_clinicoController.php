@@ -10,16 +10,24 @@ class Historial_clinicoController extends \BaseController {
     public function index()
     {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $profesional = Profesional::where('user_id', $user->id)->where('activo', 1)->firstOrFail();
-        
+       
+        $profesional = Profesional::where('user_id', $user->id)->where('activo', 1)->first();
+         if(count($profesional) > 0)
+        {
         $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
-                            ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id',
+                            ->select('espera.id', 'espera.paciente_id', DB::raw("DATE_FORMAT(espera.begin_date, '%d/%m/%Y - %H:%i') as begin"), 'espera.end_date', 'espera.profesional_id',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
-                            ->orderBy('espera.begin_date')
+                            ->orderBy('begin')
                             ->get();
+                    //var_dump($esperas);
         $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
         return View::make('historial.index')->with(array('profesionales' => $profesionales, 'esperas' => $esperas))->with('profesional', $profesional);
+    }
+     else {
+        
+        return Redirect::action('ProfesionalController@index')->with('message', 'No existe ningún profesional asignado a su usuario. Asigne ahora uno, o dirígase a los administradores de la aplicación');
+    }
     }
 
 
@@ -94,6 +102,8 @@ class Historial_clinicoController extends \BaseController {
             $historial->precio = Input::get('precio') -  ((Input::get('precio') * (100 - $ayudantia)) / 100);
             if($historial->precio == 0){
                 $historial->pendiente_de_cobro = 0;
+            } else {
+                $historial->pendiente_de_cobro = 1;
             }
             $historial->id_hist_ayudantia = Input::get('id_hist_ayudantia');
             //var_dump($historial);
@@ -116,9 +126,9 @@ class Historial_clinicoController extends \BaseController {
             $poner_ayudantia_aplicada->ayudantia_aplicada = $historial->id;
             $poner_ayudantia_aplicada->update();
 //            
-            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
-            $paciente->saldo = $paciente->saldo - Input::get('precio');
-            $paciente->update();
+//            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
+//            $paciente->saldo = $paciente->saldo - Input::get('precio');
+//            $paciente->update();
 
             if ($presupuesto_id) {
                 $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
@@ -205,8 +215,8 @@ class Historial_clinicoController extends \BaseController {
         $historiales = Historial_clinico::where('paciente_id', $paciente->id)
                 ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
                 ->leftJoin('profesionales', 'historial_clinico.profesional_id', '=', 'profesionales.id' )
-                ->select('historial_clinico.*', 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1', 'profesionales.apellido2 as pr_a2',
-                'tratamientos.nombre as t_n')
+                ->select('historial_clinico.*',DB::raw("DATE_FORMAT(historial_clinico.fecha_realizacion, '%d/%m/%Y') as date"), 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1',
+                        'profesionales.apellido2 as pr_a2', 'tratamientos.nombre as t_n', 'tratamientos.id as t_id')
                 ->orderBy('id', 'DESC')
                 ->get();
         $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->where('paciente_id', $id)->sum('precio');
@@ -236,11 +246,14 @@ class Historial_clinicoController extends \BaseController {
         if($paciente->saldo <= 0){
             unset($tipos_de_cobro[1]);
         }
+        $espera = Espera::where('paciente_id', $paciente->id)->where('admitido', 1)->firstOrFail();
+        
+        
         return View::make('historial.historial')->with($data)
                                                 ->with('paciente', $paciente)
                                                 ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                                              'presupuestos' => $presupuestos))->with('tipos_de_cobro', $tipos_de_cobro)
-                                                ->with('p_d_c', $p_d_c);
+                                                ->with('p_d_c', $p_d_c)->with('espera', $espera->id);
 
     }
 

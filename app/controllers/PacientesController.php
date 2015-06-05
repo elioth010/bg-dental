@@ -81,6 +81,7 @@ class PacientesController extends BaseController {
                                     ->orWhere('apellido2', 'LIKE', $busca)
                                     ->orWhere('numerohistoria', 'LIKE', $busca)
                                     ->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
+                                    ->groupBy('pacientes.numerohistoria')//porqué si quito esto, me salen dobles???
                                     ->get();
             $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 

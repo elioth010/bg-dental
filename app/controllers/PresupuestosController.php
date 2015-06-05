@@ -188,15 +188,15 @@ class PresupuestosController extends \BaseController {
                         ->with('message', 'Observaciones guardadas!');
     }
 
-        public function guardarCoste_lab($paciente, $id) {
-
-        $presupuesto = Presupuestos::where('id', $id)->firstOrFail();
-        $presupuesto->coste_lab = Input::get('coste_lab');
-        $presupuesto->save();
-
-        return Redirect::action('PresupuestosController@verPresupuesto', array($paciente, $id))
-                        ->with('message', 'Costes añadidos!');
-    }
+//        public function guardarCoste_lab($paciente, $id) {
+//
+//        $presupuesto = Presupuestos::where('id', $id)->firstOrFail();
+//        $presupuesto->coste_lab = Input::get('coste_lab');
+//        $presupuesto->save();
+//
+//        return Redirect::action('PresupuestosController@verPresupuesto', array($paciente, $id))
+//                        ->with('message', 'Costes añadidos!');
+//    }
 
     public function borrarPresupuesto($paciente, $id) {
         $presupuesto = Presupuestos::where('id', $id)->where('aceptado', 0)->firstOrFail();

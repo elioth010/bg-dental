@@ -31,17 +31,24 @@ class FacturacionController extends \BaseController {
 
 //            var_dump($fecha_actual);
 //            var_dump($primeros_de_mes);
+            $profesional = Profesional::where('user_id', Auth::user()->id )->first();
+             if(count($profesional) > 0)
+            {
             $historiales = Historial_clinico::whereBetween('fecha_realizacion', array($fecha_inicio, $fecha_fin))
                     ->leftJoin('pacientes', 'historial_clinico.paciente_id', '=', 'pacientes.id')
                     ->select('pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', 'pacientes.id as p_id',
                             'tratamientos.nombre as t_n',
-                            'fecha_realizacion',
+                            DB::raw("DATE_FORMAT(fecha_realizacion, '%d/%m/%Y') as fecha"),
                             'abonado_quiron',
                             'cobrado_profesional', 'historial_clinico.id as h_id', 'historial_clinico.*')
                     ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
+                    ->where('profesional_id', $profesional->id)
                     ->orderBy('fecha_realizacion', 'DESC')->get();
             //var_dump($historial);
             return View::make('facturacion.index')->with('historiales', $historiales);
+            } else {
+                return Redirect::action('ProfesionalController@index')->with('message', 'No existe ningún profesional asignado a su usuario. Asigne ahora uno, o dirígase a los administradores de la aplicación');
+            }
     }
         public function index_cf() //Index de facturación (u historiales) con fechas del formulario
     {
@@ -143,7 +150,7 @@ class FacturacionController extends \BaseController {
      */
     public function update($id)
     {
-        var_dump($_POST);
+        //var_dump($_POST);
         $input = Input::except('_token');
         $i = 1;
         foreach ($input as $key => $value) {

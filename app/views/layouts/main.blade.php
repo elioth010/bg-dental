@@ -10,14 +10,21 @@
 
  <body>
  <div id="wrapper">
- <header>
- <div class="logo"></div>
+     <header>
+      
+         <div class="logo">
+            
+         </div> Bienvenida/o: {{{ isset(Auth::user()->name) ? Auth::user()->lastname : Auth::user()->firstname.' '.Auth::user()->lastname  }}}<br>
+     <?php $profesional = Profesional::where('user_id', Auth::user()->id)->first();
+         echo "Profesional: ".$profesional->nombre.", ".$profesional->apellido1." ".$profesional->apellido2;
+     ?>
  <div class="exit">
 
 <!--  {{ HTML::link('users/logout', HTML::image('imagenes/exit.png', 'Salir')) }} -->
 
  {{ html_entity_decode( HTML::link("users/logout", HTML::image("imagenes/exit.png", "Salir", array('title' => 'SALIR')) ) ) }}
  </div>
+ 
  </header>
 
                     @if(Auth::check())

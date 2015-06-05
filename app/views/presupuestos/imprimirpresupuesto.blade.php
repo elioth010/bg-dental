@@ -110,11 +110,12 @@ q:before, q:after {
 		float: left;
 		margin-left: 30px;
 		text-transform: uppercase;
-		margin-top: 0.8cm;
+		margin-top: 0.0cm;
 		}
 		.tbl_izq{
 		float: right;
-		margin-right: 70px;
+		
+                margin-top: 20px;
 		}
 		.datos{
 		line-height: 1.2em;
@@ -145,7 +146,7 @@ q:before, q:after {
 
 <body>
 	<div class="header">
-    <div class="tbl_drc">
+    <div class="tbl_izq">
        {{--<h3>Presupuesto: {{ $presupuesto->nombre}}</h3>--}}
     <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
 
@@ -161,10 +162,10 @@ q:before, q:after {
          {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
     @endif
 	</li>
-        <li>{{HTML::link('http://www.imiquiron.com', 'Para más información www.imiquiron.com.', ['target'=>'_blank'])}}</li>
+        <li>{{--{{HTML::link('http://www.imiquiron.com', 'Para más información www.imiquiron.com.', ['target'=>'_blank'])}}--}}</li>
 	</ul>
 	</div>
-	<div class="tbl_izq">
+	<div class="tbl_drc">
      <ul class="datos">
      	<li>{{ HTML::image('/imagenes/quiron-logo.jpg', 'Logo', array('class' => 'logo', 'id' => 'logo')) }}</li>
         <li>{{ $sede->calleynum }}</li>
@@ -174,6 +175,7 @@ q:before, q:after {
 	</ul>
 	</div>
 	</div>
+    <div id=textos style="text-align: center; font-size: 10pt;color: #044494;">Para más información sobre su presupuesto o tratamiento visite www.imiquiron.com</div>
 	<div class="layout">
     @if ($todaslaspiezas['muestraOdontograma'])
 	<div class="odontogram">

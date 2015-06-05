@@ -26,7 +26,7 @@ class ProfesionalController extends \BaseController {
         $profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
                         ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
                         ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')->where('activo', 1)
-                                ->groupBy('profesionales.id')
+                                ->groupBy('profesionales.id')->orderBy('profesionales.apellido1')
                         ->select('sedes.nombre','profesionales.id as p_id', 'profesionales.*', 'especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))->get();
 //        var_dump($profesionales);
 //                return;
@@ -102,7 +102,8 @@ class ProfesionalController extends \BaseController {
                 //var_dump($sedes_pid);
                 $especialidades = Especialidad::lists('especialidad','id');
                 $sedes = Sedes::get();
-                $usuarios = User::get()->lists('fullname', 'id');
+                $profesionales_cuser = Profesional::where('user_id', '!=', 0)->get(array('user_id'))->toArray();
+                $usuarios = User::whereNotIn('id', $profesionales_cuser)->get()->lists('fullname', 'id');
                 return View::make('profesionales.editar')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid, 'usuarios' => $usuarios));
     }
 
@@ -113,33 +114,38 @@ class ProfesionalController extends \BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
-    {
+    public function update($id) {
+        $user_id = Input::get('user_id');
+        $comprobar_unique = Profesional::where('user_id', $user_id)->get();
+        if (count($comprobar_unique) > 0) {
+           
+            return Redirect::action('ProfesionalController@edit', $id)->with('message', 'Usuario ya asignado a otro profesional' );
+        } else {
+            $profesional = Profesional::find($id);
+            //var_dump($profesional);
+            $profesional->nombre = Input::get('nombre');
+            $profesional->apellido1 = Input::get('apellido1');
+            $profesional->apellido2 = Input::get('apellido2');
+            $profesional->especialidades_id = Input::get('especialidades_id');
 
-        $profesional = Profesional::find($id);
-                //var_dump($profesional);
-                $profesional->nombre = Input::get('nombre');
-                $profesional->apellido1 = Input::get('apellido1');
-                $profesional->apellido2 = Input::get('apellido2');
-                $profesional->especialidades_id = Input::get('especialidades_id');
-                 $profesional->user_id = Input::get('user_id');
-                $profesional->update();
+            $profesional->user_id = $user_id;
+            $profesional->update();
 //                $profesional->update(Input::all());
-                $profesional->sedes()->detach();
-                $num_sedes = Sedes::count();
-        $i = 1;
-        while($i <= $num_sedes){
+            $profesional->sedes()->detach();
+            $num_sedes = Sedes::count();
+            $i = 1;
+            while ($i <= $num_sedes) {
 
-            if (Input::has('sede-'.$i)) {
-                $sede_id = Input::get('sede-'.$i);
-                $profesional->sedes()->attach($sede_id);
+                if (Input::has('sede-' . $i)) {
+                    $sede_id = Input::get('sede-' . $i);
+                    $profesional->sedes()->attach($sede_id);
+                }
+                $i++;
             }
-            $i++;
+            //return;
+            return Redirect::action('ProfesionalController@index')->with('message', 'Profesional modificado con éxito.');
         }
-                //return;
-                return Redirect::action('ProfesionalController@index')->with('message', 'Profesional modificado con éxito.');
     }
-
 
     /**
      * Remove the specified resource from storage.

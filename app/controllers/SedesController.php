@@ -56,14 +56,10 @@ class SedesController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $sede = Sedes::find($id);
-                        //where('id', $id)->get();
-                //var_dump($sede);
-                return View::make('sedes.editar')->with('sede',$sede);
+        return View::make('sedes.editar')->with('sede', $sede);
     }
-
 
     /**
      * Update the specified resource in storage.

@@ -44,6 +44,11 @@
             @endif
         @endforeach
         <br/><br>Imagen: {{ Form::select('imagen_id', $imagenes) }}
+          Quirófano: @if($tratamiento->quirofano != 1)
+        {{Form::checkbox('quirofano')}}
+        @else
+        {{Form::checkbox('quirofano', 1, true)}}
+        @endif
 
         <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br>
         <br>{{ HTML::link('tratamientos/borrartratamiento/'.$tratamiento->id, 'Eliminar este tratamiento') }}<br>

@@ -79,11 +79,11 @@
     {{ Form::close() }}
     </div>
     <div style="padding-top:90px; margin-left:400px;">
-    <h2>Coste total de laboratorio:</h2>
+    {{--<h2>Coste total de laboratorio:</h2>
     {{ Form::open(array('url'=>'pacientes/'.$presupuesto->numerohistoria.'/presupuesto/'.$presupuesto->id.'/coste_lab')) }}
         {{ Form::text('coste_lab', $presupuesto->coste_lab) }}</br></br>
         {{ Form::submit('Añadir costes', array('class'=>'botonl'))}}
-    {{ Form::close() }}
+    {{ Form::close() }}--}}
 	</div>
 	</div>
     <div style="margin-top:30px;">
