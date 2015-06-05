@@ -75,8 +75,12 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource('especialidad', 'EspecialidadController');
 
     //Rutas guardias
-    Route::post('guardia/index_gps', 'GuardiaController@index_gps');
-    Route::post('guardia/create_gps', 'GuardiaController@create_gps');
+    Route::get('guardia/create/{sede}', array('as' => 'createSede', 'uses' => 'GuardiaController@createSede'));
+    Route::get('guardia/create/{sede}/{year}/{month}', array('as' => 'createMonth', 'uses' => 'GuardiaController@createMonth'));
+    Route::get('guardia/{sede}/{year}/{month}/edit', array('as' => 'editMonth', 'uses' => 'GuardiaController@editMonth'));
+    Route::get('guardia/{sede}/{year}/{month}', array('as' => 'showMonth', 'uses' => 'GuardiaController@showMonth'));
+    Route::put('guardia/{sede}/{year}/{month}', array('as' => 'updateMonth', 'uses' => 'GuardiaController@updateMonth'));
+    Route::post('guardia/{sede}/{year}/{month}', array('as' => 'storeMonth', 'uses' => 'GuardiaController@storeMonth'));
     Route::resource('guardia', 'GuardiaController');
 
     //Rutas turnos
