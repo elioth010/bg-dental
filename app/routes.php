@@ -7,6 +7,10 @@
 
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
+Route::get('password/reset/{id}', 'RemindersController@show');
+Route::post('password/reset/{token}', 'RemindersController@update');
+
+Route::resource('password', 'RemindersController');
 //Route::get('users/editar/{id}', 'UsersController@edit');
 
 

@@ -14,7 +14,7 @@
       
       @foreach($especialidades as $especialidad)
         <tr>
-        <td>{{$especialidad->codigo}}</td>
+        <td>{{ HTML::linkAction('EspecialidadController@edit',  $especialidad->codigo, $especialidad->id) }}</td>
         <td>{{$especialidad->especialidad}}</td>
         </tr>
       @endforeach

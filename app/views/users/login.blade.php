@@ -8,6 +8,7 @@
          <li>{{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}</li>
          <li>{{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}</li>
          <li>{{ Form::submit('Entrar', array('class'=>'botonl'))}}</li>
+         <li>{{ HTML::link('password', '¿Olvidó su contraseña...?') }}</li>
      </ul>
 {{ Form::close() }}
 @stop

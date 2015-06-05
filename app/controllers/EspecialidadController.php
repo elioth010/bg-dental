@@ -45,7 +45,7 @@ class EspecialidadController extends \BaseController {
      */
     public function show($id)
     {
-        //
+        
     }
 
 
@@ -57,7 +57,8 @@ class EspecialidadController extends \BaseController {
      */
     public function edit($id)
     {
-        //
+        $especialidad = Especialidad::find($id);
+        return View::make('especialidades.editar')->with('especialidad', $especialidad);
     }
 
 
@@ -69,7 +70,9 @@ class EspecialidadController extends \BaseController {
      */
     public function update($id)
     {
-        //
+        $especi = Especialidad::find($id);
+        $especi->update(Input::all());
+        return Redirect::action('EspecialidadController@index')->with('message', 'Especialidad actualizada');
     }
 
 
