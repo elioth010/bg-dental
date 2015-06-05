@@ -155,7 +155,7 @@ q:before, q:after {
         <li>Dirección: {{ $paciente->Direccion }}
         {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
         <li>Teléfono: {{ $paciente->addrtel1 }} {{ $paciente->addrtel2 }}</li>
-        <li>Nombre del Profesional: </li>
+        <li>Nombre del Profesional: Dra./Dr. {{$presupuesto->p_a1}} {{$presupuesto->p_a2}}</li>
 	<li class="vista">
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
@@ -262,7 +262,7 @@ q:before, q:after {
 	</div>
     </br>
   	<div id="textos">
-            <h4>Observaciones: </h4>
+            <h4>Observaciones: {{$presupuesto->observaciones_p}}</h4>
      <h4>Condiciones de pago:</h4>
      <ul>
     <li>• El día citado para el ingreso en el Hospital, se abonará o se presentará el justificante de pago del total del presupuesto en el servicio de Admisión en concepto de depósito.</li>
