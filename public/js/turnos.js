@@ -31,5 +31,36 @@ function modificarTurnoCancel(day) {
 
 // Incidencia
 function incidenciaClick(day) {
-    console.log('incidencia ' + day);
+    console.log('incidenciaClick ' + day);
+
+    $('#incidenciasdia-' + day).show();
+
+    $('#turno_id-' + day).val('M1')
+    $('#incidencia_text-' + day).val(incidencias[day]['M1']);
+
+    $('#modifbutton-' + day).hide();
+    $("#incidbutton-" + day).hide();
+
+    $('#incidbuttons-' + day).show();
+    $('#incidbuttonc-' + day).show();
+}
+
+function incidenciaCancel(day) {
+    console.log('incidenciaCancel ' + day);
+
+    $('#incidenciasdia-' + day).hide();
+
+    $('#modifbutton-' + day).show();
+    $("#incidbutton-" + day).show();
+
+    $('#incidbuttons-' + day).hide();
+    $('#incidbuttonc-' + day).hide();
+}
+
+function selectIncidenciaChange(day) {
+    console.log('incidenciaChange ' + day);
+
+    var turno = $('#turno_id-' + day).val();
+    $('#incidencia_text-' + day).val(incidencias[day][turno]);
+
 }

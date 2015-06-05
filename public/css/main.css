@@ -595,3 +595,7 @@ footer a:hover{
 .td_centrado {
     text-align: center !important;
 }
+
+.turnoincidencia {
+	color: red;
+}

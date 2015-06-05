@@ -11,9 +11,13 @@
 
 <script type="text/javascript">
 
+    var incidencias = {{ json_encode($incidencias) }}
     $(document).ready(function() {
         $(".modifcancelbutton").hide();
         $(".modifsavebutton").hide();
+        $(".incidcancelbutton").hide();
+        $(".incidsavebutton").hide();
+        $(".incidenciasdia").hide();
         $(".selectturnosdia").hide();
     });
 </script>
