@@ -110,11 +110,12 @@ q:before, q:after {
 		float: left;
 		margin-left: 30px;
 		text-transform: uppercase;
-		margin-top: 0.8cm;
+		margin-top: 0.0cm;
 		}
 		.tbl_izq{
 		float: right;
-		margin-right: 70px;
+		
+                margin-top: 20px;
 		}
 		.datos{
 		line-height: 1.2em;
@@ -145,7 +146,7 @@ q:before, q:after {
 
 <body>
 	<div class="header">
-    <div class="tbl_drc">
+    <div class="tbl_izq">
        {{--<h3>Presupuesto: {{ $presupuesto->nombre}}</h3>--}}
     <h2>Paciente: {{ $paciente->numerohistoria }}</h2>
 
@@ -154,17 +155,17 @@ q:before, q:after {
         <li>Dirección: {{ $paciente->Direccion }}
         {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
         <li>Teléfono: {{ $paciente->addrtel1 }} {{ $paciente->addrtel2 }}</li>
-        <li>Nombre del Profesional: </li>
+        <li>Nombre del Profesional: Dra./Dr. {{$presupuesto->p_a1}} {{$presupuesto->p_a2}}</li>
 	<li class="vista">
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
          {{ HTML::linkAction('PresupuestosController@verPDF', 'Ver', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
     @endif
 	</li>
-        <li>{{HTML::link('http://www.imiquiron.com', 'Para más información www.imiquiron.com.', ['target'=>'_blank'])}}</li>
+        <li>{{--{{HTML::link('http://www.imiquiron.com', 'Para más información www.imiquiron.com.', ['target'=>'_blank'])}}--}}</li>
 	</ul>
 	</div>
-	<div class="tbl_izq">
+	<div class="tbl_drc">
      <ul class="datos">
      	<li>{{ HTML::image('/imagenes/quiron-logo.jpg', 'Logo', array('class' => 'logo', 'id' => 'logo')) }}</li>
         <li>{{ $sede->calleynum }}</li>
@@ -174,6 +175,7 @@ q:before, q:after {
 	</ul>
 	</div>
 	</div>
+    <div id=textos style="text-align: center; font-size: 10pt;color: #044494;">Para más información sobre su presupuesto o tratamiento visite www.imiquiron.com</div>
 	<div class="layout">
     @if ($todaslaspiezas['muestraOdontograma'])
 	<div class="odontogram">
@@ -260,7 +262,7 @@ q:before, q:after {
 	</div>
     </br>
   	<div id="textos">
-            <h4>Observaciones: </h4>
+            <h4>Observaciones: {{$presupuesto->observaciones_p}}</h4>
      <h4>Condiciones de pago:</h4>
      <ul>
     <li>• El día citado para el ingreso en el Hospital, se abonará o se presentará el justificante de pago del total del presupuesto en el servicio de Admisión en concepto de depósito.</li>

@@ -11,6 +11,9 @@
   </div>
   <div class="top">
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
+              {{ Form::open(array('url'=>'espera/'.$espera, 'method' => 'put')) }}
+              {{ Form::submit('Finalizar') }}
+              {{Form::close()}}
   @if(Auth::user()->isAdmin())
       @if($paciente->saldo < 0)
               <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}}</span></h2>
@@ -83,10 +86,13 @@
         <tr>
             <td>{{$historial->id}}</td>
             <td>
-                @if($historial->ayudantia_aplicada != 0){{ $historial->t_n }} Ayudantía aplicada en ID: {{$historial->ayudantia_aplicada}} 
-                @elseif($historial->ayudantia != 1 && $historial->ayudantia_aplicada == 0)
+                <?php $grupos_q = array(158,159,160,161,162,163,164);
+                ?>
+                @if($historial->ayudantia_aplicada != 0 )
+                    {{ $historial->t_n }} Ayudantía aplicada en ID: {{$historial->ayudantia_aplicada}} 
+                @elseif($historial->ayudantia != 1 && in_array($historial->t_id, $grupos_q))
                     {{ $historial->t_n }} 
-                    {{--Añadir ayudantía. Se copia la misma línea del historial con esa id pero el precio se disminuye un 100% - "opción ayudantía" en tabla opciones.--}}
+                    {{--Añadir ayudantía. Se copia la misma línea del historial con esa id pero el precio se disminuye un "100% - opción ayudantía" en tabla opciones.--}}
                     {{ Form::open(array('url'=>'historial_clinico/ayudantia')) }}
                     {{ Form::hidden('profesional_id', $profesional->id) }}
                     {{ Form::hidden('paciente_id', $paciente->id) }}
@@ -99,9 +105,10 @@
                @else
                     {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
                 @endif
+               
             </td>
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
-            <td>{{ $historial->fecha_realizacion }}</td>
+            <td>{{ $historial->date }}</td>
             <td>{{ $historial->precio }}</td>
             @if (Auth::user()->isAdmin())
             <td>@if(Auth::user()->isAdmin())

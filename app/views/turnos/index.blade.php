@@ -2,16 +2,13 @@
 
 @section('contenido')
 
-<h1>Calendarios</h1>
+<h1>Elija una sede</h1>
 <ul>
 @foreach($sedes as $sede)
 
-<li>{{HTML::linkAction('TurnoController@show', 'Turnos '.$sede->nombre, $sede->id) }} -
-@if(Auth::user()->isAdmin())
-{{HTML::linkAction('TurnoController@edit', 'Modificar turnos', $sede->id)}}
-@endif
-</li>
+<li>{{HTML::linkAction('TurnoController@show', 'Turnos '.$sede->nombre, $sede->id) }}</li>
 @endforeach
+<li>{{HTML::linkAction('TurnoController@incidencias', 'Incidencias ') }}</li>
 </ul>
 
 @stop

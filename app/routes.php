@@ -1,8 +1,4 @@
 <?php
-// Route::get('/', function()
-// {
-// 	return View::make('hello');
-// });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
 // Event::listen('illuminate.query', function($query)
 // {
@@ -11,6 +7,10 @@
 
 Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
+Route::get('password/reset/{id}', 'RemindersController@show');
+Route::post('password/reset/{token}', 'RemindersController@update');
+
+Route::resource('password', 'RemindersController');
 //Route::get('users/editar/{id}', 'UsersController@edit');
 
 
@@ -19,13 +19,8 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('paciente/buscar', 'PacientesController@buscar');
     Route::post('paciente/busqueda', 'PacientesController@busqueda');
     Route::resource('paciente', 'PacientesController');
-    //Route::get('pacientes', 'PacientesController@index');
 
     //Route::get('populate', 'PopulateController@populate');
-    //Route::get('pacientes/crear', 'PacientesController@crear');
-    //Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
-    //Route::post('pacientes/guardar', 'PacientesController@store');
-    //Route::post('pacientes/editarficha/{id}', 'PacientesController@editarficha');
 
     //Rutas tratamientos y grupos:
     Route::get('tratamientos', 'TratamientosController@index');
@@ -75,14 +70,20 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource('especialidad', 'EspecialidadController');
 
     //Rutas guardias
-    Route::post('guardia/index_gps', 'GuardiaController@index_gps');
-    Route::post('guardia/create_gps', 'GuardiaController@create_gps');
+    Route::get('guardia/create/{sede}', array('as' => 'createSede', 'uses' => 'GuardiaController@createSede'));
+    Route::get('guardia/create/{sede}/{year}/{month}', array('as' => 'createMonth', 'uses' => 'GuardiaController@createMonth'));
+    Route::get('guardia/{sede}/{year}/{month}/edit', array('as' => 'editMonth', 'uses' => 'GuardiaController@editMonth'));
+    Route::get('guardia/{sede}/{year}/{month}', array('as' => 'showMonth', 'uses' => 'GuardiaController@showMonth'));
+    Route::put('guardia/{sede}/{year}/{month}', array('as' => 'updateMonth', 'uses' => 'GuardiaController@updateMonth'));
+    Route::post('guardia/{sede}/{year}/{month}', array('as' => 'storeMonth', 'uses' => 'GuardiaController@storeMonth'));
     Route::resource('guardia', 'GuardiaController');
 
     //Rutas turnos
     Route::get('turno/createdummy', 'TurnoController@createdummy');
     Route::get('turno/{sede}/{year}/{month}', array('as' => 'showMonth', 'uses' => 'TurnoController@showMonth'));
-    Route::get('turno/{sede}/{year}/{month}/edit', array('as' => 'edit', 'uses' => 'TurnoController@editMonth'));
+    Route::put('turno/{sede}/{year}/{month}', array('as' => 'updateMonth', 'uses' => 'TurnoController@updateMonth'));
+    Route::get('/turnos/incidencias', 'TurnoController@incidencias');
+    Route::put('incidencia/{sede}/{year}/{month}', array('as' => 'updateIncidencia', 'uses' => 'TurnoController@updateIncidencia'));
     Route::resource ('turno', 'TurnoController');
 
     //Rutas sedes
@@ -114,7 +115,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('cobros/pdc', 'CobrosController@morosos');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
     Route::resource('cobros', 'CobrosController');
-    
+
     //Rutas opciones
     Route::resource('opciones', 'OpcionesController');
 

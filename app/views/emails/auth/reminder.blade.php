@@ -4,11 +4,13 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<h2>Password Reset</h2>
+		<h2>Cambio de contraseña</h2>
 
 		<div>
-			To reset your password, complete this form: {{ URL::to('password/reset', array($token)) }}.<br/>
-			This link will expire in {{ Config::get('auth.reminder.expire', 60) }} minutes.
+			Para cambiar su contraseña pinche en este enlace y a continuación proceda a cambiar su contraseña: {{ URL::to('password/reset', array($token)) }}.<br/>
+                        Este enlace tendrá una validez de {{ Config::get('auth.reminder.expire', 60) }} minutos.<br>
+                        Atentamente,<br>
+                        Qdental - Administrador.
 		</div>
 	</body>
 </html>

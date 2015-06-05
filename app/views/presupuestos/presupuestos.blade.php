@@ -37,7 +37,7 @@
     <th>Creado por</th>
     <th>Profesional</th>
     <th>Aceptado</th>
-    <th>Acciones</th>
+    <th style="width: 130px;">Acciones</th>
   </tr>
   @foreach($presupuestos as $presupuesto)
     <tr>

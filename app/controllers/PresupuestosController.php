@@ -92,7 +92,9 @@ class PresupuestosController extends \BaseController {
     }
 
     private function _imprimirPresupuesto($numerohistoria, $id) {
-        $presupuesto = Presupuestos::find($id);
+        $presupuesto = Presupuestos::leftJoin('profesionales', 'profesionales.id','=','presupuestos.profesional_id')
+                                        ->select('presupuestos.*', 'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1','profesionales.apellido2 as p_a2')
+                                        ->find($id);
         $paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
         $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
         $companias_list = Companias::lists('nombre', 'id');
@@ -188,15 +190,15 @@ class PresupuestosController extends \BaseController {
                         ->with('message', 'Observaciones guardadas!');
     }
 
-        public function guardarCoste_lab($paciente, $id) {
-
-        $presupuesto = Presupuestos::where('id', $id)->firstOrFail();
-        $presupuesto->coste_lab = Input::get('coste_lab');
-        $presupuesto->save();
-
-        return Redirect::action('PresupuestosController@verPresupuesto', array($paciente, $id))
-                        ->with('message', 'Costes añadidos!');
-    }
+//        public function guardarCoste_lab($paciente, $id) {
+//
+//        $presupuesto = Presupuestos::where('id', $id)->firstOrFail();
+//        $presupuesto->coste_lab = Input::get('coste_lab');
+//        $presupuesto->save();
+//
+//        return Redirect::action('PresupuestosController@verPresupuesto', array($paciente, $id))
+//                        ->with('message', 'Costes añadidos!');
+//    }
 
     public function borrarPresupuesto($paciente, $id) {
         $presupuesto = Presupuestos::where('id', $id)->where('aceptado', 0)->firstOrFail();

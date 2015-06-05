@@ -21,6 +21,7 @@
     <li>{{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}</li>
     <li>{{ Form::select('imagen_id', $imagenes) }}</li>
     <li>{{ Form::select('tipotratamiento', $tipostratamientos) }}</li>
+    <li>Quirófano: {{Form::checkbox('quirofano')  }}</li>
     <br><br>
 	</ul>
 	<div class="overflow">
@@ -44,9 +45,11 @@
     <br>
     <ul class="labelreg3">
     <li>{{Form::hidden('activo', '1')}}</li>
-    <li>{{ Form::submit('Guardar', array('class'=>'botonl'))}}</li>
-{{ Form::close() }}
+    <li></li>
+
 	</ul>
-	</div>
+    
+	</div>{{ Form::submit('Guardar', array('class'=>'botonl'))}}
+    {{ Form::close() }}
 @stop
 

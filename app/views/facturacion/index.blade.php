@@ -38,10 +38,10 @@
             <tr>
                 <td>{{ HTML::link('historial_clinico/'.$historial->p_id, $historial->p_n.', '.$historial->p_a1.' '.$historial->p_a2)}} </td>
                 <td>{{$historial->t_n }}</td>
-                <td class = "td_centrado">{{$historial->fecha_realizacion}}</td>
+                <td class = "td_centrado">{{$historial->fecha}}</td>
                 {{ Form::open(array('url'=>'facturacion/'.$historial->h_id, 'method' => 'put')) }}
                 {{Form::hidden('id-'.$i, $historial->h_id)}}
-                <td>{{Form::number('coste_lab-'.$i, null, array('class' => 'euros', 'step' => 'any'))}}</td>
+                <td>{{$historial->coste_lab}}</td>
                     <td class = "td_centrado">
                         @if(Auth::user()->isAsesor())
                             @if($historial->abonado_quiron != 1)

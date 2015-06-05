@@ -9,7 +9,7 @@ class CompaniasController extends BaseController {
      */
     public function index()
     {
-        $companias = Companias::where('activo', 1)->get();
+        $companias = Companias::where('activo', 1)->orderBy('companias.nombre')->get();
         return View::make('tratamientos.companias', array('companias' => $companias));
     }
 
