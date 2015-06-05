@@ -9,11 +9,7 @@ class TurnoController extends \BaseController {
             $sede_ids[] = $sede->id;
         }
 
-        if (in_array(4, $sede_ids)) {
-            $sedes = Sedes::where('id', '!=', 4)->get();
-        } else {
-            $sedes = Sedes::whereIn('id', $sede_ids)->get();
-        }
+        $sedes = Sedes::where('id', '!=', 4)->get();
 
         return View::make('turnos.index')->with(array('sedes' => $sedes));
     }
