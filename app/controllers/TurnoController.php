@@ -148,6 +148,11 @@ class TurnoController extends \BaseController {
     }
 
     public function show($sede_id) {
+        if (Input::has('cdate')) {
+            $cdate = explode('-', Input::get('cdate'));
+            return Redirect::action('TurnoController@showMonth', array($sede_id, $cdate[0], $cdate[1]));
+        }
+
         $mes = date("m");
         $ano = date("Y");
         return Redirect::action('TurnoController@showMonth', array($sede_id, $ano, $mes));

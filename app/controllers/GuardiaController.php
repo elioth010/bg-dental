@@ -37,7 +37,7 @@ class GuardiaController extends \BaseController {
         $sede = Sedes::where('id', $sede_id)->firstOrFail();
 
         $events = $this->getHtmlProfsSelectCreate($year, $month);
-        $calendario = $this->getGuardiaCalendar($events, '/guardia/create');
+        $calendario = $this->getGuardiaCalendar($events);
 
         return View::make('guardias.create')->with(array('calendario' => $calendario, 'sede' => $sede,
                                                                'year' => $year, 'month' => $month));
@@ -111,6 +111,11 @@ class GuardiaController extends \BaseController {
 
     public function show($sede_id)
     {
+        if (Input::has('cdate')) {
+            $cdate = explode('-', Input::get('cdate'));
+            return Redirect::action('GuardiaController@showMonth', array($sede_id, $cdate[0], $cdate[1]));
+        }
+
         $month = date("m");
         $year = date("Y");
         return Redirect::action('GuardiaController@showMonth', array($sede_id, $year, $month));
@@ -134,7 +139,7 @@ class GuardiaController extends \BaseController {
                                 ->get();
 
         //-----------------------------------------
-        // Si no existe turno para ese mes, crearlo
+        // Si no existe una guardia para ese mes, crearla
         if (count($guardias) == 0) {
             return Redirect::action('GuardiaController@createMonth', array($sede_id, $year, $month));
         }
@@ -145,7 +150,7 @@ class GuardiaController extends \BaseController {
             $events[$guardia->fecha_guardia] = $profesional->nombre.", ".$profesional->apellido1;
         }
 
-        $calendario = $this->getGuardiaCalendar($events);
+        $calendario = $this->getGuardiaCalendar($events, '/guardia/' . $sede_id);
 
         return View::make('guardias.show')->with(array('calendario' => $calendario, 'sede' => $sede, 'year' => $year, 'month' => $month));
     }
@@ -168,7 +173,7 @@ class GuardiaController extends \BaseController {
                                 ->get();
 
         $events = $this->getHtmlProfsSelect($guardias);
-        $calendario = $this->getGuardiaCalendar($events, '/guardia/create');
+        $calendario = $this->getGuardiaCalendar($events);
 
         return View::make('guardias.edit')->with(array('calendario' => $calendario, 'sede' => $sede,
                                                                'year' => $year, 'month' => $month));
