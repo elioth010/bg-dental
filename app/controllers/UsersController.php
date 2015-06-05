@@ -27,18 +27,24 @@ class UsersController extends BaseController {
             $user->email = Input::get('email');
             $user->password = Hash::make(Input::get('password'));
             $user->group_id = Input::get('group_id');
-            $sedes = Sedes::count();
-
             $user->save();
-            $i = 1;
-            while ($i <= $sedes) {
-                if (Input::has('sede-' . $i)) {
-                    $sede_usuario = Input::get('sede-' . $i);
-                    $user->sedes()->attach($sede_usuario);
+
+            if (Input::has('sede-4')) {
+                // Todas
+                $user->sedes()->attach(4);
+            } else {
+
+                $n_sedes = Sedes::count();
+                $i = 1;
+                while ($i <= $n_sedes) {
+                    if (Input::has('sede-' . $i)) {
+                        $user->sedes()->attach($i);
+                    }
+                    $i++;
                 }
-                $i++;
             }
-            //return Redirect::to('users/dashboard')->with('message', '¡Usuario registrado!');
+
+            return Redirect::to('users/dashboard')->with('message', '¡Usuario registrado!');
         } else {
             // validation has failed, display error messages
             return Redirect::to('users/register')->with('message', 'The following errors occurred')->withErrors($validator)->withInput();
@@ -53,10 +59,10 @@ class UsersController extends BaseController {
         if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))) {
             Session::put('user_id', Auth::id());
             if(Auth::user()->isAdmin()){
-            return Redirect::to('paciente');
+                return Redirect::to('paciente');
             }
             if(Auth::user()->isProfesional()){
-            return Redirect::action('Historial_clinicoController@index');
+                return Redirect::action('Historial_clinicoController@index');
             }
 
 //->with('message', 'You are now logged in!');
@@ -98,25 +104,31 @@ class UsersController extends BaseController {
    public function putUpdate($id)
     {
         $user = User::find($id);
-                $user->firstname = Input::get('firstname');
-                $user->lastname = Input::get('lastname');
-                $user->email = Input::get('email');
-                $user->group_id = Input::get('group_id');
-                $user->update();
-                $user->sedes()->detach();
-                $num_sedes = Sedes::count();
-        $i = 1;
-        while($i <= $num_sedes){
+        $user->firstname = Input::get('firstname');
+        $user->lastname = Input::get('lastname');
+        $user->email = Input::get('email');
+        $user->group_id = Input::get('group_id');
+        $user->update();
+        $user->sedes()->detach();
 
-            if (Input::has('sede-'.$i)) {
-                $sede_id = Input::get('sede-'.$i);
-                $user->sedes()->attach($sede_id);
+        if (Input::has('sede-4')) {
+            // Todas
+            $user->sedes()->attach(4);
+        } else {
+
+            $n_sedes = Sedes::count();
+            $i = 1;
+            while ($i <= $n_sedes) {
+                if (Input::has('sede-' . $i)) {
+                    $user->sedes()->attach($i);
+                }
+                $i++;
             }
-            $i++;
         }
-//                $user->update(Input::all());
-                return Redirect::to('users/dashboard')->with('message', 'Usuario modificado con éxito.');
+
+        return Redirect::to('users/dashboard')->with('message', 'Usuario modificado con éxito.');
     }
+
     public function getLogout() {
         Auth::logout();
         return Redirect::to('users/login'); //->with('message', 'Your are now logged out!');

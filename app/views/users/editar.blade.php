@@ -1,9 +1,9 @@
 @extends('layouts.main')
- 
+
 @section('contenido')
 {{ Form::open(array('url'=>'users/update/'.$user->u_id, 'method' => 'put')) }}
 
-    <h1>Editar Usuario</h1>
+<h1>Editar Usuario</h1>
     <ul class="labelreg5">
         <li>Nombre:</li>
         <li>Apellidos:</li>
@@ -12,14 +12,14 @@
         <li>Sedes</li>
     </ul>
 
-<ul class="labelreg5">
- 	<li>{{ Form::text('firstname', $user->firstname) }}</li>
+    <ul class="labelreg5">
+        <li>{{ Form::text('firstname', $user->firstname) }}</li>
         <li>{{ Form::text('lastname', $user->lastname) }}</li>
         <li>{{ Form::text('email', $user->email) }}</li>
-        <li>{{Form::select('group_id', $usergroups, $user->group_id)}}
-          <?php $i = 1; ?>       
+        <li>{{ Form::select('group_id', $usergroups, $user->group_id) }}
+          <?php $i = 1; ?>
             @foreach($sedes as $sede)
-  <input type="Checkbox" name="sede-{{$i}}" value="{{$sede->id}}" 
+  <input type="Checkbox" name="sede-{{ $sede->id }}" value="1"
          @foreach($sedes_pid as $k => $sede_pid)
              @if ($sede->id === $sede_pid)
              checked
@@ -28,11 +28,11 @@
          >{{$sede->nombre}}</br>
   <?php $i++; ?>
   @endforeach
-        
-    <li>{{ Form::submit('Guardar cambios')}}</li>
-    <li>{{--{{ Form::button('Atrás', array('class'=>'botonl'))}}--}}
-</ul>
-    
+
+        <li>{{ Form::submit('Guardar cambios')}}</li>
+        <li>{{--{{ Form::button('Atrás', array('class'=>'botonl'))}}--}}
+    </ul>
+
 {{ Form::close() }}
 
 
