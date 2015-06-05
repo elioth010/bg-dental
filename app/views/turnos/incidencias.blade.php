@@ -15,7 +15,7 @@
       
       @foreach($incidencias as $item)
         <tr>
-        <td>{{$item->fecha_turno}}</td>
+        <td>{{$item->fecha}}</td>
         <td>{{$item->p_n}}, {{$item->p_a1}} {{$item->p_a2}}</td>
         <td>{{$item->s_n}}</td>
         <td>{{$item->incidencia_text}}</td>

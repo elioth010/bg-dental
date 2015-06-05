@@ -23,7 +23,8 @@ class TurnoController extends \BaseController {
         $incidencias = Turnos::where('incidencia', 1)
                 ->leftJoin('profesionales', 'profesionales.id', '=', 'turnos.profesional_id')
                 ->leftJoin('sedes', 'sedes.id', '=', 'turnos.sede_id')
-                ->select('turnos.*', 'profesionales.nombre as p_n', 'profesionales.nombre as p_a1', 'profesionales.nombre as p_a2', 'sedes.nombre as s_n')
+                ->select('turnos.*', DB::raw("DATE_FORMAT(fecha_turno, '%d/%m/%Y') as fecha"),
+                        'profesionales.nombre as p_n', 'profesionales.nombre as p_a1', 'profesionales.nombre as p_a2', 'sedes.nombre as s_n')
                 ->get();
         return View::make('turnos.incidencias')->with('incidencias', $incidencias);
     }
