@@ -257,7 +257,6 @@ class TurnoController extends \BaseController {
         $botones = "<div>";
         $botones .= "<button id='modifbutton-$day' type='button' class='botonl' onclick='modificarTurnoClick(\"$day\")'>Modificar</button>";
         $botones .= "<input id='modifbuttons-$day' form='formmodif-$day' class='botonl modifsavebutton' type='submit' value='Guardar'>";
-        //$botones .= "<button id='modifbuttons-$day' type='button' class='botonl modifsavebutton' onclick='modificarTurnoSave(\"$day\")'>Guardar</button>";
         $botones .= "<button id='modifbuttonc-$day' type='button' class='botonl modifcancelbutton' onclick='modificarTurnoCancel(\"$day\")'>Cancelar</button>";
         $botones .= "</div>";
         return $botones;

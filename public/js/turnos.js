@@ -15,33 +15,6 @@ function modificarTurnoClick(day) {
 
 }
 
-// Salva la modificación del turno
-// PUT y reload
-
-function modificarTurnoSave(day) {
-    console.log('save turno ' + day);
-
-    var selector = "[name^='profesional_id-" + day + "']";
-    var selects = $(selector);
-    var data = {};
-    selects.each(function(index, value) {
-        console.log(index + ':' + $(this).attr('name') + '  ' + $(this).val());
-        data[$(this).attr('name')] = $(this).val();
-    });
-
-    var url = $(location).attr('href');
-    console.debug(url);
-
-    form = $('<form>').attr({action: url, method: 'PUT'});
-
-    jQuery.each(data, function(name, val) {
-        form.append('<input type="hidden" name="' + name + '" value="' + val + '">');
-    });
-    console.debug(form);
-    form.submit();
-
-}
-
 // Cancela la modificación del turno
 function modificarTurnoCancel(day) {
     console.log('cancel turno ' + day);
