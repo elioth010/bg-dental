@@ -36,11 +36,46 @@ class GuardiaController extends \BaseController {
 
         $sede = Sedes::where('id', $sede_id)->firstOrFail();
 
+        // Comprobar si existe
+        $guardia = Guardias::where('fecha_guardia', 'LIKE', "$year-$month-%")->where('sede_id', $sede_id)->take(1)->get();
+        if (count($guardia) > 0) {
+            return Redirect::action('GuardiaController@show', $sede_id)->with('message', 'Ya existen guardia para ese mes.');
+        }
+
+        $date_1 = "$year-$month";
+        $today = explode("-", date("Y-m-d"));
+        $date_2 = "$today[0]-$today[1]";
+
+        if ($date_1 < $date_2) {
+            return Redirect::action('GuardiaController@show', $sede_id)->with('message', 'No se pueden crear guardias para un mes anterior.');
+        }
+
         $events = $this->getHtmlProfsSelectCreate($year, $month);
-        $calendario = $this->getGuardiaCalendar($events);
+        $calendario = $this->getGuardiaCalendar($events, $date_1);
 
         return View::make('guardias.create')->with(array('calendario' => $calendario, 'sede' => $sede,
                                                                'year' => $year, 'month' => $month));
+    }
+
+    private function getHtmlProfsSelectCreate($year, $month) {
+        $selects = array();
+        $profesionales = Profesional::where('especialidades_id', 1)->get();
+
+        $options = "";
+        foreach($profesionales as $i => $profesional) {
+            $options .= "<option value=\"".$profesional->id."\">Dr. ".$profesional->nombre." ".$profesional->apellido1."</option>";
+        }
+
+        $d = 1;
+        $dias = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        while($d <= $dias) {
+            $fecha = date('Y-m-d', mktime(0, 0, 0, $month, $d, $year));
+            $day = explode('-', $fecha)[2]; // con el cero delante para dia entre 1 y 9
+            $selects[$fecha] = "<select class=\"select_prof\" name=\"profesional_id-" . $day . "\">" . $options . "</select>";
+            $d++;
+        }
+
+        return $selects;
     }
 
     private function getHtmlProfsSelect($guardias) {
@@ -49,7 +84,7 @@ class GuardiaController extends \BaseController {
 
         foreach ($options as $fecha => $option) {
             $day = explode('-', $fecha)[2];
-            $selects[$fecha] = "<select class = \"select_prof\" name = \"profesional_id-" . $day . "\">" . $options[$fecha] . "</select>";
+            $selects[$fecha] = "<select class=\"select_prof\" name=\"profesional_id-" . $day . "\">" . $options[$fecha] . "</select>";
         }
 
         return $selects;
@@ -63,34 +98,13 @@ class GuardiaController extends \BaseController {
             $options[$guardia->fecha_guardia] = "";
 
             foreach($profesionales as $profesional) {
-                $selected = $profesional->id == $guardia->profesional_id ? "selected" : "";
-                $options[$guardia->fecha_guardia] .= "<option value=\"$profesional->id\" $selected>Dr. $profesional->nombre $profesional->apellido1</option>";
+                $selected = $profesional->id == $guardia->profesional_id ? " selected" : "";
+                $options[$guardia->fecha_guardia] .= "<option value=\"$profesional->id\"$selected>Dr. $profesional->nombre $profesional->apellido1</option>";
             }
         }
 
         return $options;
     }
-
-    private function getHtmlProfsSelectCreate($year, $month) {
-        $selects = array();
-        $profesionales = Profesional::where('especialidades_id', 1)->get();
-
-        $options = "";
-        foreach($profesionales as $i => $profesional) {
-            $options .= "<option value=".$profesional->id.">Dr. ".$profesional->nombre." ".$profesional->apellido1."</option>";
-        }
-
-        $d = 1;
-        $dias = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-        while($d <= $dias) {
-            $fecha = date('Y-m-d', mktime(0, 0, 0, $month, $d, $year));
-            $selects[$fecha] = "<select class = \"select_prof\" name = \"profesional_id-" . $d . "\">" . $options . "</select>";
-            $d++;
-        }
-
-        return $selects;
-    }
-
 
     public function storeMonth($sede_id, $year, $month) {
 
@@ -150,7 +164,7 @@ class GuardiaController extends \BaseController {
             $events[$guardia->fecha_guardia] = $profesional->nombre.", ".$profesional->apellido1;
         }
 
-        $calendario = $this->getGuardiaCalendar($events, '/guardia/' . $sede_id);
+        $calendario = $this->getGuardiaCalendar($events, $year.'-'.$month, true, '/guardia/' . $sede_id);
 
         return View::make('guardias.show')->with(array('calendario' => $calendario, 'sede' => $sede, 'year' => $year, 'month' => $month));
     }
@@ -173,19 +187,19 @@ class GuardiaController extends \BaseController {
                                 ->get();
 
         $events = $this->getHtmlProfsSelect($guardias);
-        $calendario = $this->getGuardiaCalendar($events);
+        $calendario = $this->getGuardiaCalendar($events, $year.'-'.$month);
 
         return View::make('guardias.edit')->with(array('calendario' => $calendario, 'sede' => $sede,
                                                                'year' => $year, 'month' => $month));
 
     }
 
-    private function getGuardiaCalendar($events, $basepath = '/guardia') {
+    private function getGuardiaCalendar($events, $date, $navigation = FALSE, $basepath = '/guardia') {
         $cal = Calendar::make();
         $cal->setDayLabels(array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'));
         $cal->setBasePath($basepath); // Base path for navigation URLs
-        $cal->setDate(Input::get('cdate')); //Set starting date
-        $cal->showNav(true); // Show or hide navigation
+        $cal->setDate($date); //Set starting date
+        $cal->showNav($navigation); // Show or hide navigation
         $cal->setEventsWrap(array('', ''));
         $cal->setMonthLabels(array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')); //Month names
         $cal->setEvents($events); // Receives the events array
