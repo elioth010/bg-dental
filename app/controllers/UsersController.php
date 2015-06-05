@@ -12,7 +12,7 @@ class UsersController extends BaseController {
     public function getRegister() {
         $usergroups = Usergroups::lists('nombre', 'id');
         $sedes = Sedes::get();
-        $this->layout->content = View::make('users.register')->with(array('usergroups' => $usergroups, 'sedes' => $sedes));
+        return View::make('users.register')->with(array('usergroups' => $usergroups, 'sedes' => $sedes));
     }
 
     public function postCreate() {

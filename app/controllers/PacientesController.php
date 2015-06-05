@@ -15,12 +15,9 @@ class PacientesController extends BaseController {
                                       'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido1 as p_a2')
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->leftJoin('profesionales', 'espera.profesional_id', '=', 'profesionales.id')
-                            //->leftJoin('historial_clinico', 'historial_clinico.paciente_id', '=', 'pacientes.id')
                             ->orderBy('espera.begin_date')
                             ->get();
-//        $pacientes = Pacientes::whereRaw('pacientes.created_at >= DATE_SUB(NOW(), INTERVAL 100 DAY)')
-//                                ->orderBy('pacientes.created_at')
-//                                ->get();
+
         $esperas = Espera::where('admitido', 1)->lists('admitido', 'paciente_id');
         $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 
@@ -53,7 +50,7 @@ class PacientesController extends BaseController {
             $nuevo_paciente = new Pacientes(Input::all());
             $nuevo_paciente->saldo = 0;
             $nuevo_paciente->save();
-            
+
             return Redirect::action('PacientesController@index')->with('message', 'Paciente creado con éxito.');
         } else {
             return Redirect::action('PacientesController@create')->with('message', 'Existen los siguientes errores:')
@@ -99,22 +96,15 @@ class PacientesController extends BaseController {
 
     public function show($id)
     {
-        //$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
-        $paciente = Pacientes::where('id', $id)->get();
-
-        $companias = Companias::lists('nombre', 'id');
-        asort($companias);
-        return View::make('pacientes.verficha')->with('paciente',$paciente)->with(array('companias' => $companias));
+        return Redirect::action('PacientesController@edit', $id);
     }
 
     public function edit($id)
     {
-        //$paciente = Pacientes::on('quiron')->where('numerohistoria', $numerohistoria)->get();
-        $paciente = Pacientes::where('id', $id)->get();
-
+        $paciente = Pacientes::where('id', $id)->firstOrFail();
         $companias = Companias::lists('nombre', 'id');
         asort($companias);
-        return View::make('pacientes.verficha')->with('paciente',$paciente)->with(array('companias' => $companias));
+        return View::make('pacientes.edit')->with(array('paciente' => $paciente, 'companias' => $companias));
     }
 
 
@@ -129,13 +119,6 @@ class PacientesController extends BaseController {
         $paciente = Pacientes::find($id);
         $paciente->update(Input::all());
         return Redirect::action('PacientesController@index')->with('message', 'Paciente modificado con éxito.');
-        //$paciente->save();
-        //var_dump($paciente_d);
-//        $editarpaciente = new Pacientes;
-//        $editarpaciente->nombre = $paciente['nombre'];
-//        $editarpaciente->save();
-//        $paciente_editado = Pacientes::find($id);
-//        var_dump($paciente_editado);
     }
 
 

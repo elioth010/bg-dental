@@ -1,8 +1,4 @@
 <?php
-// Route::get('/', function()
-// {
-// 	return View::make('hello');
-// });
 // La siguiente ruta es para ver las SQL-queries que se hacen en la app. En producción habrá que quitarlas.
 // Event::listen('illuminate.query', function($query)
 // {
@@ -19,13 +15,8 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('paciente/buscar', 'PacientesController@buscar');
     Route::post('paciente/busqueda', 'PacientesController@busqueda');
     Route::resource('paciente', 'PacientesController');
-    //Route::get('pacientes', 'PacientesController@index');
 
     //Route::get('populate', 'PopulateController@populate');
-    //Route::get('pacientes/crear', 'PacientesController@crear');
-    //Route::get('pacientes/{numerohistoria}', 'PacientesController@verficha');
-    //Route::post('pacientes/guardar', 'PacientesController@store');
-    //Route::post('pacientes/editarficha/{id}', 'PacientesController@editarficha');
 
     //Rutas tratamientos y grupos:
     Route::get('tratamientos', 'TratamientosController@index');
