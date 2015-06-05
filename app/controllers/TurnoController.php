@@ -2,17 +2,7 @@
 
 class TurnoController extends \BaseController {
 
-    public function index()
-    {
-        if(Input::has('cdate')) {
-            $cdate = explode("-", Input::get('cdate'));
-            $mes = $cdate[1];
-            $ano = $cdate[0];
-        } else {
-            $mes = date("m");
-            $ano = date("Y");
-        }
-
+    public function index() {
         $user = User::where('id', Auth::id())->firstOrFail();
         $sede_ids = array();
         foreach($user->sedes as $sede) {
