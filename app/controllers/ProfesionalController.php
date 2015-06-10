@@ -93,8 +93,9 @@ class ProfesionalController extends \BaseController {
                 $profesional = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
                         ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
                         ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')
+                        ->leftJoin('users', 'users.id', '=', 'profesionales.user_id')
                                 ->groupBy('profesionales.id')
-                        ->select('sedes.nombre','profesionales.id as p_id','profesionales.*','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'), DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))->find($id);
+                        ->select('sedes.nombre','profesionales.id as p_id','profesionales.*','users.firstname as u_n','users.lastname as u_a','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'), DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))->find($id);
                 $sedes_pid = explode(',',$profesional->sedes_pid);
 //                if(!is_array($sedes_pid)){
 //                    $sedes_pid = array($sedes_pid);

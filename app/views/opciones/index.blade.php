@@ -13,8 +13,14 @@
       
       @foreach($opciones as $opcion)
         <tr>
-        <td>{{$opcion->nombre}}</td>
-        <td>{{$opcion->valor}}</td>
+        <td>{{HTML::linkAction('OpcionesController@edit', $opcion->nombre, $opcion->id)}}</td>
+        <td>
+            @if($opcion->oculto >0)
+            *************
+            @else
+            {{$opcion->valor}}
+            @endif
+        </td>
         </tr>
       @endforeach
       

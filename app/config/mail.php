@@ -1,5 +1,5 @@
 <?php
-
+$pass = Opciones::where('nombre', 'pass_mail')->get(array('valor'));
 return array(
 
 	/*
@@ -92,8 +92,8 @@ return array(
 	| connection so that the application will be able to send messages.
 	|
 	*/
-
-	'password' => 'Estalagmitas$$',
+        
+	'password' => $pass[0]['valor'],
 
 	/*
 	|--------------------------------------------------------------------------
