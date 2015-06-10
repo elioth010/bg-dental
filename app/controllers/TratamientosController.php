@@ -61,7 +61,7 @@ class TratamientosController extends \BaseController {
      * @return Response
      */
     public function store() {
-        
+
         $tratamiento = new Tratamientos;
         $tratamiento->nombre = Input::get('nombre');
         $tratamiento->codigo = Input::get('codigo');
@@ -158,7 +158,7 @@ class TratamientosController extends \BaseController {
             }
         }
 
-        return View::make('tratamientos.editar')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
+        return View::make('tratamientos.edit')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
                     'grupos' => $grupos, 'tipos' => $tipos,'imagenes'=>$imagenes,
                     'companias' => $companias));
     }

@@ -97,7 +97,7 @@ class UsersController extends BaseController {
         $sedes_pid = explode(',',$user->sedes_pid);
         $usergroups = Usergroups::lists('nombre', 'id');
         $sedes = Sedes::get();
-        return View::make('users.editar')->with('user',$user)->with('usergroups', $usergroups)->with('sedes', $sedes)->with(array('sedes_pid'=>$sedes_pid));
+        return View::make('users.edit')->with('user',$user)->with('usergroups', $usergroups)->with('sedes', $sedes)->with(array('sedes_pid'=>$sedes_pid));
 
     }
 
