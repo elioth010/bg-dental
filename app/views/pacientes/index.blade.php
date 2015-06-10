@@ -28,7 +28,7 @@
             <td>{{ $paciente->nombre }}</td>
             <td>{{ $paciente->apellido1." ".$paciente->apellido2 }}</td>
             <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</td>
-            <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $paciente->id) }}</td>
+            <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $paciente->paciente_id) }}</td>
             {{--<td>{{$paciente->p_d_c}} €</td>--}}
         @if (isset($paciente->admitido) && ($paciente->admitido == 1))
         <td>{{$paciente->p_n}}, {{$paciente->p_a1}} {{$paciente->p_a2}}</td>

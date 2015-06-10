@@ -246,7 +246,7 @@ class Historial_clinicoController extends \BaseController {
         if($paciente->saldo <= 0){
             unset($tipos_de_cobro[1]);
         }
-        $espera = Espera::where('paciente_id', $paciente->id)->where('admitido', 1)->firstOrFail();
+        $espera = Espera::where('paciente_id', $id)->where('admitido', 1)->firstOrFail();
         
         
         return View::make('historial.historial')->with($data)
