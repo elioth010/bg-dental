@@ -18,13 +18,13 @@
  <table>
      <tr>
          <th>Fecha realización</th>
-         <th>Tratamiento</th>
+         <th>Historial clínico</th>
          <th>precio</th>
      </tr>
  @foreach($p_d_c as $item)
  <tr>
      <td>{{$item->fecha_realizacion}}</td>
-     <td>{{$item->id}}</td>
+     <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $item->paciente_id) }}</td>
      <td>{{$item->precio}}
     @endforeach
  </table>   
