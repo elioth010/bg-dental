@@ -43,7 +43,7 @@
             {{ Form::radio('tipotratamiento', $tipo->id) }}{{$tipo->tipo}}
             @endif
         @endforeach
-        <br/><br>Imagen: {{ Form::select('imagen_id', $imagenes) }}
+        <br/><br>Imagen: {{ Form::select('imagen_id', $imagenes, $imgselected) }}
           Quirófano: @if($tratamiento->quirofano != 1)
         {{Form::checkbox('quirofano')}}
         @else

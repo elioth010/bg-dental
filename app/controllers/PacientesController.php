@@ -9,7 +9,7 @@ class PacientesController extends BaseController {
      */
     public function index()
     {
-        $pacientes = Espera::where('admitido', 1)
+        $pacientes = Espera::where('espera.admitido', 1)
                             ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id', 'espera.admitido',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2',
                                       'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido1 as p_a2')
@@ -18,10 +18,10 @@ class PacientesController extends BaseController {
                             ->orderBy('espera.begin_date')
                             ->get();
 
-        $esperas = Espera::where('admitido', 1)->lists('admitido', 'paciente_id');
+        //$esperas = Espera::where('admitido', 1)->lists('admitido', 'paciente_id');
         $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 
-        return View::make('pacientes.index')->with(array('profesionales' => $profesionales, 'pacientes' => $pacientes, 'esperas' => $esperas));
+        return View::make('pacientes.index')->with(array('profesionales' => $profesionales, 'pacientes' => $pacientes));
     }
 
 
@@ -72,21 +72,32 @@ class PacientesController extends BaseController {
         if($busca) {
 
             $busca = '%'.$busca.'%';
-            $pacientes = Pacientes::select('pacientes.id', 'numerohistoria', 'nombre', 'apellido1', 'apellido2', 'admitido')
-                                    ->where('nombre', 'LIKE', $busca)
-                                    ->orWhere('apellido1', 'LIKE', $busca)
-                                    ->orWhere('apellido2', 'LIKE', $busca)
+            $pacientes = Pacientes::select('pacientes.id', 'numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
+                                    ->where('pacientes.nombre', 'LIKE', $busca)
+                                    ->orWhere('pacientes.apellido1', 'LIKE', $busca)
+                                    ->orWhere('pacientes.apellido2', 'LIKE', $busca)
                                     ->orWhere('numerohistoria', 'LIKE', $busca)
-                                    ->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
-                                    ->groupBy('pacientes.numerohistoria')//porqué si quito esto, me salen dobles???
+                                    //->leftJoin('espera', 'espera.paciente_id', '=', 'pacientes.id')
+                                    //->leftJoin('profesionales', 'profesionales.id', '=', 'espera.profesional_id')
+                                    //->groupBy('pacientes.numerohistoria')//porqué si quito esto, me salen dobles???
                                     ->get();
+            $espera = Espera::where('admitido', 1)->leftJoin('profesionales', 'espera.profesional_id', '=', 'profesionales.id')->select('paciente_id', 'profesionales.*')->get();
+            var_dump($espera);
+            foreach($pacientes as $paciente)
+            {
+                if(isset($espera[$paciente->id]))
+                {
+                    $paciente->admitido = 1;
+                    $paciente->prof_asignado = $espera->nombre.', '.$espera->apellido1.' '.$espera->apellido2;
+                }
+            }
             $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
 
         } else {
             return Redirect::action('PacientesController@buscar');
         }
 
-        return View::make('pacientes.busqueda')->with('pacientes', $pacientes)->with('profesionales', $profesionales);
+        return View::make('pacientes.busqueda')->with('pacientes', $pacientes)->with('profesionales', $profesionales)->with('espera', $espera);
      }
 
 

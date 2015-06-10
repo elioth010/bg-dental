@@ -11,6 +11,7 @@
     <ul class="labelreg3">
     <li>{{ Form::text('nombre', null) }}</li>
 	<li>{{ Form::text('valor', null) }}</li>
+        <li>Oculto: {{Form::checkbox('oculto')}}</li>
     <li>{{ Form::submit('Guardar opción', array('class'=>'botonl'))}}</li>
 		{{ Form::close() }}
 	</ul>

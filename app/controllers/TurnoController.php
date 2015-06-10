@@ -4,16 +4,11 @@ class TurnoController extends \BaseController {
 
     public function index() {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $sede_ids = array();
-        foreach($user->sedes as $sede) {
-            $sede_ids[] = $sede->id;
-        }
-
-        $sedes = Sedes::where('id', '!=', 4)->get();
+        $sedes = Sedes::where('id', '!=', Sedes::TODAS)->get();
 
         return View::make('turnos.index')->with(array('sedes' => $sedes));
     }
-    
+
     public function incidencias()
     {
         $incidencias = Turnos::where('incidencia', 1)
@@ -188,7 +183,7 @@ class TurnoController extends \BaseController {
             return Redirect::action('TurnoController@showMonth', array($sede_id, $cdate[0], $cdate[1]));
         }
 
-        if ($sede_id == 4) { // Todas
+        if ($sede_id == Sedes::TODAS) {
             return Redirect::action('TurnoController@index');
         }
 

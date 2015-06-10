@@ -58,7 +58,7 @@ class SedesController extends BaseController {
      */
     public function edit($id) {
         $sede = Sedes::find($id);
-        return View::make('sedes.editar')->with('sede', $sede);
+        return View::make('sedes.edit')->with('sede', $sede);
     }
 
     /**

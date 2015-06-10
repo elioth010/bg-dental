@@ -61,7 +61,7 @@ class TratamientosController extends \BaseController {
      * @return Response
      */
     public function store() {
-        
+
         $tratamiento = new Tratamientos;
         $tratamiento->nombre = Input::get('nombre');
         $tratamiento->codigo = Input::get('codigo');
@@ -138,7 +138,11 @@ class TratamientosController extends \BaseController {
         $grupos = Grupos::lists('nombre', 'id');
         $companias = Companias::lists('nombre', 'id');
         $tipos = TiposTratamientos::get();
-        $imagenes = Imagenes::lists('denominacion', 'id');
+        $imagenes = Imagenes::lists('denominacion', 'nombre');
+
+        $imagenes[0] = '-- Ninguna --';
+        asort($imagenes);
+        $imgselected = $tratamiento->imagen == null ? 0 : $tratamiento->imagen;
 
         $precios = Precios::leftJoin('tratamientos', 'tratamientos.id', '=', 'tratamientos_id')
                 ->leftJoin('companias', 'companias.id', '=', 'companias_id')
@@ -158,8 +162,8 @@ class TratamientosController extends \BaseController {
             }
         }
 
-        return View::make('tratamientos.editar')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
-                    'grupos' => $grupos, 'tipos' => $tipos,'imagenes'=>$imagenes,
+        return View::make('tratamientos.edit')->with(array('tratamiento' => $tratamiento, 'precios' => $precios,
+                    'grupos' => $grupos, 'tipos' => $tipos, 'imagenes' => $imagenes, 'imgselected' => $imgselected,
                     'companias' => $companias));
     }
 
@@ -176,9 +180,15 @@ class TratamientosController extends \BaseController {
         $tratamiento->grupostratamientos_id = Input::get('grupostratamientos_id');
         $tratamiento->tipostratamientos_id = Input::get('tipotratamiento');
         $tratamiento->activo = Input::get('activo', 1);
-        $tratamiento->imagen = Input::get('imagen_id');
         $tratamiento->quirofano = Input::get('quirofano', 0);
-        $tratamiento->save();
+
+        $imagen = Input::get('imagen_id');
+        if ($imagen == "0") {
+            $imagen = null;
+        }
+
+        $tratamiento->imagen = $imagen;
+        $tratamiento->update();
 
         $tratamiento->precios()->detach();
 

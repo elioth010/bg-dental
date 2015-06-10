@@ -29,18 +29,14 @@ class UsersController extends BaseController {
             $user->group_id = Input::get('group_id');
             $user->save();
 
-            if (Input::has('sede-4')) {
-                // Todas
-                $user->sedes()->attach(4);
+            if (Input::has('sede-'.Sedes::TODAS)) {
+                $user->sedes()->attach(Sedes::TODAS);
             } else {
 
-                $n_sedes = Sedes::count();
-                $i = 1;
-                while ($i <= $n_sedes) {
+                foreach(Sedes::lists('id') as $i) {
                     if (Input::has('sede-' . $i)) {
                         $user->sedes()->attach($i);
                     }
-                    $i++;
                 }
             }
 
@@ -80,7 +76,7 @@ class UsersController extends BaseController {
                     ->get();
 
         $sedes = Sedes::leftJoin('sedes_users', 'sedes.id', '=', 'sedes_users.sede_id')
-                            ->select('user_id', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))
+                            ->select('user_id', DB::raw('GROUP_CONCAT(sedes.nombre SEPARATOR ", ") as sedes_p'))
                             ->groupBy('user_id')
                             ->lists('sedes_p', 'user_id');
 
@@ -97,7 +93,7 @@ class UsersController extends BaseController {
         $sedes_pid = explode(',',$user->sedes_pid);
         $usergroups = Usergroups::lists('nombre', 'id');
         $sedes = Sedes::get();
-        return View::make('users.editar')->with('user',$user)->with('usergroups', $usergroups)->with('sedes', $sedes)->with(array('sedes_pid'=>$sedes_pid));
+        return View::make('users.edit')->with('user',$user)->with('usergroups', $usergroups)->with('sedes', $sedes)->with(array('sedes_pid'=>$sedes_pid));
 
     }
 
@@ -111,18 +107,14 @@ class UsersController extends BaseController {
         $user->update();
         $user->sedes()->detach();
 
-        if (Input::has('sede-4')) {
-            // Todas
-            $user->sedes()->attach(4);
+        if (Input::has('sede-'.Sedes::TODAS)) {
+            $user->sedes()->attach(Sedes::TODAS);
         } else {
 
-            $n_sedes = Sedes::count();
-            $i = 1;
-            while ($i <= $n_sedes) {
+            foreach(Sedes::lists('id') as $i) {
                 if (Input::has('sede-' . $i)) {
                     $user->sedes()->attach($i);
                 }
-                $i++;
             }
         }
 

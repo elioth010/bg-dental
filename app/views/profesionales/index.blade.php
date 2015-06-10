@@ -1,5 +1,5 @@
-@extends('profesionales.crearprofesional')
- 
+@extends('profesionales.create')
+
 @section('listado_profs')
  <h3>
   Profesionales:

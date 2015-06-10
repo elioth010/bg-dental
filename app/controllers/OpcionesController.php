@@ -45,7 +45,7 @@ class OpcionesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		echo "show";
 	}
 
 
@@ -57,7 +57,10 @@ class OpcionesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		
+                $opcion = Opciones::find($id);
+                
+                return View::make('opciones.edit')->with('opcion', $opcion);
 	}
 
 
@@ -69,7 +72,13 @@ class OpcionesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+            
+                $opcion = Opciones::find($id);
+                $opcion->nombre = Input::get('nombre');
+                $opcion->valor = Input::get('valor');
+                $opcion->oculto = Input::get('oculto', 0);
+                $opcion->update();
+                return Redirect::action('OpcionesController@index')->with('message', 'Opción actualizada');
 	}
 
 
@@ -81,7 +90,9 @@ class OpcionesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+            $opcion = Opciones::find($id);
+            $opcion->delete();
+            return Redirect::action('OpcionesController@index')->with('message', 'Opción eliminada');
 	}
 
 

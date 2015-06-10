@@ -16,7 +16,11 @@
             
          </div> Bienvenida/o: {{{ isset(Auth::user()->name) ? Auth::user()->lastname : Auth::user()->firstname.' '.Auth::user()->lastname  }}}<br>
      <?php $profesional = Profesional::where('user_id', Auth::user()->id)->first();
+     if(isset($profesional)) {
          echo "Profesional: ".$profesional->nombre.", ".$profesional->apellido1." ".$profesional->apellido2;
+     } else {
+         echo "Este usuario no tiene un profesional asignado";
+     }
      ?>
  <div class="exit">
 

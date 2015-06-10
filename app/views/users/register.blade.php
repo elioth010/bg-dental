@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('javascripts')
+    <script src="/js/bgdental.js"></script>
+@stop
+
 @section('contenido')
 {{ Form::open(array('url'=>'users/create', 'class'=>'form-signup')) }}
 <h2 class="form-signup-heading">Registre un nuevo usuario</h2>
@@ -10,16 +14,13 @@
 </ul>
 
 <ul class="labelreg">
-	 <li>{{ Form::label ('firstname', 'Nombre') }}</li>
-     <li>{{ Form::label('lastname', 'Apellidos') }}</li>
-     <li>{{ Form::label('email', 'Correo electrónico') }}</li>
-     <li>{{ Form::label('password', 'Contraseña') }}</li>
-     <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
-     <li>{{Form::select('group_id', $usergroups)}}
-
-  @foreach($sedes as $i => $sede)
-    <input type="Checkbox" name="sede-{{ $sede->id }}" value="1" >{{ $sede->nombre }}</br>
-  @endforeach
+	<li>{{ Form::label ('firstname', 'Nombre') }}</li>
+    <li>{{ Form::label('lastname', 'Apellidos') }}</li>
+    <li>{{ Form::label('email', 'Correo electrónico') }}</li>
+    <li>{{ Form::label('password', 'Contraseña') }}</li>
+    <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
+    <li>Permisos</li>
+    <li>Sedes</li>
 </ul>
 
 <ul class="labelreg2">
@@ -28,8 +29,19 @@
     <li>{{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}   </li>
     <li>{{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}   </li>
     <li>{{ Form::password('password_confirmation', array('class'=>'input-block-level', 'placeholder'=>'Confirm Password')) }}</li>
-	<li>{{ Form::submit('Registrar usuario', array('class'=>'botonl'))}}</li>
+    <li>{{ Form::select('group_id', $usergroups) }}
+    @foreach($sedes as $sede)
+    <div>{{ Form::checkbox('sede-'.$sede->id, 1) }} {{$sede->nombre}}</div>
+    @endforeach
+    <li>{{ Form::submit('Registrar usuario', array('class'=>'botonl'))}}</li>
 </ul>
 
 {{ Form::close() }}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        initSelectSedes();
+    });
+</script>
+
 @stop

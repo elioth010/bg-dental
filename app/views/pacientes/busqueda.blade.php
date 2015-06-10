@@ -28,7 +28,7 @@
             <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $paciente->id) }}</td>
             <td>{{$paciente->saldo, 0}} €</td>
         @if (isset($paciente->admitido) && ($paciente->admitido == 1))
-        <td>{{$paciente->p_n}}, {{$paciente->p_a1}} {{$paciente->p_a2}}</td>
+        <td>{{$paciente->prof_asignado}}</td>
         @else
         {{ Form::open(array('url'=>'espera/', 'method' => 'post')) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}

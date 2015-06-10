@@ -233,20 +233,24 @@ function updatePreciosCompanias(id, compania_id) {
 }
 
 // Cuando se cambia de tratamiento en el selector
+// id === null: llamada desde el descuento global del presupuesto
+// id !== null, tratamiento === null: al elegir otro grupo (updateSelectTratamientos()) o al cambiar el valor de EUR/%
+// id !== null, tratamiento !== null: Al editar un presupuesto cuando se añaden los tratamientos, al elegir otro tratamiento
 function updatePrecios(id, tratamiento) {
     console.log('updatePrecios ' + id + ', ' + tratamiento)
 
-    if (tratamiento !== undefined) {
-        var tid = tratamiento["tratamiento_id"]
-        var preciofinal = tratamiento["precio_final"]
-        var piezas = tratamiento["piezas"]
-        var compania = tratamiento["compania_id"]
-        console.log(tid, preciofinal, piezas, compania)
-    }
-
-    var grupo = $('#grupo-' + id).val()
-
     if (id !== undefined) {
+        // TODO: Coger de s_tratamiento-1 y eliminar parametro tratamiento
+        if (tratamiento !== undefined) {
+            var tid = tratamiento["tratamiento_id"]
+            var preciofinal = tratamiento["precio_final"]
+            var piezas = tratamiento["piezas"]
+            var compania = tratamiento["compania_id"]
+            console.log(tid, preciofinal, piezas, compania)
+        }
+
+        var grupo = $('#grupo-' + id).val()
+
         var precio = $('#precio-' + id)
         var preciof = $('#preciof-' + id)
         var desc = $('#descuento-' + id).val()
@@ -334,11 +338,14 @@ function updatePrecios(id, tratamiento) {
 
         } else {
             console.log('algo ' + id)
-            tid = $('#s_tratamiento-' + id).val()
+            var tid = $('#s_tratamiento-' + id).val()
 
-            if (dpiezas.length) {
-                dpiezas.remove()
+            if (tid == "0") {
+                if (dpiezas.length) {
+                    dpiezas.remove()
+                }
             }
+
         }
 
         updatePrecioTratamiento(id, tid, grupo, preciofinal)
