@@ -4,7 +4,7 @@ class GuardiaController extends \BaseController {
 
     public function index() {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $sedes = Sedes::where('id', '!=', 4)->get();
+        $sedes = Sedes::where('id', '!=', Sedes::TODAS)->get();
 
         return View::make('guardias.index')->with(array('sedes' => $sedes));
     }
@@ -25,7 +25,7 @@ class GuardiaController extends \BaseController {
             return Redirect::action('GuardiaController@index');
         }
 
-        if ($sede_id == 4){
+        if ($sede_id == Sedes::TODAS){
             return Redirect::action('GuardiaController@index');
         }
 
@@ -140,7 +140,7 @@ class GuardiaController extends \BaseController {
             return Redirect::action('GuardiaController@showMonth', array($sede_id, $cdate[0], $cdate[1]));
         }
 
-        if ($sede_id == 4) { // Todas
+        if ($sede_id == Sedes::TODAS) {
             return Redirect::action('GuardiaController@index');
         }
 
@@ -180,7 +180,7 @@ class GuardiaController extends \BaseController {
             return Redirect::action('GuardiaController@showMonth', array($sede_id, $year, $month));
         }
 
-        if ($sede_id == 4){
+        if ($sede_id == Sedes::TODAS){
             return Redirect::action('GuardiaController@index');
         }
 
