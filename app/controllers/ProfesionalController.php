@@ -28,12 +28,11 @@ class ProfesionalController extends \BaseController {
                         ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')->where('activo', 1)
                                 ->groupBy('profesionales.id')->orderBy('profesionales.apellido1')
                         ->select('sedes.nombre','profesionales.id as p_id', 'profesionales.*', 'especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))->get();
-//        var_dump($profesionales);
-//                return;
-                $sedes = Sedes::get();
-                $especialidades = Especialidad::lists('especialidad','id');
-                $usuarios = User::get()->lists('fullname', 'id');
-                return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes, 'usuarios' => $usuarios));
+        $sedes = Sedes::get();
+        $especialidades = Especialidad::lists('especialidad','id');
+        $usuarios = User::get()->lists('fullname', 'id');
+
+        return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes, 'usuarios' => $usuarios));
     }
 
 
@@ -89,23 +88,22 @@ class ProfesionalController extends \BaseController {
      */
     public function edit($id)
     {
-
-                $profesional = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
-                        ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
-                        ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')
-                        ->leftJoin('users', 'users.id', '=', 'profesionales.user_id')
-                                ->groupBy('profesionales.id')
-                        ->select('sedes.nombre','profesionales.id as p_id','profesionales.*','users.firstname as u_n','users.lastname as u_a','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'), DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))->find($id);
-                $sedes_pid = explode(',',$profesional->sedes_pid);
+        $profesional = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
+                ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
+                ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')
+                ->leftJoin('users', 'users.id', '=', 'profesionales.user_id')
+                        ->groupBy('profesionales.id')
+                ->select('sedes.nombre','profesionales.id as p_id','profesionales.*','users.firstname as u_n','users.lastname as u_a','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'), DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))->find($id);
+        $sedes_pid = explode(',',$profesional->sedes_pid);
 //                if(!is_array($sedes_pid)){
 //                    $sedes_pid = array($sedes_pid);
 //                }
-                //var_dump($sedes_pid);
-                $especialidades = Especialidad::lists('especialidad','id');
-                $sedes = Sedes::get();
-                $profesionales_cuser = Profesional::where('user_id', '!=', 0)->get(array('user_id'))->toArray();
-                $usuarios = User::whereNotIn('id', $profesionales_cuser)->get()->lists('fullname', 'id');
-                return View::make('profesionales.edit')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid, 'usuarios' => $usuarios));
+        //var_dump($sedes_pid);
+        $especialidades = Especialidad::lists('especialidad','id');
+        $sedes = Sedes::get();
+        $profesionales_cuser = Profesional::where('user_id', '!=', 0)->get(array('user_id'))->toArray();
+        $usuarios = User::whereNotIn('id', $profesionales_cuser)->get()->lists('fullname', 'id');
+        return View::make('profesionales.edit')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid, 'usuarios' => $usuarios));
     }
 
 
@@ -157,10 +155,10 @@ class ProfesionalController extends \BaseController {
     public function destroy($id)
     {
         $profesional = Profesional::find($id);
-                //var_dump($profesional);
-                $profesional->activo = 0;
-                $profesional->update();
-                return Redirect::action('ProfesionalController@index')->with('message', 'Profesional eliminado con éxito.');
+        //var_dump($profesional);
+        $profesional->activo = 0;
+        $profesional->update();
+        return Redirect::action('ProfesionalController@index')->with('message', 'Profesional eliminado con éxito.');
     }
 
 
