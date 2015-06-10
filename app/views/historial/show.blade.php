@@ -11,9 +11,12 @@
   </div>
   <div class="top">
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
-              {{ Form::open(array('url'=>'espera/'.$espera, 'method' => 'put')) }}
-              {{ Form::submit('Finalizar') }}
-              {{Form::close()}}
+  @if ($espera_id != 0)
+  {{ Form::open(array('url'=>'espera/'.$espera_id, 'method' => 'put')) }}
+  {{ Form::submit('Finalizar') }}
+  {{ Form::close() }}
+  @endif
+
   @if(Auth::user()->isAdmin())
       @if($paciente->saldo < 0)
               <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}}</span></h2>
