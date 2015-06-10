@@ -54,9 +54,9 @@
     <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', 'Ver',
                 array($paciente->numerohistoria, $presupuesto->id), array('class'=>'botonm')) }}
         <?php if (!$presupuesto->aceptado) { ?>
-          | {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
+          {{ HTML::linkAction('PresupuestosController@editarPresupuesto', 'Editar',
                 array($paciente->numerohistoria, $presupuesto->id), array('class'=>'botonm')) }}
-          | {{ HTML::linkAction('PresupuestosController@aceptarPresupuesto', 'Aceptar',
+          {{ HTML::linkAction('PresupuestosController@aceptarPresupuesto', 'Aceptar',
                 array($paciente->numerohistoria, $presupuesto->id), array('class'=>'botonm')) }}
         <?php } ?>
     </td>
