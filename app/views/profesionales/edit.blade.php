@@ -1,5 +1,9 @@
 @extends('layouts.main')
- 
+
+@section('javascripts')
+    <script src="/js/bgdental.js"></script>
+@stop
+
 @section('contenido')
 {{ Form::open(array('url'=>'profesional/'.$profesional->p_id, 'method' => 'put')) }}
 
@@ -44,5 +48,11 @@
     
 {{ Form::close() }}
 @yield('listado_sedes')
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        initSelectSedes();
+    });
+</script>
 
 @stop
