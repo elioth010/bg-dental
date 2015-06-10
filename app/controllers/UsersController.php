@@ -30,17 +30,13 @@ class UsersController extends BaseController {
             $user->save();
 
             if (Input::has('sede-'.Sedes::TODAS)) {
-                // Todas
                 $user->sedes()->attach(Sedes::TODAS);
             } else {
 
-                $n_sedes = Sedes::count();
-                $i = 1;
-                while ($i <= $n_sedes) {
+                foreach(Sedes::lists('id') as $i) {
                     if (Input::has('sede-' . $i)) {
                         $user->sedes()->attach($i);
                     }
-                    $i++;
                 }
             }
 
@@ -80,7 +76,7 @@ class UsersController extends BaseController {
                     ->get();
 
         $sedes = Sedes::leftJoin('sedes_users', 'sedes.id', '=', 'sedes_users.sede_id')
-                            ->select('user_id', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))
+                            ->select('user_id', DB::raw('GROUP_CONCAT(sedes.nombre SEPARATOR ", ") as sedes_p'))
                             ->groupBy('user_id')
                             ->lists('sedes_p', 'user_id');
 
@@ -112,17 +108,13 @@ class UsersController extends BaseController {
         $user->sedes()->detach();
 
         if (Input::has('sede-'.Sedes::TODAS)) {
-            // Todas
             $user->sedes()->attach(Sedes::TODAS);
         } else {
 
-            $n_sedes = Sedes::count();
-            $i = 1;
-            while ($i <= $n_sedes) {
+            foreach(Sedes::lists('id') as $i) {
                 if (Input::has('sede-' . $i)) {
                     $user->sedes()->attach($i);
                 }
-                $i++;
             }
         }
 
