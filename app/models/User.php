@@ -73,7 +73,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->group_id == 3;
     }
 
-   public function isMalaga()
+    public function isMalaga()
     {
         //Viewer sólo puede ver guardias y turnos.
         return $this->sede_id == 1;
@@ -85,14 +85,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->sede_id == 2;
     }
 
-     public function isAlgeciras()
+    public function isAlgeciras()
     {
         //Viewer sólo puede ver guardias y turnos.
         return $this->sede_id == 3;
     }
-     public function isTodas()
+
+    public function isTodas()
     {
         //Viewer sólo puede ver guardias y turnos.
-        return $this->sede_id == 4;
+        return $this->sede_id == Sedes::TODAS;
     }
 }

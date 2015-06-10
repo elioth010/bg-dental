@@ -10,16 +10,13 @@
 </ul>
 
 <ul class="labelreg">
-	 <li>{{ Form::label ('firstname', 'Nombre') }}</li>
-     <li>{{ Form::label('lastname', 'Apellidos') }}</li>
-     <li>{{ Form::label('email', 'Correo electrónico') }}</li>
-     <li>{{ Form::label('password', 'Contraseña') }}</li>
-     <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
-     <li>{{Form::select('group_id', $usergroups)}}
-
-  @foreach($sedes as $i => $sede)
-    <input type="Checkbox" name="sede-{{ $sede->id }}" value="1" >{{ $sede->nombre }}</br>
-  @endforeach
+	<li>{{ Form::label ('firstname', 'Nombre') }}</li>
+    <li>{{ Form::label('lastname', 'Apellidos') }}</li>
+    <li>{{ Form::label('email', 'Correo electrónico') }}</li>
+    <li>{{ Form::label('password', 'Contraseña') }}</li>
+    <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
+    <li>Permisos</li>
+    <li>Sedes</li>
 </ul>
 
 <ul class="labelreg2">
@@ -28,8 +25,39 @@
     <li>{{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}   </li>
     <li>{{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}   </li>
     <li>{{ Form::password('password_confirmation', array('class'=>'input-block-level', 'placeholder'=>'Confirm Password')) }}</li>
-	<li>{{ Form::submit('Registrar usuario', array('class'=>'botonl'))}}</li>
+    <li>{{ Form::select('group_id', $usergroups) }}
+    @foreach($sedes as $sede)
+    <div>{{ Form::checkbox('sede-'.$sede->id, 1) }} {{$sede->nombre}}</div>
+    @endforeach
+    <li>{{ Form::submit('Registrar usuario', array('class'=>'botonl'))}}</li>
 </ul>
 
 {{ Form::close() }}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("input[name='sede-4']").change(function() {
+            if($(this).is(":checked")) {
+                marcarSedes(true);
+            } else {
+                marcarSedes(false);
+            }
+        });
+
+        var todas_checked = $("input[name='sede-4']").is(':checked');
+        if (todas_checked) {
+            marcarSedes(true);
+        }
+    });
+
+    function marcarSedes(value) {
+        var inputs = $("input[name^='sede-']");
+        inputs.each(function(index, input){
+            if (input.name != 'sede-4') {
+                input.disabled = value;
+            }
+        });
+    }
+</script>
+
 @stop

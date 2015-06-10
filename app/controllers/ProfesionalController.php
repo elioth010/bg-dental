@@ -105,7 +105,7 @@ class ProfesionalController extends \BaseController {
                 $sedes = Sedes::get();
                 $profesionales_cuser = Profesional::where('user_id', '!=', 0)->get(array('user_id'))->toArray();
                 $usuarios = User::whereNotIn('id', $profesionales_cuser)->get()->lists('fullname', 'id');
-                return View::make('profesionales.editar')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid, 'usuarios' => $usuarios));
+                return View::make('profesionales.edit')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid, 'usuarios' => $usuarios));
     }
 
 
@@ -119,7 +119,7 @@ class ProfesionalController extends \BaseController {
         $user_id = Input::get('user_id');
         $comprobar_unique = Profesional::where('user_id', $user_id)->get();
         if (count($comprobar_unique) > 0) {
-           
+
             return Redirect::action('ProfesionalController@edit', $id)->with('message', 'Usuario ya asignado a otro profesional' );
         } else {
             $profesional = Profesional::find($id);

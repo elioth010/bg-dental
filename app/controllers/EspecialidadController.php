@@ -45,7 +45,7 @@ class EspecialidadController extends \BaseController {
      */
     public function show($id)
     {
-        
+
     }
 
 
@@ -58,7 +58,7 @@ class EspecialidadController extends \BaseController {
     public function edit($id)
     {
         $especialidad = Especialidad::find($id);
-        return View::make('especialidades.editar')->with('especialidad', $especialidad);
+        return View::make('especialidades.edit')->with('especialidad', $especialidad);
     }
 
 
