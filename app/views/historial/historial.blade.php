@@ -157,12 +157,13 @@
     </table>
     <br/>
     <h2>Presupuestos abiertos</h2>
-    <p>Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:</p>
+
 
         <?php if (empty($presupuestos)) { ?>
-            TODO: El paciente no tiene presupuestos abiertos.
+            El paciente no tiene presupuestos abiertos.
         <?php } else { ?>
-        // TODO div
+
+            <p>Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:</p>
         <div>
 
         @foreach($presupuestos as $presupuesto)
