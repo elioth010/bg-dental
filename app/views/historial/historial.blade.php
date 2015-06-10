@@ -16,9 +16,9 @@
               {{Form::close()}}
   @if(Auth::user()->isAdmin())
       @if($paciente->saldo < 0)
-              <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}}</span></h2>
+              <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}} €</span></h2>
       @else
-              <h2>Saldo: <span style = "color: green"> {{$paciente->saldo}}</span></h2>
+              <h2>Saldo: <span style = "color: green"> {{$paciente->saldo}} €</span></h2>
       @endif
       {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
       {{Form::hidden('paciente_id', $paciente->id)}}
@@ -29,7 +29,7 @@
   
   
         @if($p_d_c > 0)
-            <h2>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}}</span></h2>
+            <h2>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}} €</span></h2>
         @else
             <h2><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
         @endif
@@ -67,7 +67,7 @@
             </td>
             <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }} {{ $profesional->apellido2 }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
-            <td>{{ Form::select('precio', array(), null, array('id' => 's_precios')) }}</td>
+            <td>{{ Form::select('precio', array(), null, array('id' => 's_precios')) }} </td>
             
 
             @if(Auth::user()->isAdmin())
@@ -109,7 +109,7 @@
             </td>
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
             <td>{{ $historial->date }}</td>
-            <td>{{ $historial->precio }}</td>
+            <td>{{ $historial->precio }} €</td>
             @if (Auth::user()->isAdmin())
             <td>@if(Auth::user()->isAdmin())
                 @if($historial->pendiente_de_cobro != 1)
