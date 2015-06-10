@@ -54,7 +54,7 @@ class PresupuestosController extends \BaseController {
     }
 
     // Devuelve un array con la lista de piezas contenidas en un puente o las piezas separadas por comas
-    private function _marcaPiezas($piezas, &$todaslaspiezas) {
+    private function _marcaPiezas($piezas, $imagen, &$todaslaspiezas) {
 
         if ((strpos($piezas, ',')) !== false) { // piezas sueltas
             $laspiezas = explode(',', $piezas);
@@ -85,8 +85,12 @@ class PresupuestosController extends \BaseController {
             $laspiezas = array($piezas);
         }
 
+        if ($imagen === null) {
+            $imagen = 'b';
+        }
+
         foreach ($laspiezas as $k => $v) {
-            $todaslaspiezas[$v] = "/imagenes/piezas/$v" . "b.jpg";
+            $todaslaspiezas[$v] = "/imagenes/piezas/$v$imagen" . ".jpg";
         }
 
     }
@@ -96,7 +100,7 @@ class PresupuestosController extends \BaseController {
                                         ->select('presupuestos.*', 'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1','profesionales.apellido2 as p_a2')
                                         ->find($id);
         $paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
-        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.imagen'));
         $companias_list = Companias::lists('nombre', 'id');
         $total = 0;
         $sede = Sedes::find($presupuesto->sede_id);
@@ -132,7 +136,7 @@ class PresupuestosController extends \BaseController {
             $t->compania_text = $companias_list[$t->compania_id];
 
             if ($t->piezas !== null) {
-                $this->_marcaPiezas($t->piezas, $todaslaspiezas);
+                $this->_marcaPiezas($t->piezas, $t->imagen, $todaslaspiezas);
                 $todaslaspiezas['muestraOdontograma'] = true;
             }
 
@@ -293,7 +297,7 @@ class PresupuestosController extends \BaseController {
         }
 
         $sedes = Sedes::lists('nombre', 'id');
-        unset($sedes[4]); // Todas
+        unset($sedes[Sedes::TODAS]);
 
         return array('grupos' => $grupos,
                     'paciente' => $paciente,
