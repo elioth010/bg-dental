@@ -7,9 +7,9 @@
     <ul class="labelreg5">
         <li>Nombre:</li>
         <li>Apellidos:</li>
-        <li>Mail:</li>
-        <li>Permisos</li>
-        <li>Sedes</li>
+        <li>Correo electrónico:</li>
+        <li>Permisos:</li>
+        <li>Sedes:</li>
     </ul>
 
     <ul class="labelreg5">
