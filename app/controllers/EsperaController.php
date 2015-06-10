@@ -39,7 +39,7 @@ class EsperaController extends \BaseController {
             $espera->admitido = 1;
             $espera->profesional_id = Input::get('profesional_id');
             $espera->save();
-            return Redirect::action('PacientesController@index')->with('message', 'Paciente admitido.');
+            return Redirect::action('PacientesController@index');
         } else {
             return Redirect::action('PacientesController@index')->with('message', 'El paciente ya está en espera.');
         }
