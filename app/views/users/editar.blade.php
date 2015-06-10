@@ -18,7 +18,7 @@
         <li>{{ Form::text('email', $user->email) }}</li>
         <li>{{ Form::select('group_id', $usergroups, $user->group_id) }}</li>
         @foreach($sedes as $sede)
-        {{ Form::checkbox('sede-'.$sede->id, 1, in_array($sede->id, $sedes_pid)) }} {{$sede->nombre}} </br>
+        <div>{{ Form::checkbox('sede-'.$sede->id, 1, in_array($sede->id, $sedes_pid)) }} {{$sede->nombre}}</div>
         @endforeach
         <li>{{ Form::submit('Guardar cambios')}}</li>
         <li>{{--{{ Form::button('Atrás', array('class'=>'botonl'))}}--}}
@@ -26,5 +26,30 @@
 
 {{ Form::close() }}
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("input[name='sede-4']").change(function() {
+            if($(this).is(":checked")) {
+                marcarSedes(true);
+            } else {
+                marcarSedes(false);
+            }
+        });
+
+        var todas_checked = $("input[name='sede-4']").is(':checked');
+        if (todas_checked) {
+            marcarSedes(true);
+        }
+    });
+
+    function marcarSedes(value) {
+        var inputs = $("input[name^='sede-']");
+        inputs.each(function(index, input){
+            if (input.name != 'sede-4') {
+                input.disabled = value;
+            }
+        });
+    }
+</script>
 
 @stop

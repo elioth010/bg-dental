@@ -17,9 +17,9 @@
      <li>{{ Form::label('password_confirmation', 'Repita la contraseña') }}</li>
      <li>{{Form::select('group_id', $usergroups)}}
 
-  @foreach($sedes as $i => $sede)
-    <input type="Checkbox" name="sede-{{ $sede->id }}" value="1" >{{ $sede->nombre }}</br>
-  @endforeach
+    @foreach($sedes as $sede)
+    <div>{{ Form::checkbox('sede-'.$sede->id, 1) }} {{$sede->nombre}}</div>
+    @endforeach
 </ul>
 
 <ul class="labelreg2">
@@ -32,4 +32,31 @@
 </ul>
 
 {{ Form::close() }}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("input[name='sede-4']").change(function() {
+            if($(this).is(":checked")) {
+                marcarSedes(true);
+            } else {
+                marcarSedes(false);
+            }
+        });
+
+        var todas_checked = $("input[name='sede-4']").is(':checked');
+        if (todas_checked) {
+            marcarSedes(true);
+        }
+    });
+
+    function marcarSedes(value) {
+        var inputs = $("input[name^='sede-']");
+        inputs.each(function(index, input){
+            if (input.name != 'sede-4') {
+                input.disabled = value;
+            }
+        });
+    }
+</script>
+
 @stop
