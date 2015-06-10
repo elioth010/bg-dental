@@ -26,15 +26,15 @@
       {{Form::select('tipos_de_cobro_id', $tipos_de_cobro)}}
       {{ Form::submit('Cobrar anticipo', array('class'=>'botonl'))}}
       {{ Form::close() }}
-  
-  
+
+
         @if($p_d_c > 0)
             <h2>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}}</span></h2>
         @else
             <h2><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
         @endif
   @endif
-  	<div class="overflow">
+	<div class="overflow">
     <table border = "1">
         <tr>
 
@@ -68,7 +68,7 @@
             <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }} {{ $profesional->apellido2 }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
             <td>{{ Form::select('precio', array(), null, array('id' => 's_precios')) }}</td>
-            
+
 
             @if(Auth::user()->isAdmin())
             {{--<td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
@@ -89,9 +89,9 @@
                 <?php $grupos_q = array(158,159,160,161,162,163,164);
                 ?>
                 @if($historial->ayudantia_aplicada != 0 )
-                    {{ $historial->t_n }} Ayudantía aplicada en ID: {{$historial->ayudantia_aplicada}} 
+                    {{ $historial->t_n }} Ayudantía aplicada en ID: {{$historial->ayudantia_aplicada}}
                 @elseif($historial->ayudantia != 1 && in_array($historial->t_id, $grupos_q))
-                    {{ $historial->t_n }} 
+                    {{ $historial->t_n }}
                     {{--Añadir ayudantía. Se copia la misma línea del historial con esa id pero el precio se disminuye un "100% - opción ayudantía" en tabla opciones.--}}
                     {{ Form::open(array('url'=>'historial_clinico/ayudantia')) }}
                     {{ Form::hidden('profesional_id', $profesional->id) }}
@@ -105,7 +105,7 @@
                @else
                     {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
                 @endif
-               
+
             </td>
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
             <td>{{ $historial->date }}</td>

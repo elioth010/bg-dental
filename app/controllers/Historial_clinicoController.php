@@ -255,7 +255,7 @@ class Historial_clinicoController extends \BaseController {
             $presupuestos = array();
         }
 
-        return View::make('historial.historial')->with($data)
+        return View::make('historial.show')->with($data)
                                                 ->with('paciente', $paciente)
                                                 ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                                              'presupuestos' => $presupuestos))->with('tipos_de_cobro', $tipos_de_cobro)
