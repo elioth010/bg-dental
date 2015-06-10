@@ -29,6 +29,9 @@ class ProfesionalController extends \BaseController {
         $especialidades = Especialidad::lists('especialidad','id');
         $usuarios = User::get()->lists('fullname', 'id');
 
+        $profesionales_cuser = Profesional::where('user_id', '!=', 0)->lists('user_id');
+        $usuarios = User::whereNotIn('id', $profesionales_cuser)->get()->lists('fullname', 'id');
+        $usuarios[0] = '-- Ninguno --';
         return View::make('profesionales.index', array('profesionales' => $profesionales, 'especialidades'=> $especialidades, 'sedes' => $sedes, 'usuarios' => $usuarios));
     }
 
@@ -89,7 +92,7 @@ class ProfesionalController extends \BaseController {
                 ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')
                 ->leftJoin('users', 'users.id', '=', 'profesionales.user_id')
                 ->groupBy('profesionales.id')
-                ->select('sedes.nombre','profesionales.id as p_id','profesionales.*','users.firstname as u_n','users.lastname as u_a','especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'), DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))
+                ->select('sedes.nombre','profesionales.id as p_id','profesionales.*','users.firstname as u_n','users.lastname as u_a','especialidades.*', DB::raw('GROUP_CONCAT(sedes.id) as sedes_pid'))
                 ->find($id);
         $sedes_pid = explode(',', $profesional->sedes_pid);
 
@@ -97,6 +100,8 @@ class ProfesionalController extends \BaseController {
         $sedes = Sedes::get();
         $profesionales_cuser = Profesional::where('user_id', '!=', 0)->lists('user_id');
         $usuarios = User::whereNotIn('id', $profesionales_cuser)->get()->lists('fullname', 'id');
+        $usuarios[0] = '-- Ninguno --';
+        asort($usuarios);
         return View::make('profesionales.edit')->with('profesional',$profesional)->with('sedes', $sedes)->with('especialidades', $especialidades)->with(array('sedes_pid'=>$sedes_pid, 'usuarios' => $usuarios));
     }
 

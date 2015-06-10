@@ -23,7 +23,7 @@
     <li>@if($profesional->user_id > 0)
         {{ Form::select('user_id', array($profesional->u_id => $profesional->u_n.', '.$profesional->u_a.'  '.$profesional->u_a2.' (asigando actualmente)')+$usuarios, $profesional->user_id) }}
         @else
-        {{ Form::select('user_id', $usuarios, 'Asigne un usuario' ) }}
+        {{ Form::select('user_id', $usuarios, 0 ) }}
         @endif
     </li>
     @foreach($sedes as $sede)
