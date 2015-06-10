@@ -51,19 +51,22 @@ class ProfesionalController extends \BaseController {
         $profesional-> activo = 1;
         $profesional->user_id = Input::get('user_id');
         $profesional->save();
-        $sedes = Sedes::count();
-        $i = 1;
 
-        // TODO: no hacer bucle sino loop de sedes
-        while($i<=$sedes) {
-            if(Input::has('sede-'.$i)) {
-                $sede_profesional = Input::get('sede-'.$i);
-                $profesional->sedes()->attach($sede_profesional);
+        if (Input::has('sede-'.Sedes::TODAS)) {
+            $profesional->sedes()->attach(Sedes::TODAS);
+        } else {
+
+            // TODO: no hacer bucle sino loop de sedes
+            $n_sedes = Sedes::count();
+            $i = 1;
+            while ($i <= $n_sedes) {
+                if (Input::has('sede-' . $i)) {
+                    $profesional->sedes()->attach($i);
+                }
+                $i++;
             }
-            $i++;
         }
 
-        echo "Profesional guardado";
         return Redirect::action('ProfesionalController@index');
     }
 
@@ -129,19 +132,23 @@ class ProfesionalController extends \BaseController {
 
             $profesional->user_id = $user_id;
             $profesional->update();
-//                $profesional->update(Input::all());
             $profesional->sedes()->detach();
-            $num_sedes = Sedes::count();
-            $i = 1;
-            while ($i <= $num_sedes) {
 
-                if (Input::has('sede-' . $i)) {
-                    $sede_id = Input::get('sede-' . $i);
-                    $profesional->sedes()->attach($sede_id);
+            if (Input::has('sede-'.Sedes::TODAS)) {
+                $user->sedes()->attach(Sedes::TODAS);
+            } else {
+
+                // TODO: no hacer bucle sino loop de sedes
+                $n_sedes = Sedes::count();
+                $i = 1;
+                while ($i <= $n_sedes) {
+                    if (Input::has('sede-' . $i)) {
+                        $user->sedes()->attach($i);
+                    }
+                    $i++;
                 }
-                $i++;
             }
-            //return;
+
             return Redirect::action('ProfesionalController@index')->with('message', 'Profesional modificado con éxito.');
         }
     }
