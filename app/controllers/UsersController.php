@@ -29,9 +29,9 @@ class UsersController extends BaseController {
             $user->group_id = Input::get('group_id');
             $user->save();
 
-            if (Input::has('sede-4')) {
+            if (Input::has('sede-'.Sedes::TODAS)) {
                 // Todas
-                $user->sedes()->attach(4);
+                $user->sedes()->attach(Sedes::TODAS);
             } else {
 
                 $n_sedes = Sedes::count();
@@ -111,9 +111,9 @@ class UsersController extends BaseController {
         $user->update();
         $user->sedes()->detach();
 
-        if (Input::has('sede-4')) {
+        if (Input::has('sede-'.Sedes::TODAS)) {
             // Todas
-            $user->sedes()->attach(4);
+            $user->sedes()->attach(Sedes::TODAS);
         } else {
 
             $n_sedes = Sedes::count();
