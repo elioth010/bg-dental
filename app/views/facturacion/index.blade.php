@@ -41,7 +41,7 @@
                 <td class = "td_centrado">{{$historial->fecha}}</td>
                 {{ Form::open(array('url'=>'facturacion/'.$historial->h_id, 'method' => 'put')) }}
                 {{Form::hidden('id-'.$i, $historial->h_id)}}
-                <td>{{$historial->coste_lab}}</td>
+                <td>{{$historial->coste_lab}} €</td>
                     <td class = "td_centrado">
                         @if(Auth::user()->isAsesor())
                             @if($historial->abonado_quiron != 1)

@@ -11,14 +11,17 @@
   </div>
   <div class="top">
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
-              {{ Form::open(array('url'=>'espera/'.$espera, 'method' => 'put')) }}
-              {{ Form::submit('Finalizar') }}
-              {{Form::close()}}
+  @if ($espera_id != 0)
+  {{ Form::open(array('url'=>'espera/'.$espera_id, 'method' => 'put')) }}
+  {{ Form::submit('Finalizar') }}
+  {{ Form::close() }}
+  @endif
+
   @if(Auth::user()->isAdmin())
       @if($paciente->saldo < 0)
-              <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}}</span></h2>
+              <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}} €</span></h2>
       @else
-              <h2>Saldo: <span style = "color: green"> {{$paciente->saldo}}</span></h2>
+              <h2>Saldo: <span style = "color: green"> {{$paciente->saldo}} €</span></h2>
       @endif
       {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
       {{Form::hidden('paciente_id', $paciente->id)}}
@@ -26,15 +29,15 @@
       {{Form::select('tipos_de_cobro_id', $tipos_de_cobro)}}
       {{ Form::submit('Cobrar anticipo', array('class'=>'botonl'))}}
       {{ Form::close() }}
-  
-  
+
+
         @if($p_d_c > 0)
-            <h2>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}}</span></h2>
+            <h2>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}} €</span></h2>
         @else
             <h2><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
         @endif
   @endif
-  	<div class="overflow">
+	<div class="overflow">
     <table border = "1">
         <tr>
 
@@ -67,8 +70,10 @@
             </td>
             <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }} {{ $profesional->apellido2 }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
+
             <td>{{ Form::select('precio', array(), null, array('id' => 's_precios')) }}</td>
-            
+
+
 
             @if(Auth::user()->isAdmin())
             {{--<td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
@@ -89,9 +94,9 @@
                 <?php $grupos_q = array(158,159,160,161,162,163,164);
                 ?>
                 @if($historial->ayudantia_aplicada != 0 )
-                    {{ $historial->t_n }} Ayudantía aplicada en ID: {{$historial->ayudantia_aplicada}} 
+                    {{ $historial->t_n }} Ayudantía aplicada en ID: {{$historial->ayudantia_aplicada}}
                 @elseif($historial->ayudantia != 1 && in_array($historial->t_id, $grupos_q))
-                    {{ $historial->t_n }} 
+                    {{ $historial->t_n }}
                     {{--Añadir ayudantía. Se copia la misma línea del historial con esa id pero el precio se disminuye un "100% - opción ayudantía" en tabla opciones.--}}
                     {{ Form::open(array('url'=>'historial_clinico/ayudantia')) }}
                     {{ Form::hidden('profesional_id', $profesional->id) }}
@@ -105,11 +110,11 @@
                @else
                     {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
                 @endif
-               
+
             </td>
             <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
             <td>{{ $historial->date }}</td>
-            <td>{{ $historial->precio }}</td>
+            <td>{{ $historial->precio }} €</td>
             @if (Auth::user()->isAdmin())
             <td>@if(Auth::user()->isAdmin())
                 @if($historial->pendiente_de_cobro != 1)
@@ -157,12 +162,13 @@
     </table>
     <br/>
     <h2>Presupuestos abiertos</h2>
-    <p>Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:</p>
+
 
         <?php if (empty($presupuestos)) { ?>
-            TODO: El paciente no tiene presupuestos abiertos.
+            El paciente no tiene presupuestos abiertos.
         <?php } else { ?>
-        // TODO div
+
+            <p>Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:</p>
         <div>
 
         @foreach($presupuestos as $presupuesto)

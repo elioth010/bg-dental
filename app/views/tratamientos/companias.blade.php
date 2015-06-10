@@ -7,8 +7,7 @@
   
     <table border = "1">
       <tr>
-      <th>Id
-      </th><th>Nombre
+      <th>Nombre
       </th><th>Código
       </th><th>Comentarios
       </th>
@@ -16,7 +15,7 @@
       
       @foreach($companias as $companias)
         <tr>
-        <td>{{$companias->id}}</td>
+        
         <td>{{ HTML::linkAction('CompaniasController@edit', $companias->nombre, $companias->id) }}</td>
         <td>{{$companias->codigo}}</td>
         <td>{{$companias->comentarios}}</td>

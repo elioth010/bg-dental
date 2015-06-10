@@ -297,7 +297,7 @@ class PresupuestosController extends \BaseController {
         }
 
         $sedes = Sedes::lists('nombre', 'id');
-        unset($sedes[4]); // Todas
+        unset($sedes[Sedes::TODAS]);
 
         return array('grupos' => $grupos,
                     'paciente' => $paciente,

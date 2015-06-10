@@ -220,10 +220,11 @@ class Historial_clinicoController extends \BaseController {
                 ->orderBy('id', 'DESC')
                 ->get();
         $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->where('paciente_id', $id)->sum('precio');
-        
+
         $presupuestos = Presupuestos::where('numerohistoria', $paciente->numerohistoria)->where('aceptado', 1)
                                     ->orderBy('created_at', 'DESC')->get();
 
+        $hay_presupuestos = false;
         foreach ($presupuestos as $p) {
             $presu_trats = $p->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
             $include = false;
@@ -236,24 +237,30 @@ class Historial_clinicoController extends \BaseController {
 
             if ($include) {
                 $p->presu_tratamientos = $presu_trats;
+                $hay_presupuestos = true;
             } else {
                 $p->presu_tratamientos = array();
             }
-
         }
+
         $data = $this->_data_aux_historial($paciente);
         $tipos_de_cobro = Tipos_de_cobro::lists('nombre', 'id');
         if($paciente->saldo <= 0){
             unset($tipos_de_cobro[1]);
         }
-        $espera = Espera::where('paciente_id', $paciente->id)->where('admitido', 1)->firstOrFail();
-        
-        
-        return View::make('historial.historial')->with($data)
+        $espera = Espera::where('paciente_id', $id)->where('admitido', 1)->first();
+        $espera = $espera === null ? 0 : $espera->id;
+
+        // no hay presupuestos que mostrar porque todos tienen los tratamientos realizados
+        if (!$hay_presupuestos) {
+            $presupuestos = array();
+        }
+
+        return View::make('historial.show')->with($data)
                                                 ->with('paciente', $paciente)
                                                 ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                                              'presupuestos' => $presupuestos))->with('tipos_de_cobro', $tipos_de_cobro)
-                                                ->with('p_d_c', $p_d_c)->with('espera', $espera->id);
+                                                ->with('p_d_c', $p_d_c)->with('espera_id', $espera);
 
     }
 
