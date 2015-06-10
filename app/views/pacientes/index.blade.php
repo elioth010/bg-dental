@@ -24,7 +24,7 @@
         </tr>
         @foreach($pacientes as $paciente)
         <tr>
-            <td>{{ HTML::linkAction('PacientesController@edit',  $paciente->numerohistoria, $paciente->id) }}</td>
+            <td>{{ HTML::linkAction('PacientesController@edit',  $paciente->numerohistoria, $paciente->paciente_id) }}</td>
             <td>{{ $paciente->nombre }}</td>
             <td>{{ $paciente->apellido1." ".$paciente->apellido2 }}</td>
             <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</td>
