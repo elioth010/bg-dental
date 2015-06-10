@@ -1,9 +1,11 @@
 @extends('layouts.main')
 
 @section('contenido')
+<div class="roll">
 <h2>Guardias {{$sede->nombre}}</h2>
 @if(Auth::user()->isAdmin())
-{{HTML::linkAction('GuardiaController@editMonth', 'Editar guardias del mes', array($sede->id, $year, $month)) }}
+<span style="margin:5px 0">{{HTML::linkAction('GuardiaController@editMonth', 'Editar guardias del mes', array($sede->id, $year, $month), array('class' => 'btn')) }}</span>
 @endif
-{{ $calendario }}
+<p>{{ $calendario }}</p>
 @stop
+</div>

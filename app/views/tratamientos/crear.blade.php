@@ -3,7 +3,7 @@
 @section('contenido')
 {{ Form::open(array('url'=>'tratamientos/guardar')) }}
     <h1>Creación de tratamientos:</h1>
-    <ul class="labelreg3">
+    <ul class="labelreg5">
     <li>Grupo: </li>
     <li>Código: </li>
     <li>Nombre: </li>
@@ -22,7 +22,8 @@
     <li>{{ Form::select('imagen_id', $imagenes) }}</li>
     <li>{{ Form::select('tipotratamiento', $tipostratamientos) }}</li>
     <li>Quirófano: {{Form::checkbox('quirofano')  }}</li>
-    <br><br>
+    <br>
+    <li>{{ Form::submit('Guardar', array('class'=>'botonl'))}}</li><br>
 	</ul>
 	<div class="overflow">
     <table>
@@ -49,7 +50,7 @@
 
 	</ul>
     
-	</div>{{ Form::submit('Guardar', array('class'=>'botonl'))}}
+	</div>
     {{ Form::close() }}
 @stop
 
