@@ -4,12 +4,7 @@ class GuardiaController extends \BaseController {
 
     public function index() {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $sede_ids = array();
-        foreach($user->sedes as $sede) {
-            $sede_ids[] = $sede->id;
-        }
-
-        $sedes = Sedes::whereIn('id', $sede_ids)->get();
+        $sedes = Sedes::where('id', '!=', 4)->get();
 
         return View::make('guardias.index')->with(array('sedes' => $sedes));
     }

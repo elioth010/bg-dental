@@ -4,16 +4,11 @@ class TurnoController extends \BaseController {
 
     public function index() {
         $user = User::where('id', Auth::id())->firstOrFail();
-        $sede_ids = array();
-        foreach($user->sedes as $sede) {
-            $sede_ids[] = $sede->id;
-        }
-
         $sedes = Sedes::where('id', '!=', 4)->get();
 
         return View::make('turnos.index')->with(array('sedes' => $sedes));
     }
-    
+
     public function incidencias()
     {
         $incidencias = Turnos::where('incidencia', 1)
