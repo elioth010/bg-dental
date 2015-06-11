@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Tratamientos
+@stop
+
 @section('contenido')
 {{ Form::open(array('url'=>'tratamientos/guardar')) }}
     <h1>Creación de tratamientos:</h1>
@@ -11,10 +15,10 @@
     <li>Tipo de tratamiento: </li>
     <br><br>
 	</ul>
-    
-    
-    
-    
+
+
+
+
     <ul class="labelreg3">
     <li>{{ Form::select('grupostratamientos_id', $grupos) }}</li>
     <li>{{ Form::text('codigo', null, array('placeholder'=>'código')) }}</li>
@@ -49,8 +53,7 @@
     <li></li>
 
 	</ul>
-    
+
 	</div>
     {{ Form::close() }}
 @stop
-

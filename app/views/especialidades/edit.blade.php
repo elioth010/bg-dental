@@ -1,7 +1,11 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Editar especialidad
+@stop
+
 @section('contenido')
-{{ Form::open(array('url'=>'especialidad/'.$especialidad->id, 'method' => 'put')) }}     
+{{ Form::open(array('url'=>'especialidad/'.$especialidad->id, 'method' => 'put')) }}
 <div class="tbl_izq">
     <h1>Edición de Especialidad</h1>
     <ul class="labelreg4">
@@ -19,4 +23,3 @@
 @yield('listado_especs')
 </div>
 @stop
- 

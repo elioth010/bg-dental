@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Presupuesto
+@stop
+
 @section('contenido')
 
    	<div class="overflow">

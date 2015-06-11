@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Tratamientos
+@stop
+
 @section('ceeseeses')
 <style>
 	tbody {

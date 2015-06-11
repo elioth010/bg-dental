@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Pacientes
+@stop
+
 @section('contenido')
 
   <div class="search">

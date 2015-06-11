@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Guardias
+@stop
+
 @section('contenido')
 <div class="roll">
 <h2>Guardias {{$sede->nombre}}</h2>

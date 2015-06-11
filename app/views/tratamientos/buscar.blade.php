@@ -1,8 +1,12 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Tratamientos
+@stop
+
 @section('contenido')
 
-{{ Form::open(array('url'=>'tratamientos/busqueda')) }}     
+{{ Form::open(array('url'=>'tratamientos/busqueda')) }}
     <h1>Búsqueda de tratamientos</h1>
     {{ Form::text('nombre', null, array('placeholder'=>'Nombre')) }}
     {{ Form::text('codigo', null, array('placeholder'=>'Código Quirón')) }}

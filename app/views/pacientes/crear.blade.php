@@ -1,5 +1,9 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Crear paciente
+@stop
+
 @section('contenido')
 
     @if ($errors->has())
@@ -10,9 +14,9 @@
 
     @endif
 
-{{ Form::open(array('url'=>'paciente')) }}     
+{{ Form::open(array('url'=>'paciente')) }}
     <h1>Datos del nuevo paciente</h1>
-    
+
 
 <ul class="labelreg5">
  	<li>NHC</li>
@@ -29,7 +33,7 @@
     <li>Género</li>
     <li>Compañía:</li>
     <li>2ª Compañía opc.:</li>
- 
+
 </ul>
 
 <ul class="labelreg3">
@@ -49,7 +53,7 @@
     <?php $companias[0] = "--ninguna--";
             asort($companias);?>
     <li>{{ Form::select('compania2', $companias, null) }} </li>
-        <br>    
+        <br>
     <li>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}</li>
     <li>{{--{{HTML::link('previous', 'volver')}}--}}</li>
 

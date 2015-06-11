@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 @include('includes.head')
 @yield('metas')
 @yield('javascripts')
 @yield('ceeseeses')
-  </head>
+</head>
 
  <body>
  <div id="wrapper">

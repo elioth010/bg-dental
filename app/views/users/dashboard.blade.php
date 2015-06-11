@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Panel de usuarios
+@stop
+
 @section('contenido')
 <h1>Gestión de usuarios:</h1>
 {{ HTML::link('users/register', 'Dar de alta un nuevo usuario', array('class' => 'btn')) }}

@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Guardias
+@stop
+
 @section('contenido')
 
 <h1>Elija una sede</h1>

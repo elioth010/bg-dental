@@ -1,5 +1,9 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Cobros
+@stop
+
 @section('contenido')
  <h3>
   Cobros:
@@ -13,7 +17,7 @@
       <th>Tipo de cobro</th>
       <th>Fecha de cobro</th>
       </tr>
-      
+
       @foreach($cobros as $cobro)
         <tr>
         <td>{{$cobro->p_n}}</td>
@@ -23,6 +27,6 @@
         <td>{{$cobro->created_at}}</td>
         </tr>
       @endforeach
-      
+
     </table>
 @stop

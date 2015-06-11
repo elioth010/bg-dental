@@ -4,6 +4,10 @@
     <script src="/js/bgdental.js"></script>
 @stop
 
+@section('title')
+    Profesionales
+@stop
+
 @section('contenido')
 {{ Form::open(array('url'=>'profesional/'.$profesional->p_id, 'method' => 'put')) }}
 

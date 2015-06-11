@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Turnos
+@stop
+
 @section('javascripts')
     <script src="/js/turnos.js"></script>
 @stop

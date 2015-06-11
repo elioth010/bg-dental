@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Editar tratamiento
+@stop
+
 @section('contenido')
     <h1>Edición de tratamiento</h1>
 

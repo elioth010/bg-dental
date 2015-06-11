@@ -1,5 +1,9 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Estadísticas
+@stop
+
 @section('contenido')
 	<div class="labelreg3">
  <h3>Estadísticas:</h3>
@@ -27,8 +31,8 @@
      <td>{{$item->t_n}}</td>
      <td>{{$item->precio}}
     @endforeach
- </table>   
+ </table>
  @endforeach
 
- </div>  
+ </div>
 @stop

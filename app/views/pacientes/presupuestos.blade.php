@@ -1,7 +1,11 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Presupuestos
+@stop
+
 @section('contenido')
-    
+
 <div>
     <h1>Presupuestos del paciente:</h1>
     <table border = "1">
@@ -18,14 +22,14 @@
 	    </td>
 	 </tr>
       </table>
-     
+
 </div>
 <div>
       {{{ $presupuesto or 'No existen presupuestos para este paciente. ¿Crear uno?' }}}
-      
+
 <table>
   <tr>
-    
+
     <th>Id:</th>
     <th>Creado:</th>
     <th>Actualizado:</th>
@@ -35,7 +39,7 @@
     <th>Creado por</th>
     <th>Profesiona</th>
     <th>Aceptado</th>
-    
+
     <th>{{$presupuesto->id}}</th>
     <th>{{$presupuesto->created_at}}</th>
     <th>{{$presupuesto->updated_at}}</th>
@@ -47,8 +51,8 @@
     <th>{{$presupuesto->aceptado}}</th>
   </tr>
 </table>
-      
-      
+
+
 
 
 </div>

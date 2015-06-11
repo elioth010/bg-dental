@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Tratamientos
+@stop
+
 @section('contenido')
 	<div class="overflow">
     <h1>Búsqueda de tratamientos</h1>

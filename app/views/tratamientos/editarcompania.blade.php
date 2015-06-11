@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Editar compañía
+@stop
+
 @section('contenido')
     <h1>Edición de compañía</h1>
 
@@ -11,7 +15,7 @@
     </ul>
      <br>{{ HTML::link('tratamientos/borrarcompania/'.$compania->id, 'Eliminar esta compañía') }}<br>
     {{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}
-    
+
     {{ Form::close() }}
 
 

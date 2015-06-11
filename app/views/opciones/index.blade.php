@@ -1,5 +1,9 @@
 @extends('opciones.crearopciones')
- 
+
+@section('title')
+    Opciones
+@stop
+
 @section('listado_opciones')
  <h3>
   Opciones:
@@ -10,7 +14,7 @@
       <th>Nombre</th>
       <th>Valor</th>
       </tr>
-      
+
       @foreach($opciones as $opcion)
         <tr>
         <td>{{HTML::linkAction('OpcionesController@edit', $opcion->nombre, $opcion->id)}}</td>
@@ -23,6 +27,6 @@
         </td>
         </tr>
       @endforeach
-      
+
     </table>
 @stop

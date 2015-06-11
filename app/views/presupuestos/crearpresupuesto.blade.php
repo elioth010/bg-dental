@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Crear presupuesto
+@stop
+
 @section('javascripts')
     <script src="/js/jquery.maphilight.min.js"></script>
     <script src="/js/presupuestos.js"></script>

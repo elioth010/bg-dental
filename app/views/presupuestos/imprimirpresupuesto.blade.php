@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-      <title>Imprimir presupuesto</title>
+      <title>Imprimir presupuesto nº {{ $presupuesto->id }}</title>
       <meta charset="utf-8">
       <style type="text/css">
       html, body, div, span, applet, object, iframe,

@@ -1,5 +1,9 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Incidencias de turnos
+@stop
+
 @section('contenido')
  <h3>
   Incidencias:
@@ -12,7 +16,7 @@
       <th>Sede</th>
       <th>Incidencia</th>
       </tr>
-      
+
       @foreach($incidencias as $item)
         <tr>
         <td>{{$item->fecha}}</td>
@@ -21,6 +25,6 @@
         <td>{{$item->incidencia_text}}</td>
         </tr>
       @endforeach
-      
+
     </table>
 @stop

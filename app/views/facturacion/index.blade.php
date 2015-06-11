@@ -1,10 +1,14 @@
 @extends('layouts.main')
 
+@section('title')
+    Facturación
+@stop
+
 @section('contenido')
 
- 
+
   <div class="roll">
-      <table>  
+      <table>
           <tr style="background:none;">
               <td style="background:none;color:#333; border:none;">Facturación por intervalo de tiempo:
                   {{ Form::open(array('url'=>'facturacion/cf')) }}
@@ -16,7 +20,7 @@
                   {{ Form::open(array('url'=>'facturacion/nocobrado')) }}
                   {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
                   {{ Form::submit('OK', array('class'=>'botonl'))}}
-                  {{ Form::close() }}                  
+                  {{ Form::close() }}
               </td>
           </tr>
       </table>
@@ -30,10 +34,10 @@
             <th>Costes lab.</th>
             <th>Producción s. Quirón</th>
             <th>Cobrado por profesional</th>
-            
+
         </tr>
         <?php $i = 1;?>
-        
+
         @foreach($historiales as $historial)
             <tr>
                 <td>{{ HTML::link('historial_clinico/'.$historial->p_id, $historial->p_n.', '.$historial->p_a1.' '.$historial->p_a2)}} </td>
@@ -73,11 +77,11 @@
                             @endif
                         @endif
                     </td>
-                    <td> 
+                    <td>
             </tr><?php $i++;?>
         @endforeach
         </td>
-                
+
     </table>{{ Form::submit('Guardar cobros', array('class'=>'botonl'))}}{{Form::close()}}
 	</div>
 </div>

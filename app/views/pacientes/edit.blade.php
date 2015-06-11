@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Editar paciente
+@stop
+
 @section('contenido')
 
 {{ Form::open(array('url'=>'paciente/'.$paciente->id, 'method' => 'put')) }}
