@@ -7,7 +7,7 @@
   </div>
   <div class="top">
 
-  <h3>Pacientes en sala de espera: ({{ count($pacientes) }})</h3>
+  <h3>Pacientes en sala de espera ({{ count($pacientes) }}):</h3>
 
     @if (count($pacientes) > 0)
   	<div>
