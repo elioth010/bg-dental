@@ -27,7 +27,7 @@
 
  {{ html_entity_decode( HTML::link("users/logout", HTML::image("imagenes/exit.png", "Salir", array('title' => 'SALIR')) ) ) }}
  </div>
- 
+
  </header>
 
                     @if(Auth::check())
@@ -52,6 +52,7 @@
 
                     <li>{{ HTML::linkAction('PacientesController@index', 'PACIENTES') }}
                     <ul>
+                        <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
                         <li>{{ HTML::linkAction('PacientesController@create', 'CREAR PACIENTES') }}</li>
                         <li>{{ HTML::linkAction('PacientesController@buscar', 'BUSCAR PACIENTES') }}</li>
                     </ul>
@@ -67,13 +68,10 @@
                         </ul>
                     </li>
                     @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
-                    <li>{{ HTML::link('#', 'PROFESIONALES') }}
+                    <li>{{ HTML::linkAction('FacturacionController@index', 'FACTURACIÓN') }}
                         <ul>
-                            <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
-                            <li>{{ HTML::linkAction('FacturacionController@index', 'FACTURACIÓN') }}</li>
                             <li>{{ HTML::linkAction('EstadisticasController@index', 'ESTADÍSTICAS') }}</li>
                             <li>{{ HTML::linkAction('CobrosController@morosos', 'COBROS PENDIENTES') }}</li>
-
                         </ul>
                     </li>@endif
                     <li>{{ HTML::link('#', 'AGENDA') }}
