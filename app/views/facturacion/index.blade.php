@@ -3,16 +3,16 @@
 @section('contenido')
 
  
-  <div class="top">
+  <div class="roll">
       <table>  
-          <tr>
-              <td>Facturación por intervalo de tiempo:
+          <tr style="background:none;">
+              <td style="background:none;color:#333; border:none;">Facturación por intervalo de tiempo:
                   {{ Form::open(array('url'=>'facturacion/cf')) }}
                   {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
                   {{ Form::submit('OK', array('class'=>'botonl'))}}
                   {{ Form::close() }}
               </td>
-              <td>Facturación pendiente de cobro:
+              <td style="background:none;color:#333; border:none;">Facturación pendiente de cobro:
                   {{ Form::open(array('url'=>'facturacion/nocobrado')) }}
                   {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
                   {{ Form::submit('OK', array('class'=>'botonl'))}}
@@ -21,8 +21,8 @@
           </tr>
       </table>
  <h3>Este mes:</h3>
-  	<div class="labelreg6">
-    <table border = "1">
+  	<div>
+    <table border = "1" style="margin:auto">
         <tr>
             <th>Paciente</th>
             <th>Tratamiento</th>

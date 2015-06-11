@@ -7,8 +7,8 @@
 <h1>Paciente:</h1>
 
  @if (count($pacientes) > 0)
-  	<div class="labelreg6">
-    <table border = "1">
+  	<div>
+    <table border = "1" style="margin:auto">
         <tr>
             <th>NHC</th>
             <th>Nombre</th>

@@ -130,6 +130,11 @@ header{
 	width: 350px;
 	height: 125px;
 	}
+.welcome{
+	float: left;
+	padding-top: 80px;
+	line-height: 20px;
+}
 
 /* navegacion */
 
@@ -179,6 +184,12 @@ header{
 				top:0px;
 			}
 
+
+			.navi > li {
+				float:left;
+				text-align: center;
+				margin: 0 10px;
+			}
 
 /* search */
 
@@ -371,6 +382,13 @@ th {
 .rollwht a:hover{
 	color: black;
 	}
+.btn{
+	background: #ededed; 
+	padding: 5px;
+	border: 1px solid #888;
+	border-radius: 3px;
+	text-transform: uppercase;
+}
 /*  crear clientes */
 
 #crear p{

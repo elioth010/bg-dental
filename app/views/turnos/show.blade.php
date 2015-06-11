@@ -5,6 +5,7 @@
 @stop
 
 @section('contenido')
+<div class="roll">
 <h2>Turnos en la sede {{ $sede->nombre }} ({{ $fecha }})</h2>
 
 {{ $calendario }}
@@ -21,4 +22,5 @@
         $(".selectturnosdia").hide();
     });
 </script>
+</div>
 @stop

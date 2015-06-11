@@ -2,11 +2,10 @@
 
 @section('contenido')
 <h1>Gestión de usuarios:</h1>
-{{ HTML::link('users/register', 'Dar de alta un nuevo usuario.') }}
-
-<h2>Usuarios:</h2>
-
-    <table border="1">
+{{ HTML::link('users/register', 'Dar de alta un nuevo usuario', array('class' => 'btn')) }}
+<div style="overflow:auto; max-height:395px;">
+<h2 style="margin:5px 0 0 190px">Usuarios:</h2>
+    <table border="1" style="margin:auto;">
       <tr>
         <th>Nombre</th>
         <th>Apellidos</th>
@@ -26,4 +25,5 @@
       @endforeach
 
     </table>
+    </div>
 @stop

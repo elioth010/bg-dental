@@ -11,18 +11,17 @@
  <body>
  <div id="wrapper">
      <header>
-      
-         <div class="logo">
-            
-         </div> Bienvenida/o: {{{ isset(Auth::user()->name) ? Auth::user()->lastname : Auth::user()->firstname.' '.Auth::user()->lastname  }}}<br>
+ 	<div class="welcome">
+         Bienvenida/o <span class="bold">{{{ isset(Auth::user()->name) ? Auth::user()->lastname : Auth::user()->firstname.' '.Auth::user()->lastname  }}}</span><br>
      <?php $profesional = Profesional::where('user_id', Auth::user()->id)->first();
      if(isset($profesional)) {
          echo "Profesional: ".$profesional->nombre.", ".$profesional->apellido1." ".$profesional->apellido2;
      } else {
          echo "Este usuario no tiene un profesional asignado";
      }
-     ?>
- <div class="exit">
+     ?></div>
+         <div class="logo"></div>
+         <div class="exit">
 
 <!--  {{ HTML::link('users/logout', HTML::image('imagenes/exit.png', 'Salir')) }} -->
 
