@@ -114,7 +114,7 @@ q:before, q:after {
 		}
 		.tbl_izq{
 		float: right;
-		
+
                 margin-top: 20px;
 		}
 		.datos{
@@ -221,7 +221,7 @@ q:before, q:after {
     @endif
 
   	</br>
-
+    <div class="datos1">Fecha de emisión: {{ $presupuesto->created_at }}</div>
     <div>
     <table class="tabla">
       <tr class="grey">
