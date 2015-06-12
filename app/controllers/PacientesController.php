@@ -83,13 +83,13 @@ class PacientesController extends BaseController {
                                     ->get();
             $espera = Espera::where('admitido', 1)->leftJoin('profesionales', 'espera.profesional_id', '=', 'profesionales.id')->select('paciente_id', 'profesionales.*')
                     ->where('profesionales.activo', 1)->get();
-            var_dump($espera);
+            
             foreach($pacientes as $paciente)
             {
                 if(isset($espera[$paciente->id]))
                 {
                     $paciente->admitido = 1;
-                    $paciente->prof_asignado = $espera->nombre.', '.$espera->apellido1.' '.$espera->apellido2;
+                    //$paciente->prof_asignado = $espera->nombre.', '.$espera->apellido1.' '.$espera->apellido2;
                 }
             }
             $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
