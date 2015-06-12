@@ -1,5 +1,9 @@
 @extends('tratamientos.creargrupo')
- 
+
+@section('title')
+    Grupos de tratamientos
+@stop
+
 @section('listado_grps')
  <h3>
   Grupos:

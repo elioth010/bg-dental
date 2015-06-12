@@ -1,9 +1,13 @@
 @extends('sedes.crearsede')
- 
+
+@section('title')
+    Sedes
+@stop
+
 @section('listado_sedes')
 
  <h3>Sedes:</h3>
-  
+
     <table border = "1">
       <tr>
       <th>Nombre
@@ -16,7 +20,7 @@
       </th><th>Cuenta bancaria
       </th>
       </tr>
-      
+
       @foreach($sedes as $sede)
         <tr>
         <td>{{ HTML::linkAction('SedesController@edit', $sede->nombre,$sede->id) }}</td>
@@ -29,6 +33,6 @@
         <td>{{$sede->cuenta}}</td>
         </tr>
       @endforeach
-      
+
     </table>
 @stop

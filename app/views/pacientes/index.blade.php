@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Pacientes
+@stop
+
 @section('contenido')
 
   <div class="search">
@@ -7,7 +11,7 @@
   </div>
   <div class="top">
 
-  <h3>Pacientes en sala de espera: ({{ count($pacientes) }})</h3>
+  <h3>Pacientes en sala de espera ({{ count($pacientes) }}):</h3>
 
     @if (count($pacientes) > 0)
   	<div>

@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-      <title>Imprimir presupuesto</title>
+      <title>Imprimir presupuesto nº {{ $presupuesto->id }}</title>
       <meta charset="utf-8">
       <style type="text/css">
       html, body, div, span, applet, object, iframe,
@@ -114,7 +114,7 @@ q:before, q:after {
 		}
 		.tbl_izq{
 		float: right;
-		
+
                 margin-top: 20px;
 		}
 		.datos{
@@ -155,7 +155,7 @@ q:before, q:after {
         <li>Dirección: {{ $paciente->Direccion }}
         {{ $paciente->addrnamestre }} {{ $paciente->addrpostcode }} </li>
         <li>Teléfono: {{ $paciente->addrtel1 }} {{ $paciente->addrtel2 }}</li>
-        <li>Nombre del Profesional: Dra./Dr. {{$presupuesto->p_a1}} {{$presupuesto->p_a2}}</li>
+        <li>Dra./Dr. {{$presupuesto->p_a1}} {{$presupuesto->p_a2}}</li>
 	<li class="vista">
     @if ($showpdf)
     PDF: {{ HTML::linkAction('PresupuestosController@imprimirPDF', 'Descargar', array($paciente->numerohistoria, $presupuesto->id), ['target'=>'_blank']) }}
@@ -221,7 +221,7 @@ q:before, q:after {
     @endif
 
   	</br>
-
+    <div class="datos1">Fecha de emisión: {{ $presupuesto->created_at }}</div>
     <div>
     <table class="tabla">
       <tr class="grey">

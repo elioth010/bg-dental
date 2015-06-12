@@ -1,7 +1,11 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Compañías
+@stop
+
 @section('contenido')
-{{ Form::open(array('url'=>'tratamientos/guardarcompania')) }}     
+{{ Form::open(array('url'=>'tratamientos/guardarcompania')) }}
 <div class="tbl_izq">
     <h1>Creación de compañías</h1>
     {{ Form::text('nombre', null, array('placeholder'=>'nombre')) }}

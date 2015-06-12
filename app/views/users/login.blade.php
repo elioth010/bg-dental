@@ -1,5 +1,9 @@
 @extends('layouts.loginmain')
 
+@section('title')
+    Entrada
+@stop
+
 @section('contenido')
 
 {{ Form::open(array('url'=>'users/signin', 'class'=>'form-signin')) }}

@@ -1,6 +1,10 @@
 @extends('layouts.main')
 @include('includes.buscar_p')
 
+@section('title')
+    Pacientes
+@stop
+
 @section('contenido')
 @yield('buscar_p')
 <div class="overflow">
@@ -64,7 +68,7 @@
          {{ Form::open(array('url'=>'espera/'.$paciente->id, 'method' => 'put')) }}
          <td>
                 {{Form::select('profesional_id', $profesionales)}}
-                
+
             </td>
            @if (isset($paciente->admitido) && ($paciente->admitido == 1))
         <td>{{$paciente->p_n}}, {{$paciente->p_a1}} {{$paciente->p_a2}}</td>

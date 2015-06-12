@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Historial clínico
+@stop
+
 @section('contenido')
 <div class="overflow">
 <h1>Paciente:</h1>

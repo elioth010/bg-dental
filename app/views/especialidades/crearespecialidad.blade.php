@@ -1,7 +1,11 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Crear especialidad
+@stop
+
 @section('contenido')
-{{ Form::open(array('url'=>'especialidad')) }}     
+{{ Form::open(array('url'=>'especialidad')) }}
 <div class="tbl_izq">
     <h1>Creación de Especialidades</h1>
     <ul class="labelreg4">
@@ -19,4 +23,3 @@
 @yield('listado_especs')
 </div>
 @stop
- 

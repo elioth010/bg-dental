@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Usuarios
+@stop
+
 @section('javascripts')
     <script src="/js/bgdental.js"></script>
 @stop

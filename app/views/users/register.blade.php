@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Registro
+@stop
+
 @section('javascripts')
     <script src="/js/bgdental.js"></script>
 @stop
@@ -24,11 +28,11 @@
 </ul>
 
 <ul class="labelreg2">
-    <li>{{ Form::text('firstname', null, array('class'=>'input-block-level', 'placeholder'=>'First Name')) }}  </li>
-    <li>{{ Form::text('lastname', null, array('class'=>'input-block-level', 'placeholder'=>'Last Name')) }} </li>
-    <li>{{ Form::text('email', null, array('class'=>'input-block-level', 'placeholder'=>'Email Address')) }}   </li>
-    <li>{{ Form::password('password', array('class'=>'input-block-level', 'placeholder'=>'Password')) }}   </li>
-    <li>{{ Form::password('password_confirmation', array('class'=>'input-block-level', 'placeholder'=>'Confirm Password')) }}</li>
+    <li>{{ Form::text('firstname', null, array('class'=>'input-block-level')) }}  </li>
+    <li>{{ Form::text('lastname', null, array('class'=>'input-block-level')) }} </li>
+    <li>{{ Form::text('email', null, array('class'=>'input-block-level')) }}   </li>
+    <li>{{ Form::password('password', array('class'=>'input-block-level')) }}   </li>
+    <li>{{ Form::password('password_confirmation', array('class'=>'input-block-level')) }}</li>
     <li>{{ Form::select('group_id', $usergroups) }}
     @foreach($sedes as $sede)
     <div>{{ Form::checkbox('sede-'.$sede->id, 1) }} {{$sede->nombre}}</div>

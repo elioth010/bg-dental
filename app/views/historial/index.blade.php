@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Historial clínico
+@stop
+
 @section('metas')
 <meta http-equiv="refresh" content="30">
 @stop

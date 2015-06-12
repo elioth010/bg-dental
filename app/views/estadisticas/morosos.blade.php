@@ -1,5 +1,9 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Estadísticas: morosos
+@stop
+
 @section('contenido')
 	<div class="labelreg3">
  <h3>Tratamientos pendientes de cobro:</h3>
@@ -9,12 +13,12 @@
  {{ Form::submit('OK', array('class'=>'botonl'))}}
  {{ Form::close() }}
  </div>
- 
+
 
  <div class="overflow">
- 
+
  <h3>Pemdientes de cobro mes actual:</h3></br>
- 
+
  <table>
      <tr>
          <th>Fecha realización</th>
@@ -27,8 +31,8 @@
      <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $item->paciente_id) }}</td>
      <td>{{$item->precio}}
     @endforeach
- </table>   
+ </table>
 
 
- </div>  
+ </div>
 @stop

@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Tratamientos
+@stop
+
 @section('contenido')
 <div class="search">
 	{{ HTML::linkAction('TratamientosController@show', 'Buscar tratamientos') }}</div>

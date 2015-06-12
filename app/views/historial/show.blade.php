@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Historial clínico
+@stop
+
 @section('javascripts')
     <script src="/js/historial.js"></script>
 @stop

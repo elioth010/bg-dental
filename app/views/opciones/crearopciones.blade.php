@@ -1,7 +1,11 @@
 @extends('layouts.main')
- 
+
+@section('title')
+    Crear opción
+@stop
+
 @section('contenido')
-{{ Form::open(array('url'=>'opciones')) }}     
+{{ Form::open(array('url'=>'opciones')) }}
 <div class="tbl_izq">
     <h1>Creación de Opciones</h1>
     <ul class="labelreg4">
@@ -20,4 +24,3 @@
 @yield('listado_opciones')
 </div>
 @stop
- 

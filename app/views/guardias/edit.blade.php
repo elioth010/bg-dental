@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Editar guardia
+@stop
+
 @section('contenido')
 <div class="overflow">
 <h2>Editar Guardias {{ $sede->nombre }}</h2>

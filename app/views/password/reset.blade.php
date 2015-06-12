@@ -1,5 +1,9 @@
 @extends('layouts.loginmain')
 
+@section('title')
+    Cambiar contraseña
+@stop
+
 @section('contenido')
 <br> <br>
 <form action="{{ action('RemindersController@update') }}" method="POST">

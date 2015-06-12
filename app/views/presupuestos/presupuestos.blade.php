@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Presupuestos
+@stop
+
 @section('contenido')
 
 <div>

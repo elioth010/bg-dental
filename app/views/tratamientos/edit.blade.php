@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Editar tratamiento
+@stop
+
 @section('contenido')
     <h1>Edición de tratamiento</h1>
 
@@ -44,11 +48,9 @@
             @endif
         @endforeach
         <br/><br>Imagen: {{ Form::select('imagen_id', $imagenes, $imgselected) }}
-          Quirófano: @if($tratamiento->quirofano != 1)
-        {{Form::checkbox('quirofano')}}
-        @else
-        {{Form::checkbox('quirofano', 1, true)}}
-        @endif
+        <br/>
+        Quirófano:
+        {{ Form::checkbox('quirofano', 1, $tratamiento->quirofano == 1) }}
 
         <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br>
         <br>{{ HTML::link('tratamientos/borrartratamiento/'.$tratamiento->id, 'Eliminar este tratamiento') }}<br>
