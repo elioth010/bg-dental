@@ -108,7 +108,17 @@ class PacientesController extends BaseController {
 
     public function show($id)
     {
-        return Redirect::action('PacientesController@edit', $id);
+        $paciente = Pacientes::where('pacientes.id', $id)
+                        ->leftJoin('companias as c1t', 'c1t.id', '=', 'pacientes.compania')
+                        ->leftJoin('companias as c2t', 'c2t.id', '=', 'pacientes.compania2')
+                        ->select('pacientes.*', 'c1t.nombre as c1', 'c2t.nombre as c2')
+                        ->firstOrFail();
+        if($paciente->c2 == 0)
+        {
+            $paciente->c2 = "Este paciente no tiene ninguna compañía opcional.";
+        }
+        //asort($companias);
+        return View::make('pacientes.show')->with(array('paciente' => $paciente));
     }
 
     public function edit($id)

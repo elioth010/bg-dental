@@ -19,7 +19,7 @@ class TratamientosController extends \BaseController {
 
         $tratamientos = Tratamientos::where('tratamientos.activo', '=', '1')->where('tratamientos.grupostratamientos_id', '=', $grupo)
                 ->leftJoin('precios', 'precios.tratamientos_id', '=', 'tratamientos.id')
-                ->select('tratamientos.id', 'tratamientos.codigo', 'tratamientos.nombre','tratamientos.quirofano', DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
+                ->select('tratamientos.id', 'tratamientos.codigo', 'tratamientos.nombre','tratamientos.quirofano', 'tratamientos.historiable', DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
                 ->groupBy('tratamientos.id')
                 ->get();
 
@@ -70,6 +70,7 @@ class TratamientosController extends \BaseController {
         $tratamiento->activo = Input::get('activo', 1);
         $tratamiento->imagen = Input::get('imagen_id');
         $tratamiento->quirofano = Input::get('quirofano', 0);
+        $tratamiento->historiable = Input::get('historiable', 0);
         $tratamiento->save();
 
         $companias = Companias::all();
@@ -181,6 +182,7 @@ class TratamientosController extends \BaseController {
         $tratamiento->tipostratamientos_id = Input::get('tipotratamiento');
         $tratamiento->activo = Input::get('activo', 1);
         $tratamiento->quirofano = Input::get('quirofano', 0);
+        $tratamiento->historiable = Input::get('historiable', 0);
 
         $imagen = Input::get('imagen_id');
         if ($imagen == "0") {

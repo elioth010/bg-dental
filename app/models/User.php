@@ -53,6 +53,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->group_id == 4;
 
     }
+    
+    public function isHigienista()
+    {
+        //Admin puede todo.
+        return $this->group_id == 6;
+
+    }
+    
+    public function isRecepcion()
+    {
+        //Admin puede todo.
+        return $this->group_id == 7;
+
+    }
 
     public function isAsesor()
     {

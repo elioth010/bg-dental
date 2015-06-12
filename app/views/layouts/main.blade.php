@@ -36,7 +36,7 @@
 
                 <ul class="nav">
 
-                    @if(Auth::user()->isAdmin())
+                @if(Auth::user()->isAdmin())
                     <li>{{ HTML::link('#', 'ADMINISTRACIÓN') }}
                         <ul>
                             <li>{{ HTML::link('users/dashboard', 'PANEL USUARIOS') }}</li>
@@ -48,38 +48,52 @@
                             <li>{{ HTML::linkAction('OpcionesController@index', 'OPCIONES de QDENTAL') }}</li>
                         </ul>
                     </li>
-                    @endif
-
+                @endif
+                @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
                     <li>{{ HTML::linkAction('PacientesController@index', 'PACIENTES') }}
-                    <ul>
-                        <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
-                        <li>{{ HTML::linkAction('PacientesController@create', 'CREAR PACIENTES') }}</li>
-                        <li>{{ HTML::linkAction('PacientesController@buscar', 'BUSCAR PACIENTES') }}</li>
-                    </ul>
+                @endif
+                @if(Auth::user()->isProfesional() )
+                    <li>{{ HTML::link('#', 'PACIENTES') }}
+                @endif
+                        <ul>
+                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())            
+                            <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
+                @endif
+                @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
+                            <li>{{ HTML::linkAction('PacientesController@create', 'CREAR PACIENTES') }}</li>
+                            <li>{{ HTML::linkAction('PacientesController@buscar', 'BUSCAR PACIENTES') }}</li>
+                @endif            
+                        </ul>
                     </li>
+                @if(Auth::user()->isAdmin())    
                     <li>{{ HTML::linkAction('TratamientosController@index', 'TRATAMIENTOS') }}
                         <ul>
                             {{--<li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
                             <li>{{ HTML::linkAction('GruposController@index', 'GRUPOS DE TRATAMIENTOS') }}</li>--}}
-                            @if(Auth::user()->isAdmin())
+                
+                @if(Auth::user()->isAdmin())
                             <li>{{ HTML::linkAction('GruposController@create', 'CREAR GRUPO DE TRATAMIENTOS') }}</li>
                             <li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
-                            @endif
+                @endif
                         </ul>
                     </li>
-                    @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
+                @endif    
+                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
                     <li>{{ HTML::linkAction('FacturacionController@index', 'FACTURACIÓN') }}
                         <ul>
                             <li>{{ HTML::linkAction('EstadisticasController@index', 'ESTADÍSTICAS') }}</li>
                             <li>{{ HTML::linkAction('CobrosController@morosos', 'COBROS PENDIENTES') }}</li>
                         </ul>
-                    </li>@endif
+                    </li>
+                @endif
+                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin()or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
                     <li>{{ HTML::link('#', 'AGENDA') }}
                         <ul>
                             <li>{{ HTML::linkAction('TurnoController@index', 'TURNOS') }}</li>
                             <li>{{ HTML::linkAction('GuardiaController@index', 'GUARDIAS') }}</li>
                         </ul>
                     </li>
+                @endif    
 
                   </ul>
 			 </div>

@@ -20,7 +20,7 @@ class EstadisticasController extends \BaseController {
                     ->select('historial_clinico.*', 'tratamientos.nombre as t_n', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', 'tratamientos.*')
                     ->get();
             $profesionales = Profesional::where('user_id', $usuario)->get();
-            var_dump($facturacion);
+            //var_dump($facturacion);
             return View::make('estadisticas.index')->with('profesionales', $profesionales)->with('facturacion', $facturacion);
         } else {
             $profesionales = Profesional::get();

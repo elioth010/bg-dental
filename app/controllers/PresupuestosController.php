@@ -476,7 +476,10 @@ class PresupuestosController extends \BaseController {
             $users[$u->id] = $u->nombre;
         }
 
-        $presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)->orderBy('updated_at', 'desc')->get();
+        $presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)
+                                        ->select('presupuestos.*', DB::raw("DATE_FORMAT(presupuestos.created_at, '%d/%m/%Y - %H:%i') as creado"), 
+                                                DB::raw("DATE_FORMAT(presupuestos.updated_at, '%d/%m/%Y - %H:%i') as actualizado"))
+                                        ->orderBy('updated_at', 'desc')->get();
 
         $precios = Precios::paciente($numerohistoria);
 

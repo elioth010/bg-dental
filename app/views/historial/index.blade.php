@@ -36,7 +36,7 @@
       @foreach($esperas as $espera)
           <tr>
               <td>{{ $espera->begin }}</td>
-              <td>{{ HTML::linkAction('PacientesController@edit', $espera->numerohistoria, $espera->paciente_id) }}</td>
+              <td>{{ HTML::linkAction('PacientesController@show', $espera->numerohistoria, $espera->paciente_id) }}</td>
               <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Acceder al historial clínico', $espera->paciente_id ) }}</td>
               <td>{{ $espera->nombre }} {{ $espera->apellido1." ".$espera->apellido2 }}</td>
               {{--<td>{{$espera->saldo, '0,00'}} €</td>--}}
