@@ -25,6 +25,7 @@
             {{$opcion->valor}}
             @endif
         </td>
+        <td>{{$opcion->desc}}</td>
         </tr>
       @endforeach
 
