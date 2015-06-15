@@ -91,6 +91,7 @@
                         <ul>
                             <li>{{ HTML::linkAction('TurnoController@index', 'TURNOS') }}</li>
                             <li>{{ HTML::linkAction('GuardiaController@index', 'GUARDIAS') }}</li>
+                            <li>{{ HTML::linkAction('GuardiaController@listado_g', 'LISTADO GUARDIAS') }}</li>
                         </ul>
                     </li>
                 @endif    

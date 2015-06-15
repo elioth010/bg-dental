@@ -32,7 +32,7 @@ class PacientesController extends BaseController {
      */
     public function create()
     {
-        $companias = Companias::lists('nombre', 'id');
+        $companias = Companias::orderBy('nombre')->lists('nombre', 'id');
         return View::make('pacientes.crear')->with(array('companias' => $companias));
     }
 
@@ -47,8 +47,11 @@ class PacientesController extends BaseController {
         $validator = Validator::make(Input::all(), Pacientes::$p_rules);
 
         if ($validator->passes()) {
+            $fecha_nac = explode('/', Input::get('fecha_nac'));
+            $fecha_nac = $fecha_nac[2]."-".$fecha_nac[1]."-".$fecha_nac[0];
             $nuevo_paciente = new Pacientes(Input::all());
             $nuevo_paciente->saldo = 0;
+            $nuevo_paciente->fechanacimiento = $fecha_nac;
             $nuevo_paciente->save();
 
             return Redirect::action('PacientesController@index')->with('message', 'Paciente creado con éxito.');

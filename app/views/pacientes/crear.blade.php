@@ -41,7 +41,7 @@
     <li>{{ Form::text('nombre') }}</li>
     <li>{{ Form::text('apellido1') }} {{ Form::text('apellido2') }}</li>
     <li>{{ Form::text('NIF') }}</li>
-    <li>{{ Form::select('dia', range(1, 31) + array(''=>"Día"), Input::old('dia'))}}{{ Form::selectMonth('mes') }}{{ Form::select('ano', range(1900, 2014) + array(''=>"Año"), Input::old('ano'))}}</li>
+    <li>{{ Form::text('fecha_nac', '', array( 'class' => 'datepicker euros')) }}</li>
     <li>{{ Form::text('addrnamestre') }}</li>
     <li>{{ Form::text('direccion') }}</li>
     <li>{{ Form::text('terrdesc') }}</li>
