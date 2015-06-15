@@ -18,7 +18,8 @@
 </ul>
 
 <ul class="labelreg">
-	<li>{{ Form::label ('firstname', 'Nombre') }}</li>
+    <li>{{ Form::label ('dni', 'D.N.I.') }}</li>
+    <li>{{ Form::label ('firstname', 'Nombre') }}</li>
     <li>{{ Form::label('lastname', 'Apellidos') }}</li>
     <li>{{ Form::label('email', 'Correo electrónico') }}</li>
     <li>{{ Form::label('password', 'Contraseña') }}</li>
@@ -28,6 +29,7 @@
 </ul>
 
 <ul class="labelreg2">
+    <li>{{ Form::text('dni', null, array('class'=>'input-block-level')) }}  </li>
     <li>{{ Form::text('firstname', null, array('class'=>'input-block-level')) }}  </li>
     <li>{{ Form::text('lastname', null, array('class'=>'input-block-level')) }} </li>
     <li>{{ Form::text('email', null, array('class'=>'input-block-level')) }}   </li>

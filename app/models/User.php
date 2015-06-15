@@ -10,6 +10,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 
     public static $rules = array(
+        'dni'=>'required|min:9|unique:users',
         'firstname'=>'required|min:2',
         'lastname'=>'required|min:2',
         'email'=>'required|email|unique:users',
@@ -24,7 +25,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      * @var string
      */
     protected $table = 'users';
-        protected $fillable = array('firstname', 'lastname', 'email', 'group_id', 'sede_id');
+        protected $fillable = array('firstname', 'lastname', 'email', 'group_id', 'sede_id', 'dni');
     /**
      * The attributes excluded from the model's JSON form.
      *
