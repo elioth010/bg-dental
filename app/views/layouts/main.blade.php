@@ -90,6 +90,7 @@
                         <ul>
                             <li>{{ HTML::linkAction('EstadisticasController@index', 'ESTADÍSTICAS') }}</li>
                             <li>{{ HTML::linkAction('CobrosController@morosos', 'COBROS PENDIENTES') }}</li>
+                            <li>{{ HTML::linkAction('CobrosController@index', 'MOVIMIENTOS DE COBRO') }}</li>
                         </ul>
                     </li>
                 @endif
