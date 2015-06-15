@@ -22,6 +22,13 @@
      ?></div>
          <div class="logo"></div>
          <div class="exit">
+             @if(Auth::user()->isAdmin())
+             {{ html_entity_decode( HTML::link("paciente", HTML::image("imagenes/home.png", "Inicio", array('title' => 'Inicio')) ) ) }}
+             @elseif(Auth::user()->isProfesional())
+             {{ html_entity_decode( HTML::link("historial_clinico", HTML::image("imagenes/home.png", "Inicio", array('title' => 'Inicio')) ) ) }}
+             @else
+             {{ html_entity_decode( HTML::link("paciente", HTML::image("imagenes/home.png", "Inicio", array('title' => 'Inicio')) ) ) }}
+             @endif
 
 <!--  {{ HTML::link('users/logout', HTML::image('imagenes/exit.png', 'Salir')) }} -->
 

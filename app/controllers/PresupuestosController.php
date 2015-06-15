@@ -142,7 +142,7 @@ class PresupuestosController extends \BaseController {
 
             $total += $t->precio_final;
         }
-        $validez = Opciones::where('nombre', 'validez_presu')->select('valor')->first();
+        $validez = Opciones::where('nombre', 'validez_presupuesto_meses')->select('valor')->first();
         return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente,
                         'HTTP_HOST' => Request::server("HTTP_HOST"), 'todaslaspiezas' => $todaslaspiezas, 'sede' => $sede, 'validez' => $validez);
     }
