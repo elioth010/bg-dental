@@ -391,6 +391,9 @@ th {
 	border-radius: 3px;
 	text-transform: uppercase;
 }
+.blue a{
+	color: #1271b3 !important;
+}
 /*  crear clientes */
 
 #crear p{
@@ -536,6 +539,10 @@ th {
 }
 .table_cal tbody tr:nth-child(even){
 	min-height: 100px;
+}
+.cal_day{
+	font-weight: bold;
+	color: blue;
 }
 /* select */
 .select_prof{

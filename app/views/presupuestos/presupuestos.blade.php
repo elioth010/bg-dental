@@ -11,16 +11,16 @@
     <p>{{$paciente->nombre}}, {{$paciente->apellido1}} {{$paciente->apellido2}}. NHC: {{$paciente->numerohistoria}}</p>
     <table border = "1">
 	<tr>
-	    <td>NHC:</td>
-	    <td>{{$paciente->numerohistoria}}</td>
-        <td>Nombre:</td>
-        <td>{{$paciente->nombre}}</td>
-	    <td>Apellidos:</td>
-        <td>{{$paciente->apellido1.' '.$paciente->apellido2}}</td>
-        <td>NIF:</td>
-	    <td>{{$paciente->NIF}}</td>
-        <td>Compañía:</td>
-        <td>{{ $paciente->companias_text }}</td>
+	    <th>NHC:</th>
+	    <th>{{$paciente->numerohistoria}}</th>
+        <th>Nombre:</th>
+        <th>{{$paciente->nombre}}</th>
+	    <th>Apellidos:</th>
+        <th>{{$paciente->apellido1.' '.$paciente->apellido2}}</th>
+        <th>NIF:</th>
+	    <th>{{$paciente->NIF}}</th>
+        <th>Compañía:</th>
+        <th>{{ $paciente->companias_text }}</th>
 	 </tr>
       </table>
 
@@ -45,7 +45,7 @@
   </tr>
   @foreach($presupuestos as $presupuesto)
     <tr>
-    <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', $presupuesto->id,
+    <td class="blue">{{ HTML::linkAction('PresupuestosController@verPresupuesto', $presupuesto->id,
                 array($paciente->numerohistoria, $presupuesto->id)) }}</td>
     <td>{{$presupuesto->creado}}</td>
     <td>{{$presupuesto->actualizado}}</td>
