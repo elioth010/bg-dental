@@ -118,6 +118,8 @@ body {
 	overflow: auto;
 	height: 450px;
 }
+.flow{
+	overflow: auto;}
 
 /* header */
 

@@ -13,8 +13,9 @@
   <div class="search">
   {{ HTML::linkAction('Historial_clinicoController@index', 'Buscar pacientes') }}
   </div>
-  <div class="top">
+  <div>
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
+  <div class="roll">
   {{ HTML::linkAction('PacientesController@show','Datos de este paciente', $paciente->id) }}
   @if ($espera_id != 0)
   {{ Form::open(array('url'=>'espera/'.$espera_id, 'method' => 'put')) }}
@@ -42,7 +43,7 @@
             <h2><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
         @endif
   @endif
-	<div class="overflow">
+	<div class="roll">
     <table border = "1">
         <tr>
 
@@ -224,6 +225,7 @@
         <?php } ?>
 
 	</div>
+</div>
 </div>
 
 <script type="text/javascript">
