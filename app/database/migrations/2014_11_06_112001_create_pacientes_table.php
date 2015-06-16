@@ -22,7 +22,7 @@ class CreatePacientesTable extends Migration {
 			$table->char('apellido2',50)->nullable();
 			$table->char('nombre',50)->nullable();
 			$table->char('NIF',50)->nullable();
-			$table->datetime('fechanacimiento')->nullable();
+			$table->date('fechanacimiento')->nullable();
 			$table->char('sexo',10)->nullable();
 			$table->char('Direccion',50)->nullable();
 			$table->char('addrnamestre',50)->nullable();

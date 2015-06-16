@@ -15,6 +15,7 @@
   </div>
   <div class="top">
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
+  {{ HTML::linkAction('PacientesController@show','Datos de este paciente', $paciente->id) }}
   @if ($espera_id != 0)
   {{ Form::open(array('url'=>'espera/'.$espera_id, 'method' => 'put')) }}
   {{ Form::submit('Finalizar') }}
@@ -111,8 +112,10 @@
                     {{ Form::hidden('id_hist_ayudantia', $historial->id) }}
                     {{ Form::submit('Añadir ayudantía', array('class'=>'botonl'))}}
                     {{ Form::close() }}
-               @else
+                @elseif($historial->id_hist_ayudantia != 0)
                     {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
+                @else
+                    {{ $historial->t_n }}
                 @endif
 
             </td>

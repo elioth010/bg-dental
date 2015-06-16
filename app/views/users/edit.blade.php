@@ -13,6 +13,7 @@
 
 <h1>Editar Usuario</h1>
     <ul class="labelreg5">
+        <li>D.N.I.</li>
         <li>Nombre:</li>
         <li>Apellidos:</li>
         <li>Correo electrónico:</li>
@@ -21,6 +22,7 @@
     </ul>
 
     <ul class="labelreg5">
+        <li>{{ Form::text('dni', $user->dni) }}</li>
         <li>{{ Form::text('firstname', $user->firstname) }}</li>
         <li>{{ Form::text('lastname', $user->lastname) }}</li>
         <li>{{ Form::text('email', $user->email) }}</li>

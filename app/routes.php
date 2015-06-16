@@ -76,6 +76,8 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('guardia/{sede}/{year}/{month}', array('as' => 'showMonth', 'uses' => 'GuardiaController@showMonth'));
     Route::put('guardia/{sede}/{year}/{month}', array('as' => 'updateMonth', 'uses' => 'GuardiaController@updateMonth'));
     Route::post('guardia/{sede}/{year}/{month}', array('as' => 'storeMonth', 'uses' => 'GuardiaController@storeMonth'));
+    Route::get('guardia/listado', 'GuardiaController@listado_g');
+    Route::post('guardia/listado', 'GuardiaController@listado_gf');
     Route::resource('guardia', 'GuardiaController');
 
     //Rutas turnos

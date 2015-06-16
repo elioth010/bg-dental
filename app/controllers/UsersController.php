@@ -22,6 +22,7 @@ class UsersController extends BaseController {
         if ($validator->passes()) {
             // validation has passed, save user in DB
             $user = new User;
+            $user->dni = Input::get('dni');
             $user->firstname = Input::get('firstname');
             $user->lastname = Input::get('lastname');
             $user->email = Input::get('email');
@@ -52,7 +53,7 @@ class UsersController extends BaseController {
     }
 
     public function postSignin() {
-        if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))) {
+        if (Auth::attempt(array('dni' => Input::get('dni'), 'password' => Input::get('password')))) {
             Session::put('user_id', Auth::id());
             if(Auth::user()->isAdmin()){
                 return Redirect::to('paciente');
@@ -100,6 +101,7 @@ class UsersController extends BaseController {
    public function putUpdate($id)
     {
         $user = User::find($id);
+        $user->dni = Input::get('dni');
         $user->firstname = Input::get('firstname');
         $user->lastname = Input::get('lastname');
         $user->email = Input::get('email');

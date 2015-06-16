@@ -142,9 +142,9 @@ class PresupuestosController extends \BaseController {
 
             $total += $t->precio_final;
         }
-
+        $validez = Opciones::where('nombre', 'validez_presupuesto_meses')->select('valor')->first();
         return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente,
-                        'HTTP_HOST' => Request::server("HTTP_HOST"), 'todaslaspiezas' => $todaslaspiezas, 'sede' => $sede);
+                        'HTTP_HOST' => Request::server("HTTP_HOST"), 'todaslaspiezas' => $todaslaspiezas, 'sede' => $sede, 'validez' => $validez);
     }
 
     public function verPresupuesto($paciente, $id) {
@@ -176,7 +176,7 @@ class PresupuestosController extends \BaseController {
 
             $total += $t->precio_final;
         }
-
+        
         return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
                                                                      'tratamientos' => $tratamientos,
                                                                      'total' => $total,
@@ -476,7 +476,10 @@ class PresupuestosController extends \BaseController {
             $users[$u->id] = $u->nombre;
         }
 
-        $presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)->orderBy('updated_at', 'desc')->get();
+        $presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)
+                                        ->select('presupuestos.*', DB::raw("DATE_FORMAT(presupuestos.created_at, '%d/%m/%Y') as creado"), 
+                                                DB::raw("DATE_FORMAT(presupuestos.updated_at, '%d/%m/%Y') as actualizado"))
+                                        ->orderBy('updated_at', 'desc')->get();
 
         $precios = Precios::paciente($numerohistoria);
 

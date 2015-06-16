@@ -263,6 +263,7 @@ q:before, q:after {
     </br>
   	<div id="textos">
             <h4>Observaciones: {{$presupuesto->observaciones_p}}</h4>
+            <h3>Este presupuesto tiene una validez de {{$validez->valor}} meses.</h3>
      <h4>Condiciones de pago:</h4>
      <ul>
     <li>• El día citado para el ingreso en el Hospital, se abonará o se presentará el justificante de pago del total del presupuesto en el servicio de Admisión en concepto de depósito.</li>

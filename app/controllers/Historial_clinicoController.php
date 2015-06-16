@@ -106,11 +106,7 @@ class Historial_clinicoController extends \BaseController {
                 $historial->pendiente_de_cobro = 1;
             }
             $historial->id_hist_ayudantia = Input::get('id_hist_ayudantia');
-            //var_dump($historial);
-//            $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
-//            $historial->abonado_quiron = Input::get('abonado_quiron', 0);
-//            $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
-//            $historial->coste_lab = Input::get('coste_lab', 0);
+            $historial->coste_lab = Input::get('coste_lab', 0);
             
             $presupuesto_id = Input::get('presupuesto_id', false);
             if ($presupuesto_id) {
@@ -163,7 +159,7 @@ class Historial_clinicoController extends \BaseController {
             }
         }
 
-        $tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
+        $tratamientosAll = Tratamientos::where('historiable', 1)->get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
 
         $atratamientos = array();
         foreach ($tratamientosAll as $t) {

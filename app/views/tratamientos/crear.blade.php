@@ -26,6 +26,7 @@
     <li>{{ Form::select('imagen_id', $imagenes) }}</li>
     <li>{{ Form::select('tipotratamiento', $tipostratamientos) }}</li>
     <li>Quirófano: {{Form::checkbox('quirofano')  }}</li>
+    <li>Quirófano: {{Form::checkbox('historiable')  }}</li>
     <br>
     <li>{{ Form::submit('Guardar', array('class'=>'botonl'))}}</li><br>
 	</ul>

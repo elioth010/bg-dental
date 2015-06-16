@@ -11,10 +11,12 @@
     <ul class="labelreg4">
     <li>{{ Form::label('nombre', 'Nombre') }}</li>
     <li>{{ Form::label('valor', 'Valor') }}</li>
+    <li>{{ Form::label('desc', 'Descripción') }}</li>
     </ul>
     <ul class="labelreg3">
     <li>{{ Form::text('nombre', null) }}</li>
 	<li>{{ Form::text('valor', null) }}</li>
+        <li>{{ Form::text('desc', null) }}</li>
         <li>Oculto: {{Form::checkbox('oculto')}}</li>
     <li>{{ Form::submit('Guardar opción', array('class'=>'botonl'))}}</li>
 		{{ Form::close() }}

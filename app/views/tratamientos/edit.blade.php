@@ -51,6 +51,9 @@
         <br/>
         Quirófano:
         {{ Form::checkbox('quirofano', 1, $tratamiento->quirofano == 1) }}
+        <br />
+        Historiable:
+        {{ Form::checkbox('historiable', 1, $tratamiento->historiable == 1) }}
 
         <br><br>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}<br>
         <br>{{ HTML::link('tratamientos/borrartratamiento/'.$tratamiento->id, 'Eliminar este tratamiento') }}<br>

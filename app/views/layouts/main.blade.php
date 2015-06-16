@@ -22,6 +22,13 @@
      ?></div>
          <div class="logo"></div>
          <div class="exit">
+             @if(Auth::user()->isAdmin())
+             {{ html_entity_decode( HTML::link("paciente", HTML::image("imagenes/home.png", "Inicio", array('title' => 'Inicio')) ) ) }}
+             @elseif(Auth::user()->isProfesional())
+             {{ html_entity_decode( HTML::link("historial_clinico", HTML::image("imagenes/home.png", "Inicio", array('title' => 'Inicio')) ) ) }}
+             @else
+             {{ html_entity_decode( HTML::link("paciente", HTML::image("imagenes/home.png", "Inicio", array('title' => 'Inicio')) ) ) }}
+             @endif
 
 <!--  {{ HTML::link('users/logout', HTML::image('imagenes/exit.png', 'Salir')) }} -->
 
@@ -36,7 +43,7 @@
 
                 <ul class="nav">
 
-                    @if(Auth::user()->isAdmin())
+                @if(Auth::user()->isAdmin())
                     <li>{{ HTML::link('#', 'ADMINISTRACIÓN') }}
                         <ul>
                             <li>{{ HTML::link('users/dashboard', 'PANEL USUARIOS') }}</li>
@@ -48,38 +55,54 @@
                             <li>{{ HTML::linkAction('OpcionesController@index', 'OPCIONES de QDENTAL') }}</li>
                         </ul>
                     </li>
-                    @endif
-
+                @endif
+                @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
                     <li>{{ HTML::linkAction('PacientesController@index', 'PACIENTES') }}
-                    <ul>
-                        <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
-                        <li>{{ HTML::linkAction('PacientesController@create', 'CREAR PACIENTES') }}</li>
-                        <li>{{ HTML::linkAction('PacientesController@buscar', 'BUSCAR PACIENTES') }}</li>
-                    </ul>
+                @endif
+                @if(Auth::user()->isProfesional() )
+                    <li>{{ HTML::link('#', 'PACIENTES') }}
+                @endif
+                        <ul>
+                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())            
+                            <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
+                @endif
+                @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
+                            <li>{{ HTML::linkAction('PacientesController@create', 'CREAR PACIENTES') }}</li>
+                            <li>{{ HTML::linkAction('PacientesController@buscar', 'BUSCAR PACIENTES') }}</li>
+                @endif            
+                        </ul>
                     </li>
+                @if(Auth::user()->isAdmin())    
                     <li>{{ HTML::linkAction('TratamientosController@index', 'TRATAMIENTOS') }}
                         <ul>
                             {{--<li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
                             <li>{{ HTML::linkAction('GruposController@index', 'GRUPOS DE TRATAMIENTOS') }}</li>--}}
-                            @if(Auth::user()->isAdmin())
+                
+                @if(Auth::user()->isAdmin())
                             <li>{{ HTML::linkAction('GruposController@create', 'CREAR GRUPO DE TRATAMIENTOS') }}</li>
                             <li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
-                            @endif
+                @endif
                         </ul>
                     </li>
-                    @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
+                @endif    
+                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
                     <li>{{ HTML::linkAction('FacturacionController@index', 'FACTURACIÓN') }}
                         <ul>
                             <li>{{ HTML::linkAction('EstadisticasController@index', 'ESTADÍSTICAS') }}</li>
                             <li>{{ HTML::linkAction('CobrosController@morosos', 'COBROS PENDIENTES') }}</li>
+                            <li>{{ HTML::linkAction('CobrosController@index', 'MOVIMIENTOS DE COBRO') }}</li>
                         </ul>
-                    </li>@endif
+                    </li>
+                @endif
+                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin()or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
                     <li>{{ HTML::link('#', 'AGENDA') }}
                         <ul>
                             <li>{{ HTML::linkAction('TurnoController@index', 'TURNOS') }}</li>
                             <li>{{ HTML::linkAction('GuardiaController@index', 'GUARDIAS') }}</li>
+                            <li>{{ HTML::linkAction('GuardiaController@listado_g', 'LISTADO GUARDIAS') }}</li>
                         </ul>
                     </li>
+                @endif    
 
                   </ul>
 			 </div>

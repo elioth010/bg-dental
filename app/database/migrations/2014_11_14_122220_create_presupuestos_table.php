@@ -18,7 +18,7 @@ class CreatePresupuestosTable extends Migration {
 			$table->increments('id');
 			$table->string('nombre');
 			$table->boolean('aceptado')->default(0);
-			$table->integer('numerohistoria');
+			$table->char('numerohistoria');
 			
 			
 		});

@@ -47,8 +47,8 @@
     <tr>
     <td>{{ HTML::linkAction('PresupuestosController@verPresupuesto', $presupuesto->id,
                 array($paciente->numerohistoria, $presupuesto->id)) }}</td>
-    <td>{{$presupuesto->created_at}}</td>
-    <td>{{$presupuesto->updated_at}}</td>
+    <td>{{$presupuesto->creado}}</td>
+    <td>{{$presupuesto->actualizado}}</td>
     <td>{{$presupuesto->nombre}}</td>
     <td>{{ $presupuesto->importe_total }}€</td>
     <td>{{$presupuesto->descuentototal}}</td>

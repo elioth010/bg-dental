@@ -242,5 +242,28 @@ class GuardiaController extends \BaseController {
         //
     }
 
-
+    public function listado_g()
+    {
+        //$guardias = Guardias::all();
+        $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', apellido1, apellido2, nombre) AS nombre"), 'id')->orderBy('nombre')->lists('nombre', 'id');
+        $sedes = Sedes::orderBy('nombre')->lists('nombre', 'id');
+        return View::make('guardias.select')->with('profesionales', $profesionales)->with('sedes', $sedes);
+    }
+    
+    public function listado_gf()
+    {
+        $profesional = Profesional::find(Input::get('profesional'));
+        $sede = Sedes::find(Input::get('sede'));
+        $fecha_inicio = explode('/',Input::get('fecha_inicio'));
+        $fecha_inicio = $fecha_inicio[2]."-".$fecha_inicio[1]."-".$fecha_inicio[0];
+        $fecha_fin = explode('/',Input::get('fecha_fin'));
+        $fecha_fin = $fecha_fin[2]."-".$fecha_fin[1]."-".$fecha_fin[0];
+        $guardias = Guardias::whereBetween('fecha_guardia', array($fecha_inicio, $fecha_fin))
+                              ->where('sede_id', $sede->id)
+                              ->where('profesional_id', $profesional->id)
+                              ->select(DB::raw("DATE_FORMAT(fecha_guardia, '%d/%m/%Y') as fecha"))
+                              ->get();
+                      //var_dump($guardias);die;
+        return View::make('guardias.listado_gf')->with('guardias', $guardias)->with('profesional', $profesional)->with('sede', $sede)->with('fecha_inicio', $fecha_inicio)->with('fecha_fin', $fecha_fin);
+    }
 }
