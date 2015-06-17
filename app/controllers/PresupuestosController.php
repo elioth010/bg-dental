@@ -97,7 +97,7 @@ class PresupuestosController extends \BaseController {
 
     private function _imprimirPresupuesto($numerohistoria, $id) {
         $presupuesto = Presupuestos::leftJoin('profesionales', 'profesionales.id','=','presupuestos.profesional_id')
-                                        ->select('presupuestos.*', 'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1','profesionales.apellido2 as p_a2')
+                                        ->select('presupuestos.*',DB::raw("DATE_FORMAT(presupuestos.created_at, '%d/%m/%Y') as creado"), 'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1','profesionales.apellido2 as p_a2')
                                         ->find($id);
         $paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
         $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.imagen'));

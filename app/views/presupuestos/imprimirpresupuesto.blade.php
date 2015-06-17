@@ -221,7 +221,7 @@ q:before, q:after {
     @endif
 
   	</br>
-    <div class="datos1">Fecha de emisión: {{ $presupuesto->created_at }}</div>
+    <div class="datos1">Fecha de emisión: {{ $presupuesto->creado }}</div>
     <div>
     <table class="tabla">
       <tr class="grey">
