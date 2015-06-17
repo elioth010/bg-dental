@@ -18,7 +18,7 @@
       @foreach($grupos as $grupo)
         <tr>
         <td>{{$grupo->id}}</td>
-        <td>{{$grupo->nombre}}</td>
+        <td>{{ HTML::linkAction('GruposController@edit', $grupo->nombre, $grupo->id) }}</td>
         <td>{{$grupo->codigo}}</td>
         </tr>
       @endforeach

@@ -30,6 +30,9 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('tratamientos/grupos', 'GruposController@index');
     Route::get('tratamientos/creargrupo', 'GruposController@create');
     Route::post('tratamientos/guardargrupo', 'GruposController@store');
+    Route::get('tratamientos/editargrupo/{id}', 'GruposController@edit');
+    Route::post('tratamientos/actualizargrupo/{id}', 'GruposController@update');
+    Route::post('tratamientos/eliminargrupo/{id}', 'GruposController@destroy');
     Route::get('tratamientos/crear', 'TratamientosController@create');
     Route::get('tratamientos/editar/{id}', 'TratamientosController@edit');
     Route::post('tratamientos/guardar', 'TratamientosController@store');

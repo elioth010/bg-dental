@@ -59,7 +59,8 @@ class GruposController extends BaseController {
      */
     public function edit($id)
     {
-        //
+        $grupo = Grupos::find($id);
+        return View::make('tratamientos.editargrupos')->with('grupo', $grupo);
     }
 
 
@@ -71,7 +72,9 @@ class GruposController extends BaseController {
      */
     public function update($id)
     {
-        //
+        $grupo = Grupos::find($id);
+        $grupo->update(Input::all());
+        return Redirect::action('GruposController@index')->with('message', 'Grupo actualizado');
     }
 
 
@@ -83,7 +86,8 @@ class GruposController extends BaseController {
      */
     public function destroy($id)
     {
-        //
+        Grupos::destroy($id);
+        return Redirect::action('GruposController@index')->with('message', 'Grupo eliminado');
     }
 
 
