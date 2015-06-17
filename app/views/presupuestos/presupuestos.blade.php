@@ -8,20 +8,27 @@
 
 <div>
     <h1>Presupuestos del paciente:</h1>
-    <p>{{$paciente->nombre}}, {{$paciente->apellido1}} {{$paciente->apellido2}}. NHC: {{$paciente->numerohistoria}}</p>
+    {{--<p>{{$paciente->nombre}}, {{$paciente->apellido1}} {{$paciente->apellido2}}. NHC: {{$paciente->numerohistoria}}</p>--}}
     <table border = "1">
 	<tr>
 	    <th>NHC:</th>
-	    <th>{{$paciente->numerohistoria}}</th>
+	    
         <th>Nombre:</th>
-        <th>{{$paciente->nombre}}</th>
+       
 	    <th>Apellidos:</th>
-        <th>{{$paciente->apellido1.' '.$paciente->apellido2}}</th>
+        
         <th>NIF:</th>
-	    <th>{{$paciente->NIF}}</th>
+	    
         <th>Compañía:</th>
-        <th>{{ $paciente->companias_text }}</th>
+        
 	 </tr>
+         <tr>
+             <td>{{$paciente->numerohistoria}}</td>
+              <td>{{$paciente->nombre}}</td>
+              <td>{{$paciente->apellido1.' '.$paciente->apellido2}}</td>
+              <td>{{$paciente->NIF}}</td>
+              <td>{{ $paciente->companias_text }}</td>
+         </tr>
       </table>
 
 </div>
