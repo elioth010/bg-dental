@@ -8,7 +8,7 @@
  <h3>
   Cobros:
   </h3>
-
+	<div class="roll" style="margin-left:100px">
     <table border = "1">
       <tr>
       <th>Paciente</th>
@@ -29,4 +29,5 @@
       @endforeach
 
     </table>
+  </div>
 @stop
