@@ -16,18 +16,18 @@
   <div>
   <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
   <div class="roll">
-  {{ HTML::linkAction('PacientesController@show','Datos de este paciente', $paciente->id) }}
+  {{ HTML::linkAction('PacientesController@show','Datos de este paciente', $paciente->id) }}  
   @if ($espera_id != 0)
   {{ Form::open(array('url'=>'espera/'.$espera_id, 'method' => 'put')) }}
-  {{ Form::submit('Finalizar') }}
+  {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
   {{ Form::close() }}
   @endif
 
   @if(Auth::user()->isAdmin())
       @if($paciente->saldo < 0)
-              <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}} €</span></h2>
+              <h2>Saldo: <span style = "color :red"> {{$paciente->saldo}} €</span>
       @else
-              <h2>Saldo: <span style = "color: green"> {{$paciente->saldo}} €</span></h2>
+              <h2>Saldo: <span style = "color: green"> {{$paciente->saldo}} €</span>
       @endif
       {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
       {{Form::hidden('paciente_id', $paciente->id)}}
@@ -38,12 +38,67 @@
 
 
         @if($p_d_c > 0)
-            <h2>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}} €</span></h2>
+            Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}} €</span></h2>
         @else
-            <h2><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
+            <span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
         @endif
   @endif
 	<div class="roll">
+    <h2>Presupuestos aceptados:</h2>
+
+
+        <?php if (empty($presupuestos)) { ?>
+            El paciente no tiene presupuestos aceptados.
+        <?php } else { ?>
+
+            {{--<p>Marque un tratamiento de un presupuesto aceptado para añadirlo al historial del paciente:</p>--}}
+        <div>
+
+        @foreach($presupuestos as $presupuesto)
+
+        <?php if (!empty($presupuesto->presu_tratamientos)) { ?>
+        <h3>{{ HTML::linkAction('PresupuestosController@verPresupuesto',
+                $presupuesto->nombre . ' (' . $presupuesto->creado . ')',
+                array($paciente->numerohistoria, $presupuesto->id), array('target' => '_blank')) }}</h3>
+
+        <table border = "1">
+            <tr>
+                <th>Tratamiento</th>
+                <th>Profesional</th>
+                <th>Fecha realización</th>
+                <th>Precio</th>
+                <th>Guardar</th>
+            </tr>
+
+        @foreach($presupuesto->presu_tratamientos as $tratamiento)
+            <tr>
+                {{ Form::open(array('url'=>'historial_clinico')) }}
+                {{ Form::hidden('profesional_id', $profesional->id) }}
+                {{ Form::hidden('paciente_id', $paciente->id) }}
+                {{ Form::hidden('tratamiento_id', $tratamiento->tratamiento_id) }}
+                {{ Form::hidden('precio', $tratamiento->precio_final) }}
+                {{ Form::hidden('presupuesto_id', $presupuesto->id) }}
+                {{ Form::hidden('presupuestotratamiento_id', $tratamiento->id) }}
+                <td>{{ $tratamiento->nombre }}</td>
+                <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
+                <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
+                <td>{{ $tratamiento->precio_final }}</td>
+                @if ($tratamiento->estado == 0)
+                <td> {{ Form::submit('Añadir', array('class'=>'botonl'))}}</td>
+                @else
+                <td></td>
+                @endif
+                {{ Form::close() }}
+            </tr>
+        @endforeach
+
+        </table>
+        <?php } ?>
+        @endforeach
+
+        </div>
+        <?php } ?>
+            <br>
     <table border = "1">
         <tr>
 
@@ -169,60 +224,7 @@
 
     </table>
     <br/>
-    <h2>Presupuestos abiertos</h2>
 
-
-        <?php if (empty($presupuestos)) { ?>
-            El paciente no tiene presupuestos abiertos.
-        <?php } else { ?>
-
-            <p>Marque un tratamiento de un presupuesto abierto para añadirlo al historial del paciente:</p>
-        <div>
-
-        @foreach($presupuestos as $presupuesto)
-
-        <?php if (!empty($presupuesto->presu_tratamientos)) { ?>
-        <h3>{{ HTML::linkAction('PresupuestosController@verPresupuesto',
-                $presupuesto->nombre . ' (' . $presupuesto->created_at . ')',
-                array($paciente->numerohistoria, $presupuesto->id), array('target' => '_blank')) }}</h3>
-
-        <table border = "1">
-            <tr>
-                <th>Tratamiento</th>
-                <th>Profesional</th>
-                <th>Fecha realización</th>
-                <th>Precio</th>
-                <th>Guardar</th>
-            </tr>
-
-        @foreach($presupuesto->presu_tratamientos as $tratamiento)
-            <tr>
-                {{ Form::open(array('url'=>'historial_clinico')) }}
-                {{ Form::hidden('profesional_id', $profesional->id) }}
-                {{ Form::hidden('paciente_id', $paciente->id) }}
-                {{ Form::hidden('tratamiento_id', $tratamiento->tratamiento_id) }}
-                {{ Form::hidden('precio', $tratamiento->precio_final) }}
-                {{ Form::hidden('presupuesto_id', $presupuesto->id) }}
-                {{ Form::hidden('presupuestotratamiento_id', $tratamiento->id) }}
-                <td>{{ $tratamiento->nombre }}</td>
-                <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
-                <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
-                <td>{{ $tratamiento->precio_final }}</td>
-                @if ($tratamiento->estado == 0)
-                <td> {{ Form::submit('Añadir', array('class'=>'botonl'))}}</td>
-                @else
-                <td></td>
-                @endif
-                {{ Form::close() }}
-            </tr>
-        @endforeach
-
-        </table>
-        <?php } ?>
-        @endforeach
-
-        </div>
-        <?php } ?>
 
 	</div>
 </div>

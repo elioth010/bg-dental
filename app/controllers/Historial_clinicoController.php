@@ -218,6 +218,7 @@ class Historial_clinicoController extends \BaseController {
         $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->where('paciente_id', $id)->sum('precio');
 
         $presupuestos = Presupuestos::where('numerohistoria', $paciente->numerohistoria)->where('aceptado', 1)
+                                    ->select('presupuestos.*', DB::raw("DATE_FORMAT(created_at, '%d/%m/%Y') as creado"))
                                     ->orderBy('created_at', 'DESC')->get();
 
         $hay_presupuestos = false;
