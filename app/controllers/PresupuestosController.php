@@ -135,7 +135,10 @@ class PresupuestosController extends \BaseController {
             $t->descuento_text = $descuentotext;
             $t->compania_text = $companias_list[$t->compania_id];
 
-            if ($t->piezas !== null) {
+            if (!in_array($t->imagen, array('c', 'i', 'en', 'em', 'ex'))) {
+                $todaslaspiezas['muestraOdontograma'] = true;
+                $todaslaspiezas['custom'] = $t->imagen;
+            } elseif ($t->piezas !== null) {
                 $this->_marcaPiezas($t->piezas, $t->imagen, $todaslaspiezas);
                 $todaslaspiezas['muestraOdontograma'] = true;
             }
