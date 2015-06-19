@@ -17,12 +17,12 @@
  @foreach($guardias as $item)
      <tr>
          <td>{{$item->fecha}}</td>
-         <td>euros según tabla opciones</td>
+         <td>{{$item->euros}} €</td>    
      </tr>
  @endforeach
      <tr>
          <td>Total a percibir:</td>
-         <td>Suma de los turnos según parámetros</td>
+         <td>{{$suma}} €</td>
      </tr>
  </table>
  </div>

@@ -178,9 +178,14 @@ q:before, q:after {
     <div id=textos style="text-align: center; font-size: 10pt;color: #044494;">Para más información sobre su presupuesto o tratamiento visite www.imiquiron.com</div>
 	<div class="layout">
     @if ($todaslaspiezas['muestraOdontograma'])
+        @if (isset($todaslaspiezas['custom']))
+        <div align="center">
+            {{ HTML::image('/imagenes/'.$todaslaspiezas['custom'], 'Odontograma personalizado') }}
+        </div>
+        @else
 	<div class="odontogram">
-    <table class="tabla_01">
-        <tr>
+        <table class="tabla_01">
+            <tr>
 		<td>{{ HTML::image($todaslaspiezas[18], null, array('width' => 21, 'height' => 65)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[17], null, array('width' => 23, 'height' => 65)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[16], null, array('width' => 24, 'height' => 65)) }}</td>
@@ -197,8 +202,8 @@ q:before, q:after {
 		<td>{{ HTML::image($todaslaspiezas[26], null, array('width' => 25, 'height' => 65)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[27], null, array('width' => 23, 'height' => 65)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[28], null, array('width' => 19, 'height' => 65)) }}</td>
-        </tr>
-        <tr>
+            </tr>
+            <tr>
 		<td>{{ HTML::image($todaslaspiezas[48], null, array('width' => 21, 'height' => 65)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[47], null, array('width' => 23, 'height' => 65)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[46], null, array('width' => 24, 'height' => 65)) }}</td>
@@ -216,8 +221,9 @@ q:before, q:after {
 		<td>{{ HTML::image($todaslaspiezas[37], null, array('width' => 23, 'height' => 65)) }}</td>
 		<td>{{ HTML::image($todaslaspiezas[38], null, array('width' => 19, 'height' => 65)) }}</td>
 		</tr>
-    </table>
-    </div>
+        </table>
+        </div>
+        @endif
     @endif
 
   	</br>
@@ -239,7 +245,7 @@ q:before, q:after {
       <tr style="font-size:9pt;">
         <td>{{ $i }}</td>
         <td>{{ $t->nombre }}</td>
-        <td>{{ $t->piezas }}</td>
+        <td> @if ($t->tipostratamientos_id == 4) Cuadrante @endif {{ $t->piezas }}</td>
         <td>{{ $t->unidades }}</td>
         <td>{{ $t->precio_unidad }}€</td>
         <td>{{ $t->descuento_text }}</td>

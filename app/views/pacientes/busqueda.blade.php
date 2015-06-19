@@ -1,12 +1,20 @@
 @extends('layouts.main')
-@include('includes.buscar_p')
 
 @section('title')
     Pacientes
 @stop
 
 @section('contenido')
-@yield('buscar_p')
+
+{{ Form::open(array('url'=>'paciente/busqueda', 'method' => 'get')) }}
+    <h1>Búsqueda de pacientes:</h1>
+
+    {{ Form::text('q', $busca, array('placeholder'=>'Texto a buscar o NHC')) }}
+
+   <!-- {{ Form::text('apellido2', null, array('placeholder'=>'Segundo apellido')) }}-->
+    {{ Form::submit('Buscar', array('class'=>'botonl'))}}
+{{ Form::close() }}
+
 <div class="overflow">
 <h1>Paciente:</h1>
 

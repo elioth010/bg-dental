@@ -7,8 +7,8 @@
 @section('contenido')
 	<div class="labelreg3">
  <h3>Tratamientos pendientes de cobro:</h3>
- Elegir intervalo de tiempo:
- {{ Form::open(array('url'=>'estadisticas')) }}
+Elegir intervalo de tiempo:
+ {{ Form::open(array('url'=>'cobros/pdc_cf')) }}
  {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
  {{ Form::submit('OK', array('class'=>'botonl'))}}
  {{ Form::close() }}

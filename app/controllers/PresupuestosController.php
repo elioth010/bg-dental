@@ -100,7 +100,7 @@ class PresupuestosController extends \BaseController {
                                         ->select('presupuestos.*',DB::raw("DATE_FORMAT(presupuestos.created_at, '%d/%m/%Y') as creado"), 'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1','profesionales.apellido2 as p_a2')
                                         ->find($id);
         $paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
-        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.imagen'));
+        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.imagen', 'tratamientos.tipostratamientos_id'));
         $companias_list = Companias::lists('nombre', 'id');
         $total = 0;
         $sede = Sedes::find($presupuesto->sede_id);
@@ -135,7 +135,10 @@ class PresupuestosController extends \BaseController {
             $t->descuento_text = $descuentotext;
             $t->compania_text = $companias_list[$t->compania_id];
 
-            if ($t->piezas !== null) {
+            if (!in_array($t->imagen, array('c', 'i', 'en', 'em', 'ex'))) {
+                $todaslaspiezas['muestraOdontograma'] = true;
+                $todaslaspiezas['custom'] = $t->imagen;
+            } elseif ($t->piezas !== null) {
                 $this->_marcaPiezas($t->piezas, $t->imagen, $todaslaspiezas);
                 $todaslaspiezas['muestraOdontograma'] = true;
             }
@@ -149,7 +152,7 @@ class PresupuestosController extends \BaseController {
 
     public function verPresupuesto($paciente, $id) {
         $presupuesto = Presupuestos::find($id);
-        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.tipostratamientos_id'));
         $companias_list = Companias::lists('nombre', 'id');
         $total = 0;
 
@@ -237,7 +240,9 @@ class PresupuestosController extends \BaseController {
             if (!(array_key_exists($p->tratamientos_id, $precios)) ||
                 ((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
 
-                $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+                if ($p->precio !== null) {
+                    $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+                }
             }
 
             if (in_array($p->companias_id, $companias_paciente)) {
@@ -260,7 +265,7 @@ class PresupuestosController extends \BaseController {
                 $atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
             }
         }
-
+        
         return $atratamientos;
     }
 
@@ -272,7 +277,7 @@ class PresupuestosController extends \BaseController {
      */
     private function _crearpresupuesto($paciente) {
 
-        $companias_list = Companias::lists('nombre', 'id');
+        $companias_list = Companias::orderBy('nombre')->lists('nombre', 'id');
         $companias_paciente = array();
         $companias_paciente[] = $paciente->compania;
 
@@ -286,17 +291,17 @@ class PresupuestosController extends \BaseController {
         $companias_select[0] = '-- La más económica del paciente --';
         asort($companias_select);
 
-        $grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
+        $grupos = Grupos::orderBy('nombre')->get(array('id', 'nombre'));
 
         $atratamientos = $this->getTratamientosArray($grupos, $companias_list, $companias_paciente);
 
-        $profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
+        $profesionales1 = Profesional::orderBy('nombre')->get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
         $profesionales = array();
         foreach ($profesionales1 as $p){
             $profesionales[$p->id] = $p->nombre;
         }
 
-        $sedes = Sedes::lists('nombre', 'id');
+        $sedes = Sedes::orderBy('nombre')->lists('nombre', 'id');
         unset($sedes[Sedes::TODAS]);
 
         return array('grupos' => $grupos,

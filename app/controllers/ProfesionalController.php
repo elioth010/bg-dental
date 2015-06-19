@@ -23,7 +23,7 @@ class ProfesionalController extends \BaseController {
         $profesionales = Profesional::leftJoin('especialidades', 'especialidades.id', '=', 'profesionales.especialidades_id')
                         ->leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id','=','profesionales.id')
                         ->leftJoin('sedes', 'sedes.id', '=', 'sedes_profesionales.sede_id')->where('activo', 1)
-                                ->groupBy('profesionales.id')->orderBy('profesionales.apellido1')
+                                ->groupBy('profesionales.id')->orderBy('profesionales.nombre')
                         ->select('sedes.nombre','profesionales.id as p_id', 'profesionales.*', 'especialidades.*', DB::raw('GROUP_CONCAT(sedes.nombre) as sedes_p'))->get();
         $sedes = Sedes::get();
         $especialidades = Especialidad::lists('especialidad','id');
