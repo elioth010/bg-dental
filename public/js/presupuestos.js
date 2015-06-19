@@ -307,6 +307,9 @@ function updatePrecios(id, tratamiento) {
                     } else if (tipo == 1) {
                         odontograma[id] = new Array
                         var piezastext = "Elegir piezas"
+                    } else if (tipo == 5) {
+                        odontograma[id] = ""
+                        var piezastext = "Elegir arcada"
                     }
 
                     if (dpiezas.length) {
@@ -325,6 +328,11 @@ function updatePrecios(id, tratamiento) {
                         if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
                             odontogramaHighlightPiezas(id, tratamiento["piezas"], true)
+                        }
+                    } else if (tipo == 5) {
+                        if (piezas !== undefined) {
+                            $('#ipiezas-' + id).val(tratamiento["piezas"])
+                            odontogramaHighlightArcada(id, tratamiento["piezas"], true)
                         }
                     }
                     odontogramaHighlight(id, tipo, true)
@@ -552,6 +560,44 @@ function odontogramaHighlightPieza(id, num, active) {
     $(area).data('maphilight', data).trigger('alwaysOn.maphilight');
 }
 
+// Sombrea en el mapa del odontograma una arcada
+function odontogramaHighlightArcada(id, arcada, active) {
+    console.log('odontogramaHighlightArcada', id, arcada)
+
+    if (arcada == 1) {
+        for (var i=11; i<= 18; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+        for (var i=21; i<= 28; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+    } else if(arcada == 2) {
+        for (var i=31; i<= 38; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+        for (var i=41; i<= 48; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+    }
+
+}
+
+// Lógica para sombrear piezas según la definición de arcada indicadas con un numero (1, 2)
+function odontogramaToggleArcada(id, num) {
+    console.log('odontogramaToggleArcada', id, num)
+
+    if (!odontograma[id]) {
+        odontograma[id] = odontogramaArcada(num);
+        console.log('arcada seleccionada', odontograma[id])
+        odontogramaHighlightArcada(id, odontograma[id], true)
+    } else {
+        console.log('arcada deseleccionada', odontograma[id])
+
+        odontogramaHighlightArcada(id, odontograma[id], false)
+        odontograma[id] = ""
+    }
+}
+
 // Lógica para sombrear piezas según la definición de puente indicadas con un guión por inicio-fin
 function odontogramaTogglePuente(id, num) {
     console.log('odontogramaTogglePuente', id, num)
@@ -563,29 +609,9 @@ function odontogramaTogglePuente(id, num) {
         odontogramaHighlightPieza(id, num, true)
     } else if (odontograma[id].indexOf('-') > -1) {
         console.log('nuevo puente', odontograma[id])
-
-
         odontogramaHighlightPuente(id, odontograma[id], false)
         odontograma[id] = ""
-        /*
-        var piezas = odontograma[id].split('-')
-        var cuadrantes = []
-        cuadrantes.push(odontogramaCuadrante(piezas[0]))
-        if (odontogramaCuadrante(piezas[0]) != odontogramaCuadrante(piezas[1])) {
-            cuadrantes.push(odontogramaCuadrante(piezas[1]))
-        }
-
-        cuadrantes.forEach(function(cuadrante) {
-
-            for (var i = cuadrante + '1'; i <= cuadrante + '8'; i++) {
-                console.log('desactivo ' + i)
-                odontogramaHighlightPieza(id, i, false)
-            }
-        });
-        */
-
     } else {
-
         console.log('fin del puente')
 
         if (num == odontograma[id]) {
@@ -648,11 +674,13 @@ function odontogramaHighlight(id, tipo, clickable) {
         areas.click(function(e) {
             e.preventDefault();
 
-            // 1 = pieza, 2 = general, 3 = puente
+            // 1 = pieza, 2 = general, 3 = puente, 5 = arcada
             if (tipo == 1) {
                 odontogramaTogglePieza(id, this.id.substr(1))
             } else if(tipo == 3) {
                 odontogramaTogglePuente(id, this.id.substr(1))
+            } else if(tipo == 5) {
+                odontogramaToggleArcada(id, this.id.substr(1))
             }
 
         });
@@ -693,6 +721,17 @@ function onOdontogramaClose(id, tipo, parent) {
             for (var i=parseInt(cuadrante2 + '1'); i<= piezas[1]; i++) {
                 unidades++
             }
+        }
+    } else if (tipo == 5) {
+        if (odontograma[id] == 1) {
+            unidades = 1;
+            active = 'Arcada superior';
+        } else if (odontograma[id] == 2){
+            unidades = 1;
+            active = 'Arcada inferior';
+        } else {
+            unidades = 0;
+            active = ''
         }
     }
 
