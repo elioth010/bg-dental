@@ -118,7 +118,9 @@ Route::group(array('before' => 'auth'), function() {
 
     //Rutas cobros
     Route::get('cobros/pdc', 'CobrosController@morosos');
+    Route::post('cobros/pdc_cf', 'CobrosController@morosos_cf');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
+    Route::post('cobros/cf', 'CobrosController@index_cf');
     Route::resource('cobros', 'CobrosController');
 
     //Rutas opciones

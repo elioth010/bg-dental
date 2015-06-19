@@ -7,7 +7,13 @@
 @section('contenido')
  <h3>
   Cobros:
-  </h3>
+  </h3><br />
+ 
+ Elegir intervalo de tiempo:
+ {{ Form::open(array('url'=>'cobros/cf')) }}
+ {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
+ {{ Form::submit('OK', array('class'=>'botonl'))}}
+ {{ Form::close() }}
 	<div class="roll" style="margin-left:100px">
     <table border = "1">
       <tr>

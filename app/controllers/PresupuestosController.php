@@ -260,7 +260,7 @@ class PresupuestosController extends \BaseController {
                 $atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
             }
         }
-
+        
         return $atratamientos;
     }
 
@@ -272,7 +272,7 @@ class PresupuestosController extends \BaseController {
      */
     private function _crearpresupuesto($paciente) {
 
-        $companias_list = Companias::lists('nombre', 'id');
+        $companias_list = Companias::orderBy('nombre')->lists('nombre', 'id');
         $companias_paciente = array();
         $companias_paciente[] = $paciente->compania;
 
@@ -286,17 +286,17 @@ class PresupuestosController extends \BaseController {
         $companias_select[0] = '-- La más económica del paciente --';
         asort($companias_select);
 
-        $grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
+        $grupos = Grupos::orderBy('nombre')->get(array('id', 'nombre'));
 
         $atratamientos = $this->getTratamientosArray($grupos, $companias_list, $companias_paciente);
 
-        $profesionales1 = Profesional::get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
+        $profesionales1 = Profesional::orderBy('nombre')->get(array(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id'));
         $profesionales = array();
         foreach ($profesionales1 as $p){
             $profesionales[$p->id] = $p->nombre;
         }
 
-        $sedes = Sedes::lists('nombre', 'id');
+        $sedes = Sedes::orderBy('nombre')->lists('nombre', 'id');
         unset($sedes[Sedes::TODAS]);
 
         return array('grupos' => $grupos,

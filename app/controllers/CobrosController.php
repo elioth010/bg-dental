@@ -9,7 +9,46 @@ class CobrosController extends \BaseController {
 	 */
 	public function index()
 	{
+            
+            
+            
+            
+            
+            
             $cobros = Cobros::leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
+                        ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
+                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n')
+                        ->get();
+            return View::make('cobros.index')->with('cobros', $cobros);
+            
+	}
+        
+        public function index_cf()
+	{
+            if (!empty($_POST)){
+                $fecha_inicio = Input::get('fecha_inicio');
+                $fecha_inicio = explode('/', $fecha_inicio);
+                $fecha_inicio = $fecha_inicio[2]."-".$fecha_inicio[1]."-".$fecha_inicio[0];
+                $fecha_fin = Input::get('fecha_fin');
+                $fecha_fin = explode('/', $fecha_fin);
+                $fecha_fin = $fecha_fin[2]."-".$fecha_fin[1]."-".$fecha_fin[0];
+//                var_dump($fecha_fin);
+//                var_dump($fecha_inicio);
+                //echo "POST";
+            } else {
+                $fecha_fin = date('Y-m-d');
+                $fecha_primeros = date('Y-m-');
+                $fecha_inicio = $fecha_primeros."1";
+//                var_dump($fecha_fin);
+//                var_dump($fecha_inicio);
+//                echo "Sin POST";
+            }
+            
+            
+            
+            
+            
+            $cobros = Cobros::whereBetween('cobros.created_at', array($fecha_inicio, $fecha_fin))->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
                         ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
                         ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n')
                         ->get();
@@ -20,6 +59,20 @@ class CobrosController extends \BaseController {
         public function morosos()
 	{
             $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->get();
+            return View::make ('estadisticas.morosos')->with('p_d_c' , $p_d_c);
+                    
+            
+	}
+        
+        public function morosos_cf()
+	{
+            $fecha_inicio = Input::get('fecha_inicio');
+            $fecha_inicio = explode('/', $fecha_inicio);
+            $fecha_inicio = $fecha_inicio[2]."-".$fecha_inicio[1]."-".$fecha_inicio[0];
+            $fecha_fin = Input::get('fecha_fin');
+            $fecha_fin = explode('/', $fecha_fin);
+            $fecha_fin = $fecha_fin[2]."-".$fecha_fin[1]."-".$fecha_fin[0];
+            $p_d_c = Historial_clinico::whereBetween('fecha_realizacion', array($fecha_inicio, $fecha_fin))->where('pendiente_de_cobro', 1)->get();
             return View::make ('estadisticas.morosos')->with('p_d_c' , $p_d_c);
                     
             
@@ -89,11 +142,11 @@ class CobrosController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		  $cobros = Cobros::where('cobros.paciente_id', $id)
-                         ->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
-                        ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
-                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n')
-                        ->get();
+            $cobros = Cobros::where('cobros.paciente_id', $id)
+                 ->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
+                ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
+                ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n')
+                ->get();
             return View::make('cobros.index')->with('cobros', $cobros);
 	}
 
