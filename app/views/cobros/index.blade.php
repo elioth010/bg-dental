@@ -30,7 +30,7 @@
         <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $cobro->paciente_id) }}</td>
         <td>{{$cobro->cobro}}</td>
         <td>{{$cobro->tc_n}}</td>
-        <td>{{$cobro->created_at}}</td>
+        <td>{{$cobro->creado}}</td>
         </tr>
       @endforeach
 

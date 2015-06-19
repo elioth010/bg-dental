@@ -17,7 +17,7 @@ class CobrosController extends \BaseController {
             
             $cobros = Cobros::leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
                         ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
-                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n')
+                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
                         ->get();
             return View::make('cobros.index')->with('cobros', $cobros);
             
@@ -50,7 +50,7 @@ class CobrosController extends \BaseController {
             
             $cobros = Cobros::whereBetween('cobros.created_at', array($fecha_inicio, $fecha_fin))->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
                         ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
-                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n')
+                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
                         ->get();
             return View::make('cobros.index')->with('cobros', $cobros);
             
