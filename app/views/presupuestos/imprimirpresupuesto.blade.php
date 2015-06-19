@@ -178,7 +178,7 @@ q:before, q:after {
     <div id=textos style="text-align: center; font-size: 10pt;color: #044494;">Para más información sobre su presupuesto o tratamiento visite www.imiquiron.com</div>
 	<div class="layout">
     @if ($todaslaspiezas['muestraOdontograma'])
-        @if ($todaslaspiezas['custom'])
+        @if (isset($todaslaspiezas['custom']))
         <div align="center">
             {{ HTML::image('/imagenes/'.$todaslaspiezas['custom'], 'Odontograma personalizado') }}
         </div>
@@ -245,7 +245,7 @@ q:before, q:after {
       <tr style="font-size:9pt;">
         <td>{{ $i }}</td>
         <td>{{ $t->nombre }}</td>
-        <td>{{ $t->piezas }}</td>
+        <td> @if ($t->tipostratamientos_id == 4) Cuadrante @endif {{ $t->piezas }}</td>
         <td>{{ $t->unidades }}</td>
         <td>{{ $t->precio_unidad }}€</td>
         <td>{{ $t->descuento_text }}</td>

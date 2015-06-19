@@ -34,7 +34,7 @@
         <td>{{ $t->precio_unidad }}€</td>
         <td>{{ $t->descuento_text }}</td>
         <td>{{ $t->compania_text }}</td>
-        <td>{{ $t->piezas }}</td>
+        <td>@if ($t->tipostratamientos_id == 4) Cuadrante @endif {{ $t->piezas }}</td>
 
         <td>
         <?php if ($presupuesto->aceptado) { ?>
