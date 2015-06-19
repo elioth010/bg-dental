@@ -10,7 +10,7 @@
 
 @section('contenido')
 <div class="roll">
-<h2>Turnos en la sede {{ $sede->nombre }} ({{ $fecha }})</h2>
+<h2>Turnos en: {{ $sede->nombre }}</h2>
 
 {{ $calendario }}
 
