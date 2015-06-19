@@ -311,6 +311,9 @@ function updatePrecios(id, tratamiento) {
                     } else if (tipo == 1) {
                         odontograma[id] = new Array
                         var piezastext = "Elegir piezas"
+                    } else if (tipo == 4) {
+                        odontograma[id] = ""
+                        var piezastext = "Elegir cuadrante"
                     } else if (tipo == 5) {
                         odontograma[id] = ""
                         var piezastext = "Elegir arcada"
@@ -332,6 +335,11 @@ function updatePrecios(id, tratamiento) {
                         if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
                             odontogramaHighlightPiezas(id, tratamiento["piezas"], true)
+                        }
+                    } else if (tipo == 4) {
+                        if (piezas !== undefined) {
+                            $('#ipiezas-' + id).val(tratamiento["piezas"])
+                            odontogramaHighlightCuadrante(id, tratamiento["piezas"], true)
                         }
                     } else if (tipo == 5) {
                         if (piezas !== undefined) {
@@ -583,7 +591,45 @@ function odontogramaHighlightArcada(id, arcada, active) {
             odontogramaHighlightPieza(id, i, active)
         }
     }
+}
 
+// Sombrea en el mapa del odontograma una arcada
+function odontogramaHighlightCuadrante(id, cuadrante, active) {
+    console.log('odontogramaHighlightCuadrate', id, cuadrante)
+
+    if (cuadrante == 1) {
+        for (var i=11; i<= 18; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+    } else if(cuadrante == 2) {
+        for (var i=21; i<= 28; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+    } else if(cuadrante == 3) {
+        for (var i=31; i<= 38; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+    } else if(cuadrante == 4) {
+        for (var i=41; i<= 48; i++) {
+            odontogramaHighlightPieza(id, i, active)
+        }
+    }
+}
+
+// Lógica para sombrear piezas según la definición de arcada indicadas con un numero (1, 2)
+function odontogramaToggleCuadrante(id, num) {
+    console.log('odontogramaToggleCuadrante', id, num)
+
+    if (!odontograma[id]) {
+        odontograma[id] = odontogramaCuadrante(num);
+        console.log('cuadrante seleccionadp', odontograma[id])
+        odontogramaHighlightCuadrante(id, odontograma[id], true)
+    } else {
+        console.log('cuadrante deseleccionado', odontograma[id])
+
+        odontogramaHighlightCuadrante(id, odontograma[id], false)
+        odontograma[id] = ""
+    }
 }
 
 // Lógica para sombrear piezas según la definición de arcada indicadas con un numero (1, 2)
@@ -678,11 +724,13 @@ function odontogramaHighlight(id, tipo, clickable) {
         areas.click(function(e) {
             e.preventDefault();
 
-            // 1 = pieza, 2 = general, 3 = puente, 5 = arcada
+            // 1 = pieza, 2 = general, 3 = puente, 4 = cuadrante, 5 = arcada
             if (tipo == 1) {
                 odontogramaTogglePieza(id, this.id.substr(1))
             } else if(tipo == 3) {
                 odontogramaTogglePuente(id, this.id.substr(1))
+            } else if(tipo == 4) {
+                odontogramaToggleCuadrante(id, this.id.substr(1))
             } else if(tipo == 5) {
                 odontogramaToggleArcada(id, this.id.substr(1))
             }
@@ -726,6 +774,9 @@ function onOdontogramaClose(id, tipo, parent) {
                 unidades++
             }
         }
+    } else if (tipo == 4) {
+        active = odontograma[id];
+        unidades = odontograma[id] ? 1 : 0;
     } else if (tipo == 5) {
         if (odontograma[id] == 1) {
             unidades = 1;
