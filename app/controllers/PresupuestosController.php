@@ -240,7 +240,9 @@ class PresupuestosController extends \BaseController {
             if (!(array_key_exists($p->tratamientos_id, $precios)) ||
                 ((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
 
-                $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+                if ($p->precio !== null) {
+                    $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+                }
             }
 
             if (in_array($p->companias_id, $companias_paciente)) {

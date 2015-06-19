@@ -108,7 +108,7 @@ function addTratamiento(tratamiento) {
     var select4 = $('<select disabled>').attr({onchange: "updatePreciosCompanias(" + lastIndex + ", this.value)", id: "compania-" + lastIndex, name: "compania-" + lastIndex})
 
     for(cid in companias) {
-        var texto = companias[cid] + " (--€)"
+        var texto = companias[cid] + " (Sin precio)"
         select4.append(new Option(texto, cid))
     }
 
@@ -290,7 +290,11 @@ function updatePrecios(id, tratamiento) {
                 var options = $('#compania-' + id + ' option')
                 for (var i=0; i<options.length; i++) {
                     var cid = options[i].value
-                    options[i].text = companias[cid] + ' (' + tratamientos[grupo][tid]['precios'][cid] + '€)'
+
+                    if (tratamientos[grupo][tid]['precios'][cid] !== undefined) {
+                        options[i].text = companias[cid] + ' (' + tratamientos[grupo][tid]['precios'][cid] + '€)'
+                    }
+
                 }
 
                 // 1 = pieza, 2 = general, 3 = puente
