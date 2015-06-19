@@ -14,7 +14,9 @@
   {{ HTML::linkAction('Historial_clinicoController@index', 'Buscar pacientes') }}
   </div>
   <div>
-  <h3>Historial de {{ $paciente->nombre}}, {{  $paciente->apellido1 }} {{ $paciente->apellido2 }} con NHC: {{ $paciente->numerohistoria }} y Compañías: {{ $paciente->companias_text }}</h3>
+  <h3>Historial de {{ $paciente->nombre}}, {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</h3>
+  <h3>NHC: {{ $paciente->numerohistoria }}</h3>
+  <h3>Compañías: {{ $paciente->companias_text }}</h3>
   <div class="roll">
   {{ HTML::linkAction('PacientesController@show','Datos de este paciente', $paciente->id) }}  
   @if ($espera_id != 0)

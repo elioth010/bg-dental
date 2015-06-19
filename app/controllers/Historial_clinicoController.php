@@ -319,22 +319,19 @@ class Historial_clinicoController extends \BaseController {
 
     public function busqueda()
     {
-        $busca = Input::get('nombre');
-        if($busca) {
-            $busca = '%'.$busca.'%';
+        $q_busca = Input::get('q', '');
+
+        if ($q_busca != '') {
+            $busca = '%'.$q_busca.'%';
             $pacientes = Pacientes::where('nombre', 'LIKE', $busca)
                                     ->orWhere('apellido1', 'LIKE', $busca)
                                     ->orWhere('apellido2', 'LIKE', $busca)
                                     ->orWhere('numerohistoria', 'LIKE', $busca)
                                     ->get();
-
-
         } else {
-          return Redirect::action('Historial_clinicoController@buscar')->withMesage('Paciente no encontrado');
+            return Redirect::action('Historial_clinicoController@index');
         }
-        //var_dump($paciente);
-
-        return View::make('historial.busqueda')->with('pacientes', $pacientes);
+        return View::make('historial.busqueda')->with(array('pacientes' => $pacientes, 'busca' => $q_busca));
     }
 
 }

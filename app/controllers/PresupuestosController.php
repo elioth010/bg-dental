@@ -100,7 +100,7 @@ class PresupuestosController extends \BaseController {
                                         ->select('presupuestos.*',DB::raw("DATE_FORMAT(presupuestos.created_at, '%d/%m/%Y') as creado"), 'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1','profesionales.apellido2 as p_a2')
                                         ->find($id);
         $paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
-        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.imagen'));
+        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.imagen', 'tratamientos.tipostratamientos_id'));
         $companias_list = Companias::lists('nombre', 'id');
         $total = 0;
         $sede = Sedes::find($presupuesto->sede_id);
@@ -152,7 +152,7 @@ class PresupuestosController extends \BaseController {
 
     public function verPresupuesto($paciente, $id) {
         $presupuesto = Presupuestos::find($id);
-        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre'));
+        $tratamientos = $presupuesto->tratamientos()->get(array('presupuestos_tratamientos.*', 'tratamientos.nombre', 'tratamientos.tipostratamientos_id'));
         $companias_list = Companias::lists('nombre', 'id');
         $total = 0;
 
@@ -240,7 +240,9 @@ class PresupuestosController extends \BaseController {
             if (!(array_key_exists($p->tratamientos_id, $precios)) ||
                 ((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
 
-                $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+                if ($p->precio !== null) {
+                    $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
+                }
             }
 
             if (in_array($p->companias_id, $companias_paciente)) {
