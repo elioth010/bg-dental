@@ -798,3 +798,24 @@ function onOdontogramaClose(id, tipo, parent) {
     updatePrecioManual(id)
     updatePrecioFinal()
 }
+
+function validate_presupuesto(form) {
+    console.log('validate_presupuesto')
+    var valid = true
+
+    var inputs = $("input[name^='iunidades-']");
+    inputs.each(function(index, input){
+        if (input.value == 0) {
+            valid = false;
+        }
+    });
+
+    if(!valid) {
+        alert('Hay tratamientos donde no se han seleccionado las piezas.');
+        return false;
+    }
+    else {
+        return true;
+        //return confirm('Do you really want to submit the form?');
+    }
+}
