@@ -8,6 +8,12 @@
 	<div class="overflow">
     <h1>Búsqueda de tratamientos</h1>
 
+    {{ Form::open(array('url'=>'tratamientos/busqueda', 'method' => 'get')) }}
+        {{ Form::text('nombre', $q_nombre, array('placeholder'=>'Nombre', 'autofocus' => '')) }}
+        {{ Form::text('codigo', $q_codigo, array('placeholder'=>'Código Quirón')) }}
+        {{ Form::submit('Buscar')}}
+    {{ Form::close() }}
+    <br/>
 
     <table>
         <tbody>

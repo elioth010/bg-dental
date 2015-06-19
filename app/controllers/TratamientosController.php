@@ -102,30 +102,46 @@ class TratamientosController extends \BaseController {
     }
 
     public function busqueda() {
-        $nombre = Input::get('nombre');
-        if ($nombre) {
-            $nombre = "%" . $nombre . "%";
+        $q_nombre = Input::get('nombre', '');
+        if ($q_nombre != '') {
+            $nombre = "%" . $q_nombre . "%";
         }
 
-        $codigo = Input::get('codigo');
-        if ($codigo) {
-            $codigo = "%" . $codigo . "%";
+        $q_codigo = Input::get('codigo', '');
+        if ($q_codigo != '') {
+            $codigo = "%" . $q_codigo . "%";
         }
 
-        if ($nombre || $codigo) {
+        if (isset($nombre) || isset($codigo)) {
 
             $companias = Companias::lists('nombre', 'id');
 
-            $tratamientos = Tratamientos::where('nombre', 'LIKE', $nombre)->orWhere('codigo', 'LIKE', $codigo)
-                    ->leftJoin('precios', 'precios.tratamientos_id', '=', 'tratamientos.id')
-                    ->select('tratamientos.id', 'tratamientos.codigo', 'tratamientos.nombre', DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
-                    ->groupBy('tratamientos.id')
-                    ->get();
+            if (isset($nombre) && isset($codigo)) {
+                $tratamientos = Tratamientos::where('nombre', 'LIKE', $nombre)->orWhere('codigo', 'LIKE', $codigo)
+                        ->leftJoin('precios', 'precios.tratamientos_id', '=', 'tratamientos.id')
+                        ->select('tratamientos.id', 'tratamientos.codigo', 'tratamientos.nombre', DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
+                        ->groupBy('tratamientos.id')
+                        ->get();
+            } elseif (isset($nombre)) {
+                $tratamientos = Tratamientos::where('nombre', 'LIKE', $nombre)
+                        ->leftJoin('precios', 'precios.tratamientos_id', '=', 'tratamientos.id')
+                        ->select('tratamientos.id', 'tratamientos.codigo', 'tratamientos.nombre', DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
+                        ->groupBy('tratamientos.id')
+                        ->get();
+            } else {
+                $tratamientos = Tratamientos::where('codigo', 'LIKE', $codigo)
+                        ->leftJoin('precios', 'precios.tratamientos_id', '=', 'tratamientos.id')
+                        ->select('tratamientos.id', 'tratamientos.codigo', 'tratamientos.nombre', DB::raw('GROUP_CONCAT(IFNULL(precios.precio, "NULL") ORDER BY precios.companias_id) as precios'))
+                        ->groupBy('tratamientos.id')
+                        ->get();
+            }
+
         } else {
             return Redirect::action('TratamientosController@busqueda');
         }
 
-        return View::make('tratamientos.busqueda')->with(array('tratamientos' => $tratamientos, 'companias' => $companias));
+        return View::make('tratamientos.busqueda')->with(array('tratamientos' => $tratamientos, 'companias' => $companias,
+                                                               'q_nombre' => $q_nombre, 'q_codigo' => $q_codigo));
     }
 
     /**

@@ -17,7 +17,7 @@ Route::resource('password', 'RemindersController');
 Route::group(array('before' => 'auth'), function() {
 
     Route::get('paciente/buscar', 'PacientesController@buscar');
-    Route::post('paciente/busqueda', 'PacientesController@busqueda');
+    Route::get('paciente/busqueda', 'PacientesController@busqueda');
     Route::resource('paciente', 'PacientesController');
 
     //Route::get('populate', 'PopulateController@populate');
@@ -26,7 +26,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::get('tratamientos', 'TratamientosController@index');
     Route::post('tratamientos/index_tpg', 'TratamientosController@index_tpg');
     Route::get('tratamientos/buscar', 'TratamientosController@show');
-    Route::post('tratamientos/busqueda', 'TratamientosController@busqueda');
+    Route::get('tratamientos/busqueda', 'TratamientosController@busqueda');
     Route::get('tratamientos/grupos', 'GruposController@index');
     Route::get('tratamientos/creargrupo', 'GruposController@create');
     Route::post('tratamientos/guardargrupo', 'GruposController@store');
@@ -98,7 +98,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource ('tipos', 'TiposTratamientosController');
 
     //Rutas para Historiales clínicos
-    Route::post('historial_clinico/busqueda', 'Historial_clinicoController@busqueda');
+    Route::get('historial_clinico/busqueda', 'Historial_clinicoController@busqueda');
     Route::post('historial_clinico/coste_lab/{id}', 'Historial_clinicoController@coste_lab');
     Route::post('historial_clinico/cobrar/{id}', 'Historial_clinicoController@cobrar');
     Route::post('historial_clinico/ayudantia', 'Historial_clinicoController@store_ayudantia');

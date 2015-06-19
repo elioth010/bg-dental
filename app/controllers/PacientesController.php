@@ -71,10 +71,10 @@ class PacientesController extends BaseController {
 
      public function busqueda()
      {
-        $busca = Input::get('nombre');
-        if($busca) {
+        $query = Input::get('q', '');
 
-            $busca = '%'.$busca.'%';
+        if ($query != '') {
+            $busca = '%'.$query.'%';
             $pacientes = Pacientes::select('pacientes.id', 'numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
                                     ->where('pacientes.nombre', 'LIKE', $busca)
                                     ->orWhere('pacientes.apellido1', 'LIKE', $busca)
@@ -101,7 +101,8 @@ class PacientesController extends BaseController {
             return Redirect::action('PacientesController@buscar');
         }
 
-        return View::make('pacientes.busqueda')->with('pacientes', $pacientes)->with('profesionales', $profesionales)->with('espera', $espera);
+        return View::make('pacientes.busqueda')->with(array('profesionales' => $profesionales, 'pacientes' => $pacientes,
+                                                            'espera' => $espera, 'busca' => $query));
      }
 
 
