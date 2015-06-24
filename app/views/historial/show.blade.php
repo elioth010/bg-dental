@@ -159,8 +159,6 @@ Historial clínico
                     <th>Profesional</th>
                     <th>Fecha realización</th>
                     <th>Precio</th>
-
-
                     @if(Auth::user()->isAdmin())
                     <th>Añadir</th>
                     <th>Costes lab.</th>
