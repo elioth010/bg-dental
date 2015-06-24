@@ -15,7 +15,8 @@ Historial clínico
 </div>
 <div align="right">
 
-    @if ($espera !== null)
+    @if (($espera !== null) && (
+        ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin()))))
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
     {{ Form::close() }}
@@ -105,7 +106,7 @@ Historial clínico
             </div>
         <?php } ?>
 
-        @if (($espera !== null) && ($profesional->id = $espera->profesional_id))
+        @if (($espera !== null) && ($profesional->id == $espera->profesional_id))
         <h1>Añadir un tratamiento:</h1>
         <br/>
         <table border = "1">
