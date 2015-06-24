@@ -71,9 +71,9 @@
 	<div class="roll">
         <h1>Presupuestos aceptados:</h1>
 
-        <?php if (empty($presupuestos)) { ?>
-            El paciente no tiene presupuestos aceptados.
-        <?php } else { ?>
+    <?php if (empty($presupuestos)) { ?>
+        El paciente no tiene presupuestos aceptados.
+    <?php } else { ?>
 
         <div>
         @foreach($presupuestos as $presupuesto)
