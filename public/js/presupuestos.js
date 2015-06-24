@@ -18,6 +18,9 @@ function updateSelectTratamientos(id, gid) {
             for(tid in gtratamientos) {
                 tratamientosSelect.options[tratamientosSelect.options.length]=new Option(gtratamientos[tid].nombre, tid)
             }
+
+            sortOptions('#s_tratamiento-' + id);
+            $('#s_tratamiento-' + id).val(0);
         }
 
     }
