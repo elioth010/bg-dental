@@ -833,6 +833,5 @@ function validate_presupuesto(form) {
     }
     else {
         return true;
-        //return confirm('Do you really want to submit the form?');
     }
 }

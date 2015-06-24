@@ -54,21 +54,6 @@ Historial clínico
 <div class="roll">
 
     <div>
-        @if(Auth::user()->isAdmin())
-
-
-
-
-        {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
-        {{ Form::hidden('paciente_id', $paciente->id) }}
-        {{ Form::number('anticipar' , '0.00',  array('class' => 'euros', 'step' => 'any')) }}
-        {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
-        {{ Form::submit('Cobrar anticipo', array('class'=>'botonl')) }}
-        {{ Form::close() }}
-        @endif
-    </div>
-
-    <div>
         <h1>Presupuestos aceptados:</h1>
 
         <?php if (empty($presupuestos)) { ?>
@@ -174,7 +159,7 @@ Historial clínico
                     <th>Fecha realización</th>
                     <th>Precio</th>
 
-    
+
                     @if(Auth::user()->isAdmin())
                     <th>Añadir</th>
                     <th>Costes lab.</th>
@@ -221,7 +206,7 @@ Historial clínico
                         @if ($historial->pendiente_de_cobro != 1)
                         {{'Cobrado'}}
                         @else
-                        {{ Form::open(array('url'=>'cobros')) }}
+                        {{ Form::open(array('url'=>'cobros', 'return validate_cobro(this);')) }}
                         {{ Form::number('cobrar' ,$historial->precio,  array('class' => 'euros', 'step' => 'any')) }}
                         {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
                         {{ Form::hidden('paciente_id', $paciente->id) }}
@@ -242,7 +227,7 @@ Historial clínico
                         @endif
                     </td>
                     @endif
-        
+
                 </tr>
                 @endforeach
 

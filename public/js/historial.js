@@ -60,3 +60,32 @@ function updatePrecios() {
     //s_precios.val(comp_economica)
     //s_precios[0].options[0].value = '00'
 }
+
+
+// Si el tipo es anticipo, comprobar que la cantidad introducida no es mayor que saldon
+function validate_cobro(form) {
+    console.log('validate_cobro');
+    console.debug(form);
+    /*
+    {{ Form::number('cobrar' ,$historial->precio,  array('class' => 'euros', 'step' => 'any')) }}
+    {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
+    */
+    return false;
+    var valid = true;
+
+    var inputs = $("input[name^='iunidades-']");
+    inputs.each(function(index, input){
+        if (input.value == 0) {
+            valid = false;
+        }
+    });
+
+    if(!valid) {
+        alert('La cantidad a cobrar desde anticipo es mayor que el saldo disponible.');
+        return false;
+    }
+    else {
+        // TODO
+        return confirm('¿Desea realizar un cobro de' + '0' + ' usando ' + 'Anticipo' + '?');
+    }
+}
