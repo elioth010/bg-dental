@@ -254,7 +254,7 @@ class PresupuestosController extends \BaseController {
             }
         }
 
-        $tratamientosAll = Tratamientos::get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
+        $tratamientosAll = Tratamientos::orderBy('nombre')->get(array('nombre', 'id', 'grupostratamientos_id', 'tipostratamientos_id'));
 
         $atratamientos = array();
         foreach ($tratamientosAll as $t) {
