@@ -72,24 +72,18 @@
       </tr>
     </table>
 
-    <h2>Observaciones ocultas en el presupuesto:</h2>
-	<div style="width:100%;">
-	<div class="tbl_izq">
     {{ Form::open(array('action' => array('PresupuestosController@verPresupuesto', $presupuesto->numerohistoria, $presupuesto->id))) }}
-        {{ Form::textarea('observaciones', $presupuesto->observaciones) }}
-        </br><h2>Observaciones que saldrán en el presupuesto:</h2>
-        {{ Form::textarea('observaciones_p', $presupuesto->observaciones_p) }}</br>
+        <div class="tbl_izq">
+            <h2>Observaciones ocultas en el presupuesto:</h2>
+            {{ Form::textarea('observaciones', $presupuesto->observaciones) }}
+        </div>
+        <div class="tbl_drc">
+            <h2>Observaciones que saldrán en el presupuesto:</h2>
+            {{ Form::textarea('observaciones_p', $presupuesto->observaciones_p) }}</br>
+        </div>
         {{ Form::submit('Modificar', array('class'=>'botonl'))}}
     {{ Form::close() }}
-    </div>
-    <div style="padding-top:90px; margin-left:400px;">
-    {{--<h2>Coste total de laboratorio:</h2>
-    {{ Form::open(array('url'=>'pacientes/'.$presupuesto->numerohistoria.'/presupuesto/'.$presupuesto->id.'/coste_lab')) }}
-        {{ Form::text('coste_lab', $presupuesto->coste_lab) }}</br></br>
-        {{ Form::submit('Añadir costes', array('class'=>'botonl'))}}
-    {{ Form::close() }}--}}
-	</div>
-	</div>
+
     <div style="margin-top:30px;">
        <hr/>
     Acciones:
