@@ -29,7 +29,7 @@ Historial clínico
 <div style="float:left; width:390px; margin-left:10px; padding-left:15px; border-left:1px solid #1271b3;">
 <h2>Cobro de anticipos:</h2>
 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
-@if($paciente->saldo < 0)
+@if($saldo < 0)
 <span>Saldo: <span style = "color:red"> {{number_format($saldo, 2, ',', '.')}} €</span>
     @else
     <span>Saldo: <span style = "color: green"> {{number_format($saldo, 2, ',', '.')}} €</span>
