@@ -26,7 +26,7 @@
             <th>Nombre</th>
             <th>Apellidos</th>
             <th>Presupuestos</th>
-            <th>Acceso a hitorial clínico</th>
+            <th>Acceso a historial clínico</th>
             <th>Saldo</th>
             <th>Profesional asignado</th>
             <th>Acción</th>
