@@ -376,6 +376,13 @@ function updatePrecios(id, tratamiento) {
                     }
                     odontogramaHighlight(id, tipo, true)
 
+                    if (piezas !== undefined) {
+                        var laspiezas = piezas.split(',')
+                        for (var i = 0; i < laspiezas.length; i++) {
+                            odontograma[id][laspiezas[i]] = true;
+                        }
+                    }
+
                     if (tratamiento["unidades"] !== undefined) {
                         $('#iunidades-' + id).val(tratamiento["unidades"])
                     }

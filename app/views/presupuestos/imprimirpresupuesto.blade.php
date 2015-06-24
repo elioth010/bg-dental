@@ -247,9 +247,18 @@ q:before, q:after {
         <td>{{ $t->nombre }}</td>
         <td> @if ($t->tipostratamientos_id == 4) Cuadrante @endif {{ $t->piezas }}</td>
         <td>{{ $t->unidades }}</td>
-        <td>{{ $t->precio_unidad }}€</td>
+        <?php $grupos_q = array(158, 159, 160, 161, 162, 163, 164);
+                        ?>
+        <td>@if($t->precio_unidad > 0 && in_array($t->id, $grupos_q))
+            {{ $t->precio_unidad }}€
+            @endif
+        </td>
         <td>{{ $t->descuento_text }}</td>
-        <td>{{ $t->precio_final }}€</td>
+        <td>@if($t->precio_final > 0 && in_array($t->id, $grupos_q))
+            {{ $t->precio_final }}€
+            @endif
+            
+        </td>
         <td>{{ $t->compania_text }}</td>
       </tr>
       <?php $i++ ?>

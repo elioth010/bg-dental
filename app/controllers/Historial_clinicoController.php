@@ -10,24 +10,20 @@ class Historial_clinicoController extends \BaseController {
     public function index()
     {
         $user = User::where('id', Auth::id())->firstOrFail();
-       
+
         $profesional = Profesional::where('user_id', $user->id)->where('activo', 1)->first();
-         if(count($profesional) > 0)
-        {
-        $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
+        if(count($profesional) > 0) {
+            $esperas = Espera::where('admitido', 1)->where('espera.profesional_id', $profesional->id)
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->select('espera.id', 'espera.paciente_id', DB::raw("DATE_FORMAT(espera.begin_date, '%d/%m/%Y - %H:%i') as begin"), 'espera.end_date', 'espera.profesional_id',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2')
                             ->orderBy('begin')
                             ->get();
-                    //var_dump($esperas);
-        $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
-        return View::make('historial.index')->with(array('profesionales' => $profesionales, 'esperas' => $esperas))->with('profesional', $profesional);
-    }
-     else {
-        
-        return Redirect::action('ProfesionalController@index')->with('message', 'No existe ningún profesional asignado a su usuario. Asigne ahora uno, o dirígase a los administradores de la aplicación');
-    }
+            $profesionales = Profesional::select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
+            return View::make('historial.index')->with(array('profesionales' => $profesionales, 'esperas' => $esperas))->with('profesional', $profesional);
+        } else {
+            return Redirect::action('ProfesionalController@index')->with('message', 'No existe ningún profesional asignado a su usuario. Asigne ahora uno, o dirígase a los administradores de la aplicación');
+        }
     }
 
 
@@ -355,11 +351,10 @@ class Historial_clinicoController extends \BaseController {
 
         if ($q_busca != '') {
             $busca = '%'.$q_busca.'%';
-            $pacientes = Pacientes::where('nombre', 'LIKE', $busca)
-                                    ->orWhere('apellido1', 'LIKE', $busca)
-                                    ->orWhere('apellido2', 'LIKE', $busca)
-                                    ->orWhere('numerohistoria', 'LIKE', $busca)
-                                    ->get();
+            $pacientes = Pacientes::where(DB::raw('concat(pacientes.nombre, " ", pacientes.apellido1, " ", pacientes.apellido2)'), 'LIKE', $busca)
+                                ->orWhere(DB::raw('concat(pacientes.apellido1, " ", pacientes.apellido2, " ", pacientes.nombre)'), 'LIKE', $busca)
+                                ->orWhere('numerohistoria', 'LIKE', $busca)
+                                ->get();
         } else {
             return Redirect::action('Historial_clinicoController@index');
         }
