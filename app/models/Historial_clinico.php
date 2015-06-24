@@ -6,7 +6,7 @@ class Historial_clinico extends Eloquent {
     public $timestamps = true;
     protected $table = 'historial_clinico';
     protected $fillable = array('paciente_id', 'profesional_id', 'tratamiento_id', 'fecha_realizacion', 'cobrado_paciente', 'abonado_quiron', 'cobrado_profesional', 'precio', 'pendiente_de_cobro',
-                                'ayudantia', 'id_hist_ayudantia', 'ayudantia_aplicada');
+                                'ayudantia', 'id_hist_ayudantia', 'ayudantia_aplicada', 'unidades', 'presupuesto_tratamiento_id');
 
 
     public static $p_rules = array(

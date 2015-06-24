@@ -16,7 +16,7 @@ Historial clínico
 <div align="right">
 
     @if (($espera !== null) && (
-        ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin()))
+        ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin())))
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
     {{ Form::close() }}
@@ -41,7 +41,6 @@ Historial clínico
         {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
         {{ Form::submit('Cobrar anticipo', array('class'=>'botonl')) }}
         {{ Form::close() }}
-
 
         @if($p_d_c->pendiente > 0)
         Importe pendiente de cobro: <span style = "color :red"> {{number_format($p_d_c->pendiente, 2, ',', '.')}} €</span>
@@ -71,7 +70,8 @@ Historial clínico
                             <th>Tratamiento</th>
                             <th>Profesional</th>
                             <th>Fecha realización</th>
-                            <th>Precio</th>
+                            <th>Precio total</th>
+                            <th>Unidades restantes</th>
                             <th>Guardar</th>
                         </tr>
 
@@ -81,18 +81,23 @@ Historial clínico
                             {{ Form::hidden('profesional_id', $profesional->id) }}
                             {{ Form::hidden('paciente_id', $paciente->id) }}
                             {{ Form::hidden('tratamiento_id', $tratamiento->tratamiento_id) }}
-                            {{ Form::hidden('precio', $tratamiento->precio_final) }}
                             {{ Form::hidden('presupuesto_id', $presupuesto->id) }}
                             {{ Form::hidden('presupuestotratamiento_id', $tratamiento->id) }}
                             <td>{{ $tratamiento->nombre }}</td>
                             <td>{{ $profesionales_list[$profesional->id] }}</td>
-                            <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
-                            <td>{{ number_format($tratamiento->precio_final, 2, ',', '.') }} €</td>
-                            @if ($tratamiento->estado == 0)
-                            <td> {{ Form::submit('Añadir', array('class'=>'botonl'))}}</td>
+                            @if ($tratamiento->estado != 0)
+                            <td>Ya incluído en el historial.</td>
                             @else
-                            <td></td>
+                            <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
                             @endif
+                            <td>{{ number_format($tratamiento->precio_final, 2, ',', '.') }} €</td>
+                            <td>{{ $tratamiento->unidades_restantes }} / {{ $tratamiento->unidades }}</td>
+                            <td>
+                                @if ($tratamiento->estado == 0)
+                                {{ Form::number('unidades', $tratamiento->unidades_restantes, array('style' => 'width: 40px', 'step' => 'any', 'min' => 1, 'max' => $tratamiento->unidades_restantes)) }}
+                                {{ Form::submit('Añadir', array('class'=>'botonl'))}}
+                                @endif
+                            </td>
                             {{ Form::close() }}
                         </tr>
                         @endforeach
@@ -155,6 +160,7 @@ Historial clínico
                     <th>Profesional</th>
                     <th>Fecha realización</th>
                     <th>Precio</th>
+                    <th>Unidades</th>
                     @if(Auth::user()->isAdmin())
                     <th>Añadir</th>
                     <th>Costes lab.</th>
@@ -198,6 +204,7 @@ Historial clínico
                             $cobromax = $historial->precio;
                         } ?>
                     </td>
+                    <td>{{ $historial->unidades }}</td>
                     @if (Auth::user()->isAdmin() or Auth::user()->isRecepcion())
                     <td>
                         @if ($historial->pendiente_de_cobro != 1)
