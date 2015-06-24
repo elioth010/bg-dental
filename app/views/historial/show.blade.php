@@ -33,7 +33,7 @@
  
   <br/>
 
-  <h1>Cobros:</h1>
+  <h1>Cobro de anticipos:</h1>
   @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
       @if($paciente->saldo < 0)
               <h2>Saldo: <span style = "color :red"> {{$saldo}} €</span>
@@ -54,7 +54,7 @@
             <span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
         @endif
   @endif
-	<div class="roll">
+	<div>
     
   
   <div>
@@ -72,7 +72,7 @@
     @endif
     </div>
 
-	<div class="roll">
+	<div>
         <h1>Presupuestos aceptados:</h1>
 
         <?php if (empty($presupuestos)) { ?>
@@ -165,7 +165,7 @@
             {{ Form::close() }}
         </tr>
         </table>
-
+<div>
         <h1>Historial:</h1>
 
         <table border = "1">
@@ -264,6 +264,7 @@
         @endforeach
 
     </table>
+</div>
     <br/>
 
 

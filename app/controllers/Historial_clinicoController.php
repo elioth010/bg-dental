@@ -188,13 +188,18 @@ class Historial_clinicoController extends \BaseController {
         }
 
         $grupos = Grupos::orderBy('id')->get(array('id', 'nombre'));
+        
+        $anticipos = Cobros::where('paciente_id', $paciente->id)->where('historial_clinico_id', 0)->sum('cobro'); //los cobros con historial clínico = 0 son anticipos pagados desde el HC de un paciente.
+        $todos_los_cobros_de_anticipo = Cobros::where('paciente_id', $paciente->id)->where('historial_clinico_id', '!=', 0)->where('tipos_de_cobro_id', 1)->sum('cobro');
+        $saldo_anticipos = $anticipos - $todos_los_cobros_de_anticipo;
 
         $atratamientos = $this->getTratamientosArray($grupos, $companias_list, $companias_paciente);
-
+        
         return array('grupos' => $grupos,
                     'paciente' => $paciente,
                     'atratamientos' => $atratamientos,
-                    'companias' => $companias_list);
+                    'companias' => $companias_list,
+                    'saldon' => $saldo_anticipos);
     }
 
     /**
@@ -270,7 +275,8 @@ class Historial_clinicoController extends \BaseController {
 
         $data = $this->_data_aux_historial($paciente);
         $tipos_de_cobro = Tipos_de_cobro::lists('nombre', 'id');
-        if($paciente->saldo <= 0){
+        
+        if($data['saldon'] <= 0){
             unset($tipos_de_cobro[1]);
         }
         $espera = Espera::where('paciente_id', $id)->where('admitido', 1)->first();
