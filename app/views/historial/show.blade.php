@@ -39,7 +39,7 @@ Historial clínico
         @endif
         {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
-        {{ Form::number('anticipar' ,'0,00',  array('class' => 'euros', 'step' => 'any')) }}
+        {{ Form::number('anticipar' , '0.00',  array('class' => 'euros', 'step' => 'any', 'min' => 0)) }}
         {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
         {{ Form::submit('Cobrar anticipo', array('class'=>'botonl')) }}
         {{ Form::close() }}
@@ -193,9 +193,14 @@ Historial clínico
                     <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
                     <td>{{ $historial->date }}</td>
                     <td>{{ $historial->precio }} €
-                        @if ($historial->pdc > 0)
+                        <?php if ($historial->pdc > 0) {
+                            $cobromax = min($historial->pdc, $historial->precio);
+                        ?>
                         pdc. {{ $historial->pdc }} €
-                        @endif
+                        <?php
+                        } else {
+                            $cobromax = $historial->precio;
+                        } ?>
                     </td>
                     @if (Auth::user()->isAdmin() or Auth::user()->isRecepcion())
                     <td>
@@ -205,7 +210,7 @@ Historial clínico
                         {{ Form::open(array('url'=>'cobros', 'onsubmit' => 'return validate_cobro(this);')) }}
                         {{ Form::hidden('paciente_id', $paciente->id) }}
                         {{ Form::hidden('historial_clinico_id', $historial->id) }}
-                        {{ Form::number('cobrar' ,$historial->precio, array('class' => 'euros', 'step' => 'any')) }}
+                        {{ Form::number('cobrar', $historial->precio, array('class' => 'euros', 'step' => 'any', 'max' => $cobromax, 'min' => 1)) }}
                         {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
                         {{ Form::submit('Cobrar', array('class'=>'botonl')) }}
                         {{ Form::close() }}
@@ -217,7 +222,7 @@ Historial clínico
                         {{ $historial->coste_lab }} €
                         @else
                         {{ Form::open(array('url'=>'historial_clinico/coste_lab/'.$historial->id)) }}
-                        {{ Form::number('coste_lab', null, array('class' => 'euros', 'step' => 'any')) }}
+                        {{ Form::number('coste_lab', 0, array('class' => 'euros', 'step' => 'any', 'min' => 0)) }}
                         {{ Form::submit('Añadir', array('class'=>'botonl'))}}
                         {{ Form::close() }}
                         @endif
