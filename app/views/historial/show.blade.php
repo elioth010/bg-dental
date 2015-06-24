@@ -13,8 +13,9 @@ Historial clínico
 <div class="search">
     {{ HTML::linkAction('Historial_clinicoController@index', 'Buscar pacientes') }}
 </div>
-<div align="right" style="margin-right:40px">
-    @if (($espera !== null) && 
+<div align="right">
+
+    @if (($espera !== null) && (
         ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin()))
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
