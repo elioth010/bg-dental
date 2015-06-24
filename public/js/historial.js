@@ -65,27 +65,25 @@ function updatePrecios() {
 // Si el tipo es anticipo, comprobar que la cantidad introducida no es mayor que saldon
 function validate_cobro(form) {
     console.log('validate_cobro');
-    console.debug(form);
-    /*
-    {{ Form::number('cobrar' ,$historial->precio,  array('class' => 'euros', 'step' => 'any')) }}
-    {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
-    */
-    return false;
-    var valid = true;
 
-    var inputs = $("input[name^='iunidades-']");
-    inputs.each(function(index, input){
-        if (input.value == 0) {
-            valid = false;
-        }
+    var valid = true;
+    var fields = {};
+    $(form).find(":input").each(function() {
+        fields[this.name] = $(this).val();
     });
+    var saldo = parseInt($('#saldo').text());
+    var cobrar = parseInt(fields['cobrar']);
+
+    if ((fields['tipos_de_cobro_id'] == 1) && (cobrar > saldo)) {
+        valid = false;
+    }
 
     if(!valid) {
         alert('La cantidad a cobrar desde anticipo es mayor que el saldo disponible.');
         return false;
     }
     else {
-        // TODO
-        return confirm('¿Desea realizar un cobro de' + '0' + ' usando ' + 'Anticipo' + '?');
+        var tipo_text = $(form).find("select[name^='tipos_de_cobro_id'] option:selected").text();
+        return confirm('¿Desea realizar un cobro de ' + cobrar + '€ usando ' + tipo_text + '?');
     }
 }
