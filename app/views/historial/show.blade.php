@@ -31,9 +31,9 @@ Historial clínico
 <h2>Cobro de anticipos:</h2>
 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
 @if($saldo < 0)
-<span>Saldo: <span style = "color:red"> {{number_format($saldo, 2, ',', '.')}} €</span>
+    Saldo: <span id="saldo" style="color:red">{{number_format($saldo, 2, ',', '.')}}</span><span style="color:red"> €</span>
     @else
-    <span>Saldo: <span style = "color: green"> {{number_format($saldo, 2, ',', '.')}} €</span>
+        Saldo: <span id="saldo" style="color: green">{{number_format($saldo, 2, ',', '.')}}</span><span style="color:green"> €</span>
         @endif
         {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
@@ -49,7 +49,7 @@ Historial clínico
 @endif
 @endif
 </div>
-		
+
 		<div style="width:100%; max-height:340px; overflow:auto;">
 
         <h1>Presupuestos aceptados:</h1>
