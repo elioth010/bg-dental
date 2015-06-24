@@ -77,10 +77,6 @@ class Historial_clinicoController extends \BaseController {
 //            $paciente->saldo = $paciente->saldo - Input::get('precio');
 //            $paciente->update();
 
-            if ($presupuesto_id) {
-                $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
-            }
-
             return Redirect::action('Historial_clinicoController@show', $paciente_id);
     }
     
@@ -121,10 +117,6 @@ class Historial_clinicoController extends \BaseController {
 //            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
 //            $paciente->saldo = $paciente->saldo - Input::get('precio');
 //            $paciente->update();
-
-            if ($presupuesto_id) {
-                $presupuesto->tratamientos2()->updateExistingPivot($presupuestotratamiento_id, array('estado' => 1));
-            }
 
             return Redirect::action('Historial_clinicoController@show', $paciente_id);
     }
