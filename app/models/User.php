@@ -8,7 +8,6 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
 
-
     public static $rules = array(
         'dni'=>'required|min:9|unique:users',
         'firstname'=>'required|min:2',
@@ -25,13 +24,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      * @var string
      */
     protected $table = 'users';
-        protected $fillable = array('firstname', 'lastname', 'email', 'group_id', 'sede_id', 'dni');
+    protected $fillable = array('firstname', 'lastname', 'email', 'group_id', 'sede_id', 'dni');
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = array('password', 'remember_token');
+
 
     public function sedes() {
         return $this->belongsToMany('Sedes', 'sedes_users', 'user_id', 'sede_id');
@@ -44,48 +44,39 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function isAdmin()
     {
         //Admin puede todo.
-        return $this->group_id == 1;
-
+        return $this->group_id == Usergroups::ADMIN;
     }
 
     public function isProfesional()
     {
-        //Admin puede todo.
-        return $this->group_id == 4;
-
+        return $this->group_id == Usergroups::PROFESIONAL;
     }
-    
+
     public function isHigienista()
     {
-        //Admin puede todo.
-        return $this->group_id == 6;
-
+        return $this->group_id == Usergroups::HIGIENISTA;
     }
-    
+
     public function isRecepcion()
     {
-        //Admin puede todo.
-        return $this->group_id == 7;
-
+        return $this->group_id == Usergroups::RECEPCION;
     }
 
     public function isAsesor()
     {
-        //Admin puede todo.
-        return $this->group_id == 5;
-
+        return $this->group_id == Usergroups::ASESOR;
     }
 
     public function isUser()
     {
         //User puede ver presupuestos, pacientes, tratamientos, guardias.
-        return $this->group_id == 2;
+        return $this->group_id == Usergroups::USER;
     }
 
     public function isViewer()
     {
         //Viewer sólo puede ver guardias y turnos.
-        return $this->group_id == 3;
+        return $this->group_id == Usergroups::VIEWER;
     }
 
     public function isMalaga()
