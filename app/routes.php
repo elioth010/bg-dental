@@ -4,8 +4,26 @@
 // {
 //    var_dump($query);
 // });
+if(Auth::check()) //si usuario logeado cambiamos la ruta de acceso al servidor /
+{
+    if(Auth::user()->isAdmin())
+    {
+        Route::get('/', 'PacientesController@index');
+        
+    } elseif(Auth::user()->isProfesional())
+    {
+        Route::get('/', 'Historial_clinicoController@index');
+        
+    } elseif(Auth::user()->isRecepcion())
+    {
+        Route::get('/', 'PacientesController@index');
+        
+    } else {
+        Route::get('/', 'UsersController@getLogin');
+        
+    }
+}
 
-Route::get('/', 'UsersController@getLogin');
 Route::controller('users', 'UsersController');
 Route::get('password/reset/{id}', 'RemindersController@show');
 Route::post('password/reset/{token}', 'RemindersController@update');
