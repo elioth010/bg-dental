@@ -32,7 +32,7 @@
 </div>
 
 
-	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm')) }}
+	{{ Form::open(array('action' => array('PresupuestosController@store', $paciente->numerohistoria), 'id' => 'NuevoPresuForm', 'onsubmit' => 'return validate_presupuesto(this);')) }}
     <h1>Nuevo presupuesto</h1>
 	<ul class="labelreg6">
     	<li>{{ Form::hidden('numerohistoria', $paciente->numerohistoria) }}</li>

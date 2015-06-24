@@ -14,4 +14,9 @@ class Profesional extends Eloquent {
     public function sedes() {
         return $this->belongsToMany('Sedes', 'sedes_profesionales', 'profesional_id', 'sede_id');
     }
+
+    public function getFullNameAttribute() {
+        return $this->attributes['nombre'] . ' ' . $this->attributes['apellido1'] . ' ' . $this->attributes['apellido2'];
+    }
+
 }

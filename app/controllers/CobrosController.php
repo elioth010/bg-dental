@@ -94,10 +94,6 @@ class CobrosController extends \BaseController {
                 $cobro->cobro = Input::get('anticipar');
                 $cobro->tipos_de_cobro_id = Input::get('tipos_de_cobro_id');
                 $cobro->save();
-                $paciente = Pacientes::where('id', Input::get('paciente_id'))->firstOrFail();
-                
-                    $paciente->saldo = $paciente->saldo + Input::get('anticipar');
-                    $paciente->update();
                 
                 return Redirect::action('Historial_clinicoController@show', Input::get('paciente_id'));
         }
@@ -117,15 +113,41 @@ class CobrosController extends \BaseController {
                 $cobro->save();
                 
                 $historial = Historial_clinico::where('id', Input::get('historial_clinico_id'))->firstOrFail();
-                var_dump($historial);
-                $historial->pendiente_de_cobro = 0;
-                $historial->update();
-                
-                $paciente = Pacientes::where('id', Input::get('paciente_id'))->firstOrFail();
-                if(Input::get('tipos_de_cobro_id') == 1){
-                    $paciente->saldo = $paciente->saldo - Input::get('cobrar');
-                    $paciente->update();
+                $cobros = Cobros::where('historial_clinico_id', $historial->id)->sum('cobro');
+                $pdc = $historial->precio - $cobros;
+                if($pdc == 0)
+                {
+                    $historial->pendiente_de_cobro = 0;
+                    $historial->update();
                 }
+                
+//                if($historial->precio - Input::get('cobrar') != 0)
+//                    {
+//                        
+//                        if(Input::get('tipos_de_cobro_id') == 1)
+//                        {
+//                            $paciente = Pacientes::where('id', Input::get('paciente_id'))->firstOrFail();
+//                            $paciente->saldo = $paciente->saldo - Input::get('cobrar');
+//                            $paciente->update();
+//                        }
+//                            $historial->pendiente_de_cobro = 1;
+//                            $historial->cobrado_paciente = $historial->cobrado_paciente + Input::get('cobrar');
+//                            $historial->update();
+//                            
+//                            
+//                    } else {
+//                            $historial->pendiente_de_cobro = 0;
+//                            $historial->cobrado_paciente = Input::get('cobrar');
+//                            $historial->update();
+//                    }
+//                $historial->pendiente_de_cobro = 0;
+//                $historial->update();
+//                
+//                $paciente = Pacientes::where('id', Input::get('paciente_id'))->firstOrFail();
+//                if(Input::get('tipos_de_cobro_id') == 1){
+//                    $paciente->saldo = $paciente->saldo - Input::get('cobrar');
+//                    $paciente->update();
+//                }
                 
                 
                 

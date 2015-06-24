@@ -19,7 +19,11 @@
      } else {
          echo "Este usuario no tiene un profesional asignado";
      }
-     ?></div>
+     $grupo = Usergroups::where('id', Auth::user()->group_id)->first();
+     ?>
+     <br/>
+     Grupo: {{ $grupo->nombre }}
+     </div>
          <div class="logo"></div>
          <div class="exit">
              @if(Auth::user()->isAdmin())
@@ -63,28 +67,28 @@
                     <li>{{ HTML::link('#', 'PACIENTES') }}
                 @endif
                         <ul>
-                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())            
+                @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
                             <li>{{ HTML::linkAction('Historial_clinicoController@index', 'HISTORIAL CLÍNICO') }}</li>
                 @endif
                 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
                             <li>{{ HTML::linkAction('PacientesController@create', 'CREAR PACIENTES') }}</li>
                             <li>{{ HTML::linkAction('PacientesController@buscar', 'BUSCAR PACIENTES') }}</li>
-                @endif            
+                @endif
                         </ul>
                     </li>
-                @if(Auth::user()->isAdmin())    
+                @if(Auth::user()->isAdmin())
                     <li>{{ HTML::linkAction('TratamientosController@index', 'TRATAMIENTOS') }}
                         <ul>
                             {{--<li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
                             <li>{{ HTML::linkAction('GruposController@index', 'GRUPOS DE TRATAMIENTOS') }}</li>--}}
-                
+
                 @if(Auth::user()->isAdmin())
                             <li>{{ HTML::linkAction('GruposController@create', 'CREAR GRUPO DE TRATAMIENTOS') }}</li>
                             <li>{{ HTML::linkAction('TratamientosController@create', 'CREAR TRATAMIENTOS') }}</li>
                 @endif
                         </ul>
                     </li>
-                @endif    
+                @endif
                 @if(Auth::user()->isProfesional() or Auth::user()->isAdmin())
                     <li>{{ HTML::linkAction('FacturacionController@index', 'FACTURACIÓN') }}
                         <ul>
@@ -102,7 +106,7 @@
                             <li>{{ HTML::linkAction('GuardiaController@listado_g', 'LISTADO GUARDIAS') }}</li>
                         </ul>
                     </li>
-                @endif    
+                @endif
 
                   </ul>
 			 </div>

@@ -18,6 +18,9 @@ function updateSelectTratamientos(id, gid) {
             for(tid in gtratamientos) {
                 tratamientosSelect.options[tratamientosSelect.options.length]=new Option(gtratamientos[tid].nombre, tid)
             }
+
+            sortOptions('#s_tratamiento-' + id);
+            $('#s_tratamiento-' + id).val(0);
         }
 
     }
@@ -232,15 +235,24 @@ function updatePreciosCompanias(id, compania_id) {
     }
 }
 
+// id = "compania-1" (select)
+function sortOptions(id) {
+    var sel = $(id);
+    var opts_list = sel.find('option');
+    opts_list.sort(function(a, b) { return $(a).text() > $(b).text(); });
+    sel.html('').append(opts_list);
+}
+
 // Cuando se cambia de tratamiento en el selector
 // id === null: llamada desde el descuento global del presupuesto
 // id !== null, tratamiento === null: al elegir otro grupo (updateSelectTratamientos()) o al cambiar el valor de EUR/%
 // id !== null, tratamiento !== null: Al editar un presupuesto cuando se añaden los tratamientos, al elegir otro tratamiento
 function updatePrecios(id, tratamiento) {
     console.log('updatePrecios ' + id + ', ' + tratamiento)
+    console.debug(tratamiento)
 
     if (id !== undefined) {
-        // TODO: Coger de s_tratamiento-1 y eliminar parametro tratamiento
+
         if (tratamiento !== undefined) {
             var tid = tratamiento["tratamiento_id"]
             var preciofinal = tratamiento["precio_final"]
@@ -249,19 +261,30 @@ function updatePrecios(id, tratamiento) {
             console.log(tid, preciofinal, piezas, compania)
         }
 
+        var dpiezas = $('#dpiezas-' + id)
         var grupo = $('#grupo-' + id).val()
 
-        var precio = $('#precio-' + id)
-        var preciof = $('#preciof-' + id)
-        var desc = $('#descuento-' + id).val()
-        var tipodesc = $('#s_tipodescuento-' + id).val()
-        var ipiezas = $('#ipiezas-' + id)
-        var divprecio = $("#dprecio-" + id)
-        var dpiezas = $('#dpiezas-' + id)
+        if (tid === undefined) {
+           console.log('algo ' + id)
+           var tid = $('#s_tratamiento-' + id).val()
 
-        if (tid !== undefined) {
+           if (tid == "0") {
+               if (dpiezas.length) {
+                   dpiezas.remove()
+               }
+           }
 
-            if (tid == 0) {
+        } else {
+
+            var tid = $('#s_tratamiento-' + id).val()
+            var precio = $('#precio-' + id)
+            var preciof = $('#preciof-' + id)
+            var desc = $('#descuento-' + id).val()
+            var tipodesc = $('#s_tipodescuento-' + id).val()
+            var ipiezas = $('#ipiezas-' + id)
+            var divprecio = $("#dprecio-" + id)
+
+            if (tid == 0) { // -- Elija un tratamiento --
                 $('#compania-' + id).val(0)
 
                 precio.text("0.00")
@@ -272,21 +295,10 @@ function updatePrecios(id, tratamiento) {
                 }
 
                 $('#compania-' + id).attr({disabled: 'disabled'});
+
             } else {
-                if (compania === undefined) {
-                    var compania_default = $('#companiadefecto').val()
-                    if (compania_default == 0) {
-                        $('#compania-' + id).val(tratamientos[grupo][tid]['compania_economica'])
-                    } else {
-                        $('#compania-' + id).val(compania_default)
-                    }
-                } else {
-                    $('#compania-' + id).val(compania)
-                }
 
-                $('#compania-' + id).removeAttr('disabled');
-
-                var tipo = tratamientos[grupo][tid]['tipo']
+                // Actualiza los precios de las compañías
                 var options = $('#compania-' + id + ' option')
                 for (var i=0; i<options.length; i++) {
                     var cid = options[i].value
@@ -294,10 +306,25 @@ function updatePrecios(id, tratamiento) {
                     if (tratamientos[grupo][tid]['precios'][cid] !== undefined) {
                         options[i].text = companias[cid] + ' (' + tratamientos[grupo][tid]['precios'][cid] + '€)'
                     }
+                }
+                sortOptions('#compania-' + id)
 
+                if (compania !== undefined) {
+                    // Editando tratamiento
+                    $('#compania-' + id).val(compania)
+                } else {
+                    var compania_default = $('#companiadefecto').val()
+                    if (compania_default == 0) {
+                        $('#compania-' + id).val(tratamientos[grupo][tid]['compania_economica'])
+                    } else {
+                        $('#compania-' + id).val(compania_default)
+                    }
                 }
 
-                // 1 = pieza, 2 = general, 3 = puente
+                $('#compania-' + id).removeAttr('disabled');
+
+                var tipo = tratamientos[grupo][tid]['tipo']
+                // 1 = pieza, 2 = general, 3 = puente, 4 = cuadrante, 5 = arcada
                 if (tipo == 2) {
                     if (dpiezas.length) {
                         dpiezas.remove()
@@ -349,20 +376,17 @@ function updatePrecios(id, tratamiento) {
                     }
                     odontogramaHighlight(id, tipo, true)
 
+                    if (piezas !== undefined) {
+                        var laspiezas = piezas.split(',')
+                        for (var i = 0; i < laspiezas.length; i++) {
+                            odontograma[id][laspiezas[i]] = true;
+                        }
+                    }
+
                     if (tratamiento["unidades"] !== undefined) {
                         $('#iunidades-' + id).val(tratamiento["unidades"])
                     }
 
-                }
-            }
-
-        } else {
-            console.log('algo ' + id)
-            var tid = $('#s_tratamiento-' + id).val()
-
-            if (tid == "0") {
-                if (dpiezas.length) {
-                    dpiezas.remove()
                 }
             }
 
@@ -797,4 +821,24 @@ function onOdontogramaClose(id, tipo, parent) {
 
     updatePrecioManual(id)
     updatePrecioFinal()
+}
+
+function validate_presupuesto(form) {
+    console.log('validate_presupuesto')
+    var valid = true
+
+    var inputs = $("input[name^='iunidades-']");
+    inputs.each(function(index, input){
+        if (input.value == 0) {
+            valid = false;
+        }
+    });
+
+    if(!valid) {
+        alert('Hay tratamientos donde no se han seleccionado las piezas.');
+        return false;
+    }
+    else {
+        return true;
+    }
 }
