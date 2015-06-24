@@ -274,7 +274,6 @@ class Historial_clinicoController extends \BaseController {
             unset($tipos_de_cobro[1]);
         }
         $espera = Espera::where('paciente_id', $id)->where('admitido', 1)->first();
-        $espera = $espera === null ? 0 : $espera->id;
 
         // no hay presupuestos que mostrar porque todos tienen los tratamientos realizados
         if (!$hay_presupuestos) {
@@ -285,7 +284,7 @@ class Historial_clinicoController extends \BaseController {
                             ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                          'presupuestos' => $presupuestos, 'profesionales_list' => $profesionales_list,
                                          'tipos_de_cobro' => $tipos_de_cobro, 'paciente' => $paciente,
-                                         'p_d_c' => $p_d_c, 'espera_id' => $espera, 'saldo'=> $saldo_anticipos));
+                                         'p_d_c' => $p_d_c, 'espera' => $espera, 'saldo'=> $saldo_anticipos));
 
 
     }

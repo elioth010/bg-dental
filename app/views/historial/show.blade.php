@@ -15,11 +15,10 @@
   </div>
 <div align="right">
 
-  @if ($espera_id != 0)
-
-  {{ Form::open(array('url'=>'espera/'.$espera_id, 'method' => 'put')) }}
-  {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
-  {{ Form::close() }}
+  @if ($espera !== null)
+    {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
+    {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
+    {{ Form::close() }}
   @endif
   </div>
   <div>
@@ -28,9 +27,6 @@
   <h3>Compañías: {{ $paciente->companias_text }}</h3>
   </div>
 
-  
-
- 
   <br/>
 
   <h1>Cobros:</h1>
@@ -55,14 +51,14 @@
         @endif
   @endif
 	<div class="roll">
-    
-  
+
+
   <div>
   @if(Auth::user()->isAdmin())
 
 
-    
-    
+
+
     {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
         {{ Form::number('anticipar' , '0.00',  array('class' => 'euros', 'step' => 'any')) }}
@@ -123,6 +119,8 @@
         @endforeach
     </div>
     <?php } ?>
+
+    @if (($espera !== null) && ($profesional->id = $espera->profesional_id))
     <h1>Añadir un tratamiento:</h1>
     <br/>
     <table border = "1">
@@ -164,7 +162,8 @@
             <td> {{ Form::submit('Añadir', array('class'=>'botonl'))}}</td>
             {{ Form::close() }}
         </tr>
-        </table>
+    </table>
+    @endif
 
         <h1>Historial:</h1>
 
