@@ -208,6 +208,12 @@ class Historial_clinicoController extends \BaseController {
         $paciente = Pacientes::where('id', $id)->firstOrFail();
         $user = Auth::id();
         $profesional = Profesional::where('user_id', $user)->firstOrFail();
+
+        $profesionales_list = array();
+        foreach (Profesional::all() as $p) {
+            $profesionales_list[$p->id] = $p->getFullNameAttribute();
+        }
+
         $historiales = Historial_clinico::where('paciente_id', $paciente->id)
                 ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
                 ->leftJoin('profesionales', 'historial_clinico.profesional_id', '=', 'profesionales.id' )
@@ -254,10 +260,10 @@ class Historial_clinicoController extends \BaseController {
         }
 
         return View::make('historial.show')->with($data)
-                                                ->with('paciente', $paciente)
-                                                ->with(array('historiales' => $historiales, 'profesional' => $profesional,
-                                                             'presupuestos' => $presupuestos))->with('tipos_de_cobro', $tipos_de_cobro)
-                                                ->with('p_d_c', $p_d_c)->with('espera_id', $espera);
+                            ->with(array('historiales' => $historiales, 'profesional' => $profesional,
+                                         'presupuestos' => $presupuestos, 'profesionales_list' => $profesionales_list,
+                                         'tipos_de_cobro' => $tipos_de_cobro, 'paciente' => $paciente,
+                                         'p_d_c' => $p_d_c, 'espera_id' => $espera));
 
     }
 

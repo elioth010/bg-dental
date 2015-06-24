@@ -82,7 +82,7 @@
                 {{ Form::hidden('presupuesto_id', $presupuesto->id) }}
                 {{ Form::hidden('presupuestotratamiento_id', $tratamiento->id) }}
                 <td>{{ $tratamiento->nombre }}</td>
-                <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }}</td>
+                <td>{{ $profesionales_list[$profesional->id] }}</td>
                 <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
                 <td>{{ $tratamiento->precio_final }}</td>
                 @if ($tratamiento->estado == 0)
@@ -131,12 +131,10 @@
             <td>{{ Form::select('s_grupos', array(),  null, array('id' => 's_grupos', 'onchange' => 'updateSelectTratamientos(this.value)')) }}
                 {{ Form::select('tratamiento_id', array(), null, array('id' => 's_tratamientos', 'onchange' => 'updatePrecios()')) }}
             </td>
-            <td>{{ $profesional->nombre }}, {{ $profesional->apellido1 }} {{ $profesional->apellido2 }}</td>
+            <td>{{ $profesionales_list[$profesional->id] }}</td>
             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
 
             <td>{{ Form::select('precio', array(), null, array('id' => 's_precios')) }}</td>
-
-
 
             @if(Auth::user()->isAdmin())
             {{--<td>{{Form::number('cobrado_paciente', null, array('class' => 'euros', 'step' => 'any'))}}</td>
