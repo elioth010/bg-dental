@@ -5,16 +5,16 @@
 @stop
 
 @section('contenido')
- <h3>
-  Cobros:
-  </h3><br />
- 
- Elegir intervalo de tiempo:
+ <div style="margin-top:10px; float:left; width: 300px;">
+ <h3>Cobros:</h3>
+  Elegir intervalo de tiempo:
  {{ Form::open(array('url'=>'cobros/cf')) }}
  {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
  {{ Form::submit('OK', array('class'=>'botonl'))}}
  {{ Form::close() }}
-	<div class="roll" style="margin-left:100px">
+ </div>
+	
+	<div style="max-width:550px; margin-top:30px; max-height: 480px; overflow:auto;">
     <table border = "1">
       <tr>
       <th>Paciente</th>

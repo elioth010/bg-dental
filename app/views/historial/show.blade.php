@@ -13,29 +13,26 @@ Historial clínico
 <div class="search">
     {{ HTML::linkAction('Historial_clinicoController@index', 'Buscar pacientes') }}
 </div>
-<div align="right">
-
-    @if (($espera !== null) && (
-        ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin()))))
+<div align="right" style="margin-right:40px">
+    @if (($espera !== null) && 
+        ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin()))
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
     {{ Form::close() }}
     @endif
 </div>
-<div>
+<div style="float:left; width:360px">
     <h3>Historial de {{ $paciente->nombre}}, {{ $paciente->apellido1 }} {{ $paciente->apellido2 }}</h3>
     <h3>NHC: {{ HTML::linkAction('PacientesController@show',$paciente->numerohistoria, $paciente->id) }} </h3>
     <h3>Compañías: {{ $paciente->companias_text }}</h3>
 </div>
-
-<br/>
-
-<h1>Cobro de anticipos:</h1>
+<div style="float:left; width:390px; margin-left:10px; padding-left:15px; border-left:1px solid #1271b3;">
+<h2>Cobro de anticipos:</h2>
 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
 @if($paciente->saldo < 0)
-<h2>Saldo: <span style = "color :red"> {{$saldo}} €</span>
+<span>Saldo: <span style = "color:red"> {{$saldo}} €</span>
     @else
-    <h2>Saldo: <span style = "color: green"> {{$saldo}} €</span>
+    <span>Saldo: <span style = "color: green"> {{$saldo}} €</span>
         @endif
         {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{Form::hidden('paciente_id', $paciente->id)}}
@@ -51,17 +48,16 @@ Historial clínico
     <span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
 @endif
 @endif
+</div>
+		
+		<div style="width:100%; max-height:340px; overflow:auto;">
 
-<div class="roll">
-
-    <div>
         <h1>Presupuestos aceptados:</h1>
 
         <?php if (empty($presupuestos)) { ?>
             El paciente no tiene presupuestos aceptados.
         <?php } else { ?>
 
-            <div>
                 @foreach($presupuestos as $presupuesto)
 
                 <?php if (!empty($presupuesto->presu_tratamientos)) { ?>
@@ -103,10 +99,10 @@ Historial clínico
                     </table>
                 <?php } ?>
                 @endforeach
-            </div>
         <?php } ?>
 
         @if (($espera !== null) && ($profesional->id == $espera->profesional_id))
+
         <h1>Añadir un tratamiento:</h1>
         <br/>
         <table border = "1">
@@ -147,7 +143,6 @@ Historial clínico
 
         </table>
         @endif
-        <div>
 
             <h1>Historial:</h1>
 
@@ -234,11 +229,6 @@ Historial clínico
 
             </table>
         </div>
-        <br/>
-
-
-    </div>
-</div>
 
 
 <script type="text/javascript">

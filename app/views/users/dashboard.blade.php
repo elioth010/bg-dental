@@ -5,9 +5,9 @@
 @stop
 
 @section('contenido')
-<h1>Gestión de usuarios:</h1>
+<h1>Gestión de usuarios:</h1></br>
 {{ HTML::link('users/register', 'Dar de alta un nuevo usuario', array('class' => 'btn')) }}
-<div style="overflow:auto; max-height:395px;">
+<div style="overflow:auto; max-height:395px; margin-top:10px;">
 <h2 style="margin:5px 0 0 190px">Usuarios:</h2>
     <table border="1" style="margin:auto;">
       <tr>
