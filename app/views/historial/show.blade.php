@@ -61,16 +61,8 @@
   @if(Auth::user()->isAdmin())
 
 
-    @if($p_d_c > 0)
-        <h3>Tratamientos pendientes de cobro: <span style = "color :red"> {{$p_d_c}} €</span></h3>
-    @else
-        <h3><span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h3>
-    @endif
-    @if($paciente->saldo < 0)
-        <h3>Saldo: <span style = "color :red"> {{$paciente->saldo}} €</span></h3>
-    @else
-        <h3>Saldo: <span style = "color: green"> {{$paciente->saldo}} €</span></h3>
-    @endif
+    
+    
     {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
         {{ Form::number('anticipar' , '0.00',  array('class' => 'euros', 'step' => 'any')) }}
@@ -277,7 +269,7 @@
 
 	</div>
 </div>
-</div>
+
 
 <script type="text/javascript">
     var grupos = {{ json_encode($grupos) }}
