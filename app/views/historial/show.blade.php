@@ -30,9 +30,9 @@ Historial clínico
 <h2>Cobro de anticipos:</h2>
 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
 @if($paciente->saldo < 0)
-<span>Saldo: <span style = "color:red"> {{$saldo}} €</span>
+<span>Saldo: <span style = "color:red"> {{number_format($saldo, 2, ',', '.')}} €</span>
     @else
-    <span>Saldo: <span style = "color: green"> {{$saldo}} €</span>
+    <span>Saldo: <span style = "color: green"> {{number_format($saldo, 2, ',', '.')}} €</span>
         @endif
         {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
@@ -43,9 +43,9 @@ Historial clínico
 
 
         @if($p_d_c->pendiente > 0)
-        Importe pendiente de cobro: <span style = "color :red"> {{$p_d_c->pendiente}} €</span></h2>
+        Importe pendiente de cobro: <span style = "color :red"> {{number_format($p_d_c->pendiente, 2, ',', '.')}} €</span>
     @else
-    <span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span></h2>
+    <span style = "color: green"> {{'No existen tratamientos pendientes de cobro'}}</span>
 @endif
 @endif
 </div>
@@ -86,7 +86,7 @@ Historial clínico
                             <td>{{ $tratamiento->nombre }}</td>
                             <td>{{ $profesionales_list[$profesional->id] }}</td>
                             <td>{{ Form::text('fecha_realizacion', '', array('class' => 'datepicker')) }}</td>
-                            <td>{{ $tratamiento->precio_final }}</td>
+                            <td>{{ number_format($tratamiento->precio_final, 2, ',', '.') }} €</td>
                             @if ($tratamiento->estado == 0)
                             <td> {{ Form::submit('Añadir', array('class'=>'botonl'))}}</td>
                             @else
@@ -187,11 +187,11 @@ Historial clínico
                     </td>
                     <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
                     <td>{{ $historial->date }}</td>
-                    <td>{{ $historial->precio }} €
+                    <td>{{ number_format($historial->precio, 2, ',', '.') }} €
                         <?php if ($historial->pdc > 0) {
                             $cobromax = min($historial->pdc, $historial->precio);
                         ?>
-                        pdc. {{ $historial->pdc }} €
+                        pdc. {{ number_format($historial->pdc, 2, ',', '.') }} €
                         <?php
                         } else {
                             $cobromax = $historial->precio;
@@ -205,7 +205,7 @@ Historial clínico
                         {{ Form::open(array('url'=>'cobros', 'onsubmit' => 'return validate_cobro(this);')) }}
                         {{ Form::hidden('paciente_id', $paciente->id) }}
                         {{ Form::hidden('historial_clinico_id', $historial->id) }}
-                        {{ Form::number('cobrar', $historial->precio, array('class' => 'euros', 'step' => 'any', 'max' => $cobromax, 'min' => 1)) }}
+                        {{ Form::number('cobrar', $historial->pdc, array('class' => 'euros', 'step' => 'any', 'max' => $cobromax, 'min' => 1)) }}
                         {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
                         {{ Form::submit('Cobrar', array('class'=>'botonl')) }}
                         {{ Form::close() }}

@@ -250,12 +250,12 @@ q:before, q:after {
         <?php $grupos_q = array(158, 159, 160, 161, 162, 163, 164);
                         ?>
         <td>@if($t->precio_unidad > 0 && in_array($t->id, $grupos_q))
-            {{ $t->precio_unidad }}€
+            {{  number_format($t->precio_unidad, 2, ',', '.') }}€
             @endif
         </td>
         <td>{{ $t->descuento_text }}</td>
         <td>@if($t->precio_final > 0 && in_array($t->id, $grupos_q))
-            {{ $t->precio_final }}€
+            {{  number_format($t->precio_final, 2, ',', '.') }}€
             @endif
             
         </td>
@@ -271,7 +271,7 @@ q:before, q:after {
         <td></td>
         <td></td>
         <td></td>
-        <td><strong>{{ $total }}€</strong></td>
+        <td><strong>{{  number_format($total,2, ',', '.') }}€</strong></td>
       </tr>
     </table>
 	</div>
