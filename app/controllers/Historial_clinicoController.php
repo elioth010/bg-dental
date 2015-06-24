@@ -228,27 +228,25 @@ class Historial_clinicoController extends \BaseController {
                         'profesionales.apellido2 as pr_a2', 'tratamientos.nombre as t_n', 'tratamientos.id as t_id')
                 ->orderBy('id', 'DESC')
                 ->get();
-        
-        
+
+
         foreach ($historiales as $h)
         {
             $cobros_a_restar_de_precio = Cobros::where('historial_clinico_id', $h->id)->sum('cobro'); //Esto es la suma de los cobros de un item de HC
             $h->pdc = $h->precio - $cobros_a_restar_de_precio;
-             
         }
-        
-        
+
+
         $anticipos = Cobros::where('paciente_id', $paciente->id)->where('historial_clinico_id', 0)->sum('cobro'); //los cobros con historial clínico = 0 son anticipos pagados desde el HC de un paciente.
         $todos_los_cobros_de_anticipo = Cobros::where('paciente_id', $paciente->id)->where('historial_clinico_id', '!=', 0)->where('tipos_de_cobro_id', 1)->sum('cobro');
         $saldo_anticipos = $anticipos - $todos_los_cobros_de_anticipo;
         $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->where('paciente_id', $id)->get();
         $p_d_c->pendiente = 0;
-            foreach($p_d_c as $p)
-            {
-                $cobros = Cobros::where('historial_clinico_id', $p->id)->sum('cobro');
-                $p_d_c->pendiente += $p->precio - $cobros;
-            }
-        
+        foreach($p_d_c as $p)
+        {
+            $cobros = Cobros::where('historial_clinico_id', $p->id)->sum('cobro');
+            $p_d_c->pendiente += $p->precio - $cobros;
+        }
 
         $presupuestos = Presupuestos::where('numerohistoria', $paciente->numerohistoria)->where('aceptado', 1)
                                     ->select('presupuestos.*', DB::raw("DATE_FORMAT(created_at, '%d/%m/%Y') as creado"))
@@ -280,7 +278,6 @@ class Historial_clinicoController extends \BaseController {
             unset($tipos_de_cobro[1]);
         }
         $espera = Espera::where('paciente_id', $id)->where('admitido', 1)->first();
-        $espera = $espera === null ? 0 : $espera->id;
 
         // no hay presupuestos que mostrar porque todos tienen los tratamientos realizados
         if (!$hay_presupuestos) {
@@ -291,7 +288,7 @@ class Historial_clinicoController extends \BaseController {
                             ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                          'presupuestos' => $presupuestos, 'profesionales_list' => $profesionales_list,
                                          'tipos_de_cobro' => $tipos_de_cobro, 'paciente' => $paciente,
-                                         'p_d_c' => $p_d_c, 'espera_id' => $espera, 'saldo'=> $saldo_anticipos));
+                                         'p_d_c' => $p_d_c, 'espera' => $espera, 'saldo'=> $saldo_anticipos));
 
 
     }
