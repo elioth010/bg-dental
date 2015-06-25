@@ -48,7 +48,10 @@ class Historial_clinicoController extends \BaseController {
         $presupuesto_id = Input::get('presupuesto_id', false);
         $presupuestotratamiento_id = Input::get('presupuestotratamiento_id', 0);
         $presupuesto = Presupuestos::where('id', $presupuesto_id)->where('aceptado', 1)->firstOrFail();
-        $pt = $presupuesto->tratamientos2()->find($presupuestotratamiento_id);
+        $pt = DB::table('presupuestos_tratamientos')
+                     ->where('id', $presupuestotratamiento_id)
+                     ->first();
+
         $paciente_id = Input::get('paciente_id');
 
             $historial = new Historial_clinico;
