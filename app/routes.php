@@ -25,6 +25,7 @@ if(Auth::check()) //si usuario logeado cambiamos la ruta de acceso al servidor /
 } else {
 
     Route::get('/', 'UsersController@getLogin');
+
 }
 
 Route::controller('users', 'UsersController');
