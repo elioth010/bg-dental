@@ -300,11 +300,14 @@ function updatePrecios(id, tratamiento) {
 
                 // Actualiza los precios de las compañías
                 var options = $('#compania-' + id + ' option')
+
                 for (var i=0; i<options.length; i++) {
                     var cid = options[i].value
 
                     if (tratamientos[grupo][tid]['precios'][cid] !== undefined) {
                         options[i].text = companias[cid] + ' (' + tratamientos[grupo][tid]['precios'][cid] + '€)'
+                    } else {
+                        options[i].text = companias[cid] + ' (Sin precio)'
                     }
                 }
                 sortOptions('#compania-' + id)
