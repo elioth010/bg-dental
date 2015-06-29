@@ -230,21 +230,20 @@ class PresupuestosController extends \BaseController {
     // Construye un array para javascript de crear/editar presupuesto
     private function getTratamientosArray($grupos, $companias, $companias_paciente) {
 
+        //precios de todas las compañías para todos los tratamientos
         $preciosObj = Precios::whereIn('companias_id', array_keys($companias))->get(array('tratamientos_id', 'precio', 'companias_id'));
+
         $precios = array();
         $companiaEconomica = array();
 
-        // Escoge el precio más barato de las dos compañías
         foreach ($preciosObj as $p)
         {
-            if (!(array_key_exists($p->tratamientos_id, $precios)) ||
-                ((array_key_exists($p->tratamientos_id, $precios)) && ($p->precio < $precios[$p->tratamientos_id]))) {
-
-                if ($p->precio !== null) {
-                    $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
-                }
+            // Crea array de precios por tratamiento y compañía
+            if ($p->precio !== null) {
+                $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
             }
 
+            // Halla la compañía más económica de las del paciente
             if (in_array($p->companias_id, $companias_paciente)) {
                 if (!(array_key_exists($p->tratamientos_id, $companiaEconomica)) ||
                     ((array_key_exists($p->tratamientos_id, $companiaEconomica)) && ($p->precio < $precios[$p->tratamientos_id][$companiaEconomica[$p->tratamientos_id]]))) {
