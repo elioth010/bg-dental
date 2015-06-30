@@ -26,7 +26,7 @@
 
       @foreach($cobros as $cobro)
         <tr>
-        <td>{{$cobro->p_n}}</td>
+        <td>{{$cobro->p_n}}, {{$cobro->p_a1}} {{$cobro->p_a2}}</td>
         <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $cobro->paciente_id) }}</td>
         <td>{{$cobro->cobro}}</td>
         <td>{{$cobro->tc_n}}</td>

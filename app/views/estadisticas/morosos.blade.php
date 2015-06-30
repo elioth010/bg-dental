@@ -17,17 +17,19 @@ Elegir intervalo de tiempo:
 
  <div class="overflow">
 
- <h3>Pemdientes de cobro mes actual:</h3></br>
+ <h3>Pedientes de cobro mes actual:</h3></br>
 
  <table>
      <tr>
          <th>Fecha realización</th>
+         <th>Nombre paciente</th>
          <th>Historial clínico</th>
          <th>precio</th>
      </tr>
  @foreach($p_d_c as $item)
  <tr>
      <td>{{$item->fecha_realizacion}}</td>
+     <td>{{$item->p_n}}, {{$item->p_a1}} {{$item->p_a2}}</td>
      <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $item->paciente_id) }}</td>
      <td>{{$item->precio}}
     @endforeach
