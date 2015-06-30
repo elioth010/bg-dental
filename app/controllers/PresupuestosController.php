@@ -242,16 +242,22 @@ class PresupuestosController extends \BaseController {
             if ($p->precio !== null) {
                 $precios[$p->tratamientos_id][$p->companias_id] = $p->precio;
             }
+        }
+
+        foreach ($preciosObj as $p) {
 
             // Halla la compañía más económica de las del paciente
             if (in_array($p->companias_id, $companias_paciente)) {
+
                 if (!(array_key_exists($p->tratamientos_id, $companiaEconomica)) ||
                         ((array_key_exists($p->tratamientos_id, $companiaEconomica)) &&
-                        ($precios[$p->tratamientos_id][$companiaEconomica[$p->tratamientos_id]] !== null) &&
+                        ($p->precio !== null) &&
+                        (isset($precios[$p->tratamientos_id][$companiaEconomica[$p->tratamientos_id]])) &&
                         ($p->precio < $precios[$p->tratamientos_id][$companiaEconomica[$p->tratamientos_id]]))) {
 
                     $companiaEconomica[$p->tratamientos_id] = $p->companias_id;
                 }
+
             }
         }
 
