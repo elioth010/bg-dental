@@ -269,7 +269,8 @@ class Historial_clinicoController extends \BaseController {
 
         $data = $this->_data_aux_historial($paciente);
         $tipos_de_cobro = Tipos_de_cobro::lists('nombre', 'id');
-        
+        $tipos_de_cobro_anticipos = Tipos_de_cobro::lists('nombre', 'id');
+        unset($tipos_de_cobro_anticipos[1]);
         if($data['saldon'] <= 0){
             unset($tipos_de_cobro[1]);
         }
@@ -284,7 +285,8 @@ class Historial_clinicoController extends \BaseController {
                             ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                          'presupuestos' => $presupuestos, 'profesionales_list' => $profesionales_list,
                                          'tipos_de_cobro' => $tipos_de_cobro, 'paciente' => $paciente,
-                                         'p_d_c' => $p_d_c, 'espera' => $espera, 'saldo'=> $saldo_anticipos));
+                                         'p_d_c' => $p_d_c, 'espera' => $espera, 'saldo'=> $saldo_anticipos,
+                                          'tipos_de_cobro_anticipos' => $tipos_de_cobro_anticipos));
 
 
     }

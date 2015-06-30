@@ -15,8 +15,8 @@ Historial clínico
 </div>
 <div align="right">
 
-    @if (($espera !== null) && (
-        ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin())))
+    @if ($espera !== null && 
+        Auth::user()->isRecepcion() or Auth::user()->isAdmin())
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
     {{ Form::close() }}
@@ -28,8 +28,8 @@ Historial clínico
     <h3>Compañías: {{ $paciente->companias_text }}</h3>
 </div>
 <div style="float:left; width:390px; margin-left:10px; padding-left:15px; border-left:1px solid #1271b3;">
-<h2>Cobro de anticipos:</h2>
 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
+    <h2>Cobro de anticipos:</h2>
 @if($saldo < 0)
     Saldo: <span id="saldo" style="color:red">{{number_format($saldo, 2, ',', '.')}}</span><span style="color:red"> €</span>
     @else
@@ -38,7 +38,7 @@ Historial clínico
         {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
         {{ Form::number('anticipar' , '0.00',  array('class' => 'euros', 'step' => 'any', 'min' => 0)) }}
-        {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
+        {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro_anticipos) }}
         {{ Form::submit('Cobrar anticipo', array('class'=>'botonl')) }}
         {{ Form::close() }}
 
@@ -162,7 +162,7 @@ Historial clínico
                     <th>Precio</th>
                     <th>Unidades</th>
                     @if(Auth::user()->isAdmin())
-                    <th>Añadir</th>
+                    <th>Cobro</th>
                     <th>Costes lab.</th>
                     @endif
                 </tr>
@@ -194,11 +194,11 @@ Historial clínico
                     </td>
                     <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
                     <td>{{ $historial->date }}</td>
-                    <td>{{ number_format($historial->precio, 2, ',', '.') }} €
+                    <td>{{ number_format($historial->precio, 2, ',', '.') }}€<br>
                         <?php if ($historial->pdc > 0) {
                             $cobromax = min($historial->pdc, $historial->precio);
                         ?>
-                        pdc. {{ number_format($historial->pdc, 2, ',', '.') }} €
+                        pdc:{{ number_format($historial->pdc, 2, ',', '.') }}€
                         <?php
                         } else {
                             $cobromax = $historial->precio;
