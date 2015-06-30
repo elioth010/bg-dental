@@ -76,7 +76,7 @@ class OpcionesController extends \BaseController {
                 $opcion = Opciones::find($id);
                 $opcion->nombre = Input::get('nombre');
                 $opcion->valor = Input::get('valor');
-                $opcion->oculto = Input::get('oculto', 0);
+                $opcion->oculto = Input::get('oculto');
                 $opcion->desc = Input::get('desc');
                 $opcion->update();
                 return Redirect::action('OpcionesController@index')->with('message', 'Opción actualizada');

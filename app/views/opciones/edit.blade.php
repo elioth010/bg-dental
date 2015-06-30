@@ -13,15 +13,9 @@
        <li> {{Form::label('Nombre:')}} {{ Form::text('nombre', $opcion->nombre ) }}</li>
        <li> {{Form::label('Valor:')}} {{ Form::text('valor', $opcion->valor ) }}</li>
        <li> {{Form::label('Descripción:')}} {{ Form::text('desc', $opcion->desc ) }}</li>
-       <li> @if($opcion->oculto > 0)
-           {{Form::label('Oculto:')}} {{ Form::checkbox('oculto', 1, true ) }}
-           @else
-           {{Form::label('Oculto:')}} {{ Form::checkbox('oculto', 0 ) }}
-
-           @endif
-       </li>
+       <li> {{Form::label('Oculto:')}} {{ Form::checkbox('oculto', 1, $opcion->oculto == 1 ) }}</li>
       
-    <li>{{Form::submit('OK')}}</li>
+        <li>{{Form::submit('OK')}}</li>
             {{Form::close()}}
     </ul>
      {{ Form::open(array('url'=>'opciones/'.$opcion->id, 'method' => 'delete')) }}
