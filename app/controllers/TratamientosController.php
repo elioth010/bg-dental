@@ -87,7 +87,7 @@ class TratamientosController extends \BaseController {
             }
         }
 
-        return Redirect::action('TratamientosController@index');
+        return Redirect::action('TratamientosController@index')->with('message', '¡Tratamiento guardado con éxito!');
         //return Redirect::action('TratamientosController@edit', $tratamiento->id);
     }
 

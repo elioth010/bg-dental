@@ -79,7 +79,7 @@
                             @endif
                         @endif
                     </td>
-                    <td>
+                    
             </tr><?php $i++;?>
         @endforeach
         </td>

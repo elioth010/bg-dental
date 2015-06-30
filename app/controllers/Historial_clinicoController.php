@@ -346,10 +346,20 @@ class Historial_clinicoController extends \BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        Historial_clinico::destroy(Input::get('id'));
-        return Redirect::action('Historial_clinicoController@show', Input::get('paciente_id'));
+        //buscamos el historial para antes de borrarlo marcar lo tratamientos como no realizados si es que vienen de un presu para que puedan volver a ser adjuntados
+        //$historial = Historial_clinico::where('historial_clinico.id', Input::get('h_id'))->leftJoin('presupuestos_tratamientos', 'historial_clinico.presupuesto_tratamiento_id', '=', 'presupuestos_tratamientos.id')
+//                                        ->firstorFail();
+        //ahora deberíamos encontrar en la tabla presupuestos_tratamientos el $historial->presupuesto_tratamiento_id para marcarlo como 0 en "presupuestos_tratamientos.estado".
+        //aquí hay un error que tiene que ver con el model. El model presupuesotTratamiento extends Pivot y no sé como hacerlo reversible, es decir hacer lo siguiente, que me da error:
+                                
+        //$presu_trat = PresupuestoTratamiento::where('presupuestos_tratamientos.id', $historial->presupuesto_tratamiento_id)->get();
+//          $presu_trat->estado = 0;
+//          $presu_trat->update();
+        
+                        
+        return Redirect::action('Historial_clinicoController@show', Input::get('h_p_id'))->with('message', 'Función no disponible - En pruebas');
         
     }
 

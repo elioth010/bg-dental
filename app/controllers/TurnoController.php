@@ -15,7 +15,7 @@ class TurnoController extends \BaseController {
                 ->leftJoin('profesionales', 'profesionales.id', '=', 'turnos.profesional_id')
                 ->leftJoin('sedes', 'sedes.id', '=', 'turnos.sede_id')
                 ->select('turnos.*', DB::raw("DATE_FORMAT(fecha_turno, '%d/%m/%Y') as fecha"),
-                        'profesionales.nombre as p_n', 'profesionales.nombre as p_a1', 'profesionales.nombre as p_a2', 'sedes.nombre as s_n')
+                        'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido2 as p_a2', 'sedes.nombre as s_n')
                 ->get();
         return View::make('turnos.incidencias')->with('incidencias', $incidencias);
     }
@@ -370,7 +370,7 @@ class TurnoController extends \BaseController {
         $day = explode('-', $fecha)[2];
         $div .= "<div id='rowturno-$day-$tipo' class='rowturno $incidencia'>";
         if ($profesional !== null ){
-            $div .= "$tipo: $profesional->nombre $profesional->apellido1";
+            $div .= "$tipo: ".substr($profesional->nombre, 0,1).". $profesional->apellido1";
         } else {
             $div .= "$tipo: Sin asignar";
         }
