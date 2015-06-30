@@ -150,20 +150,20 @@ Historial clínico
         </table>
         @endif
 
-            <h1>Historial:</h1>
+            <h1 style="color:#0EA928">Historial:</h1>
 
-            <table border = "1">
+            <table class="history" border = "1">
                 <tr>
 
-                    <th>ID hist.</th>
-                    <th>Tratamiento realizado</th>
-                    <th>Profesional</th>
-                    <th>Fecha realización</th>
-                    <th>Precio</th>
-                    <th>Unidades</th>
+                    <th style="background-color:#0EA928">ID hist.</th>
+                    <th style="background-color:#0EA928">Tratamiento realizado</th>
+                    <th style="background-color:#0EA928">Profesional</th>
+                    <th style="background-color:#0EA928">Fecha realización</th>
+                    <th style="background-color:#0EA928">Precio</th>
+                    <th style="background-color:#0EA928">Unidades</th>
                     @if(Auth::user()->isAdmin())
-                    <th>Cobro</th>
-                    <th>Costes lab.</th>
+                    <th style="background-color:#0EA928">Cobro</th>
+                    <th style="background-color:#0EA928">Costes lab.</th>
                     @endif
                 </tr>
                 @foreach($historiales as $historial)
@@ -192,7 +192,7 @@ Historial clínico
                         {{ Form::hidden('fecha_realizacion', $historial->fecha_realizacion) }}
                         {{ Form::hidden('precio', $historial->precio) }}
                         {{ Form::hidden('id_hist_ayudantia', $historial->id) }}
-                        {{ Form::submit('Añadir ayudantía', array('class'=>'botonl')) }}
+                        {{ Form::submit('Añadir ayudantía', array('class'=>'botonv')) }}
                         {{ Form::close() }}
                         @elseif ($historial->id_hist_ayudantia != 0)
                         {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
@@ -224,7 +224,7 @@ Historial clínico
                         {{ Form::hidden('historial_clinico_id', $historial->id) }}
                         {{ Form::number('cobrar', $historial->pdc, array('class' => 'euros', 'step' => 'any', 'max' => $cobromax, 'min' => 1)) }}
                         {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
-                        {{ Form::submit('Cobrar', array('class'=>'botonl')) }}
+                        {{ Form::submit('Cobrar', array('class'=>'botonv')) }}
                         {{ Form::close() }}
                         @endif
                     </td>
@@ -235,7 +235,7 @@ Historial clínico
                         @else
                         {{ Form::open(array('url'=>'historial_clinico/coste_lab/'.$historial->id)) }}
                         {{ Form::number('coste_lab', 0, array('class' => 'euros', 'step' => 'any', 'min' => 0)) }}
-                        {{ Form::submit('Añadir', array('class'=>'botonl'))}}
+                        {{ Form::submit('Añadir', array('class'=>'botonv'))}}
                         {{ Form::close() }}
                         @endif
                     </td>
