@@ -17,7 +17,7 @@ class CobrosController extends \BaseController {
             
             $cobros = Cobros::leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
                         ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
-                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
+                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
                         ->get();
             return View::make('cobros.index')->with('cobros', $cobros);
             
@@ -43,22 +43,31 @@ class CobrosController extends \BaseController {
 //                var_dump($fecha_inicio);
 //                echo "Sin POST";
             }
-            
-            
-            
-            
-            
-            $cobros = Cobros::whereBetween('cobros.created_at', array($fecha_inicio, $fecha_fin))->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
+            var_dump($fecha_inicio);
+                        var_dump($fecha_fin);
+            $cobros = Cobros::where('cobros.created_at', '>=', $fecha_inicio)
+                        ->where('cobros.created_at', '<=', $fecha_fin)    
+                        ->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
                         ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
-                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
+                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
                         ->get();
+            
+            
+            
+//            $cobros = Cobros::whereBetween('cobros.created_at', array($fecha_inicio, $fecha_fin))->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
+//                        ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
+//                        ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
+//                        ->get();
             return View::make('cobros.index')->with('cobros', $cobros);
             
 	}
 
         public function morosos()
 	{
-            $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)->get();
+            $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)
+                    ->leftJoin('pacientes', 'historial_clinico.paciente_id', '=', 'pacientes.id')
+                    ->select('historial_clinico.*', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2')
+                    ->get();
             return View::make ('estadisticas.morosos')->with('p_d_c' , $p_d_c);
                     
             
@@ -72,7 +81,10 @@ class CobrosController extends \BaseController {
             $fecha_fin = Input::get('fecha_fin');
             $fecha_fin = explode('/', $fecha_fin);
             $fecha_fin = $fecha_fin[2]."-".$fecha_fin[1]."-".$fecha_fin[0];
-            $p_d_c = Historial_clinico::whereBetween('fecha_realizacion', array($fecha_inicio, $fecha_fin))->where('pendiente_de_cobro', 1)->get();
+            $p_d_c = Historial_clinico::whereBetween('fecha_realizacion', array($fecha_inicio, $fecha_fin))->where('pendiente_de_cobro', 1)
+                    ->leftJoin('pacientes', 'historial_clinico.paciente_id', '=', 'pacientes.id')
+                    ->select('historial_clinico.*', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2')
+                    ->get();
             return View::make ('estadisticas.morosos')->with('p_d_c' , $p_d_c);
                     
             
