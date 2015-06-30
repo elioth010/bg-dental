@@ -31,6 +31,7 @@
             <th>Paciente</th>
             <th>Tratamiento</th>
             <th>Fecha de realización</th>
+            <th>Precio</th>
             <th>Costes lab.</th>
             <th>Producción s. Quirón</th>
             <th>Cobrado por profesional</th>
@@ -43,6 +44,7 @@
                 <td>{{ HTML::link('historial_clinico/'.$historial->p_id, $historial->p_n.', '.$historial->p_a1.' '.$historial->p_a2)}} </td>
                 <td>{{$historial->t_n }}</td>
                 <td class = "td_centrado">{{$historial->fecha}}</td>
+                <td>{{$historial->precio}}</td>
                 {{ Form::open(array('url'=>'facturacion/'.$historial->h_id, 'method' => 'put')) }}
                 {{Form::hidden('id-'.$i, $historial->h_id)}}
                 <td>{{$historial->coste_lab}} €</td>

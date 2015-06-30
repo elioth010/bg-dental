@@ -62,6 +62,10 @@ class Historial_clinicoController extends \BaseController {
             $fecha_r_f = explode('/', $fecha_r);
             $historial->fecha_realizacion = $fecha_r_f[2]."-".$fecha_r_f[1]."-".$fecha_r_f[0];
             $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
+            if(Input::get('precio') == 0)
+            {
+                $historial->pendiente_de_cobro = 1;
+            }
             $historial->abonado_quiron = Input::get('abonado_quiron', 0);
             $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
             $historial->coste_lab = Input::get('coste_lab', 0);
@@ -344,7 +348,9 @@ class Historial_clinicoController extends \BaseController {
      */
     public function destroy($id)
     {
-        //
+        Historial_clinico::destroy(Input::get('id'));
+        return Redirect::action('Historial_clinicoController@show', Input::get('paciente_id'));
+        
     }
 
     public function busqueda()

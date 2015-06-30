@@ -46,7 +46,7 @@ class CobrosController extends \BaseController {
             var_dump($fecha_inicio);
                         var_dump($fecha_fin);
             $cobros = Cobros::where('cobros.created_at', '>=', $fecha_inicio)
-                        ->where('cobros.created_at', '<=', $fecha_fin)    
+                        ->where(DB::raw('CAST(cobros.created_at as DATE)'),  '<=', $fecha_fin)    
                         ->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
                         ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
                         ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))

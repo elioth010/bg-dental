@@ -168,7 +168,16 @@ Historial clínico
                 </tr>
                 @foreach($historiales as $historial)
                 <tr>
-                    <td>{{$historial->id}}</td>
+                    <td>@if (Auth::user()->isAdmin())
+                            {{ Form::open(array('url'=>'historial_clinico/eliminar')) }}
+                            {{ Form::hidden('h_id', $historial->id) }}
+                            {{ Form::hidden('h_p_id', $historial->paciente_id) }}
+                            {{ Form::image('imagenes/delete.png') }} {{$historial->id}}
+                            {{ Form::close() }}
+                        @endif
+                            
+                            
+                        </td>
                     <td>
                         <?php $grupos_q = array(158, 159, 160, 161, 162, 163, 164); ?>
                         @if($historial->ayudantia_aplicada != 0 )

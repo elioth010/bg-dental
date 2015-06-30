@@ -43,7 +43,7 @@ class FacturacionController extends \BaseController {
                             'cobrado_profesional', 'historial_clinico.id as h_id', 'historial_clinico.*')
                     ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
                     ->where('profesional_id', $profesional->id)
-                    ->orderBy('fecha_realizacion', 'DESC')->get();
+                    ->orderBy('fecha_realizacion', 'ASC')->get();
             //var_dump($historial);
             return View::make('facturacion.index')->with('historiales', $historiales);
             } else {
