@@ -9,24 +9,24 @@ class FacturacionController extends \BaseController {
      */
     public function index()
     {
-            if (!empty($_POST)){
-                $fecha_inicio = Input::get('fecha_inicio');
-                $fecha_inicio = explode('/', $fecha_inicio);
-                $fecha_inicio = $fecha_inicio[2]."-".$fecha_inicio[1]."-".$fecha_inicio[0];
-                $fecha_fin = Input::get('fecha_fin');
-                $fecha_fin = explode('/', $fecha_fin);
-                $fecha_fin = $fecha_fin[2]."-".$fecha_fin[1]."-".$fecha_fin[0];
-//                var_dump($fecha_fin);
-//                var_dump($fecha_inicio);
-                //echo "POST";
-            } else {
-                $fecha_fin = date('Y-m-d');
-                $fecha_primeros = date('Y-m-');
-                $fecha_inicio = $fecha_primeros."1";
+//            if (!empty($_POST)){
+//                $fecha_inicio = Input::get('fecha_inicio');
+//                $fecha_inicio = explode('/', $fecha_inicio);
+//                $fecha_inicio = $fecha_inicio[2]."-".$fecha_inicio[1]."-".$fecha_inicio[0];
+//                $fecha_fin = Input::get('fecha_fin');
+//                $fecha_fin = explode('/', $fecha_fin);
+//                $fecha_fin = $fecha_fin[2]."-".$fecha_fin[1]."-".$fecha_fin[0];
+////                var_dump($fecha_fin);
+////                var_dump($fecha_inicio);
+//                //echo "POST";
+//            } else {
+                $fecha_fin = date('d/m/Y');
+                $fecha_primeros = date('/m/Y');
+                $fecha_inicio = "1".$fecha_primeros;
 //                var_dump($fecha_fin);
 //                var_dump($fecha_inicio);
 //                echo "Sin POST";
-            }
+//            }
 
 
 //            var_dump($fecha_actual);
@@ -45,7 +45,7 @@ class FacturacionController extends \BaseController {
                     ->where('profesional_id', $profesional->id)
                     ->orderBy('fecha_realizacion', 'ASC')->get();
             //var_dump($historial);
-            return View::make('facturacion.index')->with('historiales', $historiales);
+            return View::make('facturacion.index')->with('historiales', $historiales)->with('fecha_inicio', $fecha_inicio)->with('fecha_fin', $fecha_fin);
             } else {
                 return Redirect::action('ProfesionalController@index')->with('message', 'No existe ningún profesional asignado a su usuario. Asigne ahora uno, o dirígase a los administradores de la aplicación');
             }

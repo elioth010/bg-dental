@@ -97,10 +97,10 @@ q:before, q:after {
 		.grey{
 		background-color: #ededed;}
 		#textos li{
-		font-size: 9pt;
+		font-size: 7pt;
 		text-align: justify;
 		padding-left: 20px;
-		line-height: 11pt;
+		line-height: 9pt;
 		}
 		.red{color:red;}
 		table.tabla{
@@ -278,7 +278,7 @@ q:before, q:after {
     </br>
   	<div id="textos">
             <h4>Observaciones: {{$presupuesto->observaciones_p}}</h4>
-            <h3>Este presupuesto tiene una validez de {{$validez->valor}} meses.</h3>
+            <h3 style="font-size:9pt;">Este presupuesto tiene una validez de {{$validez->valor}} meses.</h3>
      <h4>Condiciones de pago:</h4>
      <ul>
     <li>• El día citado para el ingreso en el Hospital, se abonará o se presentará el justificante de pago del total del presupuesto en el servicio de Admisión en concepto de depósito.</li>

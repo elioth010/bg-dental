@@ -116,7 +116,7 @@ function addTratamiento(tratamiento) {
     }
 
     var divPrecio = $("<div>").attr({id: "dprecio-" + lastIndex})
-    divPrecio.append('Precio base: <span id="' + lprecio + '">0.00</span> ')
+    divPrecio.append('Precio base: <span id="' + lprecio + '">0,00 €</span> ')
     divPrecio.append(select4)
     divPrecio.append('</br>')
     divPrecio.append(label3)
@@ -287,8 +287,8 @@ function updatePrecios(id, tratamiento) {
             if (tid == 0) { // -- Elija un tratamiento --
                 $('#compania-' + id).val(0)
 
-                precio.text("0.00")
-                preciof.val("0.00")
+                precio.text("0,00 €")
+                preciof.val("0,00 €")
 
                 if (dpiezas.length) {
                     dpiezas.remove()
@@ -436,8 +436,8 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
     var compania_id = $('#compania-' + id).val()
 
     if (tid == 0) {
-        precio.text("0.00")
-        preciof.val("0.00")
+        precio.text("0,00 €")
+        preciof.val("0,00 €")
     } else {
         if (preciofinal === undefined) {
             var preciofinal = obtenerPrecioFinal(id, tratamientos[grupo][tid]['precios'][compania_id])

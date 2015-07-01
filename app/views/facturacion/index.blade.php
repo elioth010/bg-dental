@@ -12,13 +12,13 @@
           <tr style="background:none;">
               <td style="background:none;color:#333; border:none;">Facturación por intervalo de tiempo:
                   {{ Form::open(array('url'=>'facturacion/cf')) }}
-                  {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
+                  {{ Form::text('fecha_inicio', $fecha_inicio, array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', $fecha_fin, array( 'class' => 'datepicker euros')) }}
                   {{ Form::submit('OK', array('class'=>'botonl'))}}
                   {{ Form::close() }}
               </td>
               <td style="background:none;color:#333; border:none;">Facturación pendiente de cobro:
                   {{ Form::open(array('url'=>'facturacion/nocobrado')) }}
-                  {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
+                  {{ Form::text('fecha_inicio', $fecha_inicio, array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', $fecha_fin, array( 'class' => 'datepicker euros')) }}
                   {{ Form::submit('OK', array('class'=>'botonl'))}}
                   {{ Form::close() }}
               </td>
