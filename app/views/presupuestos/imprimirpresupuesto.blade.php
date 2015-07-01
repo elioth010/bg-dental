@@ -249,7 +249,7 @@ q:before, q:after {
         <td>{{ $t->unidades }}</td>
         <?php $grupos_q = array(158, 159, 160, 161, 162, 163, 164);
                         ?>
-        <td>@if($t->precio_unidad > 0 && in_array($t->id, $grupos_q))
+        <td>@if($t->precio_unidad > 0 && !in_array($t->id, $grupos_q))
             {{  number_format($t->precio_unidad, 2, ',', '.') }}€
             @endif
         </td>
