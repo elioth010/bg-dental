@@ -46,7 +46,7 @@ class CobrosController extends \BaseController {
             var_dump($fecha_inicio);
                         var_dump($fecha_fin);
             $cobros = Cobros::where('cobros.created_at', '>=', $fecha_inicio)
-                        ->where('cobros.created_at', '<=', $fecha_fin)    
+                        ->where(DB::raw('CAST(cobros.created_at as DATE)'),  '<=', $fecha_fin)    
                         ->leftJoin('tipos_de_cobro', 'tipos_de_cobro.id', '=', 'cobros.tipos_de_cobro_id')
                         ->leftJoin('pacientes', 'pacientes.id', '=', 'cobros.paciente_id')
                         ->select('cobros.*', 'tipos_de_cobro.nombre as tc_n', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2', DB::raw("DATE_FORMAT(cobros.created_at, '%d/%m/%Y') as creado"))
@@ -66,8 +66,14 @@ class CobrosController extends \BaseController {
 	{
             $p_d_c = Historial_clinico::where('pendiente_de_cobro', 1)
                     ->leftJoin('pacientes', 'historial_clinico.paciente_id', '=', 'pacientes.id')
-                    ->select('historial_clinico.*', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2')
+                    ->select('historial_clinico.*', 'pacientes.nombre as p_n', 'pacientes.apellido1 as p_a1', 'pacientes.apellido2 as p_a2',
+                            DB::raw("DATE_FORMAT(historial_clinico.fecha_realizacion, '%d/%m/%Y') as fecha"))
                     ->get();
+            foreach ($p_d_c as $h)
+        {
+            $cobros_a_restar_de_precio = Cobros::where('historial_clinico_id', $h->id)->sum('cobro'); //Esto es la suma de los cobros de un item de HC
+            $h->pdc = $h->precio - $cobros_a_restar_de_precio;
+        }
             return View::make ('estadisticas.morosos')->with('p_d_c' , $p_d_c);
                     
             

@@ -124,6 +124,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::post('historial_clinico/coste_lab/{id}', 'Historial_clinicoController@coste_lab');
     Route::post('historial_clinico/cobrar/{id}', 'Historial_clinicoController@cobrar');
     Route::post('historial_clinico/ayudantia', 'Historial_clinicoController@store_ayudantia');
+    Route::post('historial_clinico/eliminar', 'Historial_clinicoController@destroy');
     Route::resource('historial_clinico', 'Historial_clinicoController');
 
     //Rutas para facturación

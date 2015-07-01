@@ -15,8 +15,8 @@ Historial clínico
 </div>
 <div align="right">
 
-    @if (($espera !== null) && (
-        ($profesional->id == $espera->profesional_id) or (Auth::user()->isRecepcion()) or (Auth::user()->isAdmin())))
+    @if ($espera !== null && 
+        Auth::user()->isRecepcion() or Auth::user()->isAdmin())
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
     {{ Form::close() }}
@@ -28,8 +28,8 @@ Historial clínico
     <h3>Compañías: {{ $paciente->companias_text }}</h3>
 </div>
 <div style="float:left; width:390px; margin-left:10px; padding-left:15px; border-left:1px solid #1271b3;">
-<h2>Cobro de anticipos:</h2>
 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
+    <h2>Cobro de anticipos:</h2>
 @if($saldo < 0)
     Saldo: <span id="saldo" style="color:red">{{number_format($saldo, 2, ',', '.')}}</span><span style="color:red"> €</span>
     @else
@@ -38,7 +38,7 @@ Historial clínico
         {{ Form::open(array('url'=>'cobros/anticipo/'.$paciente->id)) }}
         {{ Form::hidden('paciente_id', $paciente->id) }}
         {{ Form::number('anticipar' , '0.00',  array('class' => 'euros', 'step' => 'any', 'min' => 0)) }}
-        {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
+        {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro_anticipos) }}
         {{ Form::submit('Cobrar anticipo', array('class'=>'botonl')) }}
         {{ Form::close() }}
 
@@ -150,25 +150,34 @@ Historial clínico
         </table>
         @endif
 
-            <h1>Historial:</h1>
+            <h1 style="color:#0EA928">Historial:</h1>
 
-            <table border = "1">
+            <table class="history" border = "1">
                 <tr>
 
-                    <th>ID hist.</th>
-                    <th>Tratamiento realizado</th>
-                    <th>Profesional</th>
-                    <th>Fecha realización</th>
-                    <th>Precio</th>
-                    <th>Unidades</th>
+                    <th style="background-color:#0EA928">ID hist.</th>
+                    <th style="background-color:#0EA928">Tratamiento realizado</th>
+                    <th style="background-color:#0EA928">Profesional</th>
+                    <th style="background-color:#0EA928">Fecha realización</th>
+                    <th style="background-color:#0EA928">Precio</th>
+                    <th style="background-color:#0EA928">Unidades</th>
                     @if(Auth::user()->isAdmin())
-                    <th>Añadir</th>
-                    <th>Costes lab.</th>
+                    <th style="background-color:#0EA928">Cobro</th>
+                    <th style="background-color:#0EA928">Costes lab.</th>
                     @endif
                 </tr>
                 @foreach($historiales as $historial)
                 <tr>
-                    <td>{{$historial->id}}</td>
+                    <td>@if (Auth::user()->isAdmin())
+                            {{ Form::open(array('url'=>'historial_clinico/eliminar')) }}
+                            {{ Form::hidden('h_id', $historial->id) }}
+                            {{ Form::hidden('h_p_id', $historial->paciente_id) }}
+                            {{ Form::image('imagenes/delete.png') }} {{$historial->id}}
+                            {{ Form::close() }}
+                        @endif
+                            
+                            
+                        </td>
                     <td>
                         <?php $grupos_q = array(158, 159, 160, 161, 162, 163, 164); ?>
                         @if($historial->ayudantia_aplicada != 0 )
@@ -183,7 +192,7 @@ Historial clínico
                         {{ Form::hidden('fecha_realizacion', $historial->fecha_realizacion) }}
                         {{ Form::hidden('precio', $historial->precio) }}
                         {{ Form::hidden('id_hist_ayudantia', $historial->id) }}
-                        {{ Form::submit('Añadir ayudantía', array('class'=>'botonl')) }}
+                        {{ Form::submit('Añadir ayudantía', array('class'=>'botonv')) }}
                         {{ Form::close() }}
                         @elseif ($historial->id_hist_ayudantia != 0)
                         {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
@@ -194,11 +203,11 @@ Historial clínico
                     </td>
                     <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
                     <td>{{ $historial->date }}</td>
-                    <td>{{ number_format($historial->precio, 2, ',', '.') }} €
+                    <td>{{ number_format($historial->precio, 2, ',', '.') }}€<br>
                         <?php if ($historial->pdc > 0) {
                             $cobromax = min($historial->pdc, $historial->precio);
                         ?>
-                        pdc. {{ number_format($historial->pdc, 2, ',', '.') }} €
+                        pdc:{{ number_format($historial->pdc, 2, ',', '.') }}€
                         <?php
                         } else {
                             $cobromax = $historial->precio;
@@ -215,7 +224,7 @@ Historial clínico
                         {{ Form::hidden('historial_clinico_id', $historial->id) }}
                         {{ Form::number('cobrar', $historial->pdc, array('class' => 'euros', 'step' => 'any', 'max' => $cobromax, 'min' => 1)) }}
                         {{ Form::select('tipos_de_cobro_id', $tipos_de_cobro) }}
-                        {{ Form::submit('Cobrar', array('class'=>'botonl')) }}
+                        {{ Form::submit('Cobrar', array('class'=>'botonv')) }}
                         {{ Form::close() }}
                         @endif
                     </td>
@@ -226,7 +235,7 @@ Historial clínico
                         @else
                         {{ Form::open(array('url'=>'historial_clinico/coste_lab/'.$historial->id)) }}
                         {{ Form::number('coste_lab', 0, array('class' => 'euros', 'step' => 'any', 'min' => 0)) }}
-                        {{ Form::submit('Añadir', array('class'=>'botonl'))}}
+                        {{ Form::submit('Añadir', array('class'=>'botonv'))}}
                         {{ Form::close() }}
                         @endif
                     </td>

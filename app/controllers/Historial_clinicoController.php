@@ -62,6 +62,10 @@ class Historial_clinicoController extends \BaseController {
             $fecha_r_f = explode('/', $fecha_r);
             $historial->fecha_realizacion = $fecha_r_f[2]."-".$fecha_r_f[1]."-".$fecha_r_f[0];
             $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
+            if(Input::get('precio') == 0)
+            {
+                $historial->pendiente_de_cobro = 1;
+            }
             $historial->abonado_quiron = Input::get('abonado_quiron', 0);
             $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
             $historial->coste_lab = Input::get('coste_lab', 0);
@@ -269,7 +273,8 @@ class Historial_clinicoController extends \BaseController {
 
         $data = $this->_data_aux_historial($paciente);
         $tipos_de_cobro = Tipos_de_cobro::lists('nombre', 'id');
-        
+        $tipos_de_cobro_anticipos = Tipos_de_cobro::lists('nombre', 'id');
+        unset($tipos_de_cobro_anticipos[1]);
         if($data['saldon'] <= 0){
             unset($tipos_de_cobro[1]);
         }
@@ -284,7 +289,8 @@ class Historial_clinicoController extends \BaseController {
                             ->with(array('historiales' => $historiales, 'profesional' => $profesional,
                                          'presupuestos' => $presupuestos, 'profesionales_list' => $profesionales_list,
                                          'tipos_de_cobro' => $tipos_de_cobro, 'paciente' => $paciente,
-                                         'p_d_c' => $p_d_c, 'espera' => $espera, 'saldo'=> $saldo_anticipos));
+                                         'p_d_c' => $p_d_c, 'espera' => $espera, 'saldo'=> $saldo_anticipos,
+                                          'tipos_de_cobro_anticipos' => $tipos_de_cobro_anticipos));
 
 
     }
@@ -340,9 +346,21 @@ class Historial_clinicoController extends \BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        //buscamos el historial para antes de borrarlo marcar lo tratamientos como no realizados si es que vienen de un presu para que puedan volver a ser adjuntados
+        //$historial = Historial_clinico::where('historial_clinico.id', Input::get('h_id'))->leftJoin('presupuestos_tratamientos', 'historial_clinico.presupuesto_tratamiento_id', '=', 'presupuestos_tratamientos.id')
+//                                        ->firstorFail();
+        //ahora deberíamos encontrar en la tabla presupuestos_tratamientos el $historial->presupuesto_tratamiento_id para marcarlo como 0 en "presupuestos_tratamientos.estado".
+        //aquí hay un error que tiene que ver con el model. El model presupuesotTratamiento extends Pivot y no sé como hacerlo reversible, es decir hacer lo siguiente, que me da error:
+                                
+        //$presu_trat = PresupuestoTratamiento::where('presupuestos_tratamientos.id', $historial->presupuesto_tratamiento_id)->get();
+//          $presu_trat->estado = 0;
+//          $presu_trat->update();
+        
+                        
+        return Redirect::action('Historial_clinicoController@show', Input::get('h_p_id'))->with('message', 'Función no disponible - En pruebas');
+        
     }
 
     public function busqueda()

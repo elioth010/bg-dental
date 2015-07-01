@@ -28,10 +28,10 @@ Elegir intervalo de tiempo:
      </tr>
  @foreach($p_d_c as $item)
  <tr>
-     <td>{{$item->fecha_realizacion}}</td>
+     <td>{{$item->fecha}}</td>
      <td>{{$item->p_n}}, {{$item->p_a1}} {{$item->p_a2}}</td>
      <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $item->paciente_id) }}</td>
-     <td>{{$item->precio}}
+     <td>{{number_format($item->pdc, 2, ',', '.')}}
     @endforeach
  </table>
 
