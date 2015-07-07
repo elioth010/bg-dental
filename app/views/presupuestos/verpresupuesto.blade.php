@@ -31,7 +31,7 @@
         <td>{{ $i }}</td>
         <td>{{ $t->nombre }}</td>
         <td>{{ $t->unidades }}</td>
-        <td>{{ $t->precio_unidad }}€</td>
+        <td>{{ number_format($t->precio_unidad, 2, ',', '.') }} €</td>
         <td>{{ $t->descuento_text }}</td>
         <td>{{ $t->compania_text }}</td>
         <td>@if ($t->tipostratamientos_id == 4) Cuadrante @endif {{ $t->piezas }}</td>

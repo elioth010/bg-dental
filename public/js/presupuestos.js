@@ -44,14 +44,14 @@ function addTratamiento(tratamiento) {
     if (tratamiento != undefined) {
         var gid = tratamiento["grupostratamientos_id"]
         var tid = tratamiento["tratamiento_id"]
-        var preciof = tratamiento["precio_final"]
+        var preciof = tratamiento["precio_final"].replace('.', ',')
         var compania = tratamiento["compania_id"]
     }
 
     console.log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ',' + preciof + ')')
 
     if (preciof === undefined) {
-        var preciof = 0.00
+        var preciof = "0,00"
     }
 
     lastIndex++
@@ -226,7 +226,7 @@ function updatePreciosCompanias(id, compania_id) {
         var precio = $('#precio-' + id)
         precio.text(tratamientos[grupo][tid]['precios'][comp])
 
-        var preciofinal = obtenerPrecioFinal(id, precio.text())
+        var preciofinal = obtenerPrecioFinal(id, precio.text()).replace('.', ',')
         $('#preciof-' + id).val(preciofinal)
         $('#iunidades-' + id).val(unidades)
 
@@ -255,7 +255,7 @@ function updatePrecios(id, tratamiento) {
 
         if (tratamiento !== undefined) {
             var tid = tratamiento["tratamiento_id"]
-            var preciofinal = tratamiento["precio_final"]
+            var preciofinal = tratamiento["precio_final"].replace('.', ',')
             var piezas = tratamiento["piezas"]
             var compania = tratamiento["compania_id"]
             console.log(tid, preciofinal, piezas, compania)
@@ -305,7 +305,8 @@ function updatePrecios(id, tratamiento) {
                     var cid = options[i].value
 
                     if (tratamientos[grupo][tid]['precios'][cid] !== undefined) {
-                        options[i].text = companias[cid] + ' (' + tratamientos[grupo][tid]['precios'][cid] + '€)'
+                        var preciocoma = tratamientos[grupo][tid]['precios'][cid].replace('.',',')
+                        options[i].text = companias[cid] + ' (' + preciocoma + '€)'
                     } else {
                         options[i].text = companias[cid] + ' (Sin precio)'
                     }
@@ -442,8 +443,8 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
         if (preciofinal === undefined) {
             var preciofinal = obtenerPrecioFinal(id, tratamientos[grupo][tid]['precios'][compania_id])
         }
-
-        precio.text(tratamientos[grupo][tid]['precios'][compania_id])
+        var preciocoma = tratamientos[grupo][tid]['precios'][compania_id].replace('.', ',');
+        precio.text(preciocoma);
         preciof.val(preciofinal)
     }
 
@@ -479,9 +480,12 @@ function updatePrecioFinal() {
     //if (t != 0) subtotal += parseInt(tratamientos[g][t-1]['precios'])
 
     var subtotal = 0
+    var preciopunto;
+
     for (i=1; i<=lastIndex; i++) {
         if ($('#tratamiento-' + i).length != 0) {
-            subtotal += parseFloat($('#preciof-' + i).val())
+            preciopunto = $('#preciof-' + i).val().replace('.', '').replace(',', '.');
+            subtotal += parseFloat(preciopunto)
         }
     }
 
@@ -494,7 +498,9 @@ function updatePrecioFinal() {
         descuento = desc
         descuentotext = desc
     }
-    var total = subtotal - descuento
+    var total = parseFloat(subtotal - descuento).toFixed(2).replace('.', ',') + " €";
+    subtotal = parseFloat(subtotal).toFixed(2).replace('.', ',') + " €";
+    descuentotext = parseFloat(descuentotext).toFixed(2).replace('.', ',') + " €";
     $('#p_subtotal').text(subtotal)
     $('#p_descuento').text(descuentotext)
     $('#p_total').text(total)
@@ -817,8 +823,11 @@ function onOdontogramaClose(id, tipo, parent) {
         }
     }
 
+
     var precio = $('#precio-' + id).text()
-    $('#preciof-' + id).val(precio * unidades)
+    precio = parseFloat(precio * unidades).toFixed(2);
+    precio = precio.replace('.',',')
+    $('#preciof-' + id).val(precio)
     $('#iunidades-' + id).val(unidades)
     $('#ipiezas-' + id).val(active)
 

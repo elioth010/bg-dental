@@ -12,15 +12,15 @@
     <table border = "1">
 	<tr>
 	    <th>NHC:</th>
-	    
+
         <th>Nombre:</th>
-       
+
 	    <th>Apellidos:</th>
-        
+
         <th>NIF:</th>
-	    
+
         <th>Compañía:</th>
-        
+
 	 </tr>
          <tr>
              <td>{{$paciente->numerohistoria}}</td>
@@ -39,9 +39,9 @@
 <table class="rollwht">
   <tr>
 
-    <th>Id:</th>
-    <th>Creado:</th>
-    <th>Actualizado:</th>
+    <th>Id</th>
+    <th>Creado</th>
+    <th>Actualizado</th>
     <th>Nombre</th>
     <th>Importe total</th>
     <th>Desc. total</th>
@@ -57,8 +57,8 @@
     <td>{{$presupuesto->creado}}</td>
     <td>{{$presupuesto->actualizado}}</td>
     <td>{{$presupuesto->nombre}}</td>
-    <td>{{ $presupuesto->importe_total }}€</td>
-    <td>{{$presupuesto->descuentototal}}</td>
+    <td>{{number_format($presupuesto->importe_total, 2, ',', '.') }}&nbsp;€</td>
+    <td>{{number_format($presupuesto->descuentotota, 2, ',', '.') }}&nbsp;€</td>
     <td>{{$presupuesto->user_n}}</td>
     <td>{{$presupuesto->profesional_n}}</td>
     <td><?php if ($presupuesto->aceptado) echo 'Sí'; else echo 'No'; ?></td>

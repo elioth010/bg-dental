@@ -82,6 +82,8 @@ class TratamientosController extends \BaseController {
                 if ($input_precio == '')
                     $input_precio = NULL;
 
+                $input_precio = str_replace('.', '', $input_precio);
+                $input_precio = str_replace(',', '.', $input_precio);
                 $pt = array('precio' => $input_precio);
                 $tratamiento->precios()->attach($input_compania, $pt);
             }
@@ -219,6 +221,9 @@ class TratamientosController extends \BaseController {
                 $input_activado = Input::get('activado-' . $compania->id);
                 if ($input_precio == '' || !$input_activado)
                     $input_precio = NULL;
+
+                $input_precio = str_replace('.', '', $input_precio);
+                $input_precio = str_replace(',', '.', $input_precio);
 
                 $pt = array('precio' => $input_precio);
                 $tratamiento->precios()->attach($input_compania, $pt);
