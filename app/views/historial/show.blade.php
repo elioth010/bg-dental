@@ -6,6 +6,7 @@ Historial clínico
 
 @section('javascripts')
 <script src="/js/historial.js"></script>
+<script src="/js/bgdental.js"></script>
 @stop
 
 @section('contenido')
@@ -15,7 +16,7 @@ Historial clínico
 </div>
 <div align="right">
 
-    @if (($espera !== null) && 
+    @if (($espera !== null) &&
         (Auth::user()->isRecepcion() or Auth::user()->isAdmin()))
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
@@ -169,7 +170,7 @@ Historial clínico
                 @foreach($historiales as $historial)
                 <tr>
                     <td>@if ((Auth::user()->isAdmin()) && ($historial->pendiente_de_cobro == 1))
-                            {{ Form::open(array('url'=>'historial_clinico/eliminar')) }}
+                            {{ Form::open(array('url'=>'historial_clinico/eliminar', 'onsubmit' => 'return confirm_eliminar();')) }}
                             {{ Form::hidden('h_id', $historial->id) }}
                             {{ Form::hidden('h_p_id', $historial->paciente_id) }}
                             {{ Form::image('imagenes/delete.png') }} {{$historial->id}}

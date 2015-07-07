@@ -4,6 +4,11 @@
     Editar compañía
 @stop
 
+@section('javascripts')
+<script src="/js/bgdental.js"></script>
+@stop
+
+
 @section('contenido')
     <h1>Edición de compañía</h1>
 
@@ -13,7 +18,7 @@
        <li> {{Form::label('Código:')}} {{ Form::text('codigo', $compania->codigo ) }}
         {{Form::label('Nombre:')}} {{ Form::text('nombre', $compania->nombre) }}</li>
     </ul>
-     <br>{{ HTML::link('tratamientos/borrarcompania/'.$compania->id, 'Eliminar esta compañía') }}<br>
+     <br>{{ HTML::linkAction('CompaniasController@destroy', 'Eliminar esta compañía', $compania->id, array('onclick' => 'return confirm_eliminar();')) }}<br>
     {{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}
 
     {{ Form::close() }}

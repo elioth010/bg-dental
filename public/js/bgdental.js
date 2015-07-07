@@ -22,3 +22,9 @@ function marcarSedes(value) {
         }
     });
 }
+
+
+// Mensaje genérico para confirmar la eliminación de cualquier cosa
+function confirm_eliminar() {
+    return confirm('¿Desea eliminar el componente?');
+}
