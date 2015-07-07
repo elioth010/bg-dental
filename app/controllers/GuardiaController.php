@@ -46,7 +46,7 @@ class GuardiaController extends \BaseController {
         }
 
         $events = $this->getHtmlProfsSelectCreate($year, $month);
-        $calendario = $this->getGuardiaCalendar($events, $date_1);
+        $calendario = $this->getGuardiaCalendar($events, $date_1, true, '/guardia/' . $sede_id);
 
         return View::make('guardias.create')->with(array('calendario' => $calendario, 'sede' => $sede,
                                                                'year' => $year, 'month' => $month));
