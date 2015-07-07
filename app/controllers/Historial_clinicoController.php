@@ -279,6 +279,7 @@ class Historial_clinicoController extends \BaseController {
             unset($tipos_de_cobro[1]);
         }
         $espera = Espera::where('paciente_id', $id)->where('admitido', 1)->first();
+        
 
         // no hay presupuestos que mostrar porque todos tienen los tratamientos realizados
         if (!$hay_presupuestos) {

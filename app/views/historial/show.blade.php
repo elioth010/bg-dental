@@ -15,8 +15,8 @@ Historial clínico
 </div>
 <div align="right">
 
-    @if ($espera !== null && 
-        Auth::user()->isRecepcion() or Auth::user()->isAdmin())
+    @if (($espera !== null) && 
+        (Auth::user()->isRecepcion() or Auth::user()->isAdmin()))
     {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
     {{ Form::submit('Finalizar visita', array('class'=>'botonl')) }}
     {{ Form::close() }}
