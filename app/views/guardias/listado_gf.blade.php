@@ -21,8 +21,8 @@
      </tr>
  @endforeach
      <tr>
-         <td><b>Total a percibir:</b></td>
-         <td><b>{{$suma}} €</b></td>
+         <td><b style="font-weight: bold !important;">Total a percibir:</b></td>
+         <td><b style="font-weight: bold !important;">{{$suma}} €</b></td>
      </tr>
  </table>
  </div>

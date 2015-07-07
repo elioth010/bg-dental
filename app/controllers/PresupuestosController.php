@@ -125,10 +125,21 @@ class PresupuestosController extends \BaseController {
 
             if ($t->tipodescuento == 'P') {
                 $descuento = $t->descuento * $t->precio_final / 100;
-                $descuentotext = $t->descuento . '%';
+                if($descuento > 0)
+                {
+                    $descuentotext = $t->descuento . '%';
+                } else {
+                    $descuentotext = '';
+                }
+                
             } else {
                 $descuento = $t->descuento;
-                $descuentotext = $t->descuento . '€';
+                if($descuento > 0)
+                {
+                    $descuentotext = $t->descuento . '€';
+                } else {
+                    $descuentotext = '';
+                }
             }
 
             $t->precio_final -= $descuento;

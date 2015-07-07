@@ -383,8 +383,9 @@ class TurnoController extends \BaseController {
     private function getHtmlProfOptions($turnos, $add_empty, $sede_id) {
 
         $profesionales = Profesional::leftJoin('sedes_profesionales', 'sedes_profesionales.profesional_id', '=', 'profesionales.id')
-                            ->where('sedes_profesionales.sede_id', $sede_id)
+                            ->whereIn('sedes_profesionales.sede_id', array($sede_id , Sedes::TODAS))
                             ->select('profesionales.id', 'profesionales.apellido1', 'profesionales.nombre')
+                            ->orderBy('profesionales.nombre')
                             ->get();
 
         $options = array();

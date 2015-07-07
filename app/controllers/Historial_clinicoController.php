@@ -46,48 +46,54 @@ class Historial_clinicoController extends \BaseController {
     public function store()
     {
         $presupuesto_id = Input::get('presupuesto_id', false);
-        $presupuestotratamiento_id = Input::get('presupuestotratamiento_id', 0);
-        $presupuesto = Presupuestos::where('id', $presupuesto_id)->where('aceptado', 1)->firstOrFail();
-        $pt = DB::table('presupuestos_tratamientos')
-                     ->where('id', $presupuestotratamiento_id)
-                     ->first();
+        if ($presupuesto_id !== false) {
+            $presupuestotratamiento_id = Input::get('presupuestotratamiento_id', 0);
+            $presupuesto = Presupuestos::where('id', $presupuesto_id)->where('aceptado', 1)->firstOrFail();
+            $pt = DB::table('presupuestos_tratamientos')
+                         ->where('id', $presupuestotratamiento_id)
+                         ->first();
+            $unidades = $pt->unidades;
+            $precio = $pt->precio_final;
+        } else {
+            $presupuestotratamiento_id = 0;
+            $unidades = 1;
+            $precio = Input::get('precio');
+        }
 
         $paciente_id = Input::get('paciente_id');
 
-            $historial = new Historial_clinico;
-            $historial->tratamiento_id = Input::get('tratamiento_id');
-            $historial->profesional_id = Input::get('profesional_id');
-            $historial->paciente_id = $paciente_id;
-            $fecha_r = Input::get('fecha_realizacion');
-            $fecha_r_f = explode('/', $fecha_r);
-            $historial->fecha_realizacion = $fecha_r_f[2]."-".$fecha_r_f[1]."-".$fecha_r_f[0];
-            $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
-            if(Input::get('precio') == 0)
-            {
-                $historial->pendiente_de_cobro = 1;
-            }
-            $historial->abonado_quiron = Input::get('abonado_quiron', 0);
-            $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
-            $historial->coste_lab = Input::get('coste_lab', 0);
-            $historial->unidades = Input::get('unidades', 1);
-            $historial->precio = $historial->unidades * $pt->precio_final / $pt->unidades;
-            $historial->presupuesto_tratamiento_id = $presupuestotratamiento_id;
-            if($historial->precio == 0) {
-                $historial->pendiente_de_cobro = 0;
-            }
-            $historial->save();
+        $historial = new Historial_clinico;
+        $historial->tratamiento_id = Input::get('tratamiento_id');
+        $historial->profesional_id = Input::get('profesional_id');
+        $historial->paciente_id = $paciente_id;
+        $fecha_r = Input::get('fecha_realizacion');
+        $fecha_r_f = explode('/', $fecha_r);
+        $historial->fecha_realizacion = $fecha_r_f[2]."-".$fecha_r_f[1]."-".$fecha_r_f[0];
+        $historial->cobrado_paciente = Input::get('cobrado_paciente', 0);
+        if($precio == 0)
+        {
+            $historial->pendiente_de_cobro = 1;
+        }
+        $historial->abonado_quiron = Input::get('abonado_quiron', 0);
+        $historial->cobrado_profesional = Input::get('cobrado_profesional', 0);
+        $historial->coste_lab = Input::get('coste_lab', 0);
+        $historial->unidades = Input::get('unidades', 1);
+        $historial->precio = $historial->unidades * $precio / $unidades;
+        $historial->presupuesto_tratamiento_id = $presupuestotratamiento_id;
+        if($historial->precio == 0) {
+            $historial->pendiente_de_cobro = 0;
+        }
+        $historial->save();
 
-            $unidades_restantes = $pt->unidades - Historial_clinico::where('presupuesto_tratamiento_id', $pt->id)->sum('unidades');
+        if ($presupuesto_id !== false) {
+            $unidades_restantes = $unidades - Historial_clinico::where('presupuesto_tratamiento_id', $pt->id)->sum('unidades');
             // Marcar el tratamiento como realizado en el presupuesto si todas sus unidades se han realizado
             if ($unidades_restantes == 0) {
                 $presupuesto->tratamientos2()->updateExistingPivot($historial->presupuesto_tratamiento_id, array('estado' => 1));
             }
-//
-//            $paciente = Pacientes::where('id', $paciente_id)->firstOrFail();
-//            $paciente->saldo = $paciente->saldo - Input::get('precio');
-//            $paciente->update();
+        }
 
-            return Redirect::action('Historial_clinicoController@show', $paciente_id);
+        return Redirect::action('Historial_clinicoController@show', $paciente_id);
     }
 
      public function store_ayudantia()
@@ -279,6 +285,7 @@ class Historial_clinicoController extends \BaseController {
             unset($tipos_de_cobro[1]);
         }
         $espera = Espera::where('paciente_id', $id)->where('admitido', 1)->first();
+        
 
         // no hay presupuestos que mostrar porque todos tienen los tratamientos realizados
         if (!$hay_presupuestos) {
@@ -349,17 +356,19 @@ class Historial_clinicoController extends \BaseController {
     public function destroy()
     {
         //buscamos el historial para antes de borrarlo marcar lo tratamientos como no realizados si es que vienen de un presu para que puedan volver a ser adjuntados
-        //$historial = Historial_clinico::where('historial_clinico.id', Input::get('h_id'))->leftJoin('presupuestos_tratamientos', 'historial_clinico.presupuesto_tratamiento_id', '=', 'presupuestos_tratamientos.id')
-//                                        ->firstorFail();
+        $historial = Historial_clinico::where('historial_clinico.id', Input::get('h_id'))->firstorFail();
+        
         //ahora deberíamos encontrar en la tabla presupuestos_tratamientos el $historial->presupuesto_tratamiento_id para marcarlo como 0 en "presupuestos_tratamientos.estado".
         //aquí hay un error que tiene que ver con el model. El model presupuesotTratamiento extends Pivot y no sé como hacerlo reversible, es decir hacer lo siguiente, que me da error:
                                 
-        //$presu_trat = PresupuestoTratamiento::where('presupuestos_tratamientos.id', $historial->presupuesto_tratamiento_id)->get();
-//          $presu_trat->estado = 0;
-//          $presu_trat->update();
-        
+        $presu_trat = DB::table('presupuestos_tratamientos')->where('id', $historial->presupuesto_tratamiento_id)->update(array('estado' => 0));
+//        $presu_trat->estado = 0;
+//        $presu_trat->update();
+        $Paciente_id = $historial->paciente_id;
+        $historial->delete();
+        return Redirect::action('Historial_clinicoController@show', $Paciente_id);
                         
-        return Redirect::action('Historial_clinicoController@show', Input::get('h_p_id'))->with('message', 'Función no disponible - En pruebas');
+        //return Redirect::action('Historial_clinicoController@show', Input::get('h_p_id'))->with('message', 'Función no disponible - En pruebas');
         
     }
 

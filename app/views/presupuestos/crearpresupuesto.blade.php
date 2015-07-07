@@ -56,9 +56,9 @@
         <div>
             <ul class="labelreg6">
                 <li><h2>Precio</h2></li>
-                <li>Subtotal: <span id="p_subtotal">0.00</span></li>
+                <li>Subtotal: <span id="p_subtotal">0,00 €</span></li>
                 <li>Descuento total: <span id="p_descuento">0</span></li>
-                <li>Total: <span id="p_total">0.00</span></li>
+                <li>Total: <span id="p_total">0,00 €</span></li>
         		<li>{{ Form::submit('Guardar cambios')}} {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}   <?php if (!empty($tratamientos)) { ?></li>
             {{ Form::close() }}
             	<li>        {{ HTML::linkAction('PresupuestosController@borrarPresupuesto', 'Eliminar este presupuesto',
@@ -81,9 +81,9 @@
     <?php if (empty($tratamientos)) { ?>
         addTratamiento()
 
-        $('#p_subtotal').text('0.00')
-        $('#p_descuento').text('0.00')
-        $('#p_total').text('0.00')
+        $('#p_subtotal').text('0,00 €')
+        $('#p_descuento').text('0,00 €')
+        $('#p_total').text('0,00 €')
 
     <?php } else { ?>
         @foreach($tratamientos as $key => $t)
