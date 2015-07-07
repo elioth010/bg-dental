@@ -168,16 +168,17 @@ Historial clínico
                 </tr>
                 @foreach($historiales as $historial)
                 <tr>
-                    <td>@if (Auth::user()->isAdmin())
+                    <td>@if ((Auth::user()->isAdmin()) && ($historial->pendiente_de_cobro == 1))
                             {{ Form::open(array('url'=>'historial_clinico/eliminar')) }}
                             {{ Form::hidden('h_id', $historial->id) }}
                             {{ Form::hidden('h_p_id', $historial->paciente_id) }}
                             {{ Form::image('imagenes/delete.png') }} {{$historial->id}}
                             {{ Form::close() }}
+                        @else
+                            {{$historial->id}}
                         @endif
-                            
-                            
-                        </td>
+                    </td>
+
                     <td>
                         <?php $grupos_q = array(158, 159, 160, 161, 162, 163, 164); ?>
                         @if($historial->ayudantia_aplicada != 0 )
@@ -254,8 +255,10 @@ var tratamientos = {{ json_encode($atratamientos) }}
 var companias = {{ json_encode($companias) }}
 
 $(document).ready(function() {
-$(".datepicker").datepicker({dateFormat: "dd/mm/yy"}).datepicker("setDate", new Date());
-        setTratamientos();
+    $(".datepicker").datepicker({dateFormat: "dd/mm/yy"}).datepicker("setDate", new Date());
+    @if (($espera !== null) && ($profesional->id == $espera->profesional_id))
+    setTratamientos();
+    @endif
 });
 </script>
 
