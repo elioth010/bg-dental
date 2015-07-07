@@ -105,7 +105,7 @@ function addTratamiento(tratamiento) {
 
     var label4 = $("<label>").attr({for: lpreciof}).text('Precio final del tratamiento:')
     var input4 = $('<input>').attr({onchange: "updatePrecioManual(" + lastIndex + ")", id: lpreciof, name: lpreciof,
-                            type: "text", size: 3})
+                            type: "text", size: 5})
     input4.val(preciof)
 
     var select4 = $('<select disabled>').attr({onchange: "updatePreciosCompanias(" + lastIndex + ", this.value)", id: "compania-" + lastIndex, name: "compania-" + lastIndex})
@@ -371,11 +371,19 @@ function updatePrecios(id, tratamiento) {
                         if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
                             odontogramaHighlightCuadrante(id, tratamiento["piezas"], true)
+                            odontograma[id] = tratamiento["piezas"];
                         }
                     } else if (tipo == 5) {
                         if (piezas !== undefined) {
                             $('#ipiezas-' + id).val(tratamiento["piezas"])
-                            odontogramaHighlightArcada(id, tratamiento["piezas"], true)
+
+                            if (tratamiento["piezas"] == 'Arcada superior') {
+                                var arcada = 1;
+                            } else if (tratamiento["piezas"] == 'Arcada inferior') {
+                                var arcada = 2;
+                            }
+                            odontograma[id] = arcada;
+                            odontogramaHighlightArcada(id, arcada, true);
                         }
                     }
                     odontogramaHighlight(id, tipo, true)
@@ -609,6 +617,12 @@ function odontogramaHighlightPieza(id, num, active) {
 function odontogramaHighlightArcada(id, arcada, active) {
     console.log('odontogramaHighlightArcada', id, arcada)
 
+    if (arcada == 'Arcada superior') {
+        arcada = 1;
+    } else if (arcada == 'Arcada inferior') {
+        arcada = 2;
+    }
+
     if (arcada == 1) {
         for (var i=11; i<= 18; i++) {
             odontogramaHighlightPieza(id, i, active)
@@ -824,7 +838,7 @@ function onOdontogramaClose(id, tipo, parent) {
     }
 
 
-    var precio = $('#precio-' + id).text()
+    var precio = $('#precio-' + id).text().replace(',', '.');
     precio = parseFloat(precio * unidades).toFixed(2);
     precio = precio.replace('.',',')
     $('#preciof-' + id).val(precio)
