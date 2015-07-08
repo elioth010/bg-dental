@@ -8,8 +8,8 @@
 	<div class="labelreg3">
  <h3>Tratamientos pendientes de cobro:</h3>
 Elegir intervalo de tiempo:
- {{ Form::open(array('url'=>'cobros/pdc_cf')) }}
- {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
+ {{ Form::open(array('url'=>'cobros/pdc', 'method' => 'get')) }}
+ {{ Form::text('fecha_inicio', $fecha_inicio, array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', $fecha_fin, array( 'class' => 'datepicker euros')) }}
  {{ Form::submit('OK', array('class'=>'botonl'))}}
  {{ Form::close() }}
  </div>
@@ -17,7 +17,7 @@ Elegir intervalo de tiempo:
 
  <div class="overflow">
 
- <h3>Pedientes de cobro mes actual:</h3></br>
+ <h3>Pedientes de cobro del {{ $fecha_inicio }} al {{ $fecha_fin }}:</h3></br>
 
  <table>
      <tr>

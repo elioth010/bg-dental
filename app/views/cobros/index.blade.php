@@ -6,14 +6,14 @@
 
 @section('contenido')
  <div style="margin-top:10px; float:left; width: 300px;">
- <h3>Cobros:</h3>
+ <h3>Cobros del {{ $fecha_inicio }} al {{ $fecha_fin }}:</h3>
   Elegir intervalo de tiempo:
- {{ Form::open(array('url'=>'cobros/cf')) }}
- {{ Form::text('fecha_inicio', '', array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', '', array( 'class' => 'datepicker euros')) }}
+ {{ Form::open(array('url'=>'cobros', 'method' => 'get')) }}
+ {{ Form::text('fecha_inicio', $fecha_inicio, array( 'class' => 'datepicker euros')) }} - {{ Form::text('fecha_fin', $fecha_fin, array( 'class' => 'datepicker euros')) }}
  {{ Form::submit('OK', array('class'=>'botonl'))}}
  {{ Form::close() }}
  </div>
-	
+
 	<div style="max-width:550px; margin-top:30px; max-height: 480px; overflow:auto;">
     <table border = "1">
       <tr>

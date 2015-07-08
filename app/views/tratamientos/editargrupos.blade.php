@@ -4,6 +4,10 @@
     Editar grupo
 @stop
 
+@section('javascripts')
+<script src="/js/bgdental.js"></script>
+@stop
+
 @section('contenido')
 {{ Form::open(array('url'=>'tratamientos/actualizargrupo/'.$grupo->id)) }}
 <div class="tbl_izq">
@@ -17,7 +21,7 @@
         <li>{{ Form::text('codigo', $grupo->codigo) }}</li>
 	<li>{{ Form::submit('Actualizar grupo', array('class'=>'botonl'))}}</li>
 		{{ Form::close() }}
-                <li>{{ Form::open(array('url'=>'tratamientos/eliminargrupo/'.$grupo->id)) }}
+    <li>{{ Form::open(array('url'=>'tratamientos/eliminargrupo/'.$grupo->id, 'onsubmit' => 'return confirm_eliminar();')) }}
     {{ Form::submit('Eliminar este grupo', array('class'=>'botonl'))}}
 
     {{ Form::close() }}

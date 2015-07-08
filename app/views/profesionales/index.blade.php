@@ -1,10 +1,14 @@
 @extends('profesionales.create')
 
+@section('javascripts')
+    <script src="/js/bgdental.js"></script>
+@stop
+
 @section('listado_profs')
  <h3>
   Profesionales:
   </h3>
-  
+
     <table border = "1">
       <tr>
       <th>Nombre
@@ -14,7 +18,7 @@
       </th><th>Eliminar
       </th>
       </tr>
-      
+
       @foreach($profesionales as $profesional)
         <tr>
         <td>{{HTML::linkAction('ProfesionalController@edit', $profesional->nombre, $profesional->p_id)}}</td>
@@ -22,14 +26,14 @@
         <td>{{$profesional->especialidad}}</td>
         <td>{{$profesional->sedes_p}}</td>
         <td>
-            {{ Form::open(array('url'=>'profesional/'.$profesional->p_id, 'method' => 'delete')) }}
-            
+            {{ Form::open(array('url'=>'profesional/'.$profesional->p_id, 'method' => 'delete', 'onsubmit' => 'return confirm_eliminar();')) }}
+
             <li>{{ Form::submit('Eliminar', array('class'=>'botonl'))}}</li>
             {{Form::close()}}
     </td>
-        
+
         </tr>
       @endforeach
-      
+
     </table>
 @stop

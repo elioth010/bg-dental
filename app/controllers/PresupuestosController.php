@@ -127,16 +127,16 @@ class PresupuestosController extends \BaseController {
                 $descuento = $t->descuento * $t->precio_final / 100;
                 if($descuento > 0)
                 {
-                    $descuentotext = $t->descuento . '%';
+                    $descuentotext = number_format($t->descuento, 2, ',', '.') . ' %';
                 } else {
                     $descuentotext = '';
                 }
-                
+
             } else {
                 $descuento = $t->descuento;
                 if($descuento > 0)
                 {
-                    $descuentotext = $t->descuento . '€';
+                    $descuentotext = number_format($t->descuento, 2, ',', '.') . ' €';
                 } else {
                     $descuentotext = '';
                 }
@@ -156,6 +156,8 @@ class PresupuestosController extends \BaseController {
 
             $total += $t->precio_final;
         }
+
+        $total = number_format($total, 2, ',', '.');
         $validez = Opciones::where('nombre', 'validez_presupuesto_meses')->select('valor')->first();
         return array ('presupuesto' => $presupuesto, 'tratamientos'=> $tratamientos, 'total' => $total, 'paciente' => $paciente,
                         'HTTP_HOST' => Request::server("HTTP_HOST"), 'todaslaspiezas' => $todaslaspiezas, 'sede' => $sede, 'validez' => $validez);
@@ -172,10 +174,10 @@ class PresupuestosController extends \BaseController {
 
             if ($t->tipodescuento == 'P') {
                 $descuento = $t->descuento * $t->precio_final / 100;
-                $descuentotext = $t->descuento . '%';
+                $descuentotext = number_format($t->descuento, 2, ',', '.') . ' %';
             } else {
                 $descuento = $t->descuento;
-                $descuentotext = $t->descuento . '€';
+                $descuentotext = number_format($t->descuento, 2, ',', '.') . ' €';
             }
 
             $t->precio_final -= $descuento;
@@ -189,8 +191,10 @@ class PresupuestosController extends \BaseController {
             }
 
             $total += $t->precio_final;
+            $t->precio_final = number_format($t->precio_final, 2, ',', '.');
         }
-        
+        $total = number_format($total, 2, ',', '.');
+
         return View::make('presupuestos.verpresupuesto')->with(array('presupuesto' => $presupuesto,
                                                                      'tratamientos' => $tratamientos,
                                                                      'total' => $total,
@@ -283,7 +287,7 @@ class PresupuestosController extends \BaseController {
                 $atratamientos[$t->grupostratamientos_id][$t->id] = $ta;
             }
         }
-        
+
         return $atratamientos;
     }
 
@@ -445,11 +449,15 @@ class PresupuestosController extends \BaseController {
                 $t_id = Input::get('tratamiento-' . $i);
                 $t_unidades =  Input::get('iunidades-' . $i, 1);
                 $t_desc = Input::get('descuento-' . $i, 0);
+
                 $t_tdesc = Input::get('tipodescuento-' . $i, 'E');
                 $t_piezas = Input::get('ipiezas-' . $i);
                 $t_compania = Input::get('compania-' . $i);
                 $t_precio = $precios[$t_id][$t_compania];
                 $t_preciof = Input::get('preciof-' . $i);
+
+                $t_desc = str_replace('.', '', $t_desc); $t_desc = str_replace(',', '.', $t_desc);
+                $t_preciof = str_replace('.', '', $t_preciof); $t_preciof = str_replace(',', '.', $t_preciof);
 
                 $pt = array('presupuesto_id' => $presupuesto->id, 'tratamiento_id' => $t_id,
                             'unidades' => $t_unidades, 'piezas' => $t_piezas,
@@ -500,7 +508,7 @@ class PresupuestosController extends \BaseController {
         }
 
         $presupuestos = Presupuestos::where('numerohistoria',$numerohistoria)
-                                        ->select('presupuestos.*', DB::raw("DATE_FORMAT(presupuestos.created_at, '%d/%m/%Y') as creado"), 
+                                        ->select('presupuestos.*', DB::raw("DATE_FORMAT(presupuestos.created_at, '%d/%m/%Y') as creado"),
                                                 DB::raw("DATE_FORMAT(presupuestos.updated_at, '%d/%m/%Y') as actualizado"))
                                         ->orderBy('updated_at', 'desc')->get();
 

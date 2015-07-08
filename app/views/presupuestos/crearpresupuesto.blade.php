@@ -7,6 +7,7 @@
 @section('javascripts')
     <script src="/js/jquery.maphilight.min.js"></script>
     <script src="/js/presupuestos.js"></script>
+    <script src="/js/bgdental.js"></script>
 @stop
 
 
@@ -60,9 +61,9 @@
                 <li>Descuento total: <span id="p_descuento">0</span></li>
                 <li>Total: <span id="p_total">0,00 €</span></li>
         		<li>{{ Form::submit('Guardar cambios')}} {{ Form::button('Atrás')}} {{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', array($paciente->numerohistoria)) }}   <?php if (!empty($tratamientos)) { ?></li>
-            {{ Form::close() }}
+    {{ Form::close() }}
             	<li>        {{ HTML::linkAction('PresupuestosController@borrarPresupuesto', 'Eliminar este presupuesto',
-                                    array($paciente->numerohistoria, $presupuesto->id)) }}
+                                    array($paciente->numerohistoria, $presupuesto->id), array('onclick' => 'return confirm_eliminar();')) }}
             <?php } ?>
                 </li>
         	</ul>
