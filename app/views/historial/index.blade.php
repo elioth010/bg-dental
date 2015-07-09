@@ -40,7 +40,10 @@
               {{--<td>{{$espera->saldo, '0,00'}} €</td>--}}
               <td>{{ $profesionales[$espera->profesional_id] }}</td>
           {{ Form::open(array('url'=>'espera/'.$espera->id, 'method' => 'put')) }}
-              <td>{{ Form::submit('Finalizar') }}</td>
+              <td> @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
+                  {{ Form::submit('Finalizar') }}
+                  @endif
+              </td>
           {{Form::close()}}
           </tr>
       @endforeach

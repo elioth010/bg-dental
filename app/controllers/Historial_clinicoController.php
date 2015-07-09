@@ -227,13 +227,14 @@ class Historial_clinicoController extends \BaseController {
 
         $historiales = Historial_clinico::where('paciente_id', $paciente->id)
                 ->leftJoin('tratamientos', 'historial_clinico.tratamiento_id', '=', 'tratamientos.id')
+                ->leftJoin('grupostratamientos', 'tratamientos.grupostratamientos_id', '=', 'grupostratamientos.id')
                 ->leftJoin('profesionales', 'historial_clinico.profesional_id', '=', 'profesionales.id' )
                 ->select('historial_clinico.*',DB::raw("DATE_FORMAT(historial_clinico.fecha_realizacion, '%d/%m/%Y') as date"), 'profesionales.nombre as pr_n', 'profesionales.apellido1 as pr_a1',
-                        'profesionales.apellido2 as pr_a2', 'tratamientos.nombre as t_n', 'tratamientos.id as t_id')
+                        'profesionales.apellido2 as pr_a2', 'tratamientos.nombre as t_n', 'tratamientos.id as t_id', 'grupostratamientos.nombre as t_g')
                 ->orderBy('id', 'DESC')
                 ->get();
 
-
+        
         foreach ($historiales as $h)
         {
             $cobros_a_restar_de_precio = Cobros::where('historial_clinico_id', $h->id)->sum('cobro'); //Esto es la suma de los cobros de un item de HC
