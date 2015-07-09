@@ -159,8 +159,8 @@ header{
 			}
 			
 			.nav li a {
-				background-color:#1271b3;
-				color:#fff;
+				background-color:#AAAFB3;
+				color:#060606;
 				text-decoration:none;
 				padding:10px 12px;
 				display:block;
@@ -341,7 +341,8 @@ th {
 	color:#ffffff;
 }
 
-table.history tr:nth-child(odd){ background-color:#C9F5B3; }
+table.history tr:nth-child(odd){ background-color:#BBDF9E; }
+table.anadir_trat tr:nth-child(odd){ background-color:#D7B6BB; }
     
 /* tablero division */
 .tbl_izq{

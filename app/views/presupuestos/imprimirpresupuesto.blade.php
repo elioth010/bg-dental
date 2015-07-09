@@ -271,7 +271,7 @@ q:before, q:after {
         <td></td>
         <td></td>
         <td></td>
-        <td><strong>{{  number_format($total,2, ',', '.') }}€</strong></td>
+        <td><strong>{{$total}}{{--{{  number_format($total,2, ',', '.') }}--}}€</strong></td>
       </tr>
     </table>
 	</div>

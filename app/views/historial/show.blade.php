@@ -112,17 +112,17 @@ Historial clínico
 
         <h1>Añadir un tratamiento:</h1>
         <br/>
-        <table border = "1">
+        <table class="anadir_trat" border = "1">
             <tr>
 
-                <th>ID hist.</th>
-                <th>Tratamiento realizado</th>
-                <th>Profesional</th>
-                <th>Fecha realización</th>
-                <th>Precio</th>
+                <th style="background-color:#993050">ID hist.</th>
+                <th style="background-color:#993050">Tratamiento realizado</th>
+                <th style="background-color:#993050">Profesional</th>
+                <th style="background-color:#993050">Fecha realización</th>
+                <th style="background-color:#993050">Precio</th>
                 @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
-                <th>Añadir</th>
-                <th>Costes lab.</th>
+                <th style="background-color:#993050">Añadir</th>
+                <th style="background-color:#993050">Costes lab.</th>
                 @endif
             </tr>
 
@@ -151,25 +151,25 @@ Historial clínico
         </table>
         @endif
 
-            <h1 style="color:#0EA928">Historial:</h1>
+            <h1 style="color:#429930">Historial:</h1>
 
             <table class="history" border = "1">
                 <tr>
 
-                    <th style="background-color:#0EA928">ID hist.</th>
-                    <th style="background-color:#0EA928">Tratamiento realizado</th>
-                    <th style="background-color:#0EA928">Profesional</th>
-                    <th style="background-color:#0EA928">Fecha realización</th>
-                    <th style="background-color:#0EA928">Precio</th>
-                    <th style="background-color:#0EA928">Unidades</th>
+                    <th style="background-color:#429930">ID hist.</th>
+                    <th style="background-color:#429930">Tratamiento realizado</th>
+                    <th style="background-color:#429930">Profesional</th>
+                    <th style="background-color:#429930">Fecha realización</th>
+                    <th style="background-color:#429930">Precio</th>
+                    <th style="background-color:#429930">Unidades</th>
                     @if(Auth::user()->isAdmin())
-                    <th style="background-color:#0EA928">Cobro</th>
-                    <th style="background-color:#0EA928">Costes lab.</th>
+                    <th style="background-color:#429930">Cobro</th>
+                    <th style="background-color:#429930">Costes lab.</th>
                     @endif
                 </tr>
                 @foreach($historiales as $historial)
                 <tr>
-                    <td>@if ((Auth::user()->isAdmin()) && ($historial->pendiente_de_cobro == 1))
+                    <td>@if (Auth::user()->isAdmin())
                             {{ Form::open(array('url'=>'historial_clinico/eliminar', 'onsubmit' => 'return confirm_eliminar();')) }}
                             {{ Form::hidden('h_id', $historial->id) }}
                             {{ Form::hidden('h_p_id', $historial->paciente_id) }}
@@ -183,9 +183,9 @@ Historial clínico
                     <td>
                         <?php $grupos_q = array(158, 159, 160, 161, 162, 163, 164); ?>
                         @if($historial->ayudantia_aplicada != 0 )
-                        {{ $historial->t_n }} Ayudantía aplicada en ID: {{ $historial->ayudantia_aplicada }}
+                        {{ $historial->t_g }} / {{ $historial->t_n }} Ayudantía aplicada en ID: {{ $historial->ayudantia_aplicada }}
                         @elseif ($historial->ayudantia != 1 && in_array($historial->t_id, $grupos_q))
-                        {{ $historial->t_n }}
+                        {{ $historial->t_g }} / {{ $historial->t_n }}
                         {{--Añadir ayudantía. Se copia la misma línea del historial con esa id pero el precio se disminuye un "100% - opción ayudantía" en tabla opciones.--}}
                         {{ Form::open(array('url'=>'historial_clinico/ayudantia')) }}
                         {{ Form::hidden('profesional_id', $profesional->id) }}
@@ -197,9 +197,9 @@ Historial clínico
                         {{ Form::submit('Añadir ayudantía', array('class'=>'botonv')) }}
                         {{ Form::close() }}
                         @elseif ($historial->id_hist_ayudantia != 0)
-                        {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
+                        {{ $historial->t_g }} / {{ $historial->t_n }} Ayudantía de ID: {{$historial->id_hist_ayudantia}}
                         @else
-                        {{ $historial->t_n }}
+                        {{ $historial->t_g }} / {{ $historial->t_n }}
                         @endif
 
                     </td>
