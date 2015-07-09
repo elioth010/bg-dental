@@ -4,6 +4,10 @@
     Editar tratamiento
 @stop
 
+@section('javascripts')
+<script src="/js/bgdental.js"></script>
+@stop
+
 @section('contenido')
 <div>
     <h1>Edición de tratamiento</h1>
@@ -29,9 +33,9 @@
                 <td>{{ Form::hidden('cid-'.$tcp['cid'], $tcp['cid']) }}
                     {{ Form::checkbox('activado-'.$tcp['cid'], '1', !$tcp['disabled'], array('onclick' => 'document.getElementsByName("precio-'. $tcp['cid'] . '")[0].disabled = !this.checked;')) }}
                     <?php if ($tcp['disabled']) { ?>
-                        {{ Form::text('precio-'.$tcp['cid'], $tcp['precio'], array('size' => 5, 'disabled' => 1)) }}
+                        {{ Form::text('precio-'.$tcp['cid'], number_format($tcp['precio'], 2, ',', '.'), array('size' => 5, 'disabled' => 1)) }}
                     <?php } else { ?>
-                        {{ Form::text('precio-'.$tcp['cid'], $tcp['precio'], array('size' => 5)) }}
+                        {{ Form::text('precio-'.$tcp['cid'], number_format($tcp['precio'], 2, ',', '.'), array('size' => 5)) }}
                     <?php } ?>
                 </td>
             @endforeach
@@ -56,8 +60,8 @@
         <li>Historiable:{{ Form::checkbox('historiable', 1, $tratamiento->historiable == 1) }}</li>
 
         <br><li>{{ Form::submit('Guardar cambios', array('class'=>'botonl'))}}</li><br>
-        <li>{{ HTML::link('tratamientos/borrartratamiento/'.$tratamiento->id, 'Eliminar este tratamiento', array('class'=>'btn')) }}</li><br>
-        <li>{{ HTML::linkAction('TratamientosController@index', 'Volver a tratamientos', array(), array('class'=>'btn')) }}</li>        
+        <li>{{ HTML::linkAction('TratamientosController@destroy', 'Eliminar este tratamiento', $tratamiento->id, array('class'=>'btn', 'onclick' => 'return confirm_eliminar();')) }}</li><br>
+        <li>{{ HTML::linkAction('TratamientosController@index', 'Volver a tratamientos', array(), array('class'=>'btn')) }}</li>
         </ul>
 
     {{ Form::close() }}

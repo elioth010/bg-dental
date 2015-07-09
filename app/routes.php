@@ -9,18 +9,18 @@ if(Auth::check()) //si usuario logeado cambiamos la ruta de acceso al servidor /
     if(Auth::user()->isAdmin())
     {
         Route::get('/', 'PacientesController@index');
-        
+
     } elseif(Auth::user()->isProfesional())
     {
         Route::get('/', 'Historial_clinicoController@index');
-        
+
     } elseif(Auth::user()->isRecepcion())
     {
         Route::get('/', 'PacientesController@index');
-        
+
     } else {
         Route::get('/', 'UsersController@getLogin');
-        
+
     }
 } else {
 
@@ -128,8 +128,7 @@ Route::group(array('before' => 'auth'), function() {
     Route::resource('historial_clinico', 'Historial_clinicoController');
 
     //Rutas para facturación
-    Route::post('facturacion/cf', 'FacturacionController@index_cf');
-    Route::post('facturacion/nocobrado', 'FacturacionController@index_nc');
+    Route::get('facturacion/nocobrado', 'FacturacionController@index_nc');
     Route::resource('facturacion', 'FacturacionController');
 
     //Rutas de estadisticas
@@ -141,9 +140,7 @@ Route::group(array('before' => 'auth'), function() {
 
     //Rutas cobros
     Route::get('cobros/pdc', 'CobrosController@morosos');
-    Route::post('cobros/pdc_cf', 'CobrosController@morosos_cf');
     Route::post('cobros/anticipo/{id}', 'CobrosController@anticipo');
-    Route::post('cobros/cf', 'CobrosController@index_cf');
     Route::resource('cobros', 'CobrosController');
 
     //Rutas opciones

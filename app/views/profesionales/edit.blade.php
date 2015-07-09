@@ -34,7 +34,7 @@
     <div>{{ Form::checkbox('sede-'.$sede->id, 1, in_array($sede->id, $sedes_pid)) }} {{$sede->nombre}}</div>
     @endforeach
 
-    <br>{{ HTML::link('profesional/borrarprofesional/'.$profesional->p_id, 'Eliminar este profesional') }}<br>
+    <br>{{ HTML::linkAction('ProfesionalController@destroy', 'Eliminar este profesional', $profesional->p_id, array('onclick' => 'return confirm_eliminar();')) }}<br>
     <li>{{ Form::submit('Guardar profesional', array('class'=>'botonl'))}}</li>
 		{{ Form::close() }}
 	</ul>
