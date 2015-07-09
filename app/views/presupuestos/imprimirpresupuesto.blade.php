@@ -175,7 +175,7 @@ q:before, q:after {
 	</ul>
 	</div>
 	</div>
-    <div id="textos" style="text-align: center; font-size: 8pt;color: #044494;">Para más información sobre su presupuesto o tratamiento visite www.imiquiron.com</div>
+    <div id="textos" style="text-align: center; font-size: 8pt; font-style: italic; color: #044494;">Para más información sobre su presupuesto o tratamiento visite www.imiquiron.com</div>
 	<div class="layout">
     @if ($todaslaspiezas['muestraOdontograma'])
         @if (isset($todaslaspiezas['custom']))
