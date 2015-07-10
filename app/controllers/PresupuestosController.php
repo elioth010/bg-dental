@@ -246,7 +246,7 @@ class PresupuestosController extends \BaseController {
     private function getTratamientosArray($grupos, $companias, $companias_paciente) {
 
         //precios de todas las compañías para todos los tratamientos
-        $preciosObj = Precios::whereIn('companias_id', array_keys($companias))->get(array('tratamientos_id', 'precio', 'companias_id'));
+        $preciosObj = Precios::whereIn('companias_id', array_keys($companias))->get(array('tratamientos_id', 'precio', 'companias_id'));        
 
         $precios = array();
         $companiaEconomica = array();
