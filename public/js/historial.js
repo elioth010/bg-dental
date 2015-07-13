@@ -71,7 +71,7 @@ function validate_cobro(form) {
     $(form).find(":input").each(function() {
         fields[this.name] = $(this).val();
     });
-    var saldo = parseInt($('#saldo').text());
+    var saldo = $('#saldo').text();
     var cobrar = parseInt(fields['cobrar']);
 
     if ((fields['tipos_de_cobro_id'] == 1) && (cobrar > saldo)) {
