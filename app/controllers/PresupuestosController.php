@@ -338,28 +338,31 @@ class PresupuestosController extends \BaseController {
     /* */
     public function crearpresupuesto($numerohistoria)
     {
-        $paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
-
-        $data = $this->_crearpresupuesto($paciente);
-
-        $presupuesto = new Presupuestos;
-        $presupuesto->descuento = 0; // valor por defecto
-
-        $tratamientos = array();
-        if (!is_null(Input::old('num_tratamientos'))) {
-            for ($i=1; $i <= Input::old('num_tratamientos'); $i++) {
-                $tratamientos[] = array('tratamiento_id' => Input::old('tratamiento-' . $i),
-                                        'grupostratamientos_id' => Input::old('grupo-' . $i),
-                                        'piezas' => Input::old('ipiezas-' . $i),
-                                        'unidades' => Input::old('iunidades-' . $i),
-                                        'compania_id' => Input::old('compania-' . $i),
-                                        );
+        if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
+        {
+            $paciente = Pacientes::where('numerohistoria', $numerohistoria)->firstOrFail();
+            $data = $this->_crearpresupuesto($paciente);
+            $presupuesto = new Presupuestos;
+            $presupuesto->descuento = 0; // valor por defecto
+            $tratamientos = array();
+            if (!is_null(Input::old('num_tratamientos'))) {
+                for ($i = 1; $i <= Input::old('num_tratamientos'); $i++) {
+                    $tratamientos[] = array('tratamiento_id' => Input::old('tratamiento-' . $i),
+                        'grupostratamientos_id' => Input::old('grupo-' . $i),
+                        'piezas' => Input::old('ipiezas-' . $i),
+                        'unidades' => Input::old('iunidades-' . $i),
+                        'compania_id' => Input::old('compania-' . $i),
+                    );
+                }
             }
-        }
 
-        return View::make('presupuestos.crearpresupuesto')
+            return View::make('presupuestos.crearpresupuesto')
                             ->with($data)
                             ->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
+        } else {
+            return View::make('layouts.sinpermisos')->with('message', 'No tiene los suficientes permisos.');
+        }
+       
     }
 
 
@@ -370,6 +373,9 @@ class PresupuestosController extends \BaseController {
     */
     public function editarPresupuesto($numerohistoria, $presupuesto)
     {
+        
+      if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
+        {
         $presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
                                     ->where('aceptado', 0)->firstOrFail();
 
@@ -383,15 +389,24 @@ class PresupuestosController extends \BaseController {
         return View::make('presupuestos.crearpresupuesto')
                             ->with($data)
                             ->with(array('tratamientos' => $tratamientos, 'presupuesto' => $presupuesto));
+     } else {
+         return View::make('layouts.sinpermisos')->with('message', 'No tiene los suficientes permisos.');
+     }
     }
 
     public function aceptarPresupuesto($numerohistoria, $presupuesto) {
+        
+        if(Auth::user()->isAdmin() or Auth::user()->isRecepcion()  or Auth::user()->isHigienista())
+        {
         $presupuesto = Presupuestos::where('id', $presupuesto)->where('numerohistoria', $numerohistoria)
                                     ->where('aceptado', 0)->firstOrFail();
         $presupuesto->aceptado = 1;
         $presupuesto->save();
         return Redirect::action('PresupuestosController@verpresupuestos', array($numerohistoria))
                         ->with('message', '¡Presupuesto aceptado!');
+    } else {
+        return View::make('layouts.sinpermisos')->with('message', 'No tiene los suficientes permisos.');
+    }
     }
 
     public function aceptarTratamientoPresupuesto($numerohistoria, $presupuesto_id, $tratamiento_id) {
