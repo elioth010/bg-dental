@@ -45,7 +45,12 @@ class Historial_clinicoController extends \BaseController {
      */
     public function store()
     {
-        $presupuesto_id = Input::get('presupuesto_id', false);
+        $espera = Espera::where('profesional_id', Input::get('presu_profesional_id'))
+                        ->where('admitido', 1)->first();
+        
+        if(count($espera) > 0)
+        {
+             $presupuesto_id = Input::get('presupuesto_id', false);
         if ($presupuesto_id !== false) {
             $presupuestotratamiento_id = Input::get('presupuestotratamiento_id', 0);
             $presupuesto = Presupuestos::where('id', $presupuesto_id)->where('aceptado', 1)->firstOrFail();
@@ -94,6 +99,10 @@ class Historial_clinicoController extends \BaseController {
         }
 
         return Redirect::action('Historial_clinicoController@show', $paciente_id);
+        } else {
+            return View::make('layouts.sinpermisos')->with('message', 'El paciente no se encuentra en su lista de admitidos.');
+        }
+       
     }
 
      public function store_ayudantia()

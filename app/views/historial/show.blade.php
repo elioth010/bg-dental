@@ -80,6 +80,7 @@ Historial clínico
                         <tr>
                             {{ Form::open(array('url'=>'historial_clinico')) }}
                             {{ Form::hidden('profesional_id', $profesional->id) }}
+                            {{ Form::hidden('presu_profesional_id', $presupuesto->profesional_id) }}
                             {{ Form::hidden('paciente_id', $paciente->id) }}
                             {{ Form::hidden('tratamiento_id', $tratamiento->tratamiento_id) }}
                             {{ Form::hidden('presupuesto_id', $presupuesto->id) }}
