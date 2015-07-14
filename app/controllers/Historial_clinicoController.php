@@ -45,7 +45,7 @@ class Historial_clinicoController extends \BaseController {
      */
     public function store()
     {
-        $espera = Espera::where('profesional_id', Input::get('presu_profesional_id'))
+        $espera = Espera::where('profesional_id', Input::get('profesional_id'))
                         ->where('admitido', 1)->first();
         
         if(count($espera) > 0)
