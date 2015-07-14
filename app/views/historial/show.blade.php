@@ -54,6 +54,7 @@ Historial clínico
 		<div style="width:100%; max-height:340px; overflow:auto;">
 
         <h1>Presupuestos aceptados:</h1>
+        Para añadir tratamientos de un presupuesto, el paciente debe de estar asignado a Usted en la sala de espera y tener el presupuesto aceptado.
 
         <?php if (empty($presupuestos)) { ?>
             El paciente no tiene presupuestos aceptados.
