@@ -221,6 +221,8 @@ class TratamientosController extends \BaseController {
                 $input_activado = Input::get('activado-' . $compania->id);
                 if ($input_precio == '' || !$input_activado)
                     $input_precio = NULL;
+                //Aquí no habría que eliminar la línea de la tabla precio correspondiente a la compañía?
+                // o habría que añadir un campo si esa compañía lo cubre o no?
 
                 $input_precio = str_replace('.', '', $input_precio);
                 $input_precio = str_replace(',', '.', $input_precio);
