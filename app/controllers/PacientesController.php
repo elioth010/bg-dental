@@ -12,7 +12,7 @@ class PacientesController extends BaseController {
         $pacientes = Espera::where('espera.admitido', 1)
                             ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id', 'espera.admitido',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2',
-                                      'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido1 as p_a2')
+                                      'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido2 as p_a2')
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->leftJoin('profesionales', 'espera.profesional_id', '=', 'profesionales.id')
                             ->orderBy('espera.begin_date')
