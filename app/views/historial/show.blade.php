@@ -121,11 +121,12 @@ Historial clínico
                 <th style="background-color:#993050">Tratamiento realizado</th>
                 <th style="background-color:#993050">Profesional</th>
                 <th style="background-color:#993050">Fecha realización</th>
-                <th style="background-color:#993050">Precio</th>
-                @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
+                <th style="background-color:#993050">Precio</th>                
                 <th style="background-color:#993050">Añadir</th>
+                @if(Auth::user()->isAdmin() or Auth::user()->isRecepcion())
                 <th style="background-color:#993050">Costes lab.</th>
                 @endif
+                
             </tr>
 
             <tr>

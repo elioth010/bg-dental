@@ -1,7 +1,7 @@
 
 // Convierte las etiquetas en selects
 function modificarTurnoClick(day) {
-    console.log('modificar turno ' + day);
+    log('modificar turno ' + day);
 
     $('#selectturnosdia-' + day).show();
     $('#turnosdia-' + day).hide();
@@ -17,7 +17,7 @@ function modificarTurnoClick(day) {
 
 // Cancela la modificación del turno
 function modificarTurnoCancel(day) {
-    console.log('cancel turno ' + day);
+    log('cancel turno ' + day);
 
     $('#selectturnosdia-' + day).hide();
     $('#turnosdia-' + day).show();
@@ -31,7 +31,7 @@ function modificarTurnoCancel(day) {
 
 // Incidencia
 function incidenciaClick(day) {
-    console.log('incidenciaClick ' + day);
+    log('incidenciaClick ' + day);
 
     $('#incidenciasdia-' + day).show();
 
@@ -46,7 +46,7 @@ function incidenciaClick(day) {
 }
 
 function incidenciaCancel(day) {
-    console.log('incidenciaCancel ' + day);
+    log('incidenciaCancel ' + day);
 
     $('#incidenciasdia-' + day).hide();
 
@@ -58,7 +58,7 @@ function incidenciaCancel(day) {
 }
 
 function selectIncidenciaChange(day) {
-    console.log('incidenciaChange ' + day);
+    log('incidenciaChange ' + day);
 
     var turno = $('#turno_id-' + day).val();
     $('#incidencia_text-' + day).val(incidencias[day][turno]);

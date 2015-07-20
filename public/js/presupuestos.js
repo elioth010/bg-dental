@@ -1,7 +1,7 @@
 
 // Se pincha en el select de grupo y actualiza el de tratamientos
 function updateSelectTratamientos(id, gid) {
-    console.log('updateSelectTratamientos ' + id + ' ' + gid)
+    log('updateSelectTratamientos ' + id + ' ' + gid)
     tratamientosSelect = $('#s_tratamiento-' + id)[0]
     tratamientosSelect.options.length=0
 
@@ -30,7 +30,7 @@ function updateSelectTratamientos(id, gid) {
 
 
 function removeTratamiento(id) {
-    console.log('removeTratamiento', id)
+    log('removeTratamiento', id)
 
     trat = "#tratamiento-" + id
     $(trat).remove()
@@ -48,7 +48,7 @@ function addTratamiento(tratamiento) {
         var compania = tratamiento["compania_id"]
     }
 
-    console.log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ',' + preciof + ')')
+    log('addTratamiento... ' + lastIndex + '(' + gid + ',' + tid + ',' + preciof + ')')
 
     if (preciof === undefined) {
         var preciof = 0.00
@@ -164,7 +164,7 @@ function creaDivPiezas(id, piezastext) {
         for (i=0; i<areas.length; i++) {
             aid = areas[i].id.substr(1)
             if (odontograma[id][aid]) {
-                console.log('marcado ', id, aid)
+                log('marcado ', id, aid)
             }
         }
         */
@@ -188,7 +188,7 @@ function creaDivPiezas(id, piezastext) {
 
 // Cambia las compañías de todos los tratamientos a la aquí seleccionada
 function updatePreciosCompanias(id, compania_id) {
-    console.log("updatePreciosCompanias", id, compania_id)
+    log("updatePreciosCompanias", id, compania_id)
 
     if ($('#iunidades-' + id).length) {
         var unidades = $('#iunidades-' + id).val()
@@ -205,7 +205,7 @@ function updatePreciosCompanias(id, compania_id) {
             var grupo = $('#grupo-' + i).val();
 
             if ((tid == 0) || (grupo == 0)) {
-                console.log('aun no hay un tratamiento elegido')
+                log('aun no hay un tratamiento elegido')
             }
 
             if (comp.length != 0) {
@@ -248,8 +248,8 @@ function sortOptions(id) {
 // id !== null, tratamiento === null: al elegir otro grupo (updateSelectTratamientos()) o al cambiar el valor de EUR/%
 // id !== null, tratamiento !== null: Al editar un presupuesto cuando se añaden los tratamientos, al elegir otro tratamiento
 function updatePrecios(id, tratamiento) {
-    console.log('updatePrecios ' + id + ', ' + tratamiento)
-    console.debug(tratamiento)
+    log('updatePrecios ' + id + ', ' + tratamiento)
+    debug(tratamiento)
 
     if (id !== undefined) {
 
@@ -258,14 +258,14 @@ function updatePrecios(id, tratamiento) {
             var preciofinal = tratamiento["precio_final"]
             var piezas = tratamiento["piezas"]
             var compania = tratamiento["compania_id"]
-            console.log(tid, preciofinal, piezas, compania)
+            log(tid, preciofinal, piezas, compania)
         }
 
         var dpiezas = $('#dpiezas-' + id)
         var grupo = $('#grupo-' + id).val()
 
         if (tid === undefined) {
-           console.log('algo ' + id)
+           log('algo ' + id)
            var tid = $('#s_tratamiento-' + id).val()
 
            if (tid == "0") {
@@ -429,7 +429,7 @@ function obtenerPrecioFinal(id, precio) {
 
 // Actualiza los campos de precio cuando se ha seleccionado otro tratamiento
 function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
-    console.log('updatePrecioTratamiento ' + id + ', ' + tid + ", " + grupo)
+    log('updatePrecioTratamiento ' + id + ', ' + tid + ", " + grupo)
 
     var precio = $('#precio-' + id)
     var preciof = $('#preciof-' + id)
@@ -451,7 +451,7 @@ function updatePrecioTratamiento(id, tid, grupo, preciofinal) {
 
 // Cuando quien hace el presupuesto cambia manualmente la casilla del precio del tratamiento
 function updatePrecioManual(id) {
-    console.log('updatePrecioManual ' + id)
+    log('updatePrecioManual ' + id)
 
     var precio = $('#precio-' + id).text()
     var lpreciof = $('#preciof-' + id).val()
@@ -472,7 +472,7 @@ function updatePrecioManual(id) {
 
 // El precio total del presupuesto
 function updatePrecioFinal() {
-    console.log('updatePrecioFinal')
+    log('updatePrecioFinal')
     // bucle 1
     //g = $('#grupo-' + i)[0].value
     //t = $('#s_tratamiento-' + i)[0].selectedIndex
@@ -502,7 +502,7 @@ function updatePrecioFinal() {
 
 // Sombrea una pieza o la desactiva si ya está sombreada
 function odontogramaTogglePieza(id, num) {
-    console.log('odontogramaTogglePieza', id, num)
+    log('odontogramaTogglePieza', id, num)
     if (odontograma[id][num] === undefined) {
         odontograma[id][num] = true
     } else {
@@ -522,7 +522,7 @@ function odontogramaDisableLinks(id) {
 
 // Quita el atributo coords para que maphighlight no lo resalte al pasar el ratón por encima
 function odontogramaDisableHighlightPuente(id, puente, reverse) {
-    console.log('odontogramaDisableHighlightPuente', id, puente)
+    log('odontogramaDisableHighlightPuente', id, puente)
 
     var piezas = puente.split('-')
     var cuadrante1 = odontogramaCuadrante(piezas[0])
@@ -561,7 +561,7 @@ function odontogramaDisableHighlightPuente(id, puente, reverse) {
 
 // Sombrea en el mapa del odontograma un puente completo
 function odontogramaHighlightPuente(id, puente, active) {
-    console.log('odontogramaHighlightPuente', id, puente)
+    log('odontogramaHighlightPuente', id, puente)
 
     var piezas = puente.split('-')
     var cuadrante1 = odontogramaCuadrante(piezas[0])
@@ -601,7 +601,7 @@ function odontogramaHighlightPieza(id, num, active) {
 
 // Sombrea en el mapa del odontograma una arcada
 function odontogramaHighlightArcada(id, arcada, active) {
-    console.log('odontogramaHighlightArcada', id, arcada)
+    log('odontogramaHighlightArcada', id, arcada)
 
     if (arcada == 1) {
         for (var i=11; i<= 18; i++) {
@@ -622,7 +622,7 @@ function odontogramaHighlightArcada(id, arcada, active) {
 
 // Sombrea en el mapa del odontograma una arcada
 function odontogramaHighlightCuadrante(id, cuadrante, active) {
-    console.log('odontogramaHighlightCuadrate', id, cuadrante)
+    log('odontogramaHighlightCuadrate', id, cuadrante)
 
     if (cuadrante == 1) {
         for (var i=11; i<= 18; i++) {
@@ -645,14 +645,14 @@ function odontogramaHighlightCuadrante(id, cuadrante, active) {
 
 // Lógica para sombrear piezas según la definición de arcada indicadas con un numero (1, 2)
 function odontogramaToggleCuadrante(id, num) {
-    console.log('odontogramaToggleCuadrante', id, num)
+    log('odontogramaToggleCuadrante', id, num)
 
     if (!odontograma[id]) {
         odontograma[id] = odontogramaCuadrante(num);
-        console.log('cuadrante seleccionadp', odontograma[id])
+        log('cuadrante seleccionadp', odontograma[id])
         odontogramaHighlightCuadrante(id, odontograma[id], true)
     } else {
-        console.log('cuadrante deseleccionado', odontograma[id])
+        log('cuadrante deseleccionado', odontograma[id])
 
         odontogramaHighlightCuadrante(id, odontograma[id], false)
         odontograma[id] = ""
@@ -661,14 +661,14 @@ function odontogramaToggleCuadrante(id, num) {
 
 // Lógica para sombrear piezas según la definición de arcada indicadas con un numero (1, 2)
 function odontogramaToggleArcada(id, num) {
-    console.log('odontogramaToggleArcada', id, num)
+    log('odontogramaToggleArcada', id, num)
 
     if (!odontograma[id]) {
         odontograma[id] = odontogramaArcada(num);
-        console.log('arcada seleccionada', odontograma[id])
+        log('arcada seleccionada', odontograma[id])
         odontogramaHighlightArcada(id, odontograma[id], true)
     } else {
-        console.log('arcada deseleccionada', odontograma[id])
+        log('arcada deseleccionada', odontograma[id])
 
         odontogramaHighlightArcada(id, odontograma[id], false)
         odontograma[id] = ""
@@ -677,19 +677,19 @@ function odontogramaToggleArcada(id, num) {
 
 // Lógica para sombrear piezas según la definición de puente indicadas con un guión por inicio-fin
 function odontogramaTogglePuente(id, num) {
-    console.log('odontogramaTogglePuente', id, num)
+    log('odontogramaTogglePuente', id, num)
 
 
     if (!odontograma[id]) {
-        console.log('principio del puente')
+        log('principio del puente')
         odontograma[id] = num
         odontogramaHighlightPieza(id, num, true)
     } else if (odontograma[id].indexOf('-') > -1) {
-        console.log('nuevo puente', odontograma[id])
+        log('nuevo puente', odontograma[id])
         odontogramaHighlightPuente(id, odontograma[id], false)
         odontograma[id] = ""
     } else {
-        console.log('fin del puente')
+        log('fin del puente')
 
         if (num == odontograma[id]) {
             odontogramaHighlightPieza(id, num, false)
@@ -698,7 +698,7 @@ function odontogramaTogglePuente(id, num) {
 
             // No dejar marcar distinta arcada
             if (odontogramaArcada(num) != odontogramaArcada(odontograma[id])) {
-                console.log('Distinta arcada: ' + odontogramaArcada(num) + ' vs ' + odontogramaArcada(odontograma[id]))
+                log('Distinta arcada: ' + odontogramaArcada(num) + ' vs ' + odontogramaArcada(odontograma[id]))
                 return
             }
 
@@ -774,7 +774,7 @@ function onOdontogramaClose(id, tipo, parent) {
 
     if (tipo == 1) {
         for (i=0; i<odontograma[id].length; i++) {
-            //console.log(i, odontograma[id][i])
+            //log(i, odontograma[id][i])
             if (odontograma[id][i]) {
                 active += i + ","
                 unidades++
@@ -827,7 +827,7 @@ function onOdontogramaClose(id, tipo, parent) {
 }
 
 function validate_presupuesto(form) {
-    console.log('validate_presupuesto')
+    log('validate_presupuesto')
     var valid = true
 
     var inputs = $("input[name^='iunidades-']");
