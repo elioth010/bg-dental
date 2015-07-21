@@ -333,7 +333,23 @@ class Historial_clinicoController extends \BaseController {
      */
     public function update($id)
     {
-        //
+         
+    }
+    
+    public function elegir_prof()
+    {
+        $historial_id = Input::get('historial_id');
+        $profesionales = Profesional::get()->lists('fullname', 'id');
+        return View::make('historial.elegir_prof')->with('profesionales', $profesionales)->with('historial_id', $historial_id);
+    }
+
+
+    public function asignar_prof()
+    {
+        $historial = Historial_clinico::find(Input::get('historial_id'));
+        $historial->profesional_id = Input::get('profesional_id');
+        $historial->update();
+        return Redirect::action('Historial_clinicoController@show', $historial->paciente_id);
     }
 
     public function coste_lab($id)

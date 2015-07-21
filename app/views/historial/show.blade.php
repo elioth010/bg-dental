@@ -206,7 +206,16 @@ Historial clínico
                         @endif
 
                     </td>
-                    <td>{{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}</td>
+                    <td>@if (Auth::user()->isAdmin())
+                        {{Form::open(array('url'=>'historial_clinico/elegir_prof')) }}
+                        {{ Form::hidden('profesional_id', $profesional->id) }}
+                        {{ Form::hidden('historial_id', $historial->id) }}
+                        {{ Form::submit($historial->pr_n.', '.$historial->pr_a1.' '.$historial->pr_a2, array('class'=>'botonv')) }}
+                        {{ Form::close() }}
+                        @else
+                        {{ $historial->pr_n}}, {{ $historial->pr_a1}} {{ $historial->pr_a2}}
+                        @endif
+                    </td>
                     <td>{{ $historial->date }}</td>
                     <td>{{ number_format($historial->precio, 2, ',', '.') }}€<br>
                         <?php if ($historial->pdc > 0) {
