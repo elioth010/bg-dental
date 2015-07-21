@@ -9,18 +9,34 @@ class PacientesController extends BaseController {
      */
     public function index()
     {
+        //$user_id = User::where('users.id', Auth::id())->get();
+        if(Auth::user()->isRecepcion() || Auth::user()->isHigienista())
+        {
+            $user = User::leftJoin('sedes_users', 'users.id', '=', 'sedes_users.user_id')->find(Auth::id());
+            $pacientes = Espera::where('espera.admitido', 1)->where('espera.sede_id', $user->sede_id)
+                            ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id', 'espera.admitido',
+                                     'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2',
+                                      'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido2 as p_a2', 'espera.sede_id', 'sedes.nombre as sede_n')
+                            ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
+                            ->leftJoin('profesionales', 'espera.profesional_id', '=', 'profesionales.id')
+                            ->leftJoin('sedes', 'sedes.id', '=', 'espera.sede_id')
+                            ->orderBy('espera.begin_date')
+                            ->get();
+        } else {
+        
         $pacientes = Espera::where('espera.admitido', 1)
                             ->select('espera.id', 'espera.paciente_id', 'espera.begin_date', 'espera.end_date', 'espera.profesional_id', 'espera.admitido',
                                      'pacientes.numerohistoria', 'pacientes.nombre', 'pacientes.apellido1', 'pacientes.apellido2',
-                                      'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido2 as p_a2')
+                                      'profesionales.nombre as p_n', 'profesionales.apellido1 as p_a1', 'profesionales.apellido2 as p_a2', 'espera.sede_id', 'sedes.nombre as sede_n')
                             ->leftJoin('pacientes', 'espera.paciente_id', '=', 'pacientes.id')
                             ->leftJoin('profesionales', 'espera.profesional_id', '=', 'profesionales.id')
+                            ->leftJoin('sedes', 'sedes.id', '=', 'espera.sede_id')
                             ->orderBy('espera.begin_date')
                             ->get();
-
+        }
         //$esperas = Espera::where('admitido', 1)->lists('admitido', 'paciente_id');
         $profesionales = Profesional::orderBy('nombre')->select(DB::raw("CONCAT_WS(' ', nombre, apellido1, apellido2) AS nombre"), 'id')->lists('nombre', 'id');
-
+        
         return View::make('pacientes.index')->with(array('profesionales' => $profesionales, 'pacientes' => $pacientes));
     }
 
@@ -96,9 +112,10 @@ class PacientesController extends BaseController {
         } else {
             return Redirect::action('PacientesController@buscar');
         }
-
+        $user = User::leftJoin('sedes_users', 'users.id', '=', 'sedes_users.user_id')->leftJoin('sedes', 'sedes.id','=','sedes_users.sede_id')->find(Auth::id());
+        $sedes = Sedes::lists('nombre', 'id');
         return View::make('pacientes.busqueda')->with(array('profesionales' => $profesionales, 'pacientes' => $pacientes,
-                                                            'espera' => $espera, 'busca' => $query));
+                                                            'espera' => $espera, 'busca' => $query, 'user' => $user, 'sedes' => $sedes));
      }
 
 
