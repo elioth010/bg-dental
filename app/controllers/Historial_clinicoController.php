@@ -339,7 +339,7 @@ class Historial_clinicoController extends \BaseController {
     public function elegir_prof()
     {
         $historial_id = Input::get('historial_id');
-        $profesionales = Profesional::get()->lists('fullname', 'id');
+        $profesionales = Profesional::orderBy('nombre')->get()->lists('fullname', 'id');
         return View::make('historial.elegir_prof')->with('profesionales', $profesionales)->with('historial_id', $historial_id);
     }
 
