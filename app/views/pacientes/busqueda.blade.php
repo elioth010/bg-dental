@@ -29,6 +29,7 @@
             <th>Acceso a historial clínico</th>
             <th>Saldo</th>
             <th>Profesional asignado</th>
+            <th>Sede</th>
             <th>Acción</th>
         </tr>
         @foreach($pacientes as $paciente)
@@ -46,6 +47,14 @@
         {{ Form::hidden('paciente_id', $paciente->id) }}
             <td>{{ Form::select('profesional_id', $profesionales) }}</td>
         @endif
+        <td>
+            @if(Auth::user()->isRecepcion() or Auth::user()->isHigienista())
+                {{Form::hidden('sede_id', $user->sede_id)}}
+                {{$user->nombre}}
+            @else
+                {{Form::select('sede_id', $sedes)}}
+            @endif
+        </td>
         @if (isset($paciente->admitido) && ($paciente->admitido == 1))
             <td>En espera</td>
         @else

@@ -38,6 +38,7 @@ class EsperaController extends \BaseController {
             $espera->paciente_id = $paciente_id;
             $espera->admitido = 1;
             $espera->profesional_id = Input::get('profesional_id');
+            $espera->sede_id = Input::get('sede_id');
             $espera->save();
             return Redirect::action('PacientesController@index');
         } else {

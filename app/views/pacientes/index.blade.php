@@ -24,6 +24,7 @@
             <th>Acceso a historial clínico</th>
             {{-- <th>Saldo</th> --}}
             <th>Profesional asignado</th>
+            <th>Sede</th>
             <th>Acción</th>
         </tr>
         @foreach($pacientes as $paciente)
@@ -34,6 +35,7 @@
             <td>{{ HTML::linkAction('PresupuestosController@verpresupuestos', 'Presupuestos de este paciente', $paciente->numerohistoria) }}</td>
             <td>{{ HTML::linkAction('Historial_clinicoController@show', 'Historial clínico', $paciente->paciente_id) }}</td>
             {{--<td>{{$paciente->p_d_c}} €</td>--}}
+            
         @if (isset($paciente->admitido) && ($paciente->admitido == 1))
         <td>{{$paciente->p_n}}, {{$paciente->p_a1}} {{$paciente->p_a2}}</td>
         @else
@@ -41,6 +43,7 @@
         {{ Form::hidden('paciente_id', $paciente->id) }}
             <td>{{ Form::select('profesional_id', $profesionales) }}</td>
         @endif
+        <td>{{$paciente->sede_n}}</td>
         @if (isset($paciente->admitido) && ($paciente->admitido == 1))
             <td>En espera</td>
         @else
