@@ -66,7 +66,7 @@ function addTratamiento(tratamiento) {
     var lpiezas = "piezas-" + lastIndex;
 
     // Select: Grupos de tratamientos
-    var label1 = $("<label>").attr(grupo).text('Grupo de tratamientos:')
+    var label1 = $("<label>").attr({for: grupo}).text('Grupo de tratamientos:')
     var select1 = $('<select>').attr({onchange: "updateSelectTratamientos(" + lastIndex + ", this.value)", id: grupo, name: grupo})
 
     select1.append(new Option('-- Elija un grupo --', 0));
